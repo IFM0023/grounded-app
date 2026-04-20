@@ -1,4 +1,4 @@
 .git
 .vercel
-audio/
+/audio/
 *.log
