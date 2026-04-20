@@ -279,28 +279,32 @@
   .prayer-screen .prayer-header h2{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:500;margin:0 0 10px;color:var(--text);letter-spacing:-0.3px}
   .prayer-screen .prayer-header p{font-family:'Caveat',cursive;font-size:17px;color:var(--text-light);margin:0;line-height:1.4}
   .prayer-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:28px 0 8px}
-  .prayer-pill{padding:10px 18px;border-radius:100px;font-size:13px;font-weight:400;color:var(--text-light);background:var(--paper);border:1px solid var(--paper-border);cursor:pointer;transition:background 0.25s ease,color 0.25s ease,border-color 0.25s ease,transform 0.2s ease;font-family:inherit;letter-spacing:0.2px;box-shadow:0 1px 4px rgba(90,74,66,0.04)}
+  .prayer-pill{padding:10px 18px;border-radius:100px;font-size:13px;font-weight:400;color:var(--text-light);background:var(--paper);border:1px solid var(--paper-border);cursor:pointer;transition:background 0.3s cubic-bezier(.4,0,.2,1),color 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease,transform 0.2s ease;font-family:inherit;letter-spacing:0.2px;box-shadow:0 1px 4px rgba(90,74,66,0.04)}
   .prayer-pill:hover{color:var(--text);border-color:rgba(186,160,148,0.35)}
   .prayer-pill:active{transform:scale(0.97)}
-  .prayer-pill.selected{background:linear-gradient(180deg,rgba(255,253,251,0.95),rgba(244,234,228,0.5));color:var(--text);border-color:rgba(186,160,148,0.45);box-shadow:0 2px 10px rgba(90,74,66,0.06)}
+  .prayer-pill.selected{background:var(--primary);color:var(--text);font-weight:500;border-color:rgba(186,160,148,0.5);box-shadow:0 2px 10px rgba(186,160,148,0.15),inset 0 1px 0 rgba(255,255,255,0.5)}
+  .prayer-pill.selected:hover{color:var(--text);border-color:rgba(186,160,148,0.55)}
   .prayer-custom-wrap{display:none;margin:16px auto 0;max-width:340px}
   .prayer-custom-wrap.open{display:block}
   .prayer-custom-wrap textarea{width:100%;min-height:72px;resize:none;padding:14px 16px;border-radius:var(--radius);border:1px solid var(--paper-border);background:var(--paper);font-size:14px;line-height:1.55;color:var(--text);font-family:inherit;box-sizing:border-box}
   .prayer-custom-wrap textarea::placeholder{color:var(--accent-strong);font-style:italic;opacity:0.75}
   .prayer-result{margin-top:28px;padding-bottom:8px}
-  .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:28px 24px 26px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(8px);transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1)}
+  .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:32px 26px 28px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(8px);transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1)}
   .prayer-result-card.visible{opacity:1;transform:translateY(0)}
-  .prayer-result-card .prayer-body{font-family:'Playfair Display',Georgia,serif;font-size:16px;line-height:1.85;color:var(--text);white-space:pre-line;margin:0;font-weight:400;font-style:italic}
-  .prayer-takeaway{margin-top:22px;padding-top:18px;border-top:1px solid rgba(186,160,148,0.2);font-size:13px;line-height:1.55;color:var(--text-light);text-align:center}
-  .prayer-takeaway .pt-label{font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:var(--accent-strong);opacity:0.75;margin-bottom:8px;font-weight:500}
-  .prayer-takeaway .pt-text{font-family:'Inter',system-ui,sans-serif;font-style:normal}
-  .prayer-actions{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
-  .prayer-btn{padding:11px 22px;border-radius:100px;font-size:13px;font-weight:400;font-family:inherit;cursor:pointer;transition:transform 0.2s ease,background 0.25s ease,opacity 0.2s ease;border:none;-webkit-tap-highlight-color:transparent}
+  .prayer-result-card .prayer-body{font-family:'Playfair Display',Georgia,serif;font-size:16.5px;line-height:2;color:var(--text);white-space:pre-line;margin:0;font-weight:400;font-style:italic;letter-spacing:0.1px}
+  .prayer-result-card .prayer-body::first-line{font-size:19px;font-weight:500;font-style:normal;letter-spacing:0.2px;color:var(--text)}
+  .prayer-takeaway{position:relative;margin-top:30px;padding-top:26px;border-top:none;font-size:13.5px;line-height:1.65;color:var(--text);text-align:center}
+  .prayer-takeaway::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:56%;height:1px;background:linear-gradient(to right,transparent,rgba(186,160,148,0.32),transparent)}
+  .prayer-takeaway .pt-label{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--accent-strong);opacity:0.95;margin-bottom:10px;font-weight:500}
+  .prayer-takeaway .pt-text{font-family:'Inter',system-ui,sans-serif;font-style:normal;font-weight:500;color:var(--text)}
+  .prayer-actions{display:flex;justify-content:center;gap:12px;margin-top:26px;flex-wrap:wrap}
+  .prayer-btn{padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:transform 0.2s ease,background 0.3s ease,box-shadow 0.3s ease,color 0.25s ease,border-color 0.25s ease,opacity 0.2s ease;border:none;-webkit-tap-highlight-color:transparent;letter-spacing:0.2px}
   .prayer-btn:active{transform:scale(0.97)}
-  .prayer-btn-secondary{background:transparent;color:var(--text-light);border:1px solid var(--paper-border)}
-  .prayer-btn-secondary:hover{color:var(--text);border-color:rgba(186,160,148,0.4)}
-  .prayer-btn-primary{background:var(--primary);color:var(--text);box-shadow:0 2px 10px rgba(90,74,66,0.06)}
-  .prayer-btn-primary:hover{background:var(--secondary)}
+  .prayer-btn-secondary{background:transparent;color:var(--text-light);border:1px solid var(--paper-border);font-weight:400}
+  .prayer-btn-secondary:hover{color:var(--text);background:rgba(244,234,228,0.35);border-color:rgba(186,160,148,0.4)}
+  .prayer-btn-primary{background:linear-gradient(180deg,var(--primary) 0%,var(--secondary) 100%);color:var(--text);box-shadow:0 2px 10px rgba(186,160,148,0.22),inset 0 1px 0 rgba(255,255,255,0.55)}
+  .prayer-btn-primary:hover{box-shadow:0 4px 14px rgba(186,160,148,0.3),inset 0 1px 0 rgba(255,255,255,0.6);transform:translateY(-1px)}
+  .prayer-btn-primary:active{transform:scale(0.97);box-shadow:0 1px 6px rgba(186,160,148,0.2),inset 0 1px 0 rgba(255,255,255,0.4)}
   .prayer-save-msg{font-family:'Caveat',cursive;font-size:15px;color:var(--accent-strong);text-align:center;margin-top:14px;opacity:0;transition:opacity 0.35s ease}
   .prayer-save-msg.show{opacity:1}
   
@@ -3935,23 +3939,26 @@
   const MED_READ_EXTRA_DELAY = 1.5;
 
   // Pause/resume state for Read mode (separate from Listen's isPaused).
-  let medReadPaused    = false;
-  let medReadStartTime = 0;   // performance.now() when Read started (shifts forward when resumed)
-  let medReadPausedAt  = 0;   // performance.now() at pause moment
+  let medReadPaused       = false;
+  let medReadStartTime    = 0;   // performance.now() when Read started (shifts forward when resumed)
+  let medReadPausedAt     = 0;   // performance.now() at pause moment
+  let medReadLastFiredIdx = -1;  // highest index that has actually rendered
 
-  // Schedules any script lines whose target time hasn't elapsed yet, relative to medReadStartTime.
+  // Schedules script lines that haven't rendered yet, relative to medReadStartTime.
+  // Uses medReadLastFiredIdx (not timestamps) so initial-start and resume both behave correctly.
   function _medReadScheduleRemaining() {
     const el = document.getElementById(MED_READ_TEXT_ID);
     if (!el) return;
     const extraDelay = MED_READ_EXTRA_DELAY;
     const now = performance.now();
     MED_READ_SCRIPT.forEach((entry, index) => {
+      if (index <= medReadLastFiredIdx) return; // already rendered in a prior run
       const entryMs  = (entry.time + index * extraDelay) * 1000;
       const targetAt = medReadStartTime + entryMs;
-      if (targetAt <= now) return; // already fired before pause
-      const delay = Math.max(0, targetAt - now);
+      const delay    = Math.max(0, targetAt - now);
       const t = setTimeout(() => {
         if (!medReadActive || medReadPaused) return;
+        medReadLastFiredIdx = index;
         if (index === 0) {
           _medReadFadeInText(el, entry.text);
         } else {
@@ -3968,6 +3975,7 @@
     if (!el) return;
     medReadActive = true;
     medReadPaused = false;
+    medReadLastFiredIdx = -1;
     el.classList.remove('shown');
     el.textContent = '';
     medReadStartTime = performance.now();
@@ -4005,6 +4013,7 @@
   function clearMeditationReadMode() {
     medReadActive = false;
     medReadPaused = false;
+    medReadLastFiredIdx = -1;
     medReadTimers.forEach(t => clearTimeout(t));
     medReadTimers = [];
     const el = document.getElementById(MED_READ_TEXT_ID);
