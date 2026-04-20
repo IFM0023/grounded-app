@@ -613,6 +613,9 @@
   /* Listen-mode controls (mute / restart) */
   .med-listen-controls{display:none;justify-content:center;gap:14px;margin:10px auto 0}
   .bs-modal[data-med-mode="listen"] .med-listen-controls{display:flex}
+  /* Read mode reuses the same pause/restart controls, but hides mute (no audio) */
+  .bs-modal[data-med-mode="read"] .med-listen-controls{display:flex}
+  .bs-modal[data-med-mode="read"] #medMuteBtn{display:none}
   .med-ctrl{width:38px;height:38px;border-radius:50%;background:rgba(186,160,148,0.10);border:none;display:flex;align-items:center;justify-content:center;color:var(--text);opacity:0.7;cursor:pointer;transition:all 0.25s ease;-webkit-tap-highlight-color:transparent}
   .med-ctrl svg{width:16px;height:16px}
   .med-ctrl:hover{opacity:1;background:rgba(186,160,148,0.16)}
@@ -3931,34 +3934,82 @@
   // Keeps the original MED_READ_SCRIPT timestamps untouched.
   const MED_READ_EXTRA_DELAY = 1.5;
 
-  function startMeditationReadMode() {
-    clearMeditationReadMode();
+  // Pause/resume state for Read mode (separate from Listen's isPaused).
+  let medReadPaused    = false;
+  let medReadStartTime = 0;   // performance.now() when Read started (shifts forward when resumed)
+  let medReadPausedAt  = 0;   // performance.now() at pause moment
+
+  // Schedules any script lines whose target time hasn't elapsed yet, relative to medReadStartTime.
+  function _medReadScheduleRemaining() {
     const el = document.getElementById(MED_READ_TEXT_ID);
     if (!el) return;
-    medReadActive = true;
-    el.classList.remove('shown');
-    el.textContent = '';
     const extraDelay = MED_READ_EXTRA_DELAY;
+    const now = performance.now();
     MED_READ_SCRIPT.forEach((entry, index) => {
-      const delayMs = (entry.time + index * extraDelay) * 1000;
+      const entryMs  = (entry.time + index * extraDelay) * 1000;
+      const targetAt = medReadStartTime + entryMs;
+      if (targetAt <= now) return; // already fired before pause
+      const delay = Math.max(0, targetAt - now);
       const t = setTimeout(() => {
-        if (!medReadActive) return;
+        if (!medReadActive || medReadPaused) return;
         if (index === 0) {
           _medReadFadeInText(el, entry.text);
         } else {
           _medReadSwapText(el, entry.text);
         }
-      }, Math.max(0, delayMs));
+      }, delay);
       medReadTimers.push(t);
     });
   }
 
+  function startMeditationReadMode() {
+    clearMeditationReadMode();
+    const el = document.getElementById(MED_READ_TEXT_ID);
+    if (!el) return;
+    medReadActive = true;
+    medReadPaused = false;
+    el.classList.remove('shown');
+    el.textContent = '';
+    medReadStartTime = performance.now();
+    setMeditationPausedUI(false);
+    _medReadScheduleRemaining();
+  }
+
+  function pauseMeditationRead() {
+    if (!medReadActive || medReadPaused) return;
+    medReadPaused = true;
+    medReadPausedAt = performance.now();
+    medReadTimers.forEach(t => clearTimeout(t));
+    medReadTimers = [];
+    setMeditationPausedUI(true);
+  }
+
+  function resumeMeditationRead() {
+    if (!medReadActive || !medReadPaused) return;
+    const pausedDuration = performance.now() - medReadPausedAt;
+    medReadStartTime += pausedDuration; // shift the timeline forward by the paused duration
+    medReadPaused = false;
+    setMeditationPausedUI(false);
+    _medReadScheduleRemaining();
+  }
+
+  function toggleMeditationReadPause() {
+    if (medReadPaused) resumeMeditationRead();
+    else pauseMeditationRead();
+  }
+
+  function restartMeditationRead() {
+    startMeditationReadMode();
+  }
+
   function clearMeditationReadMode() {
     medReadActive = false;
+    medReadPaused = false;
     medReadTimers.forEach(t => clearTimeout(t));
     medReadTimers = [];
     const el = document.getElementById(MED_READ_TEXT_ID);
     if (el) el.classList.remove('shown');
+    setMeditationPausedUI(false);
   }
 
   /* ─── Guided Meditation: voice guidance (TTS) ─── */
@@ -4402,12 +4453,22 @@
       }
     });
   });
+  function _getActiveMeditationMode() {
+    const modal = document.querySelector('#bsModalOverlay .bs-modal');
+    return modal ? modal.getAttribute('data-med-mode') : null;
+  }
   const _medPauseBtn = document.getElementById('medPauseBtn');
-  if (_medPauseBtn) _medPauseBtn.addEventListener('click', toggleMeditationPause);
+  if (_medPauseBtn) _medPauseBtn.addEventListener('click', () => {
+    if (_getActiveMeditationMode() === 'read') toggleMeditationReadPause();
+    else toggleMeditationPause();
+  });
   const _medMuteBtn = document.getElementById('medMuteBtn');
   if (_medMuteBtn) _medMuteBtn.addEventListener('click', () => setMeditationAudioMute(!medAudioMuted));
   const _medRestartBtn = document.getElementById('medRestartBtn');
-  if (_medRestartBtn) _medRestartBtn.addEventListener('click', restartMeditationAudio);
+  if (_medRestartBtn) _medRestartBtn.addEventListener('click', () => {
+    if (_getActiveMeditationMode() === 'read') restartMeditationRead();
+    else restartMeditationAudio();
+  });
 
   function bindResetModal({ slot, mode, cardId, overlayId, closeId, circleId, textId, stepsTextId }) {
     const overlay  = document.getElementById(overlayId);
