@@ -291,6 +291,9 @@
   .prayer-result{margin-top:28px;padding-bottom:8px}
   .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:32px 26px 28px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(8px);transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1)}
   .prayer-result-card.visible{opacity:1;transform:translateY(0)}
+  .prayer-result-card.loading .prayer-body{opacity:0.55;font-style:italic}
+  .prayer-result-card.loading .prayer-body::first-line{font-size:inherit;font-weight:400;font-style:italic;color:var(--text-light)}
+  .prayer-btn[disabled],.prayer-pill[disabled]{opacity:0.5;cursor:not-allowed;pointer-events:none}
   .prayer-result-card .prayer-body{font-family:'Playfair Display',Georgia,serif;font-size:16.5px;line-height:2;color:var(--text);white-space:pre-line;margin:0;font-weight:400;font-style:italic;letter-spacing:0.1px}
   .prayer-result-card .prayer-body::first-line{font-size:19px;font-weight:500;font-style:normal;letter-spacing:0.2px;color:var(--text)}
   .prayer-takeaway{position:relative;margin-top:30px;padding-top:26px;border-top:none;font-size:13.5px;line-height:1.65;color:var(--text);text-align:center}
@@ -2346,13 +2349,597 @@
     return list[idx];
   }
 
+  /* ─── CUSTOM PRAYER: theme-based generator ───
+     Interpret user input as intention/theme (never echo it back).
+     Compose a fresh prayer from themed pools with variation each time. */
+  const CUSTOM_INVOCATIONS = ['Heavenly Father,', 'Lord,', 'Father,', 'Dear God,'];
+
+  const CUSTOM_THEMES = {
+    loved_one: {
+      subjectLines: [
+        "Please watch over {subject} today and keep {them} close to You.",
+        "I lift up {subject} to You right now with an open heart.",
+        "Thank You for {subject}, and I bring {them} before You today.",
+        "Hold {subject} gently in Your care, Lord.",
+        "Be with {subject} in every part of this day — the seen and the unseen.",
+        "Go before {subject} today, and walk beside {them} all the way through."
+      ],
+      pronounLines: [
+        "Surround {them} with protection, guide {their} steps, and give {them} strength.",
+        "Fill {them} with peace and confidence in all {they} {do}.",
+        "Help me trust that {theyare} always in Your care.",
+        "Shield {them} from harm — seen and unseen — and let {them} feel Your nearness.",
+        "Give {them} courage for what {they} face and grace for what {they} carry.",
+        "Let kindness meet {them} today, and let {them} know {theyare} deeply loved.",
+        "Draw near to {them} in the moments I cannot be there.",
+        "Calm {their} fears and steady {them} when life feels heavy.",
+        "Bless the people around {them} to be encouragement and not burden.",
+        "Lift the weight of whatever {theyre} carrying quietly.",
+        "Speak to {them} in a way {they} will not miss.",
+        "Thank You for loving {them} more deeply than I ever could.",
+        "I release {them} into Your hands, knowing You go before {them}.",
+        "Give {them} rest where {theyre} tired and hope where {they} need it most."
+      ],
+      takeaways: [
+        "Love poured out in prayer reaches further than you know.",
+        "You cannot be everywhere, but God already is.",
+        "Entrusting someone to God is a deep act of love.",
+        "You are not the only one watching over them — God never looks away."
+      ]
+    },
+    peace: {
+      lines: [
+        "Quiet the noise within me and still my racing thoughts.",
+        "Meet me in this moment with the peace that only You can give.",
+        "Help me breathe deeply and remember I am not alone.",
+        "Loosen the grip of what I am holding too tightly.",
+        "Remind me that I do not have to carry everything at once.",
+        "Anchor me in Your presence when worry tries to pull me under.",
+        "Let Your calm settle over my mind, my body, and my heart.",
+        "Soften the places where I feel tense and afraid.",
+        "Replace my anxious thoughts with one true sentence of hope.",
+        "Carry what I cannot put down on my own.",
+        "Be the stillness in me when everything around me is loud.",
+        "Teach me to rest in You even before anything changes."
+      ],
+      takeaways: [
+        "Peace is not the absence of storms — it is the presence of God in them.",
+        "You are allowed to slow down; God is not in a hurry with you.",
+        "One slow breath prayed is still a prayer God receives.",
+        "Present-moment mercy is real — God meets you where you are."
+      ]
+    },
+    guidance: {
+      lines: [
+        "I need wisdom for what is in front of me today.",
+        "Light the next step — no more, no less.",
+        "Help me listen more than I strive, and trust more than I force.",
+        "Show me the difference between Your voice and my fear.",
+        "Give me courage to follow clarity when You provide it.",
+        "Quiet my second-guessing and steady my decisions.",
+        "Open the right doors and close the ones I should not walk through.",
+        "Help me discern what is mine to carry and what is not.",
+        "Order my thoughts and settle my heart so I can hear You.",
+        "Lead me gently, even when the path is unclear.",
+        "Give me patience for the part of the answer that has not arrived yet.",
+        "Remind me I do not have to see the whole road to trust the next step."
+      ],
+      takeaways: [
+        "You do not have to figure out the whole path — only today's step.",
+        "Clarity grows in motion; walk gently and keep asking.",
+        "Guidance often looks like faithfulness in the very next small thing.",
+        "God is not hiding the way from you — He is walking it with you."
+      ]
+    },
+    strength: {
+      lines: [
+        "I am tired, and I need Your strength to carry me.",
+        "Hold me together in the ways I cannot.",
+        "Renew what has been worn thin in me.",
+        "Let Your grace be enough when mine runs out.",
+        "Give me quiet endurance for what today asks of me.",
+        "Remind me that rest is not weakness — it is trust.",
+        "Carry what has become too heavy for my hands.",
+        "Steady my steps when my strength gives way.",
+        "Be my courage when I feel small.",
+        "Fill me with the kind of strength that does not depend on how I feel.",
+        "Help me keep going — softly, faithfully, honestly.",
+        "Meet me in my weariness without shame."
+      ],
+      takeaways: [
+        "Strength can mean resting in God as much as pressing forward.",
+        "Being tender with yourself is not weakness; it is wisdom.",
+        "Small faithfulness counts; God sees every faithful step.",
+        "You are allowed to be weak here — God is not surprised by it."
+      ]
+    },
+    gratitude: {
+      lines: [
+        "Thank You for the gifts I overlook too easily.",
+        "Open my eyes to goodness — even in ordinary moments.",
+        "Teach my heart to say thank You first.",
+        "Help me notice Your kindness without rushing past it.",
+        "Thank You for breath, mercy, and another chance to begin.",
+        "Soften my heart with gratitude instead of comparison.",
+        "Let thankfulness shape the way I move through today.",
+        "Thank You for being close, even when I forget to look.",
+        "Help me hold joy without guilt and peace without suspicion.",
+        "Keep my heart humble and quietly grateful for this day."
+      ],
+      takeaways: [
+        "Gratitude turns the heart toward light, one honest sentence at a time.",
+        "Naming one good thing can soften a whole day.",
+        "You can start again; gratitude does not require a perfect mood."
+      ]
+    },
+    healing: {
+      lines: [
+        "Be near to what is hurting in me today.",
+        "Touch the places that are tender and the ones no one else can see.",
+        "Bring healing to my body, my heart, and my memory.",
+        "Hold me gently through what cannot be rushed.",
+        "Turn my pain into something You can use.",
+        "Comfort me in the grief I am still learning how to carry.",
+        "Restore what feels broken and bring peace where there has been hurt.",
+        "Meet me in the waiting and in the slow return to hope.",
+        "Remind me that healing does not always look linear — and that is okay.",
+        "Be the gentleness I cannot find on my own right now."
+      ],
+      takeaways: [
+        "Healing is holy work, and God is patient with the pace.",
+        "You can be hurting and held at the same time.",
+        "God does not rush what needs time to heal.",
+        "Your tenderness is not a burden to God."
+      ]
+    },
+    provision: {
+      lines: [
+        "You know what I am carrying about money, work, and tomorrow.",
+        "Quiet my fear around what feels uncertain.",
+        "Give me wisdom with what I have and faith for what I need.",
+        "Open doors only You can open.",
+        "Help me do my work today with integrity and trust.",
+        "Replace my scarcity with Your steady provision.",
+        "Settle my mind when I start catastrophizing the future.",
+        "Show me what to release and what to stay faithful with.",
+        "Teach me to trust You one day at a time, one bill at a time.",
+        "Remind me that You see me, and You have not forgotten where I am."
+      ],
+      takeaways: [
+        "God has not brought you this far to leave you now.",
+        "Provision often arrives one quiet day at a time.",
+        "Faithfulness is more important than control.",
+        "You can trust the One who has already counted every need."
+      ]
+    },
+    relationships: {
+      lines: [
+        "Soften my heart toward the people in my life.",
+        "Help me love with patience, even when it is hard.",
+        "Heal what has been broken between me and the people I care about.",
+        "Give me grace to forgive and courage to be honest.",
+        "Guard my relationships from pride and quiet bitterness.",
+        "Restore what can be restored, and give peace around what cannot.",
+        "Help me listen more than I speak today.",
+        "Draw me close to the people You have placed in my life.",
+        "Show me where I need to apologize and where I need to let go.",
+        "Give me humility to love people as they are, not as I wish they were."
+      ],
+      takeaways: [
+        "Love is built in small, repeated kindnesses.",
+        "You cannot control hearts, but you can pray over them.",
+        "Forgiveness is a gift you give yourself, too.",
+        "Healthy love begins with honesty and patience."
+      ]
+    },
+    faith: {
+      lines: [
+        "When You feel far, remind me that You have not moved.",
+        "Meet me in my doubt without shame.",
+        "Grow my faith through the questions, not around them.",
+        "Steady my heart when belief feels hard.",
+        "Help me trust You even when I do not understand.",
+        "Draw me back to You gently, again and again.",
+        "Let me feel Your presence in a way I cannot miss today.",
+        "Be patient with me as I find my way back to You.",
+        "Turn my wandering into a slow walk home."
+      ],
+      takeaways: [
+        "Honest doubt is often the beginning of deeper faith.",
+        "You do not have to feel close to God to be close to God.",
+        "Faith grows in the returning, not in the performing."
+      ]
+    },
+    rest: {
+      lines: [
+        "Quiet my body and my thoughts tonight.",
+        "Release me from the weight of today.",
+        "Let my mind rest where my faith has struggled to.",
+        "Remind me that You are awake when I am not.",
+        "Slow my heart and settle my breathing.",
+        "Carry what I cannot set down before sleep.",
+        "Bring rest that restores me — not just pauses me.",
+        "Free me from the replay of everything I did and did not do today.",
+        "Let tomorrow wait until it actually arrives."
+      ],
+      takeaways: [
+        "Rest is an act of trust.",
+        "You are allowed to stop; God does not require your exhaustion.",
+        "Sleep is a reminder that the world does not rest on you."
+      ]
+    },
+    general: {
+      lines: [
+        "You already know what I am carrying, even when I cannot find the words.",
+        "Meet me here with compassion and truth.",
+        "Give me wisdom for the next right step.",
+        "Help me trust You with what I cannot fix.",
+        "Bring peace to the part of me that feels unsettled.",
+        "Walk closely with me through the rest of today.",
+        "Turn my heart toward hope, one quiet moment at a time.",
+        "Remind me that I am held, even in the in-between.",
+        "Show me Your kindness in a way I will not miss.",
+        "Steady me, teach me, and keep me close.",
+        "Be the quiet strength underneath everything I do today.",
+        "Help me bring this honestly to You and leave it honestly with You."
+      ],
+      takeaways: [
+        "God understands what you cannot fully put into words.",
+        "You are not alone in this, even on the quiet days.",
+        "Bringing something to God is never a small act.",
+        "Honest prayers are the ones that stick the longest."
+      ]
+    }
+  };
+
+  const CUSTOM_PEOPLE_MAP = [
+    { words:['daughter','daughters'],                             gender:'fem',     noun:'daughter' },
+    { words:['son','sons'],                                        gender:'masc',    noun:'son' },
+    { words:['wife'],                                              gender:'fem',     noun:'wife' },
+    { words:['husband'],                                           gender:'masc',    noun:'husband' },
+    { words:['mom','mommy','mother','mum','mama'],                gender:'fem',     noun:'mom' },
+    { words:['dad','daddy','father','papa','pops'],               gender:'masc',    noun:'dad' },
+    { words:['sister','sisters','sis'],                            gender:'fem',     noun:'sister' },
+    { words:['brother','brothers','bro'],                          gender:'masc',    noun:'brother' },
+    { words:['grandma','grandmother','gran','nana','granny'],     gender:'fem',     noun:'grandma' },
+    { words:['grandpa','grandfather','papaw','pawpaw','gramps'],  gender:'masc',    noun:'grandpa' },
+    { words:['girlfriend','gf'],                                   gender:'fem',     noun:'girlfriend' },
+    { words:['boyfriend','bf'],                                    gender:'masc',    noun:'boyfriend' },
+    { words:['fiancee','fiance'],                                  gender:'neutral', noun:'fiancé' },
+    { words:['aunt','aunts','auntie'],                             gender:'fem',     noun:'aunt' },
+    { words:['uncle','uncles'],                                    gender:'masc',    noun:'uncle' },
+    { words:['niece','nieces'],                                    gender:'fem',     noun:'niece' },
+    { words:['nephew','nephews'],                                  gender:'masc',    noun:'nephew' },
+    { words:['children','kids','babies'],                          gender:'plural',  noun:'children' },
+    { words:['child','baby','toddler'],                            gender:'neutral', noun:'child' },
+    { words:['parents'],                                           gender:'plural',  noun:'parents' },
+    { words:['family','household'],                                gender:'plural',  noun:'family' },
+    { words:['friends'],                                           gender:'plural',  noun:'friends' },
+    { words:['friend','bestie'],                                   gender:'neutral', noun:'friend' },
+    { words:['coworker','coworkers','colleague','colleagues'],    gender:'plural',  noun:'coworkers' },
+    { words:['team'],                                              gender:'plural',  noun:'team' },
+    { words:['boss','manager'],                                    gender:'neutral', noun:'boss' },
+    { words:['pastor'],                                            gender:'neutral', noun:'pastor' },
+    { words:['cousin','cousins'],                                  gender:'neutral', noun:'cousin' },
+    { words:['neighbor','neighbors','neighbour','neighbours'],    gender:'neutral', noun:'neighbor' },
+    { words:['student','students'],                                gender:'neutral', noun:'student' },
+    { words:['spouse'],                                            gender:'neutral', noun:'spouse' },
+    { words:['partner'],                                           gender:'neutral', noun:'partner' }
+  ];
+
+  /* Words that should NEVER be treated as a person's name. */
+  const CUSTOM_NAME_STOPWORDS = new Set([
+    // Pronouns / helpers / articles / prepositions
+    'i','im','ive','ill','id','me','my','mine','myself','we','us','our','you','your',
+    'he','she','they','them','their','his','her','hers',
+    'a','an','the','to','of','in','on','at','by','with','from','about','over','under',
+    'into','onto','and','but','or','if','so','not','no','yes','as','than','then',
+    'am','is','are','was','were','be','been','being','have','has','had','having',
+    'do','does','did','done','will','would','could','should','shall','can','may','might','must',
+    // Question / time words
+    'what','when','where','who','whom','whose','why','how','which',
+    'today','tomorrow','yesterday','now','tonight','morning','afternoon','evening','night',
+    'day','days','week','weeks','month','months','year','years','time','times','hour','hours','minute','minutes',
+    // Placeholder nouns / states
+    'thing','things','something','anything','everything','nothing','someone','anyone','everyone','noone',
+    'stuff','place','places','world','life','lives','issue','issues','problem','problems','situation','situations',
+    'moment','moments','season','seasons','chapter','chapters','area','areas','part','parts',
+    // Verbs commonly present in prayer requests
+    'pray','prayer','prayers','praying','prayed','please','help','helping','helped','need','needs','needed',
+    'want','wanted','wants','wish','wishes','wished','ask','asking','asked','lift','lifting','lifted',
+    'plead','pleading','give','gives','giving','gave','send','sending','sent','bring','bringing','brought',
+    'watch','watching','watched','keep','keeping','kept','hold','holding','held','guard','guarding','guarded',
+    // God references
+    'god','lord','jesus','christ','holy','spirit','amen',
+    // Common short filler
+    'just','really','very','much','too','also','only','even','still','always','never','ever',
+    'okay','ok','maybe','probably','somehow','anyway',
+    // Theme keywords — must fall through to theme detection, not be taken as names
+    'anxious','anxiety','panic','worry','worried','worries','stress','stressed','stressful',
+    'overwhelmed','overwhelm','fear','fears','afraid','scared','nervous','tense','panicking','panicked',
+    'peace','peaceful','calm','calmness','still','stillness','quiet','quietness',
+    'heal','healing','sick','illness','ill','pain','hurt','hurting','recovery','recovering',
+    'grief','grieving','loss','mourning','mourn','wounded','wound','brokenhearted','trauma','broken',
+    'grateful','thankful','thanks','thank','blessing','blessed','blessings','gratitude','celebrate','celebrating','joy',
+    'guidance','guide','direction','lost','confused','decision','decisions','unsure','future',
+    'clarity','choice','choices','choose','wisdom','discern','discernment','next',
+    'strength','strong','tired','exhausted','weary','weak','drained','burnt','burnout',
+    'struggle','struggling','weakness','endurance','depleted',
+    'relationship','relationships','dating','marriage','marriages','breakup','argument','arguing',
+    'fight','fighting','conflict','forgive','forgiveness','reconcile','reconciliation','love','loving',
+    'work','working','job','jobs','career','careers','interview','interviews','business',
+    'money','finances','bills','provision','financial','providing','provider','promotion','rent','mortgage',
+    'faith','faithful','doubt','doubts','believe','belief','believing','trust','trusting',
+    'distant','wandering','prodigal','spiritual','church','religious',
+    'sleep','sleeping','slept','insomnia','restless','rest','bedtime','nighttime','tonight',
+    'protect','protection','safety','safe','danger','dangerous','threat','threats','evil'
+  ]);
+
+  function titleCaseName(str) {
+    return String(str || '').toLowerCase().replace(/(^|[\s\-'])([a-z])/g, (_, sep, c) => sep + c.toUpperCase());
+  }
+
+  /* Extract a person's name from input, or return null if none present. */
+  function extractNameFromInput(raw) {
+    if (!raw) return null;
+    let s = raw.trim().toLowerCase();
+    if (!s) return null;
+    // Strip trailing punctuation
+    s = s.replace(/[.!?,;:]+\s*$/, '').trim();
+    // Strip common prayer-lead phrases so the name is the remainder
+    s = s.replace(/^(please\s+)?(pray(?:ing|er|ers|ed)?|lift(?:ing)?\s+up|plead(?:ing)?)\s+(for|over|about)\s+/i, '');
+    s = s.replace(/^(?:for|about|over|regarding|concerning)\s+/i, '');
+    s = s.trim();
+    if (!s) return null;
+
+    const tokens = s.split(/\s+/).filter(Boolean);
+    if (tokens.length === 0 || tokens.length > 2) return null;
+
+    for (const tok of tokens) {
+      const clean = tok.replace(/[^a-z'\-]/g, '');
+      if (!clean) return null;
+      if (clean.length < 2) return null;
+      if (CUSTOM_NAME_STOPWORDS.has(clean)) return null;
+      // Reject all-consonant or all-vowel strings — unlikely real names
+      if (!/[aeiouy]/.test(clean) || !/[^aeiouy]/.test(clean)) return null;
+    }
+    return titleCaseName(tokens.join(' '));
+  }
+
+  function detectCustomTheme(raw) {
+    if (!raw) return { theme: 'general' };
+    const s = ' ' + raw.toLowerCase().replace(/[^a-z\s]/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
+    const hit = (kws) => kws.some(k => s.indexOf(' ' + k + ' ') !== -1);
+
+    // 1) Relationship words win first (daughter, mom, friend, family, ...)
+    for (const item of CUSTOM_PEOPLE_MAP) {
+      if (item.words.some(w => s.indexOf(' ' + w + ' ') !== -1)) {
+        return { theme: 'loved_one', subject: item };
+      }
+    }
+
+    // 2) Proper-name detection → still routes into loved-one system
+    const name = extractNameFromInput(raw);
+    if (name) {
+      return { theme: 'loved_one', subject: { isName: true, gender: 'neutral', noun: name } };
+    }
+
+    // 3) Theme keywords
+    if (hit(['anxious','anxiety','panic','worry','worried','worries','stress','stressed','stressful','overwhelmed','overwhelm','fear','fears','afraid','scared','nervous','tense','panicking','panicked','peace','peaceful','calm','quiet','still'])) return { theme: 'peace' };
+    if (hit(['heal','healing','sick','illness','ill','pain','hurt','hurting','recovery','recovering','grief','grieving','loss','mourning','mourn','wounded','wound','brokenhearted','trauma'])) return { theme: 'healing' };
+    if (hit(['grateful','thankful','thanks','thank','blessing','blessed','blessings','gratitude','celebrate','celebrating'])) return { theme: 'gratitude' };
+    if (hit(['guidance','guide','direction','lost','confused','decision','decisions','unsure','future','clarity','choice','choose','wisdom','discern','discernment'])) return { theme: 'guidance' };
+    if (hit(['strength','strong','tired','exhausted','weary','weak','drained','burnt','burnout','struggle','struggling','weakness','endurance','depleted'])) return { theme: 'strength' };
+    if (hit(['relationship','relationships','dating','marriage','marriages','breakup','argument','arguing','fight','fighting','conflict','forgive','forgiveness','reconcile','reconciliation'])) return { theme: 'relationships' };
+    if (hit(['work','job','jobs','career','careers','interview','business','money','finances','bills','provision','financial','providing','promotion','rent','mortgage'])) return { theme: 'provision' };
+    if (hit(['faith','doubt','doubts','believe','belief','trust','distant','wandering','prodigal','spiritual','church'])) return { theme: 'faith' };
+    if (hit(['sleep','insomnia','restless','bedtime','nighttime'])) return { theme: 'rest' };
+    if (hit(['protect','protection','safety','safe','danger','dangerous','threat','evil'])) return { theme: 'loved_one', subject: null };
+
+    return { theme: 'general' };
+  }
+
+  function buildSubjectRefs(item) {
+    if (!item) {
+      return { subject:'them', them:'them', their:'their', they:'they', theyare:'they are', theyre:"they're", do:'do' };
+    }
+    // Proper names render without an article; relationships get "my " prepended.
+    const subjectText = item.isName ? item.noun : ('my ' + item.noun);
+    const base = { subject: subjectText };
+    if (item.gender === 'fem') {
+      return Object.assign(base, { them:'her', their:'her', they:'she', theyare:'she is', theyre:"she's", do:'does' });
+    }
+    if (item.gender === 'masc') {
+      return Object.assign(base, { them:'him', their:'his', they:'he', theyare:'he is', theyre:"he's", do:'does' });
+    }
+    return Object.assign(base, { them:'them', their:'their', they:'they', theyare:'they are', theyre:"they're", do:'do' });
+  }
+
+  function applyPronouns(line, refs) {
+    return line.replace(/\{(subject|them|their|they|theyare|theyre|do)\}/g, (_, k) => refs[k] || '');
+  }
+
+  function pickUniqueFrom(arr, n, exclude) {
+    const safe = Array.isArray(arr) ? arr.slice() : [];
+    const excl = Array.isArray(exclude) ? exclude : [];
+    let pool = safe.filter(x => excl.indexOf(x) === -1);
+    if (pool.length < n) pool = safe;
+    const out = [];
+    const copy = pool.slice();
+    while (out.length < n && copy.length) {
+      const idx = Math.floor(Math.random() * copy.length);
+      out.push(copy.splice(idx, 1)[0]);
+    }
+    return out;
+  }
+
+  let customPrayerHistory = { templates: [], invocation: '', takeaway: '' };
+
+  /* ─── STRUCTURED FALLBACK GENERATORS ───
+     Used when AI is unavailable or produces invalid output. */
+
+  function generateLovedOnePrayer(subjectInfo) {
+    const t = CUSTOM_THEMES.loved_one;
+    const refs = buildSubjectRefs(subjectInfo && typeof subjectInfo === 'object' ? subjectInfo : null);
+    const invOpts = CUSTOM_INVOCATIONS.filter(i => i !== customPrayerHistory.invocation);
+    const invocation = invOpts[Math.floor(Math.random() * invOpts.length)] || CUSTOM_INVOCATIONS[0];
+    const numLines = 3 + Math.floor(Math.random() * 2);
+    const subjectTemplate = pickUniqueFrom(t.subjectLines, 1, customPrayerHistory.templates)[0] || t.subjectLines[0];
+    const followTemplates = pickUniqueFrom(t.pronounLines, numLines - 1, customPrayerHistory.templates);
+    const pickedTemplates = [subjectTemplate].concat(followTemplates);
+    const renderedLines = pickedTemplates.map(line => applyPronouns(line, refs));
+    const takeaway = pickUniqueFrom(t.takeaways, 1, [customPrayerHistory.takeaway])[0] || t.takeaways[0];
+    customPrayerHistory = { templates: pickedTemplates, invocation, takeaway };
+    return { text: invocation + '\n' + renderedLines.join('\n') + '\nAmen.', takeaway };
+  }
+
+  function generateThemePrayer(type) {
+    // Preset categories have hand-written PRAYER_BANK entries with matching takeaways.
+    if (PRAYER_BANK[type]) return pickPrayerPreset(type);
+
+    // Otherwise build from CUSTOM_THEMES pools.
+    const theme = CUSTOM_THEMES[type] ? type : 'general';
+    const t = CUSTOM_THEMES[theme];
+    const invOpts = CUSTOM_INVOCATIONS.filter(i => i !== customPrayerHistory.invocation);
+    const invocation = invOpts[Math.floor(Math.random() * invOpts.length)] || CUSTOM_INVOCATIONS[0];
+    const numLines = 3 + Math.floor(Math.random() * 2);
+    const pickedTemplates = pickUniqueFrom(t.lines, numLines, customPrayerHistory.templates);
+    const takeaway = pickUniqueFrom(t.takeaways, 1, [customPrayerHistory.takeaway])[0] || t.takeaways[0];
+    customPrayerHistory = { templates: pickedTemplates, invocation, takeaway };
+    return { text: invocation + '\n' + pickedTemplates.join('\n') + '\nAmen.', takeaway };
+  }
+
+  /* Back-compat wrapper — some code paths may still call buildCustomPrayer synchronously. */
   function buildCustomPrayer() {
-    const raw = (document.getElementById('prayerCustomInput') && document.getElementById('prayerCustomInput').value || '').trim();
-    const topic = raw || 'what I carry today';
+    const inputEl = document.getElementById('prayerCustomInput');
+    const raw = ((inputEl && inputEl.value) || '').trim();
+    const detection = detectCustomTheme(raw);
+    if (detection.theme === 'loved_one') return generateLovedOnePrayer(detection.subject);
+    return generateThemePrayer(detection.theme);
+  }
+
+  /* ─── AI-FIRST PRAYER GENERATION ───
+     Client calls our /api/prayer serverless endpoint (which wraps OpenAI).
+     Output is validated; on any failure we return structured fallback. */
+
+  const PRAYER_EMOTION_MAP = {
+    peace: 'peace',
+    guidance: 'guidance',
+    strength: 'neutral',
+    gratitude: 'gratitude',
+    anxiety: 'comfort',
+    healing: 'comfort',
+    rest: 'comfort',
+    provision: 'neutral',
+    relationships: 'neutral',
+    faith: 'neutral',
+    loved_one: 'comfort',
+    general: 'neutral',
+    custom: 'neutral'
+  };
+
+  function pickTakeawayForContext(context) {
+    const type = context && context.type;
+    if (PRAYER_BANK[type] && PRAYER_BANK[type].length) {
+      const pool = PRAYER_BANK[type];
+      return pool[Math.floor(Math.random() * pool.length)].takeaway;
+    }
+    if (CUSTOM_THEMES[type] && CUSTOM_THEMES[type].takeaways && CUSTOM_THEMES[type].takeaways.length) {
+      const arr = CUSTOM_THEMES[type].takeaways;
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+    return 'Bringing something to God is never a small act.';
+  }
+
+  function buildPrayerContext(cat) {
+    if (cat === 'custom') {
+      const inputEl = document.getElementById('prayerCustomInput');
+      const raw = ((inputEl && inputEl.value) || '').trim();
+      const detection = detectCustomTheme(raw);
+      const theme = CUSTOM_THEMES[detection.theme] ? detection.theme : 'general';
+      if (theme === 'loved_one') {
+        const info = detection.subject || null;
+        let subjectStr = null;
+        if (info) subjectStr = info.isName ? info.noun : ('my ' + info.noun);
+        return {
+          type: 'loved_one',
+          subject: subjectStr,
+          subjectInfo: info,
+          input: raw || null,
+          emotion: 'comfort'
+        };
+      }
+      return {
+        type: theme,
+        subject: null,
+        input: raw || null,
+        emotion: PRAYER_EMOTION_MAP[theme] || 'neutral'
+      };
+    }
     return {
-      text: 'Heavenly Father,\nYou know what I mean when I think of: ' + topic + '.\nMeet me here with compassion and truth.\nGive me wisdom for the next right step.\nHelp me trust You with what I cannot fix.\nAmen.',
-      takeaway: 'God understands what you cannot fully put into words.'
+      type: cat,
+      subject: null,
+      input: null,
+      emotion: PRAYER_EMOTION_MAP[cat] || 'neutral'
     };
+  }
+
+  async function generatePrayerAI(context) {
+    const payload = {
+      type: context.type || 'general',
+      subject: context.subject || null,
+      input: context.input || null,
+      emotion: context.emotion || 'neutral'
+    };
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 14000);
+    try {
+      const res = await fetch('/api/prayer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      if (!res.ok) throw new Error('AI endpoint returned ' + res.status);
+      const data = await res.json();
+      if (!data || !data.text) throw new Error('Empty AI response');
+      return String(data.text).trim();
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  function validatePrayer(output, rawInput) {
+    if (!output || typeof output !== 'string') return false;
+    const trimmed = output.trim();
+    if (!/^(heavenly father|lord|father|dear god)\b[,.!?\s]/i.test(trimmed + ' ')) return false;
+    if (!/\bamen\.?\s*$/i.test(trimmed)) return false;
+    const lines = trimmed.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    if (lines.length < 3 || lines.length > 6) return false;
+    if (rawInput) {
+      const clean = String(rawInput).trim().toLowerCase();
+      if (clean.length >= 8 && trimmed.toLowerCase().indexOf(clean) !== -1) return false;
+    }
+    return true;
+  }
+
+  async function generatePrayer(context) {
+    const ctx = context || {};
+    try {
+      const aiText = await generatePrayerAI(ctx);
+      if (validatePrayer(aiText, ctx.input)) {
+        return { text: aiText, takeaway: pickTakeawayForContext(ctx), source: 'ai' };
+      }
+      console.warn('AI prayer failed validation, using structured fallback.');
+    } catch (e) {
+      console.warn('AI prayer generation unavailable, using structured fallback:', e && e.message ? e.message : e);
+    }
+    if (ctx.type === 'loved_one') {
+      const fallback = generateLovedOnePrayer(ctx.subjectInfo);
+      return Object.assign(fallback, { source: 'fallback' });
+    }
+    const fallback = generateThemePrayer(ctx.type || 'general');
+    return Object.assign(fallback, { source: 'fallback' });
   }
 
   function renderPrayerOutput(text, takeaway) {
@@ -2373,9 +2960,65 @@
     });
   }
 
-  function generatePrayerForCategory(cat) {
-    if (cat === 'custom') return buildCustomPrayer();
-    return pickPrayerPreset(cat);
+  /* Loading + double-click lock for async prayer generation. */
+  let prayerGenInFlight = false;
+
+  function setPrayerControlsDisabled(disabled) {
+    document.querySelectorAll('.prayer-pill').forEach(p => {
+      if (disabled) p.setAttribute('disabled', 'true');
+      else p.removeAttribute('disabled');
+    });
+    ['prayerNewBtn', 'prayerSaveBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (disabled) el.setAttribute('disabled', 'true');
+      else el.removeAttribute('disabled');
+    });
+  }
+
+  function showPrayerLoading() {
+    const result = document.getElementById('prayerResult');
+    const card = document.getElementById('prayerResultCard');
+    const bodyEl = document.getElementById('prayerBodyText');
+    const takeawayBlock = document.getElementById('prayerTakeawayBlock');
+    const saveMsg = document.getElementById('prayerSaveMsg');
+    if (!result || !card || !bodyEl) return;
+    if (saveMsg) { saveMsg.classList.remove('show'); saveMsg.textContent = 'Saved'; }
+    result.hidden = false;
+    bodyEl.textContent = 'Generating prayer...';
+    if (takeawayBlock) takeawayBlock.style.visibility = 'hidden';
+    card.classList.add('loading');
+    requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
+  }
+
+  function hidePrayerLoading() {
+    const card = document.getElementById('prayerResultCard');
+    const takeawayBlock = document.getElementById('prayerTakeawayBlock');
+    if (card) card.classList.remove('loading');
+    if (takeawayBlock) takeawayBlock.style.visibility = '';
+  }
+
+  async function runPrayerGeneration(cat) {
+    if (prayerGenInFlight) return;
+    prayerGenInFlight = true;
+    setPrayerControlsDisabled(true);
+    showPrayerLoading();
+    try {
+      const ctx = buildPrayerContext(cat);
+      const result = await generatePrayer(ctx);
+      if (result && result.text) {
+        hidePrayerLoading();
+        renderPrayerOutput(result.text, result.takeaway || '');
+      } else {
+        hidePrayerLoading();
+      }
+    } catch (e) {
+      console.warn('Prayer generation unexpected error:', e);
+      hidePrayerLoading();
+    } finally {
+      setPrayerControlsDisabled(false);
+      prayerGenInFlight = false;
+    }
   }
 
   function applyPrayerSelection(cat) {
@@ -2386,8 +3029,7 @@
     });
     const customWrap = document.getElementById('prayerCustomWrap');
     if (customWrap) customWrap.classList.toggle('open', cat === 'custom');
-    const { text, takeaway } = generatePrayerForCategory(cat);
-    if (text) renderPrayerOutput(text, takeaway);
+    runPrayerGeneration(cat);
   }
 
   function initPrayerTab() {
@@ -2405,13 +3047,7 @@
       newBtn.dataset.bound = '1';
       newBtn.addEventListener('click', () => {
         if (!prayerCategory) return;
-        if (prayerCategory === 'custom' && customInput) {
-          const { text, takeaway } = buildCustomPrayer();
-          renderPrayerOutput(text, takeaway);
-        } else {
-          const { text, takeaway } = pickPrayerPreset(prayerCategory);
-          renderPrayerOutput(text, takeaway);
-        }
+        runPrayerGeneration(prayerCategory);
       });
     }
     if (saveBtn && !saveBtn.dataset.bound) {
