@@ -10,7 +10,7 @@
  * Bump CACHE_VERSION whenever you ship changes you want users to pick up
  * immediately. Old caches will be deleted on the next page load.
  */
-const CACHE_VERSION = 'grounded-v4';
+const CACHE_VERSION = 'grounded-v5';
 const APP_SHELL = [
   '/',
   '/index.html',

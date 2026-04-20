@@ -3882,6 +3882,79 @@
     }
   }
 
+  /* ─── Guided Meditation: Read mode (timed subtitle progression) ─── */
+  const MED_READ_SCRIPT = [
+    { time: 0,  text: 'Take a moment to settle in...' },
+    { time: 3,  text: 'Allow yourself to pause...' },
+    { time: 6,  text: 'Close your eyes...' },
+    { time: 9,  text: 'Bring your attention to your breath...' },
+    { time: 13, text: 'Take a slow breath in...' },
+    { time: 17, text: 'And gently exhale...' },
+    { time: 21, text: 'Again, slowly in...' },
+    { time: 25, text: 'And softly out...' },
+    { time: 29, text: 'Let your shoulders drop...' },
+    { time: 33, text: 'Unclench your jaw...' },
+    { time: 37, text: 'Allow your body to soften...' },
+    { time: 41, text: 'Now just notice your thoughts...' },
+    { time: 45, text: 'Without reacting...' },
+    { time: 62, text: 'Just stay here...' },
+    { time: 66, text: 'Breathing slowly...' },
+    { time: 70, text: 'Letting everything settle...' },
+    { time: 75, text: 'Stay here for a moment...' },
+    { time: 80, text: "And when you're ready..." },
+    { time: 85, text: 'Gently bring your awareness back...' }
+  ];
+  const MED_READ_FADE_MS = 350;
+  const MED_READ_TEXT_ID = 'bsStepText';
+  let medReadTimers = [];
+  let medReadActive = false;
+
+  function _medReadFadeInText(el, text) {
+    if (!el) return;
+    el.textContent = text;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (medReadActive) el.classList.add('shown');
+    }));
+  }
+
+  function _medReadSwapText(el, text) {
+    if (!el) return;
+    el.classList.remove('shown');
+    const t = setTimeout(() => {
+      if (!medReadActive) return;
+      _medReadFadeInText(el, text);
+    }, MED_READ_FADE_MS);
+    medReadTimers.push(t);
+  }
+
+  function startMeditationReadMode() {
+    clearMeditationReadMode();
+    const el = document.getElementById(MED_READ_TEXT_ID);
+    if (!el) return;
+    medReadActive = true;
+    el.classList.remove('shown');
+    el.textContent = '';
+    MED_READ_SCRIPT.forEach((entry, idx) => {
+      const t = setTimeout(() => {
+        if (!medReadActive) return;
+        if (idx === 0) {
+          _medReadFadeInText(el, entry.text);
+        } else {
+          _medReadSwapText(el, entry.text);
+        }
+      }, Math.max(0, entry.time * 1000));
+      medReadTimers.push(t);
+    });
+  }
+
+  function clearMeditationReadMode() {
+    medReadActive = false;
+    medReadTimers.forEach(t => clearTimeout(t));
+    medReadTimers = [];
+    const el = document.getElementById(MED_READ_TEXT_ID);
+    if (el) el.classList.remove('shown');
+  }
+
   /* ─── Guided Meditation: voice guidance (TTS) ─── */
   const MED_PAUSE_MS = 2400;
   const medTimers = [];
@@ -4295,11 +4368,12 @@
     stopMeditationVoice();
     stopMeditationAudio();
     stopGuidedSteps('meditation', 'bsStepText');
+    clearMeditationReadMode();
     if (mode === 'listen') {
       setMeditationAudioMute(false);
       startMeditationAudio();
     } else {
-      startGuidedSteps('meditation', 'bsStepText');
+      startMeditationReadMode();
     }
   }
 
@@ -4359,6 +4433,7 @@
         stopMeditationVoice();
         stopMeditationAudio();
         stopGuidedSteps('meditation', stepsTextId);
+        clearMeditationReadMode();
         setMeditationMute(false);
         setMeditationAudioMute(false);
       }
