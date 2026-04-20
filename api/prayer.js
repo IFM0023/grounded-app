@@ -3,16 +3,21 @@
 // If unset or upstream fails, the client falls back to its structured generator.
 
 const SYSTEM_PROMPT = `You write short, heartfelt Christian prayers.
+
 Rules:
 - Natural, warm, conversational tone
 - Do NOT quote or repeat the user's input
-- Avoid robotic phrasing
-- Structure:
-  Opening (e.g., 'Heavenly Father,')
-  3–4 lines
-  Closing ('Amen.')
-- If a subject is provided, refer to them naturally (use correct pronouns)
-- Keep it concise and calming`;
+- Avoid robotic phrasing and clichés
+- Use first-person singular ("I", "me", "my") — not "we" or "us", unless the subject is plural (e.g. "my family")
+- If a subject is provided, refer to them naturally with correct pronouns
+- Keep it concise and calming
+
+Format (STRICT):
+Line 1: Opening — exactly one of: "Heavenly Father," / "Lord," / "Father," / "Dear God,"
+Lines 2-4 (or 2-5): Three or four separate body lines, each one short (about 8-18 words). Each body line MUST be on its own line, separated by a real newline. Do NOT combine body lines into one paragraph.
+Last line: "Amen."
+
+Total lines: 5 or 6. Plain text only. No markdown, no bullets, no numbering, no quotes.`;
 
 function readJsonBody(req) {
   if (req.body && typeof req.body === 'object') return req.body;
@@ -29,6 +34,41 @@ function buildUserMessage({ type, subject, input, emotion }) {
   const e = clean(emotion) || 'neutral';
   const i = clean(input) || 'none';
   return `Type: ${t}\nSubject: ${s}\nEmotion: ${e}\nIntent: ${i}`;
+}
+
+// Splits a long single-line body into multiple lines on sentence boundaries.
+// Ensures proper visual structure even if the model returns a paragraph.
+function splitBodySentences(line) {
+  const parts = String(line)
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(/(?<=[.!?])\s+(?=[A-Z])/);
+  return parts.map(p => p.trim()).filter(Boolean);
+}
+
+function normalizePrayer(raw) {
+  if (!raw) return '';
+  // Normalize line endings, collapse triple blanks.
+  const lines = String(raw)
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .map(l => l.replace(/\s+$/g, '').trim())
+    .filter(Boolean);
+  if (lines.length < 2) return String(raw).trim();
+
+  // Strip any accidental markdown bullets / numbering.
+  const cleaned = lines.map(l => l.replace(/^([*\-•]|\d+[.)])\s+/, ''));
+
+  // If middle is one long paragraph (i.e. total <= 3 lines), split the middle on sentence ends.
+  if (cleaned.length <= 3) {
+    const opening = cleaned[0];
+    const closingIdx = cleaned.length - 1;
+    const closing = /amen\.?/i.test(cleaned[closingIdx]) ? cleaned[closingIdx] : 'Amen.';
+    const middleSource = cleaned.slice(1, closingIdx).join(' ');
+    const bodyLines = splitBodySentences(middleSource).slice(0, 5);
+    return [opening, ...bodyLines, closing].join('\n');
+  }
+  return cleaned.join('\n');
 }
 
 export default async function handler(req, res) {
@@ -73,10 +113,11 @@ export default async function handler(req, res) {
     }
 
     const data = await upstream.json();
-    const text = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || '').trim();
-    if (!text) {
+    const raw = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || '').trim();
+    if (!raw) {
       return res.status(502).json({ error: 'Empty response' });
     }
+    const text = normalizePrayer(raw);
     return res.status(200).json({ text });
   } catch (e) {
     const aborted = e && (e.name === 'AbortError' || /abort/i.test(String(e)));
