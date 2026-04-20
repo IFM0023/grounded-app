@@ -3927,6 +3927,10 @@
     medReadTimers.push(t);
   }
 
+  // Extra breathing room added between each line at runtime (seconds).
+  // Keeps the original MED_READ_SCRIPT timestamps untouched.
+  const MED_READ_EXTRA_DELAY = 1.5;
+
   function startMeditationReadMode() {
     clearMeditationReadMode();
     const el = document.getElementById(MED_READ_TEXT_ID);
@@ -3934,15 +3938,17 @@
     medReadActive = true;
     el.classList.remove('shown');
     el.textContent = '';
-    MED_READ_SCRIPT.forEach((entry, idx) => {
+    const extraDelay = MED_READ_EXTRA_DELAY;
+    MED_READ_SCRIPT.forEach((entry, index) => {
+      const delayMs = (entry.time + index * extraDelay) * 1000;
       const t = setTimeout(() => {
         if (!medReadActive) return;
-        if (idx === 0) {
+        if (index === 0) {
           _medReadFadeInText(el, entry.text);
         } else {
           _medReadSwapText(el, entry.text);
         }
-      }, Math.max(0, entry.time * 1000));
+      }, Math.max(0, delayMs));
       medReadTimers.push(t);
     });
   }
