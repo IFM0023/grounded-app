@@ -4156,7 +4156,7 @@
   
   const TYPE_LABELS = { mind:"Read a verse", heart:"Say a prayer", body:"Reset your mind" };
   /** Shown in header + Profile footer. MUST match `sw.js` CACHE_VERSION (also used to bust SW registration URL). */
-  const APP_BUILD_VERSION = 'grounded-v176';
+  const APP_BUILD_VERSION = 'grounded-v177';
   const MC_ICONS = {
     mind:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>',
     heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 11V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v9"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 16"/></svg>',
@@ -4660,6 +4660,122 @@
         ? readGroundedThemeOverride(new Date())
         : null;
     return oIdx != null ? oIdx : weekNum - 1;
+  }
+
+  /**
+   * Suggested chapter per weekly theme title (48 curated themes + optional alternates).
+   * Slot uses getHomeWeeklyThemeSlotIndex() (Jan-1 week + grounded_theme_override when set).
+   * Book names align with Bible reader / openReader().
+   * Declared here (not below renderScripture) so renderHomeWeeklyTheme → renderScriptureWeekReadingCard
+   * does not hit TDZ when applyAppShellForTab runs on first paint.
+   */
+  const THEME_SCRIPTURE_MAP = {
+    'Beginning Again': { book: 'Isaiah', chapter: 43, note: 'God declares he is doing something new' },
+    'Finding Rest': { book: 'Psalms', chapter: 23, note: 'The shepherd who leads beside quiet waters' },
+    'Permission to pause': { book: 'Psalms', chapter: 23, note: 'The shepherd who leads beside quiet waters' },
+    'Knowing Who You Are': { book: 'Psalms', chapter: 139, note: 'You are fully known and fully loved' },
+    'The Courage to Be Honest': { book: 'Psalms', chapter: 13, note: "David's most raw and honest prayer" },
+    'Love as a Practice': { book: '1 Corinthians', chapter: 13, note: 'What love actually looks like in practice' },
+    'Sitting with Uncertainty': { book: 'Hebrews', chapter: 11, note: 'Faith is confidence in what we cannot see' },
+    'Healing What Hurts': { book: 'Psalms', chapter: 147, note: 'God heals the brokenhearted' },
+    'The Inner Life': { book: 'Romans', chapter: 12, note: 'Transformation begins in the mind' },
+    'Facing Fear': { book: 'Joshua', chapter: 1, note: "God's call to courage in uncertain times" },
+    'Gratitude as a Way of Seeing': { book: 'Psalms', chapter: 103, note: 'Forget not all his benefits' },
+    'Letting Go': { book: 'Psalms', chapter: 37, note: 'Commit your way and trust' },
+    'Compassion Begins Within': { book: 'Psalms', chapter: 103, note: 'He remembers that we are dust' },
+    'Resurrection and Renewal': { book: 'John', chapter: 11, note: 'I am the resurrection and the life' },
+    'The Gift of the Present': { book: 'Matthew', chapter: 6, note: 'Do not worry about tomorrow' },
+    'Generosity of Spirit': { book: '2 Corinthians', chapter: 9, note: 'God loves a cheerful giver' },
+    'The Long Road of Growth': { book: 'Philippians', chapter: 1, note: 'He who began a good work will complete it' },
+    'Silence and Solitude': { book: 'Psalms', chapter: 62, note: 'My soul finds rest in God alone' },
+    'Relationships That Heal': { book: 'Hebrews', chapter: 10, note: 'Spur one another on toward love' },
+    'Work and Calling': { book: 'Colossians', chapter: 3, note: 'Work at it with all your heart' },
+    'Anxiety and Peace': { book: 'Philippians', chapter: 4, note: 'The peace that transcends understanding' },
+    'The God Who Sees': { book: 'Psalms', chapter: 139, note: 'You have searched me and you know me' },
+    'Pruning and Growth': { book: 'John', chapter: 15, note: 'Remain in the vine and bear much fruit' },
+    'Forgiveness as Freedom': { book: 'Psalms', chapter: 103, note: 'As far as the east is from the west' },
+    'Sabbath and Delight': { book: 'Psalms', chapter: 127, note: 'He grants sleep to those he loves' },
+    'Walking in the Light': { book: 'Proverbs', chapter: 10, note: 'Whoever walks in integrity walks securely' },
+    'Humility as Strength': { book: 'Philippians', chapter: 2, note: 'In humility value others above yourselves' },
+    'Living Generously': { book: 'Luke', chapter: 6, note: 'Give and it will be given to you' },
+    "Trusting God's Timing": { book: 'Psalms', chapter: 130, note: 'I wait for the Lord, my whole being waits' },
+    'The Power of Prayer': { book: 'Matthew', chapter: 7, note: 'Ask and it will be given to you' },
+    'Enough': { book: 'Philippians', chapter: 4, note: 'I have learned to be content' },
+    'Spiritual Disciplines': { book: 'Acts', chapter: 2, note: 'They devoted themselves to prayer and fellowship' },
+    'Suffering and Meaning': { book: 'Romans', chapter: 8, note: 'In all things God works for good' },
+    'New Seasons': { book: 'Isaiah', chapter: 43, note: 'See I am doing a new thing' },
+    'The Heart of Worship': { book: 'Romans', chapter: 12, note: 'Offer your bodies as a living sacrifice' },
+    'Boundaries and Wholeness': { book: 'Proverbs', chapter: 4, note: 'Above all else guard your heart' },
+    'Grief and Grace': { book: 'Psalms', chapter: 88, note: 'The most honest lament in Scripture' },
+    'Darkness and Dawn': { book: 'Psalms', chapter: 30, note: 'Weeping may stay for the night but joy comes in the morning' },
+    'Faith in the Ordinary': { book: 'Genesis', chapter: 28, note: 'God was in this place and I did not know it' },
+    'Wholehearted Living': { book: 'John', chapter: 10, note: 'I have come that you may have life to the full' },
+    'Redemption Stories': { book: 'Joel', chapter: 2, note: 'I will repay you for the years the locusts have eaten' },
+    'Thankfulness as Resistance': { book: 'Psalms', chapter: 107, note: 'Give thanks for his love endures forever' },
+    'Peace in the Storm': { book: 'Mark', chapter: 4, note: 'Jesus rebuked the wind — quiet be still' },
+    'The Gift of Weakness': { book: '2 Corinthians', chapter: 12, note: 'My power is made perfect in weakness' },
+    'Advent: Waiting and Longing': { book: 'Isaiah', chapter: 9, note: 'The people walking in darkness have seen a great light' },
+    'The Incarnation': { book: 'John', chapter: 1, note: 'The Word became flesh and dwelt among us' },
+    'Reflection and Renewal': { book: 'Psalms', chapter: 143, note: 'I meditate on all your works' },
+    'Peace on Earth': { book: 'John', chapter: 14, note: 'My peace I give you — not as the world gives' },
+    'Into the New Year': { book: 'Hebrews', chapter: 12, note: 'Run with perseverance the race marked out for you' }
+  };
+
+  const THEME_SCRIPTURE_DEFAULT = {
+    book: 'Psalms',
+    chapter: 23,
+    note: 'The shepherd who leads beside quiet waters'
+  };
+
+  function getScriptureSuggestedReadingForCurrentWeek() {
+    if (!WEEKLY_THEMES || !WEEKLY_THEMES.length) return null;
+    const slot = typeof getHomeWeeklyThemeSlotIndex === 'function' ? getHomeWeeklyThemeSlotIndex() : 0;
+    if (slot < 0 || slot >= WEEKLY_THEMES.length) return null;
+    const theme = WEEKLY_THEMES[slot];
+    if (!theme || !theme.title) return null;
+    const title = String(theme.title).trim();
+    let row = THEME_SCRIPTURE_MAP[title];
+    if (!row || !row.book) row = THEME_SCRIPTURE_DEFAULT;
+    const ch = Math.max(1, parseInt(String(row.chapter), 10) || 1);
+    return {
+      book: row.book,
+      chapter: ch,
+      note: row.note || THEME_SCRIPTURE_DEFAULT.note,
+      themeTitle: title
+    };
+  }
+
+  function initScriptureWeekReadingCard() {
+    const btn = document.getElementById('scriptureWeekReadingBtn');
+    if (!btn || btn.dataset.weekReadingBound) return;
+    btn.dataset.weekReadingBound = '1';
+    btn.addEventListener('click', function () {
+      const b = btn.getAttribute('data-book');
+      const c = Math.max(1, parseInt(String(btn.getAttribute('data-chapter') || '1'), 10) || 1);
+      if (!b) return;
+      if (typeof openReader === 'function') void openReader(b, c);
+    });
+  }
+
+  function renderScriptureWeekReadingCard() {
+    const card = document.getElementById('scriptureWeekReadingCard');
+    const kickerEl = document.getElementById('scriptureWeekReadingKicker');
+    const refEl = document.getElementById('scriptureWeekReadingRef');
+    const noteEl = document.getElementById('scriptureWeekReadingNote');
+    const btn = document.getElementById('scriptureWeekReadingBtn');
+    if (!card || !refEl || !noteEl || !btn) return;
+    const info = getScriptureSuggestedReadingForCurrentWeek();
+    if (!info) {
+      card.hidden = true;
+      return;
+    }
+    if (kickerEl) kickerEl.textContent = "This week's reading";
+    card.hidden = false;
+    refEl.textContent = info.book + ' ' + info.chapter;
+    noteEl.textContent = info.note || '';
+    btn.setAttribute('data-book', info.book);
+    btn.setAttribute('data-chapter', String(info.chapter));
+    initScriptureWeekReadingCard();
   }
 
   const GROUNDED_THEME_INTRO_SHOWN_KEY = 'grounded_theme_intro_shown';
@@ -10574,120 +10690,6 @@
     renderScripture();
   }
 
-  /**
-   * Suggested chapter per weekly theme title (48 curated themes + optional alternates).
-   * Slot uses getHomeWeeklyThemeSlotIndex() (Jan-1 week + grounded_theme_override when set).
-   * Book names align with Bible reader / openReader().
-   */
-  const THEME_SCRIPTURE_MAP = {
-    'Beginning Again': { book: 'Isaiah', chapter: 43, note: 'God declares he is doing something new' },
-    'Finding Rest': { book: 'Psalms', chapter: 23, note: 'The shepherd who leads beside quiet waters' },
-    'Permission to pause': { book: 'Psalms', chapter: 23, note: 'The shepherd who leads beside quiet waters' },
-    'Knowing Who You Are': { book: 'Psalms', chapter: 139, note: 'You are fully known and fully loved' },
-    'The Courage to Be Honest': { book: 'Psalms', chapter: 13, note: "David's most raw and honest prayer" },
-    'Love as a Practice': { book: '1 Corinthians', chapter: 13, note: 'What love actually looks like in practice' },
-    'Sitting with Uncertainty': { book: 'Hebrews', chapter: 11, note: 'Faith is confidence in what we cannot see' },
-    'Healing What Hurts': { book: 'Psalms', chapter: 147, note: 'God heals the brokenhearted' },
-    'The Inner Life': { book: 'Romans', chapter: 12, note: 'Transformation begins in the mind' },
-    'Facing Fear': { book: 'Joshua', chapter: 1, note: "God's call to courage in uncertain times" },
-    'Gratitude as a Way of Seeing': { book: 'Psalms', chapter: 103, note: 'Forget not all his benefits' },
-    'Letting Go': { book: 'Psalms', chapter: 37, note: 'Commit your way and trust' },
-    'Compassion Begins Within': { book: 'Psalms', chapter: 103, note: 'He remembers that we are dust' },
-    'Resurrection and Renewal': { book: 'John', chapter: 11, note: 'I am the resurrection and the life' },
-    'The Gift of the Present': { book: 'Matthew', chapter: 6, note: 'Do not worry about tomorrow' },
-    'Generosity of Spirit': { book: '2 Corinthians', chapter: 9, note: 'God loves a cheerful giver' },
-    'The Long Road of Growth': { book: 'Philippians', chapter: 1, note: 'He who began a good work will complete it' },
-    'Silence and Solitude': { book: 'Psalms', chapter: 62, note: 'My soul finds rest in God alone' },
-    'Relationships That Heal': { book: 'Hebrews', chapter: 10, note: 'Spur one another on toward love' },
-    'Work and Calling': { book: 'Colossians', chapter: 3, note: 'Work at it with all your heart' },
-    'Anxiety and Peace': { book: 'Philippians', chapter: 4, note: 'The peace that transcends understanding' },
-    'The God Who Sees': { book: 'Psalms', chapter: 139, note: 'You have searched me and you know me' },
-    'Pruning and Growth': { book: 'John', chapter: 15, note: 'Remain in the vine and bear much fruit' },
-    'Forgiveness as Freedom': { book: 'Psalms', chapter: 103, note: 'As far as the east is from the west' },
-    'Sabbath and Delight': { book: 'Psalms', chapter: 127, note: 'He grants sleep to those he loves' },
-    'Walking in the Light': { book: 'Proverbs', chapter: 10, note: 'Whoever walks in integrity walks securely' },
-    'Humility as Strength': { book: 'Philippians', chapter: 2, note: 'In humility value others above yourselves' },
-    'Living Generously': { book: 'Luke', chapter: 6, note: 'Give and it will be given to you' },
-    "Trusting God's Timing": { book: 'Psalms', chapter: 130, note: 'I wait for the Lord, my whole being waits' },
-    'The Power of Prayer': { book: 'Matthew', chapter: 7, note: 'Ask and it will be given to you' },
-    'Enough': { book: 'Philippians', chapter: 4, note: 'I have learned to be content' },
-    'Spiritual Disciplines': { book: 'Acts', chapter: 2, note: 'They devoted themselves to prayer and fellowship' },
-    'Suffering and Meaning': { book: 'Romans', chapter: 8, note: 'In all things God works for good' },
-    'New Seasons': { book: 'Isaiah', chapter: 43, note: 'See I am doing a new thing' },
-    'The Heart of Worship': { book: 'Romans', chapter: 12, note: 'Offer your bodies as a living sacrifice' },
-    'Boundaries and Wholeness': { book: 'Proverbs', chapter: 4, note: 'Above all else guard your heart' },
-    'Grief and Grace': { book: 'Psalms', chapter: 88, note: 'The most honest lament in Scripture' },
-    'Darkness and Dawn': { book: 'Psalms', chapter: 30, note: 'Weeping may stay for the night but joy comes in the morning' },
-    'Faith in the Ordinary': { book: 'Genesis', chapter: 28, note: 'God was in this place and I did not know it' },
-    'Wholehearted Living': { book: 'John', chapter: 10, note: 'I have come that you may have life to the full' },
-    'Redemption Stories': { book: 'Joel', chapter: 2, note: 'I will repay you for the years the locusts have eaten' },
-    'Thankfulness as Resistance': { book: 'Psalms', chapter: 107, note: 'Give thanks for his love endures forever' },
-    'Peace in the Storm': { book: 'Mark', chapter: 4, note: 'Jesus rebuked the wind — quiet be still' },
-    'The Gift of Weakness': { book: '2 Corinthians', chapter: 12, note: 'My power is made perfect in weakness' },
-    'Advent: Waiting and Longing': { book: 'Isaiah', chapter: 9, note: 'The people walking in darkness have seen a great light' },
-    'The Incarnation': { book: 'John', chapter: 1, note: 'The Word became flesh and dwelt among us' },
-    'Reflection and Renewal': { book: 'Psalms', chapter: 143, note: 'I meditate on all your works' },
-    'Peace on Earth': { book: 'John', chapter: 14, note: 'My peace I give you — not as the world gives' },
-    'Into the New Year': { book: 'Hebrews', chapter: 12, note: 'Run with perseverance the race marked out for you' }
-  };
-
-  const THEME_SCRIPTURE_DEFAULT = {
-    book: 'Psalms',
-    chapter: 23,
-    note: 'The shepherd who leads beside quiet waters'
-  };
-
-  function getScriptureSuggestedReadingForCurrentWeek() {
-    if (!WEEKLY_THEMES || !WEEKLY_THEMES.length) return null;
-    const slot = typeof getHomeWeeklyThemeSlotIndex === 'function' ? getHomeWeeklyThemeSlotIndex() : 0;
-    if (slot < 0 || slot >= WEEKLY_THEMES.length) return null;
-    const theme = WEEKLY_THEMES[slot];
-    if (!theme || !theme.title) return null;
-    const title = String(theme.title).trim();
-    let row = THEME_SCRIPTURE_MAP[title];
-    if (!row || !row.book) row = THEME_SCRIPTURE_DEFAULT;
-    const ch = Math.max(1, parseInt(String(row.chapter), 10) || 1);
-    return {
-      book: row.book,
-      chapter: ch,
-      note: row.note || THEME_SCRIPTURE_DEFAULT.note,
-      themeTitle: title
-    };
-  }
-
-  function initScriptureWeekReadingCard() {
-    const btn = document.getElementById('scriptureWeekReadingBtn');
-    if (!btn || btn.dataset.weekReadingBound) return;
-    btn.dataset.weekReadingBound = '1';
-    btn.addEventListener('click', function () {
-      const b = btn.getAttribute('data-book');
-      const c = Math.max(1, parseInt(String(btn.getAttribute('data-chapter') || '1'), 10) || 1);
-      if (!b) return;
-      if (typeof openReader === 'function') void openReader(b, c);
-    });
-  }
-
-  function renderScriptureWeekReadingCard() {
-    const card = document.getElementById('scriptureWeekReadingCard');
-    const kickerEl = document.getElementById('scriptureWeekReadingKicker');
-    const refEl = document.getElementById('scriptureWeekReadingRef');
-    const noteEl = document.getElementById('scriptureWeekReadingNote');
-    const btn = document.getElementById('scriptureWeekReadingBtn');
-    if (!card || !refEl || !noteEl || !btn) return;
-    const info = getScriptureSuggestedReadingForCurrentWeek();
-    if (!info) {
-      card.hidden = true;
-      return;
-    }
-    if (kickerEl) kickerEl.textContent = "This week's reading";
-    card.hidden = false;
-    refEl.textContent = info.book + ' ' + info.chapter;
-    noteEl.textContent = info.note || '';
-    btn.setAttribute('data-book', info.book);
-    btn.setAttribute('data-chapter', String(info.chapter));
-    initScriptureWeekReadingCard();
-  }
-  
   function renderScripture() {
     const total = BIBLE_BOOKS.ot.length + BIBLE_BOOKS.nt.length;
     const done = completedBooks.length;
