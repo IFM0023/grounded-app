@@ -1,0 +1,13 @@
+{
+  "name": "grounded-app",
+  "private": true,
+  "description": "Local preview: npm run dev (static). For /api/* routes (chapter & verse AI), run npm run dev:api (npx vercel dev) with OPENAI_API_KEY in .env.local.",
+  "scripts": {
+    "dev": "live-server . --port=5500 --open=/index.html --watch=index.html,sw.js,bibleData.js,manifest.json",
+    "dev:onboarding": "live-server . --port=5500 --open=/index.html?onboarding=1 --watch=index.html,sw.js,bibleData.js,manifest.json,js/app-themes.js,js/onboarding.js",
+    "dev:api": "vercel dev"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

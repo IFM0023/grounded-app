@@ -10,15 +10,31 @@
  * Bump CACHE_VERSION whenever you ship changes you want users to pick up
  * immediately. Old caches will be deleted on the next page load.
  */
-const CACHE_VERSION = 'grounded-v10';
+const CACHE_VERSION = 'grounded-v176';
+/* Resolve shell URLs from this script’s folder so the app works in a subpath. */
+const SW_DIR = new URL('./', self.location.href);
+function shellUrl(path) {
+  return new URL(path, SW_DIR).href;
+}
+const INDEX_HTML = shellUrl('index.html');
 const APP_SHELL = [
-  '/',
-  '/index.html',
-  '/bibleData.js',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/assets/cross-floral.png'
+  SW_DIR.href,
+  INDEX_HTML,
+  shellUrl('bibleData.js'),
+  shellUrl('js/app-themes.js'),
+  shellUrl('js/onboarding.js'),
+  shellUrl('js/weekly-themes.js'),
+  shellUrl('css/onboarding.css'),
+  shellUrl('manifest.json'),
+  shellUrl('icon-192.png'),
+  shellUrl('icon-512.png'),
+  shellUrl('assets/cross-floral.png'),
+  shellUrl('assets/images/prayer-bg.png'),
+  shellUrl('assets/images/prayer-hero.png'),
+  shellUrl('assets/images/word.jpg'),
+  shellUrl('assets/images/reflect.jpg'),
+  shellUrl('assets/images/today-banner.jpg'),
+  shellUrl('assets/images/reset-hero.png')
 ];
 
 self.addEventListener('install', (event) => {
@@ -38,10 +54,39 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
-  if (req.method !== 'GET') return;
-
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  /* Never cache or short-circuit serverless AI routes — always hit the network. */
+  if (url.pathname.startsWith('/api/')) {
+    event.respondWith(fetch(req));
+    return;
+  }
+  if (req.method !== 'GET') return;
+
+  /* HTML (navigations + explicit *.html fetches): network-first so updated
+     index.html is never stuck behind a stale cache-first hit. Offline falls
+     back to the precached shell. */
+  const accept = req.headers.get('accept') || '';
+  const looksLikeHtml =
+    req.mode === 'navigate' ||
+    url.pathname.endsWith('.html') ||
+    (accept.includes('text/html') && !accept.includes('application/json'));
+  if (looksLikeHtml) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.status === 200 && res.type === 'basic') {
+            const copy = res.clone();
+            caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() =>
+          caches.match(req).then((c) => c || caches.match(INDEX_HTML))
+        )
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(req).then((cached) => {
@@ -52,7 +97,11 @@ self.addEventListener('fetch', (event) => {
         caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
         return res;
       }).catch(() => {
-        if (req.mode === 'navigate') return caches.match('/index.html');
+        const p = url.pathname || '';
+        if (/\.(png|jpe?g|webp|gif|ico|svg|woff2?|mp3|m4a|ogg)$/i.test(p)) {
+          return new Response('', { status: 503, statusText: 'Offline' });
+        }
+        return caches.match(INDEX_HTML);
       });
     })
   );

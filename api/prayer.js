@@ -1,3 +1,7 @@
+import { loadLocalEnv } from './load-local-env.js';
+import { readRequestJson } from './read-request-json.js';
+loadLocalEnv();
+
 // Vercel serverless function — generates a short Christian prayer via OpenAI.
 // Requires the OPENAI_API_KEY env var to be set in the Vercel project.
 // If unset or upstream fails, the client falls back to its structured generator.
@@ -19,20 +23,53 @@ Last line: "Amen."
 
 Total lines: 5 or 6. Plain text only. No markdown, no bullets, no numbering, no quotes.`;
 
-function readJsonBody(req) {
-  if (req.body && typeof req.body === 'object') return req.body;
-  if (typeof req.body === 'string') {
-    try { return JSON.parse(req.body); } catch { return {}; }
-  }
-  return {};
+function clean(s) {
+  return String(s || '').replace(/\s+/g, ' ').trim();
 }
 
-function buildUserMessage({ type, subject, input, emotion }) {
-  const clean = (s) => String(s || '').replace(/\s+/g, ' ').trim().slice(0, 400);
-  const t = clean(type) || 'general';
-  const s = clean(subject) || 'none';
-  const e = clean(emotion) || 'neutral';
-  const i = clean(input) || 'none';
+/** When the app sends a weekly theme, extend the system prompt so prayers feel connected to that arc. */
+function buildSystemPromptForBody(body) {
+  const wt = clean(body && body.weeklyTheme).slice(0, 160);
+  const wts = clean(body && body.weeklyThemeSub).slice(0, 280);
+  if (!wt) return SYSTEM_PROMPT;
+  return (
+    SYSTEM_PROMPT +
+    '\n\nWeekly devotional context (shape warmth and imagery to fit this spiritual season; do not read aloud ' +
+    'the theme as a title, label, or worksheet heading, and do not quote these strings verbatim):\n' +
+    `Theme: ${wt}\n` +
+    (wts ? `Angle: ${wts}\n` : '') +
+    'Let the prayer feel honest and adjacent to what they are sitting with this week — natural, not forced.'
+  );
+}
+
+function buildUserMessage({ type, subject, input, emotion, fromVerse, verseRef, verseText, intent, tone }) {
+  const t = clean(type).slice(0, 80) || 'general';
+  const s = clean(subject).slice(0, 200) || 'none';
+  const e = clean(emotion).slice(0, 40) || 'neutral';
+  const i = clean(input).slice(0, 400) || 'none';
+  if (String(t).toLowerCase() === 'open') {
+    const intentStr = clean(intent).slice(0, 400) || 'user unsure what to pray';
+    const toneStr = clean(tone).slice(0, 120) || 'calm, simple, grounded';
+    return (
+      'The user asked for help finding words to pray. They are not sure what to say right now.\n' +
+      `Situation: ${intentStr}\n` +
+      `Voice: ${toneStr}\n\n` +
+      'Write one short prayer they could honestly say out loud. Use the same structural format as always ' +
+      '(one opening line, then body lines each on their own line, then Amen.). ' +
+      'Body: 3–5 short sentences total across those lines — simple everyday words, warm and real, not preachy or formal. ' +
+      'No filler, no repeating the same idea twice.'
+    );
+  }
+  if (fromVerse && verseText && verseRef) {
+    const vt = clean(verseText).slice(0, 700);
+    const vr = clean(verseRef).slice(0, 80);
+    return (
+      `Write a prayer inspired by this verse: "${vt}" (${vr}).\n` +
+      `Theme focus: ${t}\nEmotion: ${e}\n` +
+      `Do not quote the verse verbatim; let its meaning shape the prayer.\n` +
+      (i !== 'none' ? `Additional intent: ${i}` : '')
+    );
+  }
   return `Type: ${t}\nSubject: ${s}\nEmotion: ${e}\nIntent: ${i}`;
 }
 
@@ -82,8 +119,9 @@ export default async function handler(req, res) {
     return res.status(503).json({ error: 'AI not configured' });
   }
 
-  const body = readJsonBody(req);
+  const body = await readRequestJson(req);
   const userMessage = buildUserMessage(body);
+  const systemPrompt = buildSystemPromptForBody(body);
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
@@ -100,7 +138,7 @@ export default async function handler(req, res) {
         temperature: 0.85,
         max_tokens: 240,
         messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'system', content: systemPrompt },
           { role: 'user', content: userMessage }
         ]
       }),

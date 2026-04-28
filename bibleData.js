@@ -1,15 +1,17 @@
 /* ═══════════════════════════════════════════════════════════
-   BIBLE DATA LAYER (KJV — Public Domain)
+   BIBLE DATA — Public domain only: KJV, WEB, ASV
    ═══════════════════════════════════════════════════════════
    Structure:
-     BIBLE[bookName][chapterNumber] = [verse1, verse2, ...]
-   Verses are 1-indexed in source, but stored as a 0-indexed array.
-     - To get verse N, use:  BIBLE.Genesis[1][N - 1]
-   This is a starter sample. Add more chapters/books over time
-   without changing the structure or any consuming code.
+     BIBLE[versionId][bookName][chapterNumber] = [verse1, verse2, ...]
+   versionId: "kjv" | "web" | "asv"
+   Verses are stored as a 0-indexed array (verse N is index N - 1).
+
+   Embedded text below is a small offline sample for KJV only. Chapters not
+   listed here are loaded at runtime via bible-api.com using the same
+   translation code (public-domain sources).
    ═══════════════════════════════════════════════════════════ */
 
-const BIBLE = {
+const BIBLE_KJV_SAMPLE = {
   Genesis: {
     1: [
       "In the beginning God created the heaven and the earth.",
@@ -112,5 +114,11 @@ const BIBLE = {
   }
 };
 
+const BIBLE = {
+  kjv: BIBLE_KJV_SAMPLE,
+  web: {},
+  asv: {}
+};
+
 window.BIBLE = BIBLE;
-console.log('[bibleData.js] Loaded.', window.BIBLE);
+console.log('[bibleData.js] Loaded (kjv / web / asv).', window.BIBLE);

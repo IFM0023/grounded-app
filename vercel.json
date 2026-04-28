@@ -1,0 +1,29 @@
+{
+  "rewrites": [
+    { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/terms", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/chapter-explain-structured.js": { "maxDuration": 60 },
+    "api/chapter-explain.js": { "maxDuration": 60 },
+    "api/verse-explain-structured.js": { "maxDuration": 45 },
+    "api/verse-explanation.js": { "maxDuration": 30 },
+    "api/verse-breakdown.js": { "maxDuration": 30 },
+    "api/prayer.js": { "maxDuration": 30 }
+  },
+  "headers": [
+    {
+      "source": "/index.html",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+    },
+    {
+      "source": "/",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+    }
+  ]
+}
