@@ -45,6 +45,32 @@ body.onboarding-active {
   min-height: 40px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+}
+
+.onboarding-skip-link {
+  margin-left: auto;
+  padding: 8px 2px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-light, #8a7a72);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 8px;
+}
+
+.onboarding-skip-link:hover {
+  color: #6a5c56;
+}
+
+.onboarding-skip-link[hidden] {
+  display: none !important;
 }
 
 .onboarding-back {
@@ -505,6 +531,15 @@ body.onboarding-active {
   padding-top: 4px;
 }
 
+.onboarding-footer-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+}
+
 .onboarding-dots {
   display: flex;
   gap: 8px;
@@ -557,4 +592,16 @@ body.onboarding-active {
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+}
+
+.onboarding-final-btn-hint {
+  margin: 0;
+  max-width: 20rem;
+  text-align: center;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-light, #8a7a72);
 }

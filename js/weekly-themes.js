@@ -502,19 +502,44 @@
       var raw = global.localStorage.getItem(GROUNDED_THEME_OVERRIDE_KEY);
       if (!raw) return null;
       var o = JSON.parse(raw);
+      if (!o || typeof o.themeIndex !== 'number') return null;
+      if (o.themeIndex < 0 || o.themeIndex >= WEEKLY_THEMES.length) return null;
+      if (typeof o.untilEpoch === 'number') {
+        if (Date.now() > o.untilEpoch) {
+          try {
+            global.localStorage.removeItem(GROUNDED_THEME_OVERRIDE_KEY);
+          } catch (e2) {}
+          return null;
+        }
+        return o.themeIndex;
+      }
       var wk = momentFlowYearWeekIndexFromJan1(d || new Date());
-      if (!o || typeof o.week !== 'number' || typeof o.themeIndex !== 'number') return null;
+      if (typeof o.week !== 'number') return null;
       if (o.week !== wk) {
         try {
           global.localStorage.removeItem(GROUNDED_THEME_OVERRIDE_KEY);
-        } catch (e2) {}
+        } catch (e3) {}
         return null;
       }
-      if (o.themeIndex < 0 || o.themeIndex >= WEEKLY_THEMES.length) return null;
       return o.themeIndex;
     } catch (e) {
       return null;
     }
+  }
+
+  /** First-week personalization: pinned theme index for ~7 days (untilEpoch ms). */
+  function writeGroundedThemeOverride(themeIndex, days) {
+    try {
+      if (!global.localStorage) return;
+      var ix = typeof themeIndex === 'number' ? themeIndex : parseInt(themeIndex, 10);
+      if (isNaN(ix) || ix < 0 || ix >= WEEKLY_THEMES.length) return;
+      var d = typeof days === 'number' && days > 0 ? days : 7;
+      var until = Date.now() + d * 86400000;
+      global.localStorage.setItem(
+        GROUNDED_THEME_OVERRIDE_KEY,
+        JSON.stringify({ themeIndex: ix, untilEpoch: until })
+      );
+    } catch (e) {}
   }
 
   /** Mon=1 … Fri=5 for content; Sat/Sun use Friday (5). */
@@ -548,4 +573,5 @@
   global.getMomentFlowWeeklyContext = getMomentFlowWeeklyContext;
   global.momentFlowYearWeekIndexFromJan1 = momentFlowYearWeekIndexFromJan1;
   global.readGroundedThemeOverride = readGroundedThemeOverride;
+  global.writeGroundedThemeOverride = writeGroundedThemeOverride;
 })(typeof window !== 'undefined' ? window : this);
