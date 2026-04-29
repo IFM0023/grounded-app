@@ -10,7 +10,7 @@
  * Bump CACHE_VERSION whenever you ship changes you want users to pick up
  * immediately. Old caches will be deleted on the next page load.
  */
-const CACHE_VERSION = 'grounded-v177';
+const CACHE_VERSION = 'grounded-v178';
 /* Resolve shell URLs from this script’s folder so the app works in a subpath. */
 const SW_DIR = new URL('./', self.location.href);
 function shellUrl(path) {
@@ -23,6 +23,8 @@ const APP_SHELL = [
   shellUrl('bibleData.js'),
   shellUrl('js/app-themes.js'),
   shellUrl('js/onboarding.js'),
+  shellUrl('js/grounded-home-weekly-themes-data.js'),
+  shellUrl('js/grounded-home-weekly-theme-meta.js'),
   shellUrl('js/weekly-themes.js'),
   shellUrl('css/onboarding.css'),
   shellUrl('manifest.json'),
