@@ -262,7 +262,7 @@
     if (isLegalMarketingPathname()) {
       root.setAttribute('hidden', '');
       root.setAttribute('aria-hidden', 'true');
-      root.classList.remove('is-visible');
+      root.classList.remove('is-visible', 'onboarding-root--closing');
       document.body.classList.remove('onboarding-active');
       return;
     }
@@ -270,7 +270,7 @@
     if (!GroundedThemes.shouldShowOnboardingUI()) {
       root.setAttribute('hidden', '');
       root.setAttribute('aria-hidden', 'true');
-      root.classList.remove('is-visible');
+      root.classList.remove('is-visible', 'onboarding-root--closing');
       document.body.classList.remove('onboarding-active');
       return;
     }
@@ -292,6 +292,7 @@
     }
 
     document.body.classList.add('onboarding-active');
+    root.classList.remove('onboarding-root--closing');
     root.removeAttribute('hidden');
     root.setAttribute('aria-hidden', 'false');
     requestAnimationFrame(function () {
@@ -539,9 +540,11 @@
             global.applyGroundedOnboardingFinish({ skipped: skippedFinish, state: done });
           } catch (e) {}
         }
+        root.classList.add('onboarding-root--closing');
         root.classList.remove('is-visible');
         document.body.classList.remove('onboarding-active');
         setTimeout(function () {
+          root.classList.remove('onboarding-root--closing');
           root.setAttribute('hidden', '');
           root.setAttribute('aria-hidden', 'true');
         }, 380);

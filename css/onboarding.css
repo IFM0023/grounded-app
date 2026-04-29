@@ -30,6 +30,14 @@ body.onboarding-active {
   display: none !important;
 }
 
+/* After completion the root loses .is-visible (pointer-events: none on the root only).
+   Descendants still default to auto and stay hit targets; parent opacity does not
+   disable clicks, so the faded overlay could block the entire app. */
+.onboarding-root.onboarding-root--closing,
+.onboarding-root.onboarding-root--closing * {
+  pointer-events: none !important;
+}
+
 .onboarding-inner {
   width: 100%;
   max-width: 400px;
