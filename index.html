@@ -314,38 +314,73 @@
   .home-daily-invite{text-align:center;padding:var(--sp-1) var(--sp-2) 0;margin-bottom:var(--sp-4)}
   .home-invite-title{font-size:22px;font-weight:500;letter-spacing:-0.35px;color:var(--text);margin:0 0 var(--sp-2);line-height:1.28}
   .home-invite-sub.display-font{font-size:13px;font-style:italic;font-weight:400;color:var(--text-light);line-height:1.6;margin:0 auto var(--sp-4);max-width:19rem;opacity:0.88;letter-spacing:0.04em}
-  .home-weekly-theme-block{text-align:center;margin:0 auto 22px;padding:0 8px;max-width:22rem}
-  .home-weekly-kicker{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-strong);opacity:0.85;margin:0 0 8px}
+  .home-weekly-theme-block{position:relative;text-align:center;margin:14px auto 30px;padding:22px 18px 26px;max-width:22rem;box-sizing:border-box;border-radius:16px;background:rgba(255,251,247,0.52);border:1px solid rgba(234,208,204,0.22);box-shadow:0 1px 0 rgba(255,255,255,0.55) inset,0 10px 36px rgba(90,74,66,0.04)}
+  .home-weekly-kicker-row{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 0 4px;flex-wrap:wrap}
+  .home-weekly-kicker{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-strong);opacity:0.85;margin:0}
+  .home-weekly-theme-info{margin:0;padding:0;border:none;background:transparent;font-size:14px;line-height:1;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0.85;vertical-align:middle}
+  .home-weekly-theme-info:hover{opacity:1}
+  .home-weekly-theme-info:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px;border-radius:4px}
+  .home-weekly-theme-info-popover{position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:8px;z-index:50;max-width:min(20rem,calc(100vw - 32px));padding:12px 14px;border-radius:12px;border:1px solid rgba(234,208,204,0.45);background:var(--bg);box-shadow:0 10px 28px rgba(0,0,0,0.08);text-align:left;font-family:'Inter',system-ui,sans-serif;font-size:12.5px;line-height:1.5;color:var(--text);box-sizing:border-box}
+  .home-weekly-theme-info-popover[hidden]{display:none!important}
+  .theme-education-sheet{position:fixed;inset:0;z-index:10080;display:flex;align-items:flex-end;justify-content:center;padding:0 16px 0;box-sizing:border-box;pointer-events:none;opacity:0;visibility:hidden;transition:opacity 0.35s ease,visibility 0s linear 0.35s}
+  .theme-education-sheet.theme-education-sheet--open{pointer-events:auto;opacity:1;visibility:visible;transition:opacity 0.35s ease,visibility 0s linear 0s}
+  .theme-education-sheet__backdrop{position:absolute;inset:0;background:rgba(28,22,18,0.48);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+  .theme-education-sheet__panel{position:relative;width:100%;max-width:24rem;border-radius:20px 20px 0 0;border:1px solid rgba(234,208,204,0.4);border-bottom:none;background:#fff;box-shadow:0 -12px 48px rgba(0,0,0,0.14);padding:24px 20px 32px;box-sizing:border-box;transform:translateY(110%);transition:transform 0.38s cubic-bezier(0.22,1,0.36,1)}
+  .theme-education-sheet.theme-education-sheet--open .theme-education-sheet__panel{transform:translateY(0)}
+  .theme-education-sheet__top-accent{width:40px;height:4px;border-radius:99px;background:var(--petal);margin:0 auto 0}
+  .theme-education-sheet__title{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:600;color:var(--text);margin:16px 0 0;line-height:1.25;text-align:center}
+  .theme-education-sheet__body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.7;color:var(--text-light);margin:12px auto 0;text-align:center;max-width:22rem;padding:0 4px;box-sizing:border-box}
+  .theme-education-sheet__theme-line{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.55;font-weight:500;color:var(--text);margin:8px 0 0;text-align:center;max-width:22rem;margin-left:auto;margin-right:auto}
+  .theme-education-sheet__dots{display:flex;justify-content:center;align-items:center;gap:10px;margin:16px 0 0}
+  .theme-education-sheet__dot{width:8px;height:8px;border-radius:50%;box-sizing:border-box;flex-shrink:0;transition:transform 0.2s ease,background 0.2s ease,border-color 0.2s ease}
+  .theme-education-sheet__dot--off{background:transparent;border:1px solid rgba(120,100,95,0.42)}
+  .theme-education-sheet__dot--on{background:var(--rose-btn);border:1px solid var(--rose-btn);transform:scale(1.08)}
+  .theme-education-sheet__dots-caption{font-family:'Inter',system-ui,sans-serif;font-size:10px;color:var(--text-light);margin:8px 0 0;text-align:center;letter-spacing:0.02em}
+  .theme-education-sheet__btn{display:block;width:100%;margin:20px 0 0;padding:14px 20px;border-radius:50px;border:none;background:var(--rose-btn);font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:600;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+  .theme-education-sheet__btn:active{transform:scale(0.98);opacity:0.94}
+  .guided-moment-screen .gm-week-about-toggle{margin:2px auto 0;padding:0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--text-light);text-decoration:underline;text-underline-offset:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0.88;max-width:22rem}
+  .guided-moment-screen .gm-week-about-toggle:hover{opacity:1}
+  .guided-moment-screen .gm-week-about-toggle[hidden]{display:none!important}
+  .guided-moment-screen .gm-week-about-body{font-size:13px;line-height:1.65;color:var(--text-light);margin:8px auto 0;max-width:22rem;text-align:center;padding:0 4px;box-sizing:border-box}
+  .guided-moment-screen .gm-week-about-body[hidden]{display:none!important}
+  .guided-moment-screen #gmMomentIntroBlock.gm-intro--weekly .gm-week-about-toggle{color:var(--text-light)}
   .home-weekly-title{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:500;color:var(--text);margin:0 0 8px;line-height:1.3;letter-spacing:-0.2px}
-  .home-weekly-desc{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.5;color:#9c9792;margin:0}
-  .home-weekly-from-why{font-family:'Inter',system-ui,sans-serif;font-size:11px;line-height:1.45;color:var(--text-light);margin:6px 0 0;text-align:center;max-width:22rem}
-  .home-weekly-theme-swap{margin:6px 0 0;padding:0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-style:normal;font-weight:400;color:var(--text-light);line-height:1.45;cursor:pointer;-webkit-tap-highlight-color:transparent;text-decoration:underline;text-underline-offset:2px;opacity:0.5;letter-spacing:0.02em}
+  .home-weekly-desc{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.55;color:#9c9792;margin:0}
+  .home-weekly-hook{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;line-height:1.58;color:var(--text);margin:10px auto 0;text-align:center;max-width:21rem;padding:0 6px;box-sizing:border-box;letter-spacing:0.01em;opacity:0.93}
+  .home-weekly-summary{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.72;color:var(--text);margin:12px 0 0;text-align:center;max-width:22rem;padding:0 4px;box-sizing:border-box}
+  .home-weekly-anchor-ref{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-style:italic;font-weight:400;color:var(--text-light);margin:8px 0 0;text-align:center;max-width:22rem;line-height:1.45}
+  .home-weekly-preview-rule{width:min(200px,72%);height:1px;margin:16px auto 0;background:linear-gradient(90deg,transparent,rgba(186,160,148,0.32),transparent);border:0;padding:0}
+  .home-weekly-theme-swap{margin:10px 0 0;padding:0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-style:normal;font-weight:400;color:var(--text-light);line-height:1.45;cursor:pointer;-webkit-tap-highlight-color:transparent;text-decoration:underline;text-underline-offset:2px;opacity:0.5;letter-spacing:0.02em}
   .home-weekly-theme-swap:hover{opacity:0.72}
   .home-weekly-theme-swap:active{opacity:0.62}
-  .home-weekly-hook{font-size:13.5px;line-height:1.55;color:var(--text-light);margin:10px auto 0;max-width:22rem;text-align:center}
-  .home-weekly-dayline{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-strong);margin:14px 0 0;opacity:0.9}
+  .home-weekly-dayline{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;letter-spacing:0.11em;text-transform:uppercase;color:var(--text-light);margin:0 0 12px;opacity:0.78;line-height:1.4}
   .home-weekly-focus-row{margin-top:12px;padding-top:12px;border-top:1px solid rgba(234,208,204,0.28);text-align:center}
   .home-weekly-focus-label{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-strong);margin:0 0 6px;opacity:0.88}
-  .home-weekly-focus-word{font-size:18px;font-weight:500;color:var(--text);margin:0;line-height:1.25;letter-spacing:-0.02em}
+  .home-weekly-focus-word{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:var(--text);margin:0;line-height:1.35;letter-spacing:-0.02em;max-width:20rem;margin-left:auto;margin-right:auto}
   .theme-picker-overlay{position:fixed;inset:0;z-index:960;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;pointer-events:none;transition:visibility 0s linear 0.35s}
   .theme-picker-overlay.theme-picker-overlay--open{visibility:visible;pointer-events:auto;transition-delay:0s}
-  .theme-picker-scrim{position:absolute;inset:0;background:var(--overlay-bg);opacity:0;transition:opacity 0.3s ease}
+  .theme-picker-scrim{position:absolute;inset:0;background:rgba(0,0,0,0.4);opacity:0;transition:opacity 0.3s ease}
   .theme-picker-overlay.theme-picker-overlay--open .theme-picker-scrim{opacity:1}
   .theme-picker-sheet-wrap{position:relative;width:100%;max-width:420px;margin:0 auto;pointer-events:auto;transform:translateY(105%);transition:transform 0.34s cubic-bezier(0.22,1,0.36,1)}
   .theme-picker-overlay.theme-picker-overlay--open .theme-picker-sheet-wrap{transform:translateY(0)}
-  .theme-picker-sheet{position:relative;background:linear-gradient(180deg,var(--blush-strong) 0%,var(--primary) 38%,var(--paper) 100%);border:1px solid var(--paper-border);border-bottom:none;border-radius:22px 22px 0 0;padding:8px 4px 4px;max-height:min(70vh,480px);display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
-  .theme-picker-handle{width:36px;height:4px;border-radius:99px;background:rgba(90,74,66,0.18);margin:4px auto 12px;flex-shrink:0}
-  .theme-picker-head{padding:0 18px 10px;text-align:center;flex-shrink:0}
+  .theme-picker-sheet{position:relative;background:#fff;border:none;border-radius:20px 20px 0 0;padding:20px 20px 40px;max-height:min(70vh,480px);display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,0.15);box-sizing:border-box}
+  .theme-picker-handle{width:36px;height:4px;border-radius:99px;background:rgba(90,74,66,0.18);margin:0 auto 10px;flex-shrink:0}
+  .theme-picker-head{padding:0 40px 12px;text-align:center;flex-shrink:0;position:relative}
   .theme-picker-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:500;margin:0 0 6px;color:var(--text);letter-spacing:-0.2px}
-  .theme-picker-sub{font-size:12px;color:var(--text-light);margin:0;line-height:1.45;opacity:0.9}
-  .theme-picker-close{position:absolute;top:10px;right:12px;width:40px;height:40px;border:none;border-radius:50%;background:transparent;color:var(--text-light);font-size:22px;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center}
-  .theme-picker-list{list-style:none;margin:0;padding:0 8px;overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch}
-  .theme-picker-item{width:100%;text-align:left;padding:14px 14px 16px;border:none;background:transparent;cursor:pointer;border-bottom:1px solid var(--border);-webkit-tap-highlight-color:transparent;border-radius:0}
-  .theme-picker-list > li:last-child .theme-picker-item{border-bottom:none}
-  .theme-picker-item-title{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:500;color:var(--text);margin:0 0 4px;line-height:1.3;letter-spacing:-0.15px}
+  .theme-picker-sub{font-size:12px;color:var(--text-light);margin:0;line-height:1.45;opacity:0.95}
+  .theme-picker-close{position:absolute;top:16px;right:16px;width:36px;height:36px;margin:0;padding:0;border:none;border-radius:10px;background:transparent;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center}
+  .theme-picker-close svg{width:20px;height:20px;display:block;flex-shrink:0;stroke:currentColor}
+  .theme-picker-close:hover,.theme-picker-close:focus-visible{background:rgba(90,74,66,0.06);outline:none}
+  .theme-picker-list{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch}
+  .theme-picker-list > li + li{border-top:1px solid rgba(90,74,66,0.1)}
+  .theme-picker-item{width:100%;text-align:left;padding:14px 0;border:none;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:10px;box-sizing:border-box;transition:background 0.15s ease}
+  .theme-picker-item:hover,.theme-picker-item:focus-visible{background:var(--primary);outline:none}
+  .theme-picker-item:active{background:var(--primary)}
+  .theme-picker-item-title{font-family:'Inter',system-ui,sans-serif;font-size:15px;font-weight:500;color:var(--text);margin:0 0 4px;line-height:1.35}
   .theme-picker-item-sub{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.45;color:var(--text-light);margin:0}
-  .theme-picker-footer{padding:8px 16px calc(12px + env(safe-area-inset-bottom));flex-shrink:0;border-top:1px solid var(--border)}
-  .theme-picker-restore{width:100%;padding:12px 8px;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-style:italic;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .theme-picker-footer{padding:16px 0 calc(12px + env(safe-area-inset-bottom));flex-shrink:0;border-top:1px solid rgba(90,74,66,0.12);margin-top:4px;text-align:center}
+  .theme-picker-restore{display:inline-block;width:auto;max-width:100%;padding:8px 12px;margin:0 auto;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-style:italic;font-weight:400;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:center}
+  .theme-picker-restore:hover,.theme-picker-restore:focus-visible{text-decoration:underline;outline:none}
   .weekly-moment-reflect-list{list-style:none;margin:0 0 18px;padding:0;text-align:left;max-width:22rem}
   .weekly-moment-reflect-list li{font-family:'Inter',system-ui,sans-serif;font-size:13.5px;line-height:1.55;color:var(--text-light);margin:0 0 10px;padding-left:14px;position:relative}
   .weekly-moment-reflect-list li::before{content:'';position:absolute;left:0;top:0.55em;width:5px;height:5px;border-radius:50%;background:rgba(186,160,148,0.45)}
@@ -353,7 +388,8 @@
   .moment-weekly-continuity{text-align:center;margin:0 0 14px;padding:0 6px}
   .moment-weekly-continuity-line{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.5;color:var(--text);margin:0 0 6px;font-weight:500}
   .moment-weekly-continuity-sub{font-weight:400;color:var(--text-light);opacity:0.9}
-  .home-start-moment-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:320px;padding:17px 28px;border-radius:100px;border:1px solid rgba(212,181,173,0.55);background:linear-gradient(180deg,rgba(255,252,249,0.98) 0%,rgba(244,228,220,0.52) 100%);color:var(--text);font-size:15px;font-weight:600;font-family:inherit;letter-spacing:0.2px;box-shadow:0 8px 32px rgba(90,74,66,0.12),0 2px 12px rgba(186,160,148,0.16),inset 0 1px 0 rgba(255,255,255,0.88);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.2s ease,box-shadow 0.25s ease}
+  .home-daily-invite .home-start-moment-btn{margin-top:36px}
+  .home-start-moment-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:320px;padding:17px 28px;border-radius:100px;border:1px solid rgba(212,181,173,0.55);background:linear-gradient(180deg,rgba(255,252,249,0.98) 0%,rgba(244,228,220,0.52) 100%);color:var(--text);font-size:15px;font-weight:600;font-family:'Inter',system-ui,sans-serif;letter-spacing:0.2px;box-shadow:0 8px 32px rgba(90,74,66,0.12),0 2px 12px rgba(186,160,148,0.16),inset 0 1px 0 rgba(255,255,255,0.88);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.2s ease,box-shadow 0.25s ease}
   .home-start-moment-btn svg{width:18px;height:18px;opacity:0.88;color:var(--accent-strong);flex-shrink:0}
   .home-start-moment-btn:active{transform:scale(0.98)}
   .home-theme-intro-card{position:relative;width:100%;max-width:340px;margin:0 auto 20px;padding:24px 22px 26px;box-sizing:border-box;background:linear-gradient(180deg,var(--bg) 0%,var(--primary) 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);box-shadow:0 8px 28px rgba(90,74,66,0.06);text-align:center;overflow:hidden}
@@ -375,17 +411,18 @@
   .home-theme-intro-section-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-strong);margin:0;opacity:0.95;text-align:center}
   .home-theme-intro-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:0;line-height:1.25;letter-spacing:-0.02em}
   .home-theme-intro-sub{font-size:13px;color:var(--text-light);font-style:italic;margin:0;line-height:1.45}
-  .home-theme-intro-body{font-size:14px;line-height:1.65;color:var(--text);margin:0;text-align:left}
+  .home-theme-intro-body{font-size:14px;line-height:1.74;color:var(--text);margin:0;text-align:left}
   .home-theme-intro-anchor-card{width:100%;max-width:22rem;margin:16px 0;background:#fff;border:1px solid var(--paper-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;box-sizing:border-box;text-align:center}
   .home-theme-intro-anchor-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-strong);margin:0;opacity:0.95}
   .home-theme-intro-anchor-text{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-style:italic;font-weight:400;line-height:1.7;color:var(--text);margin:10px 0 0}
   .home-theme-intro-anchor-ref{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent-strong);margin:8px 0 0;opacity:0.92}
   .home-theme-intro-actions{display:flex;flex-direction:column;align-items:center;width:100%}
   .home-theme-intro-actions .home-start-moment-btn{margin-bottom:0}
-  .guided-moment-screen .gm-week-closing{text-align:center;padding-bottom:8px}
-  .guided-moment-screen .gm-week-closing-questions{text-align:left;max-width:22rem;margin:0 auto 16px;line-height:1.6;font-size:13.5px;color:var(--text-light)}
-  .guided-moment-screen .gm-week-q{margin:0 0 10px}
-  .guided-moment-screen .gm-week-closing-prayer{font-family:'Playfair Display',Georgia,serif;font-size:14.5px;font-style:italic;line-height:1.65;color:var(--text);margin:0 auto 18px;max-width:22rem}
+  .home-weekly-closing-wrap{width:100%;max-width:24rem;margin:var(--sp-3) auto 0;padding:0 var(--sp-4);box-sizing:border-box}
+  #screen-feed .home-weekly-closing-wrap .gm-week-closing{text-align:center;padding-bottom:8px}
+  #screen-feed .home-weekly-closing-wrap .gm-week-closing-questions{text-align:left;max-width:22rem;margin:0 auto 16px;line-height:1.6;font-size:13.5px;color:var(--text-light)}
+  #screen-feed .home-weekly-closing-wrap .gm-week-q{margin:0 0 10px}
+  #screen-feed .home-weekly-closing-wrap .gm-week-closing-prayer{font-family:'Playfair Display',Georgia,serif;font-size:14.5px;font-style:italic;line-height:1.65;color:var(--text);margin:0 auto 18px;max-width:22rem}
   .theme-week-complete-overlay{position:fixed;inset:0;z-index:1400;display:flex;align-items:center;justify-content:center;background:rgba(40,32,28,0.38);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:24px;box-sizing:border-box;opacity:0;pointer-events:none;transition:opacity 0.45s ease}
   .theme-week-complete-overlay.twc-open{opacity:1;pointer-events:all}
   .theme-week-complete-card{max-width:320px;width:100%;text-align:center;padding:36px 28px 34px;border-radius:22px;background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);border:1px solid rgba(234,208,204,0.28);box-shadow:0 20px 50px rgba(90,74,66,0.12)}
@@ -403,7 +440,7 @@
   .walk-with-god .walk-truths-lines{display:flex;flex-direction:column;align-items:center;gap:var(--sp-4);margin:0 auto var(--sp-2);padding:0;width:100%;max-width:24rem;list-style:none}
   .walk-with-god .walk-truths-lines .truth-row{display:flex;align-items:flex-start;justify-content:center;gap:var(--sp-3);max-width:240px;margin:0 auto;text-align:left}
   .walk-with-god .walk-truths-lines .sparkle{flex-shrink:0;font-size:10px;line-height:1.6;color:#d6cfc8;margin-top:var(--sp-1);font-weight:400;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  .walk-with-god .walk-truths-lines .truth-row p{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:400;line-height:1.7;color:#4a4642;margin:0;letter-spacing:0.01em;text-align:left;flex:1;min-width:0}
+  .walk-with-god .walk-truths-lines .truth-row p{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:400;line-height:1.78;color:#4a4642;margin:0;letter-spacing:0.01em;text-align:left;flex:1;min-width:0}
   .walk-with-god .walk-truths-lines .truth-row:nth-child(2) p{color:#3f3b37}
   .walk-truths-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--sp-4);margin-top:var(--sp-5)}
   .walk-truths-refresh{margin-top:0;padding:8px 12px;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:11.5px;font-weight:400;letter-spacing:0.06em;color:#b8b2ac;cursor:pointer;text-decoration:underline;text-underline-offset:3px;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease,opacity 0.2s ease}
@@ -892,13 +929,6 @@
   .reflect-week-journey .rwa-today-focus{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:500;color:var(--text);margin:6px 0 8px;line-height:1.2;letter-spacing:-0.02em}
   .reflect-week-journey .rwa-today-prompt{font-family:'Inter',system-ui,sans-serif;font-size:13.5px;line-height:1.55;color:var(--text-light);margin:0 auto 16px;max-width:22rem}
   .reflect-week-journey .rwa-divider{height:0;border:none;border-top:1px solid var(--border);max-width:280px;margin:0 auto}
-  .rwa-week-journal{margin:24px 0 20px;text-align:left}
-  .rwa-week-journal-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-strong);margin:0 0 12px;text-align:center}
-  .rwa-journal-card{background:rgba(255,252,249,0.78);border:1px solid rgba(234,208,204,0.22);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:12px;box-shadow:0 2px 12px rgba(90,74,66,0.04)}
-  .rwa-journal-card-head{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:500;color:var(--text);margin:0 0 6px;line-height:1.3}
-  .rwa-journal-prompt{font-family:'Inter',system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-light);margin:0 0 8px;opacity:0.85}
-  .rwa-journal-body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.65;color:var(--text);margin:0;white-space:pre-wrap}
-  .rwa-journal-time{font-family:'Inter',system-ui,sans-serif;font-size:11px;color:var(--text-light);margin:10px 0 0;opacity:0.9}
   .rwa-closing{font-family:'Inter',system-ui,sans-serif;text-align:center;font-size:14px;line-height:1.6;color:var(--text-light);font-style:italic;margin:26px auto 8px;padding:0 10px;max-width:24rem}
   .rwa-closing .rwa-closing-theme{font-family:'Playfair Display',Georgia,serif;font-style:normal;color:var(--text);font-weight:500}
   .reflect-explain.body-font,.reflect-context.body-font{font-size:14px;line-height:1.75;color:var(--text);padding:0 2px 4px}
@@ -932,6 +962,63 @@
   #reflectTextarea::placeholder{color:rgba(90,74,66,0.4)}
   .reflect-journal-textarea{min-height:200px;resize:vertical}
   .reflect-actions-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 16px}
+  .reflect-this-week{margin:8px auto 22px;padding:0 4px;max-width:24rem;box-sizing:border-box;text-align:left}
+  .reflect-this-week__label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-strong);margin:0 0 8px;text-align:center}
+  .reflect-this-week__progress{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.45;color:var(--text-light);margin:0 0 14px;text-align:center}
+  .reflect-this-week__cards{display:flex;flex-direction:column;gap:10px}
+  .reflect-this-week__card{border-radius:12px;border:1px solid rgba(234,208,204,0.3);background:rgba(255,252,249,0.78);padding:12px 14px;box-shadow:0 2px 10px rgba(90,74,66,0.035);box-sizing:border-box}
+  .reflect-this-week__card-head{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:500;color:var(--text);margin:0 0 6px;line-height:1.28;letter-spacing:-0.02em}
+  .reflect-this-week__card-preview{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.55;color:var(--text-light);margin:0;opacity:0.96}
+  .reflect-this-week__empty{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-style:italic;line-height:1.55;color:var(--text-light);margin:0;text-align:center;padding:6px 8px 2px}
+  .reflect-your-journey{margin:36px auto 24px;padding:0 4px;max-width:24rem;box-sizing:border-box}
+  .reflect-yj-growth{display:flex;align-items:stretch;justify-content:space-between;gap:0;background:#fff;border:1px solid rgba(234,208,204,0.38);border-radius:var(--radius);padding:16px;margin:0 0 18px;box-sizing:border-box;box-shadow:0 2px 12px rgba(90,74,66,0.04)}
+  .reflect-yj-growth__col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6px;box-sizing:border-box}
+  .reflect-yj-growth__col + .reflect-yj-growth__col{border-left:1px solid rgba(234,208,204,0.42)}
+  .reflect-yj-growth__num{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:500;color:var(--text);margin:0;line-height:1.15;letter-spacing:-0.02em}
+  .reflect-yj-growth__lbl{font-family:'Inter',system-ui,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin:8px 0 0;line-height:1.25;max-width:100%}
+  .reflect-yj-memory{border-radius:14px;border:1px solid rgba(234,208,204,0.38);background:rgba(255,252,249,0.88);padding:16px 16px 18px;margin:0 0 22px;text-align:left;box-shadow:0 4px 18px rgba(90,74,66,0.05)}
+  .reflect-yj-memory-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent-strong);margin:0 0 8px}
+  .reflect-yj-memory-title{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:500;color:var(--text);margin:0 0 10px;line-height:1.3}
+  .reflect-yj-memory-verse{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.55;color:var(--text-light);font-style:italic;margin:0 0 12px}
+  .reflect-yj-memory-q{font-family:'Inter',system-ui,sans-serif;font-size:12px;color:var(--text);margin:0 0 8px}
+  .reflect-yj-memory-input{width:100%;height:40px;padding:8px 12px;border-radius:10px;border:1px solid rgba(234,208,204,0.45);background:rgba(255,255,255,0.75);font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.45;color:var(--text);box-sizing:border-box;margin:0 0 10px}
+  .reflect-yj-memory-save{padding:8px 16px;border-radius:999px;border:none;background:var(--rose-btn);color:#fff;font-size:12px;font-weight:600;font-family:'Inter',system-ui,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .reflect-yj-memory-save:active{transform:scale(0.98);opacity:0.95}
+  .reflect-yj-header{text-align:center;margin:0 0 14px}
+  .reflect-yj-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-strong);margin:0 0 8px}
+  .reflect-yj-summary{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.45;color:var(--text-light);margin:0}
+  .reflect-yj-cards{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+  .reflect-yj-card{position:relative;display:flex;align-items:flex-start;gap:12px;padding:14px 14px 14px 16px;border-radius:14px;border:1px solid rgba(234,208,204,0.32);background:rgba(255,252,249,0.82);text-align:left;cursor:pointer;box-shadow:0 2px 12px rgba(90,74,66,0.04);-webkit-tap-highlight-color:transparent;transition:background 0.15s ease,border-color 0.15s ease}
+  .reflect-yj-card:active{background:rgba(244,234,228,0.35)}
+  .reflect-yj-card-dot{flex-shrink:0;width:10px;height:10px;border-radius:50%;margin-top:4px;background:conic-gradient(var(--rose-btn) 0deg,var(--rose-btn) 160deg,rgba(234,208,204,0.45) 160deg);box-sizing:border-box}
+  .reflect-yj-card-dot--full{background:#6b8f71;border:none}
+  .reflect-yj-card-mid{flex:1;min-width:0}
+  .reflect-yj-card-title{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:500;color:var(--text);margin:0 0 4px;line-height:1.25;letter-spacing:-0.02em}
+  .reflect-yj-card-meta{font-family:'Inter',system-ui,sans-serif;font-size:11px;color:var(--text-light);margin:0;line-height:1.4}
+  .reflect-yj-card-arrow{flex-shrink:0;font-size:14px;color:var(--text-light);opacity:0.55;margin-top:2px}
+  .reflect-yj-seeall{display:block;width:100%;margin:12px 0 0;padding:10px;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--accent-strong);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  .reflect-your-journey.reflect-yj--expanded .reflect-yj-card--extra{display:block !important}
+  .reflect-yj-card--extra{display:none !important}
+  .reflect-journey-detail-overlay{position:fixed;inset:0;z-index:1400;background:var(--bg);display:flex;flex-direction:column;overflow:auto;-webkit-overflow-scrolling:touch;padding:max(10px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));box-sizing:border-box;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.28s ease,visibility 0s linear 0.28s}
+  .reflect-journey-detail-overlay.reflect-journey-detail--open{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
+  .reflect-journey-detail-inner{max-width:26rem;margin:0 auto;width:100%;flex:1;display:flex;flex-direction:column}
+  .reflect-journey-detail-back{margin:0 0 16px;padding:8px 12px 8px 0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:14px;color:var(--text-light);cursor:pointer;text-align:left}
+  .reflect-journey-detail-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:0 0 8px;line-height:1.25}
+  .reflect-journey-detail-sub{font-size:13px;line-height:1.5;color:var(--text-light);font-style:italic;margin:0 0 20px}
+  .reflect-journey-tabs{display:flex;gap:0;margin:0 0 16px;border-bottom:1px solid rgba(234,208,204,0.35)}
+  .reflect-journey-tab{flex:1;padding:10px 8px;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .reflect-journey-tab.is-selected{color:var(--text);border-bottom-color:var(--accent-strong)}
+  .reflect-journey-panel{display:none;flex:1;flex-direction:column;gap:10px;margin-bottom:16px}
+  .reflect-journey-panel.is-active{display:flex}
+  .reflect-journey-entry{border-radius:12px;border:1px solid rgba(234,208,204,0.28);background:rgba(255,252,249,0.75);padding:12px 14px}
+  .reflect-journey-entry-head{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:500;color:var(--text);margin:0 0 6px}
+  .reflect-journey-entry-body{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.55;color:var(--text-light);margin:0;white-space:pre-wrap}
+  .reflect-journey-verse-row{font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.5;color:var(--text);margin:0;padding:8px 0;border-bottom:1px solid rgba(234,208,204,0.2)}
+  .reflect-journey-verse-row:last-child{border-bottom:none}
+  .reflect-journey-verse-ref{display:block;font-size:11px;color:var(--accent-strong);margin-top:4px;font-weight:500}
+  .reflect-journey-prayer{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.65;color:var(--text);font-style:italic;margin:0}
+  .reflect-journey-revisit{margin-top:auto;width:100%;padding:14px 20px;border-radius:50px;border:none;background:var(--rose-btn);color:#fff;font-size:14px;font-weight:600;font-family:'Inter',system-ui,sans-serif;cursor:pointer}
+  .reflect-journey-revisit:active{transform:scale(0.99);opacity:0.95}
   .reflect-bottom-stack{display:flex;flex-direction:column;gap:10px;margin:20px 0 28px;max-width:24rem}
   .reflect-bottom-stack button{width:100%;font-family:inherit}
   .reflect-theme-context{font-size:11px;line-height:1.45;font-style:italic;color:var(--text-light);text-align:center;margin:0 auto 12px;padding:0 12px;max-width:22rem}
@@ -1074,6 +1161,7 @@
   .guided-moment-screen .gm-anchor-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-strong);margin:0;opacity:0.95}
   .guided-moment-screen .gm-anchor-text{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-style:italic;font-weight:400;line-height:1.7;color:var(--text);margin:10px 0 0}
   .guided-moment-screen .gm-anchor-ref{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent-strong);margin:8px 0 0;opacity:0.92}
+  .guided-moment-screen .gm-theme-intro-para{font-size:13px;color:var(--text-light);font-style:italic;text-align:center;line-height:1.7;max-width:320px;margin:12px auto 0;width:100%;box-sizing:border-box;padding:0 8px}
   .guided-moment-screen .gm-back{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;margin:0 0 4px 0;border-radius:999px;border:1px solid rgba(234,208,204,0.4);background:rgba(255,252,249,0.75);font-size:13px;font-weight:500;font-family:'Inter',system-ui,sans-serif;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.2s ease,transform 0.15s ease}
   .guided-moment-screen .gm-back svg{width:16px;height:16px;stroke-width:1.8;color:var(--accent-strong)}
   .guided-moment-screen .gm-back:active{transform:scale(0.97)}
@@ -1888,6 +1976,7 @@
   .mflow-stagger{opacity:0;animation:mflowStagIn 0.5s ease-out forwards;animation-delay:calc(var(--mflow-i,0)*150ms)}
   .mflow-eyebrow{font-family:Inter,system-ui,sans-serif;font-size:10px;letter-spacing:0.2em;font-weight:500;text-transform:uppercase;color:var(--text-light);opacity:0.7;margin:0 0 18px}
   .mflow-title{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:500;color:var(--text);line-height:1.35;letter-spacing:-0.02em;margin:0 0 12px}
+  .mflow-arrive-sub{font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:400;color:var(--text-light);line-height:1.55;margin:0 auto 8px;max-width:22rem;opacity:0.92}
   .mflow-breath-orb-wrap{margin:8px 0 20px;display:flex;align-items:center;justify-content:center;min-height:140px}
   .mflow-breath-orb__inner{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,255,255,0.95) 0%,rgba(250,240,234,0.95) 100%);box-shadow:0 6px 28px rgba(186,160,148,0.2),inset 0 2px 12px rgba(255,255,255,0.5);transform:scale(1);transform-origin:center;will-change:transform}
   .mflow-breath-orb__inner--inhale{transition:transform 4s ease-in-out;transform:scale(1.2)}
@@ -1907,6 +1996,7 @@
   .mflow-receive-ref--below-verse{margin:8px 0 0}
   .mflow-receive-context{font-family:'Inter',system-ui,sans-serif;font-size:12.5px;font-weight:400;line-height:1.58;color:var(--text-light);margin:0 0 14px;opacity:0.9}
   .mflow-receive-text{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;line-height:1.55;color:var(--text);font-style:italic;margin:0}
+  .mflow-receive-versectx{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:400;font-style:italic;color:var(--text-light);line-height:1.55;margin:10px 0 0;text-align:center;opacity:0.95}
   .mflow-tap-hint{font-size:12px;color:var(--text-light);margin-top:16px;opacity:0.75}
   .mflow-textarea{width:100%;min-height:88px;max-height:200px;resize:vertical;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(186,160,148,0.25);background:rgba(255,251,247,0.9);font-family:Inter,system-ui,sans-serif;font-size:15px;color:var(--text);line-height:1.45;margin:16px 0 0;box-sizing:border-box;transition:opacity 0.5s ease-out,transform 0.5s ease-out}
   .mflow-textarea::placeholder{color:var(--text-light);opacity:0.6}
@@ -1915,6 +2005,10 @@
   .mflow-go-deeper{margin:14px 0 0;padding:14px 16px;border-radius:14px;border:1px solid rgba(186,160,148,0.22);background:rgba(255,251,247,0.75);text-align:left;font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.55;color:var(--text)}
   .mflow-go-deeper[hidden]{display:none!important}
   .mflow-go-deeper.mflow-go-deeper--loading{opacity:0.75;font-style:italic;color:var(--text-light)}
+  .mflow-reflect-from-week{font-family:'Inter',system-ui,sans-serif;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-strong);margin:0 auto 10px;line-height:1.4;max-width:22rem}
+  .mflow-reflect-prompt-text{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:500;line-height:1.45;color:var(--text);margin:0 auto 8px;max-width:22rem}
+  .mflow-respond-prayer{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:400;font-style:italic;line-height:1.55;color:var(--text);margin:0 auto 10px;text-align:center;max-width:22rem}
+  .mflow-respond-own-words{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:400;color:var(--text-light);margin:0 auto 6px;line-height:1.45;opacity:0.9}
   .mflow-btn{margin-top:22px;width:100%;display:inline-flex;align-items:center;justify-content:center;padding:15px 24px 16px;border-radius:999px;border:1px solid rgba(234,208,204,0.5);background:linear-gradient(180deg,rgba(255,252,249,0.98) 0%,rgba(244,234,228,0.5) 100%);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.03em;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.1s ease-out,box-shadow 0.2s ease}
   .mflow-btn:active{transform:scale(0.97)}
   .mflow-btn--primary{box-shadow:0 4px 18px rgba(90,74,66,0.08)}
@@ -2256,16 +2350,33 @@
         <h2 class="home-invite-title serif display-font" id="homeInviteTitle">Take a moment with God today</h2>
         <p class="home-invite-sub display-font">Just a few minutes to reset and reconnect</p>
         <div class="home-weekly-theme-block" id="homeWeeklyThemeBlock" role="region" aria-label="This week">
-          <p class="home-weekly-kicker">This week</p>
+          <div class="home-weekly-kicker-row">
+            <p class="home-weekly-kicker">This week</p>
+            <button type="button" class="home-weekly-theme-info" id="homeWeeklyThemeInfoBtn" aria-label="How weekly themes work" aria-expanded="false" aria-controls="homeWeeklyThemeInfoPopover">&#9432;</button>
+          </div>
+          <p class="home-weekly-dayline body-font" id="homeWeeklyDayLine" hidden></p>
+          <p class="home-weekly-theme-info-popover body-font" id="homeWeeklyThemeInfoPopover" role="tooltip" hidden>Each week Grounded guides you through a different theme. Your daily moment, verse, and reflection all connect to this week&#8217;s focus. Themes rotate weekly or you can choose your own.</p>
           <p class="home-weekly-title serif" id="homeWeeklyThemeTitle">Letting Go of Control</p>
           <p class="home-weekly-desc body-font" id="homeWeeklyThemeDesc">Trusting God when things feel uncertain</p>
-          <p class="home-weekly-from-why body-font" id="homeWeeklyThemeFromWhy" hidden></p>
-          <button type="button" class="home-weekly-theme-swap" id="homeWeeklyThemeSwapBtn" aria-haspopup="dialog" aria-controls="themePickerSheet" aria-expanded="false">Try a different focus</button>
           <p class="home-weekly-hook body-font" id="homeWeeklyThemeHook" hidden></p>
-          <p class="home-weekly-dayline body-font" id="homeWeeklyDayLine" hidden></p>
+          <p class="home-weekly-summary body-font" id="homeWeeklyThemeSummary"></p>
+          <p class="home-weekly-anchor-ref body-font" id="homeWeeklyThemeAnchorRef" hidden></p>
+          <div class="home-weekly-preview-rule" id="homeWeeklyThemePreviewRule" aria-hidden="true"></div>
           <div class="home-weekly-focus-row" id="homeWeeklyFocusRow" hidden>
             <p class="home-weekly-focus-label body-font" id="homeWeeklyFocusLabel">Today&rsquo;s Focus</p>
             <p class="home-weekly-focus-word serif" id="homeWeeklyFocusWord"></p>
+          </div>
+          <button type="button" class="home-weekly-theme-swap" id="homeWeeklyThemeSwapBtn" aria-haspopup="dialog" aria-controls="themePickerSheet" aria-expanded="false">Try a different focus</button>
+        </div>
+        <div class="home-weekly-closing-wrap" id="homeWeeklyClosingWrap" style="display:none">
+          <div class="gm-week-closing moment-container" id="gmWeekClosing" hidden>
+            <p class="gm-kicker" id="gmWeekClosingKicker">Closing the week</p>
+            <h2 class="gm-title" id="gmWeekClosingLead"></h2>
+            <p class="gm-week-closing-verse-ref body-font" id="gmWeekClosingVerseRef"></p>
+            <p class="gm-copy gm-week-closing-verse-text" id="gmWeekClosingVerseText"></p>
+            <div class="gm-week-closing-questions body-font" id="gmWeekClosingQuestions"></div>
+            <p class="gm-week-closing-prayer serif" id="gmWeekClosingPrayer"></p>
+            <button type="button" class="gm-primary-btn" id="gmWeekCloseBtn" hidden>Close this week</button>
           </div>
         </div>
         <div class="home-theme-intro-card" id="homeThemeIntroCard" hidden>
@@ -2304,7 +2415,7 @@
         <div class="checkin-decor">
           <svg viewBox="0 0 100 100" fill="currentColor" stroke="none"><ellipse cx="50" cy="20" rx="10" ry="15" opacity="0.7"></ellipse><ellipse cx="50" cy="80" rx="10" ry="15" opacity="0.7"></ellipse><ellipse cx="20" cy="50" rx="15" ry="10" opacity="0.7"></ellipse><ellipse cx="80" cy="50" rx="15" ry="10" opacity="0.7"></ellipse><circle cx="50" cy="50" r="7" opacity="0.9"></circle></svg>
         </div>
-        <h2 class="home-checkin-title serif display-font">What are you feeling today?</h2>
+        <h2 class="home-checkin-title serif display-font">How are you feeling as you move through this week?</h2>
         <div class="feelings-grid" id="homeFeelings">
       <div class="feeling-pill" data-feeling="anxious">
         <span class="fp-label body-font">Anxious</span>
@@ -2375,6 +2486,8 @@
         <div class="moment-container" id="gmMomentIntroBlock">
           <p class="gm-kicker">Your moment</p>
           <h2 class="gm-title">Come as you are</h2>
+          <button type="button" class="gm-week-about-toggle body-font" id="gmWeekAboutToggle" hidden aria-expanded="false" aria-controls="gmWeekAboutBody">What this week is about &#8594;</button>
+          <p class="gm-week-about-body body-font" id="gmWeekAboutBody" hidden></p>
           <p class="gm-subline">Pause • Breathe • Be present</p>
           <p class="gm-intro-hook body-font" id="gmIntroHook" hidden></p>
           <div class="gm-anchor-card" id="gmAnchorCard" hidden>
@@ -2382,18 +2495,10 @@
             <p class="gm-anchor-text serif" id="gmAnchorText"></p>
             <p class="gm-anchor-ref" id="gmAnchorRef"></p>
           </div>
+          <p class="gm-theme-intro-para body-font" id="gmThemeIntroPara" hidden></p>
           <p class="gm-copy">Take a quiet moment with God. Just be present.</p>
           <button type="button" class="gm-primary-btn" id="guidedMomentToPrayer">Continue</button>
           <button type="button" class="gm-secondary-link" id="guidedMomentToReset">Or start with a reset</button>
-        </div>
-        <div class="gm-week-closing moment-container" id="gmWeekClosing" hidden>
-          <p class="gm-kicker" id="gmWeekClosingKicker">Closing the week</p>
-          <h2 class="gm-title" id="gmWeekClosingLead"></h2>
-          <p class="gm-week-closing-verse-ref body-font" id="gmWeekClosingVerseRef"></p>
-          <p class="gm-copy gm-week-closing-verse-text" id="gmWeekClosingVerseText"></p>
-          <div class="gm-week-closing-questions body-font" id="gmWeekClosingQuestions"></div>
-          <p class="gm-week-closing-prayer serif" id="gmWeekClosingPrayer"></p>
-          <button type="button" class="gm-primary-btn" id="gmWeekCloseBtn" hidden>Close this week</button>
         </div>
           </div>
           <!-- STEP 2: What do you need? (selection only) -->
@@ -3001,6 +3106,22 @@
         <img src="assets/images/reflect.jpg" alt="" loading="lazy">
       </div>
       <div id="reflectContent"></div>
+      <div id="reflectJourneyDetailOverlay" class="reflect-journey-detail-overlay" hidden aria-hidden="true">
+        <div class="reflect-journey-detail-inner">
+          <button type="button" class="reflect-journey-detail-back" id="reflectJourneyDetailBack" aria-label="Back to Reflect">← Back</button>
+          <h2 class="reflect-journey-detail-title serif" id="reflectJourneyDetailTitle"></h2>
+          <p class="reflect-journey-detail-sub body-font" id="reflectJourneyDetailSub"></p>
+          <div class="reflect-journey-tabs" role="tablist" aria-label="Theme detail">
+            <button type="button" class="reflect-journey-tab is-selected" role="tab" id="reflectJourneyTabJournal" aria-selected="true" aria-controls="reflectJourneyPanelJournal">Journal</button>
+            <button type="button" class="reflect-journey-tab" role="tab" id="reflectJourneyTabVerses" aria-selected="false" aria-controls="reflectJourneyPanelVerses">Verses</button>
+            <button type="button" class="reflect-journey-tab" role="tab" id="reflectJourneyTabPrayer" aria-selected="false" aria-controls="reflectJourneyPanelPrayer">Prayer</button>
+          </div>
+          <div id="reflectJourneyPanelJournal" class="reflect-journey-panel is-active" role="tabpanel" aria-labelledby="reflectJourneyTabJournal"></div>
+          <div id="reflectJourneyPanelVerses" class="reflect-journey-panel" role="tabpanel" aria-labelledby="reflectJourneyTabVerses" hidden></div>
+          <div id="reflectJourneyPanelPrayer" class="reflect-journey-panel" role="tabpanel" aria-labelledby="reflectJourneyTabPrayer" hidden></div>
+          <button type="button" class="reflect-journey-revisit" id="reflectJourneyRevisitBtn">Revisit this theme →</button>
+        </div>
+      </div>
     </div>
 
     <!-- STUDY (legacy — enable in profile to show in nav) -->
@@ -3630,7 +3751,9 @@
     <div class="theme-picker-sheet-wrap">
       <div class="theme-picker-sheet" id="themePickerSheet" role="dialog" aria-modal="true" aria-labelledby="themePickerHeading" tabindex="-1">
         <div class="theme-picker-handle" aria-hidden="true"></div>
-        <button type="button" class="theme-picker-close" id="themePickerCloseBtn" aria-label="Close">×</button>
+        <button type="button" class="theme-picker-close" id="themePickerCloseBtn" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
         <div class="theme-picker-head">
           <h3 class="theme-picker-title" id="themePickerHeading">A few other focuses</h3>
           <p class="theme-picker-sub body-font" id="themePickerSubline">Tap one to use for this week</p>
@@ -3785,6 +3908,7 @@
       <div class="mflow-slab" data-mflow-step="1" id="mflowStep1" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Arrive</p>
         <p class="mflow-title mflow-stagger" id="mflowArriveTitle" style="--mflow-i:1">Take a moment to arrive</p>
+        <p class="mflow-arrive-sub mflow-stagger" id="mflowArriveSub" style="--mflow-i:2" hidden></p>
       </div>
       <div class="mflow-slab" data-mflow-step="2" id="mflowStep2" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Breathe</p>
@@ -3801,16 +3925,17 @@
       </div>
       <div class="mflow-slab" data-mflow-step="4" id="mflowStep4" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Reflect</p>
-        <p class="mflow-title mflow-stagger" id="mflowReflectPrompt" style="--mflow-i:1;font-size:1.1rem">What feels most true for you right now?</p>
+        <p class="mflow-reflect-from-week mflow-stagger" id="mflowReflectFromWeek" style="--mflow-i:1" hidden></p>
+        <p class="mflow-title mflow-reflect-prompt-text mflow-stagger" id="mflowReflectPrompt" style="--mflow-i:2">What feels most true for you right now?</p>
         <label for="mflowReflectInput" class="visually-hidden">Optional reflection</label>
-        <textarea id="mflowReflectInput" class="mflow-textarea mflow-stagger" style="--mflow-i:2" maxlength="2000" placeholder="A few words (optional)" rows="3" autocomplete="off"></textarea>
-        <div class="mflow-go-deeper mflow-stagger" id="mflowGoDeeperBlock" style="--mflow-i:2" hidden></div>
-        <button type="button" class="mflow-btn mflow-btn--primary mflow-stagger" id="mflowBtnReflectCont" style="--mflow-i:3">Continue</button>
+        <textarea id="mflowReflectInput" class="mflow-textarea mflow-stagger" style="--mflow-i:3" maxlength="2000" placeholder="A few words (optional)" rows="3" autocomplete="off"></textarea>
+        <div class="mflow-go-deeper mflow-stagger" id="mflowGoDeeperBlock" style="--mflow-i:3" hidden></div>
+        <button type="button" class="mflow-btn mflow-btn--primary mflow-stagger" id="mflowBtnReflectCont" style="--mflow-i:4">Continue</button>
       </div>
       <div class="mflow-slab" data-mflow-step="5" id="mflowStep5" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Respond</p>
-        <p class="mflow-title mflow-respond-title mflow-stagger" style="--mflow-i:1">Take a quiet moment to pray in your own words.</p>
-        <p class="mflow-sub mflow-respond-sub mflow-stagger" style="--mflow-i:2">This is just between you and God.</p>
+        <p class="mflow-respond-prayer mflow-stagger" id="mflowRespondPrayer" style="--mflow-i:1"></p>
+        <p class="mflow-respond-own-words mflow-stagger" id="mflowRespondOwnWords" style="--mflow-i:2">Or pray in your own words</p>
         <button type="button" class="mflow-btn mflow-btn--primary mflow-btn--respond-cta mflow-stagger" id="mflowBtnRespondCont" style="--mflow-i:3">I&rsquo;m ready</button>
       </div>
       <div class="mflow-slab" data-mflow-step="6" id="mflowStep6" hidden>
@@ -3946,6 +4071,20 @@
   <!-- Post-onboarding welcome (shown briefly after Begin) -->
   <div id="postOnboardingWelcome" class="post-onb-welcome" hidden aria-hidden="true">
     <p class="post-onb-welcome__text" id="postOnboardingWelcomeText"></p>
+  </div>
+
+  <!-- One-time theme system education (Today tab, after onboarding) -->
+  <div id="themeEducationSheet" class="theme-education-sheet" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="themeEduTitle">
+    <div class="theme-education-sheet__backdrop" id="themeEducationSheetBackdrop" aria-hidden="true"></div>
+    <div class="theme-education-sheet__panel">
+      <div class="theme-education-sheet__top-accent" aria-hidden="true"></div>
+      <h2 class="theme-education-sheet__title" id="themeEduTitle">How Grounded works</h2>
+      <p class="theme-education-sheet__body" id="themeEduBody">Each week you&#8217;ll explore one theme &mdash; a specific area of inner work, faith, or growth. Every day builds on the last. Your verse, guided moment, and reflection all connect to where you are in the week.</p>
+      <p class="theme-education-sheet__theme-line" id="themeEduThemeLine"></p>
+      <div class="theme-education-sheet__dots" id="themeEduDots" aria-hidden="true"></div>
+      <p class="theme-education-sheet__dots-caption" id="themeEduDotsCaption">5 days &#183; one theme</p>
+      <button type="button" class="theme-education-sheet__btn" id="themeEduDismissBtn">Got it &mdash; let&#8217;s begin</button>
+    </div>
   </div>
 
   <!-- First-time onboarding: 5 steps (see js/onboarding.js + css/onboarding.css) -->
@@ -4097,6 +4236,7 @@
   <script src="js/grounded-home-weekly-themes-data.js"></script>
   <script src="js/grounded-home-weekly-theme-meta.js"></script>
   <script src="js/weekly-themes.js"></script>
+  <script src="js/grounded-moment-theme-maps.js"></script>
   <script src="bibleData.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" crossorigin="anonymous"></script>
   <script>
@@ -4689,6 +4829,8 @@
   let momentWeeklyModeActive = false;
   let momentWeeklyClosingUiActive = false;
   let themeWeekCompleteTimer = null;
+  let themeEduSheetOpen = false;
+  let homeWeeklyThemeInfoOpen = false;
 
   /** Curated 52-week themes (loaded via js/grounded-home-weekly-themes-data.js + weekly-themes.js). */
   const WEEKLY_THEMES =
@@ -5037,7 +5179,7 @@
     const anchorText = document.getElementById('gmAnchorText');
     const anchorRef = document.getElementById('gmAnchorRef');
     const copy = document.querySelector('#gmMomentIntroBlock .gm-copy');
-    const toPray = document.getElementById('guidedMomentToPrayer');
+    const introPara = document.getElementById('gmThemeIntroPara');
     if (focusWrap) focusWrap.hidden = true;
     if (focusWord) focusWord.textContent = '';
     if (hookEl) {
@@ -5047,8 +5189,24 @@
     if (anchorCard) anchorCard.hidden = true;
     if (anchorText) anchorText.textContent = '';
     if (anchorRef) anchorRef.textContent = '';
+    if (introPara) {
+      introPara.textContent = '';
+      introPara.hidden = true;
+    }
+    const weekTgl = document.getElementById('gmWeekAboutToggle');
+    const weekBd = document.getElementById('gmWeekAboutBody');
+    if (weekTgl) {
+      weekTgl.hidden = true;
+      weekTgl.setAttribute('aria-expanded', 'false');
+      weekTgl.textContent = 'What this week is about \u2192';
+    }
+    if (weekBd) {
+      weekBd.textContent = '';
+      weekBd.hidden = true;
+    }
     if (copy) copy.hidden = false;
-    if (toPray && !momentWeeklyClosingUiActive) toPray.textContent = 'Continue';
+    const toPray = document.getElementById('guidedMomentToPrayer');
+    if (toPray) toPray.textContent = 'Continue';
   }
 
   function applyGuidedMomentIntroWeeklyStep1(ctx, themeObj) {
@@ -5058,7 +5216,7 @@
     if (focusWrap && focusWord) {
       const fw = ctx.day.focus != null ? String(ctx.day.focus).trim() : '';
       if (fw) {
-        focusWord.textContent = fw;
+        focusWord.textContent = focusWordToDisplayPhrase(fw);
         focusWrap.hidden = false;
       } else {
         focusWord.textContent = '';
@@ -5101,9 +5259,39 @@
         anchorCard.hidden = true;
       }
     }
+    const slotThemeForIntro =
+      typeof WEEKLY_THEMES !== 'undefined' && WEEKLY_THEMES[slotIxGm] ? WEEKLY_THEMES[slotIxGm] : themeObj;
+    let introText = '';
+    if (slotThemeForIntro && slotThemeForIntro.intro != null) {
+      introText = String(slotThemeForIntro.intro).trim();
+    } else if (themeObj && themeObj.intro != null) {
+      introText = String(themeObj.intro).trim();
+    }
+    const introPara = document.getElementById('gmThemeIntroPara');
+    if (introPara) {
+      introPara.textContent = '';
+      introPara.hidden = true;
+    }
+    const weekToggle = document.getElementById('gmWeekAboutToggle');
+    const weekBody = document.getElementById('gmWeekAboutBody');
+    if (weekBody && weekToggle) {
+      if (introText) {
+        weekBody.textContent = introText;
+        weekBody.hidden = true;
+        weekToggle.hidden = false;
+        weekToggle.setAttribute('aria-expanded', 'false');
+        weekToggle.textContent = 'What this week is about \u2192';
+      } else {
+        weekBody.textContent = '';
+        weekBody.hidden = true;
+        weekToggle.hidden = true;
+      }
+    }
     const copy = document.querySelector('#gmMomentIntroBlock .gm-copy');
     if (copy) {
-      if (hk || hasAnchor) {
+      if (introText) {
+        copy.hidden = true;
+      } else if (hk || hasAnchor) {
         copy.hidden = true;
       } else {
         copy.hidden = false;
@@ -5119,27 +5307,10 @@
   }
 
   function resetWeeklyClosingStep1Dom() {
-    momentWeeklyClosingUiActive = false;
-    const intro = document.getElementById('gmMomentIntroBlock');
-    const closing = document.getElementById('gmWeekClosing');
-    const toPray = document.getElementById('guidedMomentToPrayer');
-    const closeBtn = document.getElementById('gmWeekCloseBtn');
-    if (intro) intro.hidden = false;
-    if (closing) closing.hidden = true;
-    if (toPray) toPray.hidden = false;
-    if (closeBtn) closeBtn.hidden = true;
+    if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
   }
 
-  function applyWeeklyFridayCloserLayout(themeTitle, anchor, closingPrayerText) {
-    const intro = document.getElementById('gmMomentIntroBlock');
-    const closing = document.getElementById('gmWeekClosing');
-    const toPray = document.getElementById('guidedMomentToPrayer');
-    const closeBtn = document.getElementById('gmWeekCloseBtn');
-    if (intro) intro.hidden = true;
-    if (closing) closing.hidden = false;
-    if (toPray) toPray.hidden = true;
-    if (closeBtn) closeBtn.hidden = false;
-    momentWeeklyClosingUiActive = true;
+  function populateHomeWeeklyClosingLayout(themeTitle, anchor, closingPrayerText) {
     const lead = document.getElementById('gmWeekClosingLead');
     const refEl = document.getElementById('gmWeekClosingVerseRef');
     const txEl = document.getElementById('gmWeekClosingVerseText');
@@ -5166,6 +5337,40 @@
       qEl.appendChild(p3);
     }
     if (prEl) prEl.textContent = closingPrayerText || '';
+  }
+
+  function syncHomeWeeklyClosingSection() {
+    const wrap = document.getElementById('homeWeeklyClosingWrap');
+    const closing = document.getElementById('gmWeekClosing');
+    const closeBtn = document.getElementById('gmWeekCloseBtn');
+    if (!wrap || !closing) return;
+    const day = new Date().getDay();
+    if (day !== 5 && day !== 6 && day !== 0) {
+      wrap.style.display = 'none';
+      closing.hidden = true;
+      if (closeBtn) closeBtn.hidden = true;
+      momentWeeklyClosingUiActive = false;
+      return;
+    }
+    wrap.style.display = '';
+    const themeObj = typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
+    const anchor = themeObj ? getThemeAnchorVerse(themeObj) : null;
+    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
+    const janClosed = typeof isGroundedJan1ThemeWeekClosed === 'function' && isGroundedJan1ThemeWeekClosed();
+    if (!anchor || !ctx || !ctx.day || janClosed) {
+      wrap.style.display = 'none';
+      closing.hidden = true;
+      if (closeBtn) closeBtn.hidden = true;
+      momentWeeklyClosingUiActive = false;
+      return;
+    }
+    const prayer =
+      (themeObj && themeObj.closingPrayer) ||
+      'God, thank you for this week with you. Quiet my heart, bless what I carry forward, and release what needs to rest. Amen.';
+    populateHomeWeeklyClosingLayout(ctx.themeTitle || '', anchor, prayer);
+    closing.hidden = false;
+    if (closeBtn) closeBtn.hidden = false;
+    momentWeeklyClosingUiActive = true;
   }
 
   function shouldShowHomeThemeIntroCard() {
@@ -5221,7 +5426,7 @@
     if (focusBlock && focusWord) {
       const fw = ctx && ctx.day && ctx.day.focus != null ? String(ctx.day.focus).trim() : '';
       if (fw) {
-        focusWord.textContent = fw;
+        focusWord.textContent = focusWordToDisplayPhrase(fw);
         focusBlock.hidden = false;
       } else {
         focusWord.textContent = '';
@@ -5276,6 +5481,7 @@
     }
     if (typeof exitGuidedMomentFlow === 'function') exitGuidedMomentFlow();
     if (typeof switchTab === 'function') switchTab('feed');
+    if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
   }
 
   function showThemeWeekCompleteMoment() {
@@ -5322,31 +5528,158 @@
     return 'Take this into your weekend: ' + t;
   }
 
+  function focusWordToDisplayPhrase(word) {
+    const w = String(word || '').trim();
+    if (!w) return '';
+    if (/^you\s/i.test(w)) return w.charAt(0).toUpperCase() + w.slice(1);
+    if (/\s{2,}/.test(w) || w.length > 40) return w;
+    const lower = w.toLowerCase();
+    const youAreSet = new Set([
+      'known',
+      'beloved',
+      'chosen',
+      'enough',
+      'made',
+      'seen',
+      'held',
+      'whole',
+      'free',
+      'loved',
+      'forgiven',
+      'new',
+      'worthy',
+      'welcome'
+    ]);
+    if (!/\s/.test(w)) {
+      if (youAreSet.has(lower)) return 'You are ' + lower;
+      return 'You are invited into ' + lower;
+    }
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }
+
+  function formatHomeWeeklySummaryForDisplay(raw) {
+    let t = String(raw || '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!t) return { text: '', multiline: false };
+    if (t.length > 200) {
+      const cut = Math.floor(t.length * 0.82);
+      let chunk = t.slice(0, cut);
+      const lastDot = chunk.lastIndexOf('.');
+      if (lastDot > 90) chunk = chunk.slice(0, lastDot + 1);
+      t = chunk.trim() + '\u2026';
+    }
+    const splitAt = t.indexOf('. ');
+    if (splitAt > 55 && splitAt < t.length - 50) {
+      const a = t.slice(0, splitAt + 1).trim();
+      const b = t.slice(splitAt + 2).trim();
+      if (a && b) return { text: a + '\n\n' + b, multiline: true };
+    }
+    return { text: t, multiline: false };
+  }
+
+  function buildWeeklyThemeHookLine(wk, ctx) {
+    if (!wk) return '';
+    if (wk.hook != null && String(wk.hook).trim()) return String(wk.hook).trim();
+    const day = ctx && ctx.day;
+    const refStr =
+      day && day.reflection != null ? String(day.reflection).replace(/\s+/g, ' ').trim() : '';
+    if (refStr) {
+      const end = refStr.search(/\.\s/);
+      const one = (end === -1 ? refStr : refStr.slice(0, end + 1)).trim();
+      if (one.length >= 28 && one.length <= 160) return one;
+    }
+    const title = String(wk.title || '').trim();
+    const sub = String(wk.subtitle || '').trim();
+    if (title && /who you are|identity|known|beloved|chosen|enough/i.test(title + ' ' + sub))
+      return 'This week is about returning to who you are without pressure.';
+    if (sub) {
+      const flow = sub.charAt(0).toLowerCase() + sub.slice(1).replace(/\.$/, '');
+      return 'This week gently orients you toward ' + flow + '\u2014at the pace your heart can hold.';
+    }
+    if (title) return 'This week invites a steadier rhythm with God than the noise around you.';
+    return '';
+  }
+
+  function homeWeeklySummaryFallbackFromIntro(introText) {
+    const s = String(introText || '').replace(/\s+/g, ' ').trim();
+    if (!s) return '';
+    const two = s.match(/^(.+?[.!?])(?:\s+(.+?[.!?]))?/);
+    if (two) {
+      const a = (two[1] || '').trim();
+      const b = (two[2] || '').trim();
+      return b ? a + ' ' + b : a;
+    }
+    return s.length > 220 ? s.slice(0, 217).trim() + '\u2026' : s;
+  }
+
   function renderHomeWeeklyTheme() {
     if (!WEEKLY_THEMES.length) return;
     if (typeof clearStaleOnboardingFirstDayFlags === 'function') clearStaleOnboardingFirstDayFlags();
     const slot = getHomeWeeklyThemeSlotIndex();
     const wk = WEEKLY_THEMES[slot];
     if (!wk) return;
+    const themeBlock = document.getElementById('homeWeeklyThemeBlock');
+    if (themeBlock) {
+      themeBlock.querySelectorAll('#homeWeeklyThemeFromWhy, .home-weekly-from-why').forEach(function (n) {
+        try {
+          n.remove();
+        } catch (e) {}
+      });
+    }
     const titleEl = document.getElementById('homeWeeklyThemeTitle');
     const descEl = document.getElementById('homeWeeklyThemeDesc');
-    const hookEl = document.getElementById('homeWeeklyThemeHook');
+    const sumEl = document.getElementById('homeWeeklyThemeSummary');
+    const anchorRefEl = document.getElementById('homeWeeklyThemeAnchorRef');
+    const previewRuleEl = document.getElementById('homeWeeklyThemePreviewRule');
     const dayLineEl = document.getElementById('homeWeeklyDayLine');
+    const hookEl = document.getElementById('homeWeeklyThemeHook');
     const focusRow = document.getElementById('homeWeeklyFocusRow');
     const focusWord = document.getElementById('homeWeeklyFocusWord');
     if (titleEl) titleEl.textContent = wk.title;
     if (descEl) descEl.textContent = wk.subtitle || '';
+    let summaryText = wk.summary != null ? String(wk.summary).trim() : '';
+    if (!summaryText && wk.intro) summaryText = homeWeeklySummaryFallbackFromIntro(wk.intro);
+    if (summaryText && /based on why you/i.test(summaryText)) {
+      summaryText = summaryText
+        .replace(/\s*It was chosen based on why you[^.]*\./gi, '')
+        .replace(/\s*chosen based on why you[^.]*\./gi, '')
+        .trim();
+    }
+    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
+    const hookLine = buildWeeklyThemeHookLine(wk, ctx);
     if (hookEl) {
-      const hk = wk.hook != null ? String(wk.hook).trim() : '';
-      if (hk) {
-        hookEl.textContent = hk;
+      if (hookLine) {
+        hookEl.textContent = hookLine;
         hookEl.hidden = false;
       } else {
         hookEl.textContent = '';
         hookEl.hidden = true;
       }
     }
-    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
+    const sumFormatted = formatHomeWeeklySummaryForDisplay(summaryText);
+    if (sumEl) {
+      if (!sumFormatted.text) {
+        sumEl.textContent = '';
+        sumEl.style.whiteSpace = '';
+        sumEl.hidden = true;
+      } else {
+        sumEl.textContent = sumFormatted.text;
+        sumEl.style.whiteSpace = sumFormatted.multiline ? 'pre-line' : '';
+        sumEl.hidden = false;
+      }
+    }
+    const avHome = getThemeAnchorVerse(wk);
+    if (anchorRefEl) {
+      const refOnly = avHome && avHome.reference ? String(avHome.reference).trim() : '';
+      if (refOnly) {
+        anchorRefEl.textContent = '\u2014 ' + refOnly;
+        anchorRefEl.hidden = false;
+      } else {
+        anchorRefEl.textContent = '';
+        anchorRefEl.hidden = true;
+      }
+    }
     if (dayLineEl) {
       if (ctx && ctx.day) {
         const weekend = !!ctx.isWeekend;
@@ -5360,34 +5693,26 @@
     }
     if (focusRow && focusWord) {
       if (ctx && ctx.day && ctx.day.focus != null && String(ctx.day.focus).trim()) {
-        focusWord.textContent = String(ctx.day.focus).trim();
+        focusWord.textContent = focusWordToDisplayPhrase(String(ctx.day.focus).trim());
         focusRow.hidden = false;
       } else {
         focusWord.textContent = '';
         focusRow.hidden = true;
       }
     }
+    if (previewRuleEl) {
+      const showRule =
+        !!(sumFormatted && sumFormatted.text) ||
+        (hookEl && !hookEl.hidden) ||
+        (anchorRefEl && !anchorRefEl.hidden) ||
+        (dayLineEl && !dayLineEl.hidden) ||
+        (focusRow && !focusRow.hidden);
+      previewRuleEl.hidden = !showRule;
+    }
     if (typeof renderScriptureWeekReadingCard === 'function') renderScriptureWeekReadingCard();
     if (typeof renderPrayerTabWeeklyThemeContext === 'function') renderPrayerTabWeeklyThemeContext();
     if (typeof updateHomeThemeIntroCard === 'function') updateHomeThemeIntroCard();
-    const fromWhy = document.getElementById('homeWeeklyThemeFromWhy');
-    if (fromWhy) {
-      let show = false;
-      try {
-        const today = typeof todayDateKey === 'function' ? todayDateKey() : '';
-        const doneDay = localStorage.getItem('grounded_onboarding_completed_day');
-        const flag = localStorage.getItem('grounded_theme_choice_note');
-        const skipped = localStorage.getItem('grounded_onboarding_skipped') === 'true';
-        show = !skipped && flag === '1' && doneDay === today;
-      } catch (e) {}
-      if (show) {
-        fromWhy.textContent = 'We chose this week\u2019s theme based on why you\u2019re here';
-        fromWhy.hidden = false;
-      } else {
-        fromWhy.textContent = '';
-        fromWhy.hidden = true;
-      }
-    }
+    if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
   }
 
   function applyWeeklyGuidedMomentToDom() {
@@ -5396,27 +5721,7 @@
     const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
     if (ctx && ctx.day) {
       momentWeeklyModeActive = true;
-      const dow = new Date().getDay();
       const themeObj = getWeeklyThemeObjectForSlot();
-      const anchor = getThemeAnchorVerse(themeObj);
-      const canWeeklyCloser =
-        (dow === 5 || dow === 6) &&
-        anchor &&
-        !isGroundedJan1ThemeWeekClosed();
-      if (canWeeklyCloser) {
-        resetGuidedMomentIntroWeeklyChrome();
-        const prayer =
-          (themeObj && themeObj.closingPrayer) ||
-          'God, thank you for this week with you. Quiet my heart, bless what I carry forward, and release what needs to rest. Amen.';
-        applyWeeklyFridayCloserLayout(ctx.themeTitle, anchor, prayer);
-        const tr = document.getElementById('gmWeekTrack');
-        if (tr) {
-          tr.textContent = 'Closing the week · ' + ctx.themeTitle;
-          tr.hidden = false;
-        }
-        if (typeof applyGuidedMomentPrefBanner === 'function') applyGuidedMomentPrefBanner();
-        return;
-      }
       const introBlock = document.getElementById('gmMomentIntroBlock');
       const kicker = document.querySelector('#gmMomentIntroBlock .gm-kicker');
       const title = document.querySelector('#gmMomentIntroBlock .gm-title');
@@ -5446,6 +5751,7 @@
       }
       if (typeof applyWeeklyMomentTimeOfDayTone === 'function') applyWeeklyMomentTimeOfDayTone();
       if (typeof applyGuidedMomentPrefBanner === 'function') applyGuidedMomentPrefBanner();
+      if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
       return;
     }
     if (typeof resolveGroundedWeeklyMoment !== 'function') return;
@@ -5480,6 +5786,7 @@
     }
     if (typeof applyWeeklyMomentTimeOfDayTone === 'function') applyWeeklyMomentTimeOfDayTone();
     if (typeof applyGuidedMomentPrefBanner === 'function') applyGuidedMomentPrefBanner();
+    if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
   }
 
   function populateWeeklyMomentStepTwo() {
@@ -5741,6 +6048,15 @@
     default:     "Thank you for this moment. Be with me as I go."
   };
 
+  const THEME_ARRIVE_MAP =
+    typeof window !== 'undefined' && window.GROUNDED_THEME_ARRIVE_MAP
+      ? window.GROUNDED_THEME_ARRIVE_MAP
+      : {};
+  const THEME_CLOSING_PRAYERS =
+    typeof window !== 'undefined' && window.GROUNDED_THEME_CLOSING_PRAYERS
+      ? window.GROUNDED_THEME_CLOSING_PRAYERS
+      : {};
+
   function applyWeeklyMomentTimeOfDayTone() {
     if (!momentWeeklyModeActive) return;
     const tod = typeof getGroundedTimeOfDayPref === 'function' ? getGroundedTimeOfDayPref() : 'flexible';
@@ -5868,7 +6184,6 @@
       if (typeof guidedMomentSmartBack === 'function') guidedMomentSmartBack();
     });
     if (toPrayer) toPrayer.addEventListener('click', () => {
-      if (momentWeeklyClosingUiActive) return;
       var ctxSkip = null;
       try {
         if (momentWeeklyModeActive && typeof getMomentFlowWeeklyContext === 'function') {
@@ -5893,6 +6208,7 @@
         if (typeof markGroundedJan1ThemeWeekClosed === 'function') markGroundedJan1ThemeWeekClosed();
         if (typeof recordWeeklyMomentArcCompletion === 'function') recordWeeklyMomentArcCompletion();
         if (typeof showThemeWeekCompleteMoment === 'function') showThemeWeekCompleteMoment();
+        if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
       });
     }
     const twcOv = document.getElementById('themeWeekCompleteOverlay');
@@ -6061,6 +6377,13 @@
         switchTab(_restore);
         window.scrollTo({ top: 0 });
       });
+    }
+    if (currentTab === 'feed') {
+      window.setTimeout(function () {
+        if (typeof window.maybeShowThemeEducationSheet === 'function') {
+          window.maybeShowThemeEducationSheet();
+        }
+      }, 1000);
     }
   }
 
@@ -11410,6 +11733,7 @@
   }
 
   const GROUNDED_WEEKLY_ARC_MOMENTS_KEY = 'grounded_weekly_arc_moments_v1';
+  const GROUNDED_MOMENTS_COMPLETED_KEY = 'grounded_moments_completed';
 
   function getReflectThemeWeekKey(d) {
     const dt = d || new Date();
@@ -11426,9 +11750,16 @@
       let o = raw ? JSON.parse(raw) : {};
       if (!o || typeof o !== 'object') o = {};
       if (!Array.isArray(o[key])) o[key] = [];
-      if (o[key].indexOf(dayIndex) === -1) o[key].push(dayIndex);
+      const wasNew = o[key].indexOf(dayIndex) === -1;
+      if (wasNew) o[key].push(dayIndex);
       o[key].sort(function (a, b) { return a - b; });
       localStorage.setItem(GROUNDED_WEEKLY_ARC_MOMENTS_KEY, JSON.stringify(o));
+      if (wasNew) {
+        try {
+          const prev = parseInt(localStorage.getItem(GROUNDED_MOMENTS_COMPLETED_KEY) || '0', 10) || 0;
+          localStorage.setItem(GROUNDED_MOMENTS_COMPLETED_KEY, String(prev + 1));
+        } catch (e2) {}
+      }
     } catch (e) {}
   }
 
@@ -11450,6 +11781,457 @@
     const blob = (entry.date || '') + ' ' + (entry.time || '12:00 PM');
     const t = Date.parse(blob);
     return isNaN(t) ? 0 : t;
+  }
+
+  function getGroundedMomentsCompletedCount() {
+    try {
+      const raw = localStorage.getItem(GROUNDED_MOMENTS_COMPLETED_KEY);
+      if (raw != null && raw !== '') {
+        const n = parseInt(raw, 10);
+        if (!isNaN(n) && n >= 0) return n;
+      }
+    } catch (e) {}
+    try {
+      const raw = localStorage.getItem(GROUNDED_WEEKLY_ARC_MOMENTS_KEY);
+      const o = raw ? JSON.parse(raw) : {};
+      if (!o || typeof o !== 'object') return 0;
+      let sum = 0;
+      Object.keys(o).forEach(function (k) {
+        if (Array.isArray(o[k])) sum += o[k].length;
+      });
+      return sum;
+    } catch (e2) {
+      return 0;
+    }
+  }
+
+  function reflectJourneyMemorySlug(s) {
+    return (
+      String(s || '')
+        .trim()
+        .replace(/[^\w\u00C0-\u024f]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .slice(0, 48) || 'theme'
+    );
+  }
+
+  function reflectGetJournalEntriesArray() {
+    try {
+      if (typeof journalEntries !== 'undefined' && Array.isArray(journalEntries)) return journalEntries;
+    } catch (e) {}
+    try {
+      return JSON.parse(localStorage.getItem('grounded_journal_entries') || '[]');
+    } catch (e2) {
+      return [];
+    }
+  }
+
+  /** Journey stats row: moments from storage/arc, else journal entry count. */
+  function getReflectJourneyMomentsStat() {
+    const m = getGroundedMomentsCompletedCount();
+    if (m > 0) return m;
+    const arr = reflectGetJournalEntriesArray();
+    return Array.isArray(arr) ? arr.length : 0;
+  }
+
+  function reflectGroupJournalByWeekTheme() {
+    const list = reflectGetJournalEntriesArray();
+    const map = {};
+    if (!Array.isArray(list)) return [];
+    list.forEach(function (e) {
+      const k = e.weekTheme != null ? String(e.weekTheme).trim() : '';
+      if (!k) return;
+      if (!map[k]) map[k] = [];
+      map[k].push(e);
+    });
+    return Object.keys(map)
+      .map(function (title) {
+        const entries = map[title].slice();
+        entries.sort(function (a, b) {
+          return reflectJournalEntryTimestampMs(a) - reflectJournalEntryTimestampMs(b);
+        });
+        const ts = entries
+          .map(function (x) {
+            return reflectJournalEntryTimestampMs(x);
+          })
+          .filter(function (x) {
+            return x > 0;
+          });
+        const firstMs = ts.length ? Math.min.apply(null, ts) : 0;
+        const lastMs = ts.length ? Math.max.apply(null, ts) : 0;
+        return {
+          themeTitle: title,
+          entries: entries,
+          firstMs: firstMs,
+          lastMs: lastMs,
+          entryCount: entries.length,
+          firstLabel: entries[0] && entries[0].date ? String(entries[0].date) : '',
+          lastLabel:
+            entries[entries.length - 1] && entries[entries.length - 1].date
+              ? String(entries[entries.length - 1].date)
+              : ''
+        };
+      })
+      .sort(function (a, b) {
+        return b.lastMs - a.lastMs;
+      });
+  }
+
+  function reflectFindWeeklyThemeObjectByTitle(title) {
+    const t = String(title || '').trim();
+    if (!t || !WEEKLY_THEMES || !WEEKLY_THEMES.length) return null;
+    for (let i = 0; i < WEEKLY_THEMES.length; i++) {
+      if (WEEKLY_THEMES[i] && WEEKLY_THEMES[i].title === t) return WEEKLY_THEMES[i];
+    }
+    return null;
+  }
+
+  function reflectGetClosingPrayerForThemeObj(themeObj, titleFallback) {
+    if (themeObj && themeObj.closingPrayer) return String(themeObj.closingPrayer).trim();
+    try {
+      const map =
+        typeof GROUNDED_THEME_CLOSING_PRAYERS !== 'undefined' && GROUNDED_THEME_CLOSING_PRAYERS
+          ? GROUNDED_THEME_CLOSING_PRAYERS
+          : null;
+      const tit = themeObj && themeObj.title ? themeObj.title : titleFallback;
+      if (map && tit && map[tit]) return String(map[tit]).trim();
+    } catch (e) {}
+    return '';
+  }
+
+  function reflectPickMemoryPromptGroup(groups) {
+    const now = Date.now();
+    const DAY = 86400000;
+    let best = null;
+    let bestScore = Infinity;
+    groups.forEach(function (g) {
+      if (!g.entries.length) return;
+      const lastMs = g.lastMs;
+      if (!lastMs) return;
+      const daysAgo = (now - lastMs) / DAY;
+      if (daysAgo < 28 || daysAgo > 35) return;
+      const slug = reflectJourneyMemorySlug(g.themeTitle);
+      try {
+        if (localStorage.getItem('grounded_memory_shown_' + slug) === '1') return;
+      } catch (e) {}
+      const score = Math.abs(daysAgo - 31.5);
+      if (score < bestScore) {
+        bestScore = score;
+        best = g;
+      }
+    });
+    return best;
+  }
+
+  function buildReflectYourJourneySectionHtml() {
+    const groups = reflectGroupJournalByWeekTheme();
+    const uniqueThemes = groups.length;
+    const momentsCount = getGroundedMomentsCompletedCount();
+    const momentsStat = getReflectJourneyMomentsStat();
+    const streakStat =
+      typeof getGroundedDaysCount === 'function' ? getGroundedDaysCount() : 0;
+    const growthRowHtml =
+      '<div class="reflect-yj-growth" role="group" aria-label="' +
+      reflectEscAttr(
+        String(momentsStat) +
+          ' moments, ' +
+          String(uniqueThemes) +
+          ' themes, ' +
+          String(streakStat) +
+          ' days'
+      ) +
+      '">' +
+      '<div class="reflect-yj-growth__col">' +
+      '<p class="reflect-yj-growth__num">' +
+      String(momentsStat) +
+      '</p>' +
+      '<p class="reflect-yj-growth__lbl body-font">Moments</p></div>' +
+      '<div class="reflect-yj-growth__col">' +
+      '<p class="reflect-yj-growth__num">' +
+      String(uniqueThemes) +
+      '</p>' +
+      '<p class="reflect-yj-growth__lbl body-font">Themes</p></div>' +
+      '<div class="reflect-yj-growth__col">' +
+      '<p class="reflect-yj-growth__num">' +
+      String(streakStat) +
+      '</p>' +
+      '<p class="reflect-yj-growth__lbl body-font">Days</p></div>' +
+      '</div>';
+    const memoryGroup = reflectPickMemoryPromptGroup(groups);
+    let memoryHtml = '';
+    if (memoryGroup) {
+      const wk = reflectFindWeeklyThemeObjectByTitle(memoryGroup.themeTitle);
+      const av = wk && typeof getThemeAnchorVerse === 'function' ? getThemeAnchorVerse(wk) : null;
+      const refLine = av && av.reference ? String(av.reference).trim() : '';
+      const textLine = av && av.text ? '\u201c' + String(av.text).trim() + '\u201d' : '';
+      memoryHtml =
+        '<div class="reflect-yj-memory" data-memory-theme="' +
+        encodeURIComponent(memoryGroup.themeTitle) +
+        '">' +
+        '<p class="reflect-yj-memory-label body-font">30 days ago</p>' +
+        '<p class="reflect-yj-memory-title serif">You were exploring ' +
+        escReflectHtml(memoryGroup.themeTitle) +
+        '</p>' +
+        (textLine
+          ? '<p class="reflect-yj-memory-verse body-font">' +
+            escReflectHtml(textLine) +
+            (refLine ? ' \u2014 ' + escReflectHtml(refLine) : '') +
+            '</p>'
+          : '') +
+        '<p class="reflect-yj-memory-q body-font">What has stayed with you?</p>' +
+        '<input type="text" class="reflect-yj-memory-input" id="reflectYjMemoryInput" maxlength="500" aria-label="What has stayed with you" />' +
+        '<button type="button" class="reflect-yj-memory-save" id="reflectYjMemorySaveBtn">Save</button>' +
+        '</div>';
+    }
+    const maxShow = 5;
+    const showSeeAll = groups.length > maxShow;
+    let cardsHtml = '';
+    groups.forEach(function (g, idx) {
+      const extra = idx >= maxShow ? ' reflect-yj-card--extra' : '';
+      const dotCls = g.entryCount >= 5 ? 'reflect-yj-card-dot reflect-yj-card-dot--full' : 'reflect-yj-card-dot';
+      const range =
+        g.firstLabel && g.lastLabel && g.firstLabel !== g.lastLabel
+          ? g.firstLabel + ' \u2013 ' + g.lastLabel
+          : g.firstLabel || g.lastLabel || '';
+      const enc = encodeURIComponent(g.themeTitle);
+      cardsHtml +=
+        '<button type="button" class="reflect-yj-card' +
+        extra +
+        '" data-yj-theme="' +
+        enc +
+        '">' +
+        '<span class="' +
+        dotCls +
+        '" aria-hidden="true"></span>' +
+        '<span class="reflect-yj-card-mid">' +
+        '<p class="reflect-yj-card-title">' +
+        escReflectHtml(g.themeTitle) +
+        '</p>' +
+        '<p class="reflect-yj-card-meta">' +
+        String(g.entryCount) +
+        (g.entryCount === 1 ? ' day completed' : ' days completed') +
+        (range ? ' · ' + escReflectHtml(range) : '') +
+        '</p>' +
+        '</span>' +
+        '<span class="reflect-yj-card-arrow" aria-hidden="true">&gt;</span>' +
+        '</button>';
+    });
+    const seeAllBtn = showSeeAll
+      ? '<button type="button" class="reflect-yj-seeall" id="reflectYjSeeAll">See all</button>'
+      : '';
+    return (
+      '<section id="reflectYourJourney" class="reflect-your-journey" aria-label="Your journey">' +
+      growthRowHtml +
+      memoryHtml +
+      '<div class="reflect-yj-header">' +
+      '<p class="reflect-yj-label body-font">Your journey</p>' +
+      '<p class="reflect-yj-summary body-font">' +
+      momentsCount +
+      (momentsCount === 1 ? ' moment' : ' moments') +
+      ' · ' +
+      uniqueThemes +
+      (uniqueThemes === 1 ? ' theme explored' : ' themes explored') +
+      '</p></div>' +
+      '<div class="reflect-yj-cards" id="reflectYjCardsHost">' +
+      cardsHtml +
+      '</div>' +
+      seeAllBtn +
+      '</section>'
+    );
+  }
+
+  let __reflectJourneyDetailThemeTitle = '';
+
+  function reflectJourneyCloseDetail() {
+    const ov = document.getElementById('reflectJourneyDetailOverlay');
+    if (!ov) return;
+    ov.classList.remove('reflect-journey-detail--open');
+    window.setTimeout(function () {
+      ov.setAttribute('hidden', '');
+      ov.setAttribute('aria-hidden', 'true');
+    }, 280);
+    try {
+      document.body.style.overflow = '';
+    } catch (e) {}
+  }
+
+  function reflectJourneySetTab(which) {
+    const w = which === 'verses' ? 'Verses' : which === 'prayer' ? 'Prayer' : 'Journal';
+    const btnJ = document.getElementById('reflectJourneyTabJournal');
+    const btnV = document.getElementById('reflectJourneyTabVerses');
+    const btnP = document.getElementById('reflectJourneyTabPrayer');
+    const pJ = document.getElementById('reflectJourneyPanelJournal');
+    const pV = document.getElementById('reflectJourneyPanelVerses');
+    const pP = document.getElementById('reflectJourneyPanelPrayer');
+    const map = [
+      { b: btnJ, p: pJ, id: 'Journal' },
+      { b: btnV, p: pV, id: 'Verses' },
+      { b: btnP, p: pP, id: 'Prayer' }
+    ];
+    map.forEach(function (row) {
+      const on = row.id === w;
+      if (row.b) {
+        row.b.classList.toggle('is-selected', on);
+        row.b.setAttribute('aria-selected', on ? 'true' : 'false');
+      }
+      if (row.p) {
+        row.p.classList.toggle('is-active', on);
+        row.p.toggleAttribute('hidden', !on);
+      }
+    });
+  }
+
+  function reflectJourneyOpenDetail(encodedTitle) {
+    let title = '';
+    try {
+      title = decodeURIComponent(encodedTitle || '');
+    } catch (e) {
+      title = '';
+    }
+    if (!title) return;
+    __reflectJourneyDetailThemeTitle = title;
+    const groups = reflectGroupJournalByWeekTheme();
+    const grp = groups.filter(function (g) {
+      return g.themeTitle === title;
+    })[0];
+    const themeObj = reflectFindWeeklyThemeObjectByTitle(title);
+    const ov = document.getElementById('reflectJourneyDetailOverlay');
+    const tEl = document.getElementById('reflectJourneyDetailTitle');
+    const sEl = document.getElementById('reflectJourneyDetailSub');
+    const pJ = document.getElementById('reflectJourneyPanelJournal');
+    const pV = document.getElementById('reflectJourneyPanelVerses');
+    const pP = document.getElementById('reflectJourneyPanelPrayer');
+    if (!ov || !tEl || !pJ || !pV || !pP) return;
+    tEl.textContent = title;
+    if (sEl) sEl.textContent = themeObj && themeObj.subtitle ? String(themeObj.subtitle) : '';
+    if (grp) {
+      let jh = '';
+      grp.entries.forEach(function (e) {
+        const foc =
+          e.dayFocus != null && String(e.dayFocus).trim() ? String(e.dayFocus).trim() : 'Reflection';
+        const body = escReflectHtml(String(e.content != null ? e.content : '').trim());
+        jh +=
+          '<article class="reflect-journey-entry">' +
+          '<p class="reflect-journey-entry-head">' +
+          escReflectHtml(foc) +
+          '</p>' +
+          '<p class="reflect-journey-entry-body">' +
+          body +
+          '</p></article>';
+      });
+      pJ.innerHTML = jh || '<p class="reflect-yj-summary">No entries.</p>';
+    } else pJ.innerHTML = '';
+    if (themeObj && themeObj.days && themeObj.days.length) {
+      let vh = '';
+      themeObj.days.forEach(function (d) {
+        const v = d && d.verse ? d.verse : null;
+        if (!v) return;
+        const ref =
+          v.reference != null ? String(v.reference).trim() : v.ref != null ? String(v.ref).trim() : '';
+        const txt = v.text != null ? String(v.text).trim() : '';
+        vh +=
+          '<div class="reflect-journey-verse-row">' +
+          escReflectHtml(txt) +
+          (ref ? '<span class="reflect-journey-verse-ref">' + escReflectHtml(ref) + '</span>' : '') +
+          '</div>';
+      });
+      pV.innerHTML = vh || '<p class="reflect-yj-summary">No verses.</p>';
+    } else pV.innerHTML = '<p class="reflect-yj-summary">No verses.</p>';
+    const pray = reflectGetClosingPrayerForThemeObj(themeObj, title);
+    pP.innerHTML = pray
+      ? '<p class="reflect-journey-prayer">' + escReflectHtml(pray) + '</p>'
+      : '<p class="reflect-yj-summary">No prayer on file.</p>';
+    reflectJourneySetTab('journal');
+    ov.removeAttribute('hidden');
+    ov.setAttribute('aria-hidden', 'false');
+    void ov.offsetWidth;
+    ov.classList.add('reflect-journey-detail--open');
+    try {
+      document.body.style.overflow = 'hidden';
+    } catch (e2) {}
+  }
+
+  function reflectJourneyWireOverlayOnce() {
+    const root = document.getElementById('reflectJourneyDetailOverlay');
+    if (!root || root.dataset.yjBound) return;
+    root.dataset.yjBound = '1';
+    const back = document.getElementById('reflectJourneyDetailBack');
+    if (back) back.addEventListener('click', reflectJourneyCloseDetail);
+    [['reflectJourneyTabJournal', 'journal'], ['reflectJourneyTabVerses', 'verses'], ['reflectJourneyTabPrayer', 'prayer']].forEach(
+      function (pair) {
+        const b = document.getElementById(pair[0]);
+        if (!b) return;
+        b.addEventListener('click', function () {
+          reflectJourneySetTab(pair[1]);
+        });
+      }
+    );
+    const rev = document.getElementById('reflectJourneyRevisitBtn');
+    if (rev) {
+      rev.addEventListener('click', function () {
+        const tit = __reflectJourneyDetailThemeTitle;
+        if (!tit || typeof findWeeklyThemeIndexByTitle !== 'function' || typeof writeGroundedThemeOverride !== 'function')
+          return;
+        const ix = findWeeklyThemeIndexByTitle(tit);
+        if (ix == null || ix < 0) return;
+        writeGroundedThemeOverride(ix, 7);
+        reflectJourneyCloseDetail();
+        if (typeof switchTab === 'function') switchTab('feed');
+        if (typeof renderHomeWeeklyTheme === 'function') renderHomeWeeklyTheme();
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      const ov = document.getElementById('reflectJourneyDetailOverlay');
+      if (!ov || ov.hasAttribute('hidden')) return;
+      e.preventDefault();
+      reflectJourneyCloseDetail();
+    });
+  }
+
+  function reflectYourJourneyBind(container) {
+    if (!container) return;
+    reflectJourneyWireOverlayOnce();
+    if (container.dataset.reflectYjBound) return;
+    container.dataset.reflectYjBound = '1';
+    container.addEventListener('click', function (e) {
+      const see = e.target.closest('#reflectYjSeeAll');
+      if (see) {
+        const sec = document.getElementById('reflectYourJourney');
+        if (sec) sec.classList.add('reflect-yj--expanded');
+        see.style.display = 'none';
+        return;
+      }
+      const saveMem = e.target.closest('#reflectYjMemorySaveBtn');
+      if (saveMem) {
+        const inp = document.getElementById('reflectYjMemoryInput');
+        const box = e.target.closest('.reflect-yj-memory');
+        let theme = '';
+        try {
+          theme =
+            box && box.getAttribute('data-memory-theme')
+              ? decodeURIComponent(box.getAttribute('data-memory-theme'))
+              : '';
+        } catch (err) {
+          theme = '';
+        }
+        const val = inp ? String(inp.value || '').trim() : '';
+        if (!theme || !val) return;
+        const slug = reflectJourneyMemorySlug(theme);
+        const dk = typeof todayDateKey === 'function' ? todayDateKey() : '';
+        try {
+          localStorage.setItem('grounded_memory_' + slug + '_' + dk, val);
+          localStorage.setItem('grounded_memory_shown_' + slug, '1');
+        } catch (err2) {}
+        if (box) box.remove();
+        return;
+      }
+      const card = e.target.closest('.reflect-yj-card[data-yj-theme]');
+      if (card) {
+        const enc = card.getAttribute('data-yj-theme') || '';
+        reflectJourneyOpenDetail(enc);
+      }
+    });
   }
 
   /** ISO 8601 week-year and week number (1–53) for local calendar date. */
@@ -11533,49 +12315,90 @@
     );
   }
 
-  function buildReflectWeeklyJournalCardsHtml() {
-    if (!WEEKLY_THEMES || !WEEKLY_THEMES.length) return '';
+  function buildReflectThisWeekSavedSectionHtml() {
+    if (!WEEKLY_THEMES || !WEEKLY_THEMES.length) {
+      return (
+        '<section class="reflect-this-week" aria-labelledby="reflectThisWeekHeading">' +
+        '<p class="reflect-this-week__label" id="reflectThisWeekHeading">This week</p>' +
+        '<p class="reflect-this-week__empty body-font">Nothing saved this week yet. Your reflections will appear here.</p>' +
+        '</section>'
+      );
+    }
     const slot = typeof getHomeWeeklyThemeSlotIndex === 'function' ? getHomeWeeklyThemeSlotIndex() : 0;
     const theme = WEEKLY_THEMES[slot];
-    if (!theme || !theme.title) return '';
+    if (!theme || !theme.title) {
+      return (
+        '<section class="reflect-this-week" aria-labelledby="reflectThisWeekHeading">' +
+        '<p class="reflect-this-week__label" id="reflectThisWeekHeading">This week</p>' +
+        '<p class="reflect-this-week__empty body-font">Nothing saved this week yet. Your reflections will appear here.</p>' +
+        '</section>'
+      );
+    }
+    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
+    const progressEsc =
+      ctx && ctx.day
+        ? escReflectHtml('Day ' + String(ctx.dayIndex) + ' of 5 · ' + String(theme.title).trim())
+        : '';
     const rng = getReflectThemeWeekTimeRange();
     const entries = [];
-    if (typeof journalEntries !== 'undefined' && journalEntries && journalEntries.length) {
-      journalEntries.forEach(function (e) {
+    let list = [];
+    try {
+      if (typeof journalEntries !== 'undefined' && Array.isArray(journalEntries) && journalEntries.length) {
+        list = journalEntries;
+      } else {
+        list = JSON.parse(localStorage.getItem('grounded_journal_entries') || '[]');
+      }
+    } catch (e) {
+      list = [];
+    }
+    if (Array.isArray(list)) {
+      list.forEach(function (e) {
         const ms = reflectJournalEntryTimestampMs(e);
         if (ms >= rng.startMs && ms < rng.endMs) entries.push(e);
       });
-      entries.sort(function (a, b) {
-        return reflectJournalEntryTimestampMs(a) - reflectJournalEntryTimestampMs(b);
-      });
     }
-    if (!entries.length) return '';
-    let journalCards = '<div class="rwa-week-journal">';
-    journalCards += '<p class="rwa-week-journal-label body-font">This Week</p>';
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    entries.forEach(function (e) {
-      const ms = reflectJournalEntryTimestampMs(e);
-      const dt = new Date(ms || Date.now());
-      const dayIdx = momentFlowDayIndexFromDate(dt);
-      const dayWord =
-        theme.days && theme.days[dayIdx - 1] && theme.days[dayIdx - 1].focus
-          ? String(theme.days[dayIdx - 1].focus)
-          : '';
-      const headLine = dayNames[dt.getDay()] + (dayWord ? ' — ' + dayWord : '');
-      const rawC = e.content || '';
-      const prev = rawC.length > 160 ? rawC.substring(0, 158) + '\u2026' : rawC;
-      journalCards += '<div class="rwa-journal-card">';
-      journalCards += '<p class="rwa-journal-card-head">' + escReflectHtml(headLine) + '</p>';
-      if (e.prompt) {
-        journalCards +=
-          '<p class="rwa-journal-prompt body-font">' + escReflectHtml(reflectTrimPrompt(String(e.prompt), 90)) + '</p>';
-      }
-      journalCards += '<p class="rwa-journal-body body-font">' + escReflectHtml(prev) + '</p>';
-      journalCards += '<p class="rwa-journal-time body-font">' + escReflectHtml(e.time || '') + '</p>';
-      journalCards += '</div>';
+    entries.sort(function (a, b) {
+      return reflectJournalEntryTimestampMs(a) - reflectJournalEntryTimestampMs(b);
     });
-    journalCards += '</div>';
-    return journalCards;
+    let body = '';
+    if (!entries.length) {
+      body =
+        '<p class="reflect-this-week__empty body-font">Nothing saved this week yet. Your reflections will appear here.</p>';
+    } else {
+      body = '<div class="reflect-this-week__cards">';
+      entries.forEach(function (e) {
+        let headFocus = e.dayFocus != null ? String(e.dayFocus).trim() : '';
+        if (!headFocus) {
+          const ms = reflectJournalEntryTimestampMs(e);
+          const dt = new Date(ms || Date.now());
+          const dayIdx = momentFlowDayIndexFromDate(dt);
+          headFocus =
+            theme.days && theme.days[dayIdx - 1] && theme.days[dayIdx - 1].focus
+              ? String(theme.days[dayIdx - 1].focus).trim()
+              : 'Reflection';
+        }
+        const rawC = e.content != null ? String(e.content) : '';
+        const prev =
+          rawC.length > 80 ? rawC.substring(0, 80).replace(/\s+$/, '').trim() + '\u2026' : rawC.trim();
+        body +=
+          '<article class="reflect-this-week__card">' +
+          '<p class="reflect-this-week__card-head">' +
+          escReflectHtml(headFocus) +
+          '</p>' +
+          '<p class="reflect-this-week__card-preview body-font">' +
+          escReflectHtml(prev) +
+          '</p>' +
+          '</article>';
+      });
+      body += '</div>';
+    }
+    return (
+      '<section class="reflect-this-week" aria-labelledby="reflectThisWeekHeading">' +
+      '<p class="reflect-this-week__label" id="reflectThisWeekHeading">This week</p>' +
+      (progressEsc ? '<p class="reflect-this-week__progress body-font">' + progressEsc + '</p>' : '') +
+      body +
+      '</section>'
+    );
   }
 
   function buildReflectWeeklyClosingHtml() {
@@ -11607,9 +12430,14 @@
   function renderReflect() {
     const container = document.getElementById('reflectContent');
     if (!container) return;
-    const weeklyJourneyHtml = buildReflectWeeklyJourneySectionHtml() + buildReflectWeeklyJournalCardsHtml();
+    try {
+      delete container.dataset.reflectYjBound;
+    } catch (e) {}
+    const weeklyJourneyHtml = buildReflectWeeklyJourneySectionHtml();
     const themeContextHtml = buildReflectThemeContextLineHtml();
+    const reflectThisWeekSavedHtml = buildReflectThisWeekSavedSectionHtml();
     const weeklyClosingHtml = buildReflectWeeklyClosingHtml();
+    const reflectYourJourneyHtml = buildReflectYourJourneySectionHtml();
     const v = buildReflectViewModel();
     const label = v.source === 'read' ? 'From your reading' : 'Verse of the moment';
     const subLabel = (v.source === 'home' && v.moodTag) ? escReflectHtml(String(v.moodTag).charAt(0).toUpperCase() + String(v.moodTag).slice(1)) : '';
@@ -11701,6 +12529,7 @@
       '<div class="reflect-actions-row">' +
       '<button class="journal-save body-font" type="button" id="reflectSaveEntryBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>Save entry</button>' +
       '<span class="journal-saved-msg" id="reflectEntrySavedMsg">Saved</span></div>' +
+      reflectThisWeekSavedHtml +
       '<div class="ways-deeper ways-deeper--reflect" id="reflectWaysDeeper">' +
       '<button class="wd-toggle wd-toggle--reflect" type="button" id="reflectWaysDeeperBtn" aria-expanded="false" aria-controls="reflectWaysDeeperBody">' +
       '<span class="wd-title wd-title--reflect-sit body-font">Sit with this for a moment</span>' +
@@ -11714,9 +12543,11 @@
       '<button type="button" class="body-font" id="reflectSaveReturnTodayBtn">Save and return to today</button>' +
       '<button type="button" class="body-font" id="reflectPrayWithThisBtn">Pray with this</button>' +
       '</div>' +
-      weeklyClosingHtml
+      weeklyClosingHtml +
+      reflectYourJourneyHtml
     );
 
+    reflectYourJourneyBind(container);
     setReflectDeeperFromVerse(v);
     (function reflectWaysDeeperInit() {
       const rwd = document.getElementById('reflectWaysDeeper');
@@ -12635,17 +13466,28 @@
   const MOMENT_COMPLETED_DAY_KEY = 'grounded_moment_completed_day';
 
   function applyHomeMomentCompletedState() {
+    let completedToday = false;
     try {
-      if (localStorage.getItem(MOMENT_COMPLETED_DAY_KEY) !== todayDateKey()) return;
-    } catch (_) {
-      return;
-    }
+      completedToday = localStorage.getItem(MOMENT_COMPLETED_DAY_KEY) === todayDateKey();
+    } catch (_) {}
     const inviteTitle = document.getElementById('homeInviteTitle');
     const inviteSub = document.querySelector('.home-daily-invite .home-invite-sub');
     const startBtn = document.getElementById('homeStartMomentBtn');
-    if (inviteTitle) inviteTitle.textContent = 'You took a moment today';
-    if (inviteSub) inviteSub.textContent = 'Whenever you need another pause, we\u2019re here.';
-    if (startBtn) startBtn.textContent = 'Start another moment';
+    if (completedToday) {
+      if (inviteTitle) inviteTitle.textContent = 'You took a moment today';
+      if (inviteSub) {
+        inviteSub.textContent = '';
+        inviteSub.hidden = true;
+      }
+      if (startBtn) startBtn.textContent = 'Start another moment';
+    } else {
+      if (inviteTitle) inviteTitle.textContent = 'Take a moment with God today';
+      if (inviteSub) {
+        inviteSub.textContent = 'Just a few minutes to reset and reconnect';
+        inviteSub.hidden = false;
+      }
+      if (startBtn) startBtn.textContent = 'Start your moment';
+    }
     if (typeof renderHomeWeeklyTheme === 'function') renderHomeWeeklyTheme();
   }
 
@@ -12826,6 +13668,75 @@
       : t;
   }
 
+  function mflowWeeklyVerseContextFromSnap(snap) {
+    if (!snap || !snap.day) return '';
+    const vc = snap.day.verseContext;
+    return vc != null ? String(vc).trim() : '';
+  }
+
+  function mflowApplyWeeklyArriveCopy() {
+    mflowSyncWeeklyContextFromDate();
+    const titleEl = document.getElementById('mflowArriveTitle');
+    const subEl = document.getElementById('mflowArriveSub');
+    if (!titleEl) return;
+    let title = 'Take a moment to arrive';
+    let sub = '';
+    const snap = __mflowWeeklySnap;
+    const mo = typeof MOMENT_OPENERS !== 'undefined' ? MOMENT_OPENERS : null;
+    const fk =
+      typeof activeMomentFeeling === 'string' && activeMomentFeeling
+        ? activeMomentFeeling
+        : 'default';
+    const feelO = mo ? mo[fk] || mo.default : null;
+    if (snap && snap.themeTitle) {
+      const t = String(snap.themeTitle).trim();
+      const til = THEME_ARRIVE_MAP && THEME_ARRIVE_MAP[t];
+      if (til && til.title) {
+        title = String(til.title).trim();
+        sub = til.sub != null ? String(til.sub).trim() : '';
+      } else if (mo && mo[t]) {
+        const o = mo[t];
+        title = o.title ? String(o.title).trim() : title;
+        sub = o.sub != null ? String(o.sub).trim() : '';
+      } else if (feelO) {
+        title = feelO.title ? String(feelO.title).trim() : title;
+        sub = feelO.sub != null ? String(feelO.sub).trim() : '';
+      }
+    } else if (feelO) {
+      title = feelO.title ? String(feelO.title).trim() : title;
+      sub = feelO.sub != null ? String(feelO.sub).trim() : '';
+    }
+    titleEl.textContent = title;
+    if (subEl) {
+      subEl.textContent = sub;
+      subEl.hidden = !sub;
+    }
+  }
+
+  function mflowFillRespondStep() {
+    mflowSyncWeeklyContextFromDate();
+    const prayerEl = document.getElementById('mflowRespondPrayer');
+    if (!prayerEl) return;
+    const snap = __mflowWeeklySnap;
+    let text = '';
+    if (snap && snap.day && snap.day.closingPrayer != null) {
+      text = String(snap.day.closingPrayer).trim();
+    }
+    const tt = snap && snap.themeTitle ? String(snap.themeTitle).trim() : '';
+    if (!text && tt && typeof THEME_CLOSING_PRAYERS !== 'undefined' && THEME_CLOSING_PRAYERS[tt]) {
+      text = String(THEME_CLOSING_PRAYERS[tt]).trim();
+    }
+    if (!text && typeof MOMENT_CLOSERS !== 'undefined') {
+      const fk2 =
+        typeof activeMomentFeeling === 'string' && activeMomentFeeling
+          ? activeMomentFeeling
+          : 'default';
+      text = String(MOMENT_CLOSERS[fk2] || MOMENT_CLOSERS.default || '').trim();
+    }
+    prayerEl.textContent =
+      text || 'God, meet me in this moment. Quiet my heart and help me trust you. Amen.';
+  }
+
   function mflowRerunStaggers(slab) {
     if (!slab) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -12956,13 +13867,25 @@
       if (wkVerse) {
         block.innerHTML =
           '<p class="mflow-receive-text" id="mflowRecvBody"></p>' +
-          '<p class="mflow-receive-ref mflow-receive-ref--below-verse" id="mflowRecvRef"></p>';
+          '<p class="mflow-receive-ref mflow-receive-ref--below-verse" id="mflowRecvRef"></p>' +
+          '<p class="mflow-receive-versectx" id="mflowRecvVerseCtx" hidden></p>';
         const wbt = document.getElementById('mflowRecvBody');
         const wre = document.getElementById('mflowRecvRef');
+        const vctxEl = document.getElementById('mflowRecvVerseCtx');
         if (wbt) wbt.textContent = wkVerse.text || '';
         if (wre) {
           wre.textContent = wkVerse.ref || '';
           wre.hidden = !wkVerse.ref;
+        }
+        const vctx = mflowWeeklyVerseContextFromSnap(__mflowWeeklySnap);
+        if (vctxEl) {
+          if (vctx) {
+            vctxEl.textContent = vctx;
+            vctxEl.removeAttribute('hidden');
+          } else {
+            vctxEl.textContent = '';
+            vctxEl.setAttribute('hidden', '');
+          }
         }
       } else if (fv && fv.ref) {
         const ctxHtml = fv.context
@@ -13088,10 +14011,40 @@
     const hint = document.getElementById('mflowReceiveHint');
     if (hint) hint.hidden = true;
     mflowSyncWeeklyContextFromDate();
-    let pr = mflowWeeklyDayPromptFromSnap(__mflowWeeklySnap);
+    let pr = '';
+    if (__mflowWeeklySnap && __mflowWeeklySnap.day) {
+      pr = mflowWeeklyDayPromptFromSnap(__mflowWeeklySnap);
+      if (!pr && __mflowWeeklySnap.day.prompt != null) {
+        const rawP = String(__mflowWeeklySnap.day.prompt).trim();
+        if (rawP) {
+          pr =
+            typeof weeklyThemePromptWithWeekendPrefix === 'function'
+              ? String(
+                  weeklyThemePromptWithWeekendPrefix(rawP, !!__mflowWeeklySnap.isWeekend) || ''
+                ).trim()
+              : rawP;
+        }
+      }
+    }
     if (!pr) {
-      const prompts = MF_REFLECT_PROMPTS;
-      pr = prompts[Math.floor(Math.random() * prompts.length)];
+      if (__mflowWeeklySnap && __mflowWeeklySnap.day) {
+        const sub = __mflowWeeklySnap.subtitle;
+        if (sub) pr = String(sub).trim();
+      } else {
+        const prompts = MF_REFLECT_PROMPTS;
+        pr = prompts[Math.floor(Math.random() * prompts.length)];
+      }
+    }
+    const fromWeekEl = document.getElementById('mflowReflectFromWeek');
+    if (fromWeekEl) {
+      if (__mflowWeeklySnap && __mflowWeeklySnap.themeTitle) {
+        fromWeekEl.textContent =
+          'FROM THIS WEEK · ' + String(__mflowWeeklySnap.themeTitle).toUpperCase();
+        fromWeekEl.hidden = false;
+      } else {
+        fromWeekEl.textContent = '';
+        fromWeekEl.hidden = true;
+      }
     }
     const prEl = document.getElementById('mflowReflectPrompt');
     if (prEl) prEl.textContent = pr;
@@ -13107,6 +14060,7 @@
           deepEl.textContent = '';
           deepEl.classList.remove('mflow-go-deeper--loading');
         }
+        mflowFillRespondStep();
         mflowSetActiveStep(5);
         return;
       }
@@ -13121,6 +14075,7 @@
         deepEl.classList.remove('mflow-go-deeper--loading');
       }
     }
+    mflowFillRespondStep();
     mflowSetActiveStep(4);
   }
 
@@ -13167,6 +14122,7 @@
     const n0 = document.getElementById('mflowDaysNum');
     if (n0) n0.textContent = '0';
     __mfReceiveDone = false;
+    mflowApplyWeeklyArriveCopy();
     mflowOpen();
     mflowSetActiveStep(1);
     mflowInitArrive();
@@ -13257,7 +14213,10 @@
     const b4 = document.getElementById('mflowBtnReflectCont');
     if (b4 && !b4.dataset.mfBound) {
       b4.dataset.mfBound = '1';
-      b4.addEventListener('click', function () { mflowSetActiveStep(5); });
+      b4.addEventListener('click', function () {
+        mflowFillRespondStep();
+        mflowSetActiveStep(5);
+      });
     }
     const b5 = document.getElementById('mflowBtnRespondCont');
     if (b5 && !b5.dataset.mfBound) {
@@ -13593,7 +14552,63 @@
     'I can move through today with peace'
   ];
 
+  function buildThemeAwareWalkTruthsPool() {
+    if (typeof getMomentFlowWeeklyContext !== 'function') return null;
+    const wk = typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
+    if (!wk || !wk.title) return null;
+    const ctx = getMomentFlowWeeklyContext(new Date());
+    const title = String(wk.title).trim();
+    const sub = String(wk.subtitle || '').trim();
+    const focusRaw = ctx && ctx.day && ctx.day.focus != null ? String(ctx.day.focus).trim() : '';
+    const fp = typeof focusWordToDisplayPhrase === 'function' ? focusWordToDisplayPhrase(focusRaw) : focusRaw;
+    let feeling = 'default';
+    try {
+      feeling = (localStorage.getItem('grounded_feeling') || 'default').toLowerCase();
+    } catch (e) {}
+    const mapped = DAILY_TRUTHS_ALIASES[feeling] || feeling;
+    const feelPool = (DAILY_TRUTHS_MAP[mapped] || DAILY_TRUTHS_MAP.default || []).map(function (x) {
+      return String(x || '').trim();
+    });
+    const lines = [];
+    if (sub) {
+      const flow = sub.charAt(0).toLowerCase() + sub.slice(1).replace(/\.$/, '');
+      lines.push(
+        '\u201c' +
+          title +
+          '\u201d keeps you company this week as you lean into ' +
+          flow +
+          '.'
+      );
+    } else {
+      lines.push('\u201c' + title + '\u201d is a quiet arc\u2014small steps, honest breaths, room for God.');
+    }
+    if (fp) {
+      lines.push(
+        (/\.$/.test(fp) ? fp + ' ' : fp + '. ') +
+          'Grace meets you where you actually are, not where you think you should be.'
+      );
+    } else {
+      lines.push('You can show up without a polished story; God already meets you in ordinary moments.');
+    }
+    const promptHint =
+      ctx && ctx.day && ctx.day.prompt != null ? String(ctx.day.prompt).replace(/\s+/g, ' ').trim() : '';
+    if (promptHint.length > 28 && promptHint.length < 200) lines.push(promptHint);
+    lines.push('One gentle sentence at a time is enough for today.');
+    const out = [];
+    const seen = {};
+    lines.concat(feelPool).forEach(function (line) {
+      const t = String(line || '').trim();
+      if (t.length < 12) return;
+      if (seen[t]) return;
+      seen[t] = 1;
+      out.push(t);
+    });
+    return out.length >= 3 ? out : null;
+  }
+
   function getActiveDailyTruthsList() {
+    const themePool = buildThemeAwareWalkTruthsPool();
+    if (themePool && themePool.length >= 3) return themePool;
     let currentFeeling = 'default';
     try {
       currentFeeling = (localStorage.getItem('grounded_feeling') || 'default').toLowerCase();
@@ -14510,6 +15525,154 @@
     }
   })();
 
+  function syncThemeEducationDayDots() {
+    const wrap = document.getElementById('themeEduDots');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const sp = document.createElement('span');
+      sp.className =
+        'theme-education-sheet__dot' + (i === 0 ? ' theme-education-sheet__dot--on' : ' theme-education-sheet__dot--off');
+      sp.setAttribute('aria-hidden', 'true');
+      wrap.appendChild(sp);
+    }
+  }
+
+  function dismissThemeEducationSheet() {
+    const sheet = document.getElementById('themeEducationSheet');
+    if (!sheet) return;
+    try {
+      localStorage.setItem('grounded_theme_explained', 'true');
+    } catch (e) {}
+    sheet.classList.remove('theme-education-sheet--open');
+    themeEduSheetOpen = false;
+    window.setTimeout(function () {
+      sheet.setAttribute('hidden', '');
+      sheet.setAttribute('aria-hidden', 'true');
+    }, 380);
+  }
+
+  function maybeShowThemeEducationSheet() {
+    let explained = false;
+    try {
+      explained = localStorage.getItem('grounded_theme_explained') === 'true';
+    } catch (e) {}
+    if (explained) return;
+    let completedDay = '';
+    try {
+      completedDay = localStorage.getItem('grounded_onboarding_completed_day');
+    } catch (e2) {}
+    if (completedDay == null || String(completedDay).trim() === '') return;
+    if (themeEduSheetOpen) return;
+    const sheet = document.getElementById('themeEducationSheet');
+    if (!sheet) return;
+    const line = document.getElementById('themeEduThemeLine');
+    let tname = '';
+    try {
+      const wk = typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
+      if (wk && wk.title) tname = String(wk.title).trim();
+    } catch (e3) {}
+    if (!tname) {
+      const tel = document.getElementById('homeWeeklyThemeTitle');
+      if (tel) tname = String(tel.textContent || '').trim();
+    }
+    if (line) {
+      line.textContent = tname ? 'This week you\u2019re exploring ' + tname + '.' : '';
+      line.hidden = !tname;
+    }
+    syncThemeEducationDayDots();
+    themeEduSheetOpen = true;
+    sheet.removeAttribute('hidden');
+    sheet.setAttribute('aria-hidden', 'false');
+    void sheet.offsetWidth;
+    sheet.classList.add('theme-education-sheet--open');
+  }
+
+  (function initThemeEducationSheetOnce() {
+    const bd = document.getElementById('themeEducationSheetBackdrop');
+    const btn = document.getElementById('themeEduDismissBtn');
+    if (bd && !bd.dataset.teBound) {
+      bd.dataset.teBound = '1';
+      bd.addEventListener('click', function () {
+        dismissThemeEducationSheet();
+      });
+    }
+    if (btn && !btn.dataset.teBound) {
+      btn.dataset.teBound = '1';
+      btn.addEventListener('click', function () {
+        dismissThemeEducationSheet();
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (!themeEduSheetOpen) return;
+      const sheet = document.getElementById('themeEducationSheet');
+      if (!sheet || sheet.hasAttribute('hidden')) return;
+      e.preventDefault();
+      dismissThemeEducationSheet();
+    });
+  })();
+
+  (function initHomeWeeklyThemeInfoOnce() {
+    const btn = document.getElementById('homeWeeklyThemeInfoBtn');
+    const pop = document.getElementById('homeWeeklyThemeInfoPopover');
+    if (!btn || !pop || btn.dataset.teiBound) return;
+    btn.dataset.teiBound = '1';
+    function closePop() {
+      pop.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      homeWeeklyThemeInfoOpen = false;
+    }
+    function openPop() {
+      pop.removeAttribute('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      homeWeeklyThemeInfoOpen = true;
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (homeWeeklyThemeInfoOpen) closePop();
+      else openPop();
+    });
+    document.addEventListener('click', function () {
+      if (homeWeeklyThemeInfoOpen) closePop();
+    });
+    pop.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  })();
+
+  (function initGmWeekAboutToggleOnce() {
+    const tgl = document.getElementById('gmWeekAboutToggle');
+    const body = document.getElementById('gmWeekAboutBody');
+    if (!tgl || !body || tgl.dataset.gmwBound) return;
+    tgl.dataset.gmwBound = '1';
+    tgl.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const open = tgl.getAttribute('aria-expanded') === 'true';
+      if (open) {
+        tgl.setAttribute('aria-expanded', 'false');
+        body.hidden = true;
+        tgl.textContent = 'What this week is about \u2192';
+      } else {
+        tgl.setAttribute('aria-expanded', 'true');
+        body.hidden = false;
+        tgl.textContent = 'What this week is about \u2190';
+      }
+    });
+  })();
+
+  /** After onboarding welcome dismisses: delay so Today can paint before theme sheet. */
+  function schedulePostOnboardingThemeEducationSheet() {
+    if (typeof maybeShowThemeEducationSheet !== 'function') return;
+    window.setTimeout(function () {
+      maybeShowThemeEducationSheet();
+    }, 800);
+  }
+
+  window.maybeShowThemeEducationSheet = maybeShowThemeEducationSheet;
+  window.dismissThemeEducationSheet = dismissThemeEducationSheet;
+  window.schedulePostOnboardingThemeEducationSheet = schedulePostOnboardingThemeEducationSheet;
+
   /** After onboarding: brief welcome, then Today (feed). */
   function startFirstMoment(opts) {
     const skipped = opts && opts.skipped;
@@ -14522,6 +15685,7 @@
     }
     if (skipped) {
       finishToToday();
+      schedulePostOnboardingThemeEducationSheet();
       return;
     }
     const overlay = document.getElementById('postOnboardingWelcome');
@@ -14532,6 +15696,7 @@
     } catch (e) {}
     if (!overlay || !textEl) {
       finishToToday();
+      schedulePostOnboardingThemeEducationSheet();
       return;
     }
     textEl.textContent = name ? name + ', welcome to Grounded.' : 'Welcome to Grounded.';
@@ -14546,6 +15711,7 @@
         overlay.setAttribute('hidden', '');
         overlay.setAttribute('aria-hidden', 'true');
         finishToToday();
+        schedulePostOnboardingThemeEducationSheet();
       }, 420);
     }, 1680);
   }
@@ -14572,7 +15738,8 @@
         'dailyTime',
         'preferredTime',
         'onboardingCompleted',
-        'grounded_onboarding_state'
+        'grounded_onboarding_state',
+        'grounded_theme_explained'
       ];
       extra.forEach(function (k) {
         try {

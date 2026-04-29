@@ -493,6 +493,61 @@
       ? ensureMomentFlowThemes52(global.GROUNDED_HOME_WEEKLY_THEMES_52)
       : buildMomentFlowWeeklyThemes52();
 
+  /** Curated home themes ship without `intro` / `verseContext`; enrich so moment flow can use them. */
+  (function enrichHomeWeeklyThemesForMomentFlow() {
+    if (!WEEKLY_THEMES || !WEEKLY_THEMES.length) return;
+    for (var ti = 0; ti < WEEKLY_THEMES.length; ti++) {
+      var theme = WEEKLY_THEMES[ti];
+      if (!theme) continue;
+      if (!theme.intro && theme.subtitle) {
+        theme.intro =
+          String(theme.subtitle).trim() +
+          ' This week is a gentle orientation to stay present with God—no performance, no rush.';
+      }
+      var days = theme.days;
+      if (!days || !days.length) continue;
+      for (var di = 0; di < days.length; di++) {
+        var day = days[di];
+        if (!day || day.verseContext) continue;
+        var foc = day.focus != null ? String(day.focus).trim() : '';
+        var ref =
+          day.verse &&
+          ((day.verse.reference != null && String(day.verse.reference).trim()) ||
+            (day.verse.ref != null && String(day.verse.ref).trim()) ||
+            '');
+        if (theme.title === 'Anxiety and Peace' && foc === 'Peace' && ref.indexOf('4:7') !== -1) {
+          day.verseContext =
+            "Paul wrote this from prison — his peace wasn't about his circumstances. It was about what he trusted.";
+          continue;
+        }
+        var rot = di % 3;
+        if (rot === 0) {
+          day.verseContext =
+            'For "' +
+            (theme.title || 'this week') +
+            '"—especially ' +
+            (foc || 'today') +
+            (ref ? '—this passage (' + ref + ') names something God wants you to hear in the middle of real life.' : '—these words meet you in the middle of real life.');
+        } else if (rot === 1) {
+          day.verseContext =
+            (ref ? 'These lines (' + ref + ') ' : 'This scripture ') +
+            'belongs to the week’s theme of ' +
+            (theme.title || 'walking with God') +
+            ' and to today’s focus on ' +
+            (foc || 'your heart') +
+            '. Let them be a companion, not a quiz.';
+        } else {
+          day.verseContext =
+            'Today’s invitation—' +
+            (foc || 'presence') +
+            (ref
+              ? '—finds a home in ' + ref + ', because God speaks into ordinary days, not only ideal ones.'
+              : '—finds a home in this week’s arc with God.');
+        }
+      }
+    }
+  })();
+
   var GROUNDED_THEME_OVERRIDE_KEY = 'grounded_theme_override';
 
   /** @returns {number|null} theme index in WEEKLY_THEMES, or null */
