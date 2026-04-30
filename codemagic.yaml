@@ -23,28 +23,33 @@ workflows:
       xcode: latest
 
     scripts:
-      - name: Install dependencies
-        script: npm ci
+  - name: Install dependencies
+    script: |
+      npm ci
 
-      - name: Build web
-        script: npm run build
+  - name: Build web
+    script: |
+      npm run build
 
-      - name: Sync Capacitor iOS
-        script: npx cap sync ios
+  - name: Sync Capacitor iOS
+    script: |
+      npx cap sync ios
 
-      - name: CocoaPods
-        script: cd ios/App && pod install
+  - name: CocoaPods
+    script: |
+      cd ios/App && pod install
 
-      - name: Apply provisioning to Xcode
-        script: xcode-project use-profiles
+  - name: Apply provisioning to Xcode
+    script: |
+      xcode-project use-profiles
 
-   - name: Build IPA (release)
-  script: |
-    xcode-project build-ipa \
-      --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-      --scheme "$XCODE_SCHEME" \
-      --export-method app-store \
-      --output-dir build/ios/ipa
+  - name: Build IPA (release)
+    script: |
+      xcode-project build-ipa \
+        --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+        --scheme "$XCODE_SCHEME" \
+        --export-method app-store \
+        --output-dir build/ios/ipa
     
 artifacts:
   - build/ios/ipa/*.ipa
