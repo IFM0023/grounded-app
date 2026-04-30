@@ -22,7 +22,7 @@ workflows:
         XCODE_SCHEME: App
       xcode: latest
 
-    scripts:
+  scripts:
   - name: Install dependencies
     script: |
       npm ci
