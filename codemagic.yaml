@@ -25,8 +25,9 @@ workflows:
       - cd ios/App && pod install
       - xcode-project use-profiles
       - name: Set build number
-    script: |
-      /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ios/App/App/Info.plist
+    - name: Set build number
+      script: |
+    /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ios/App/App/Info.plist
       - |
           xcode-project build-ipa \
             --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
