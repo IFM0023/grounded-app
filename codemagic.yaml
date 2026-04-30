@@ -17,7 +17,7 @@ workflows:
       - grounded_appstore_cert
     provisioning_profiles:
       - Grounded App Store
-  vars:
+    vars:
     XCODE_WORKSPACE: ios/App/App.xcworkspace
     XCODE_SCHEME: App
       vars:
