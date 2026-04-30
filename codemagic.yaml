@@ -8,8 +8,7 @@ workflows:
     instance_type: mac_mini_m2
     integrations:
       app_store_connect: Grounded
-    environment:
-     environment:
+      environment:
   ios_signing:
     distribution_type: app_store
     bundle_identifier: com.lindsay.grounded
@@ -17,13 +16,10 @@ workflows:
       - grounded_appstore_cert
     provisioning_profiles:
       - Grounded App Store
-    vars:
+  vars:
     XCODE_WORKSPACE: ios/App/App.xcworkspace
     XCODE_SCHEME: App
-      vars:
-        XCODE_WORKSPACE: ios/App/App.xcworkspace
-        XCODE_SCHEME: App
-      xcode: latest
+  xcode: latest
     scripts:
       - name: Install dependencies
         script: npm ci
