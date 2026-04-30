@@ -39,7 +39,7 @@ workflows:
         script: xcode-project use-profiles
 
    - name: Build IPA (release)
-     script: |
+  script: |
     xcode-project build-ipa \
       --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
       --scheme "$XCODE_SCHEME" \
