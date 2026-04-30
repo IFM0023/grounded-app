@@ -7,6 +7,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.lindsay.grounded',
   appName: 'Grounded',
+  version: '1.0.1',   //
   webDir: 'www',
   server: {
     url: 'https://www.getgroundedapp.com',
