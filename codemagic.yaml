@@ -38,11 +38,14 @@ workflows:
       - name: Apply provisioning to Xcode
         script: xcode-project use-profiles
 
-      - name: Build IPA (release)
-        script: |
-          xcode-project build-ipa \
-            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
+    - name: Build IPA (release)
+  script: |
+    xcode-project build-ipa \
+      --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+      --scheme "$XCODE_SCHEME" \
+      --export-method app-store \
+      --output-dir build/ios/ipa
+    
 artifacts:
   - build/ios/ipa/App.ipa
 publishing:
