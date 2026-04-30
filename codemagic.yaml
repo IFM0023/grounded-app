@@ -18,15 +18,16 @@ workflows:
         XCODE_SCHEME: App
       xcode: latest
 
-    scripts:
-      - npm ci
-      - npm run build
-      - npx cap sync ios
-      - cd ios/App && pod install
-      - xcode-project use-profiles
-      - xcode-project build-ipa \
-          --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-          --scheme "$XCODE_SCHEME"
+   scripts:
+  - npm ci
+  - npm run build
+  - npx cap sync ios
+  - cd ios/App && pod install
+  - xcode-project use-profiles
+  - |
+      xcode-project build-ipa \
+        --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+        --scheme "$XCODE_SCHEME"
 
     artifacts:
       - build/ios/ipa/*.ipa
