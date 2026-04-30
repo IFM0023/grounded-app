@@ -22,29 +22,13 @@ workflows:
         XCODE_SCHEME: App
       xcode: latest
 
-  scripts:
-  - name: Install dependencies
-    script: |
-      npm ci
-
-  - name: Build web
-    script: |
-      npm run build
-
-  - name: Sync Capacitor iOS
-    script: |
-      npx cap sync ios
-
-  - name: CocoaPods
-    script: |
-      cd ios/App && pod install
-
-  - name: Apply provisioning to Xcode
-    script: |
-      xcode-project use-profiles
-
-  - name: Build IPA (release)
-    script: |
+ scripts:
+  - script: npm ci
+  - script: npm run build
+  - script: npx cap sync ios
+  - script: cd ios/App && pod install
+  - script: xcode-project use-profiles
+  - script: |
       xcode-project build-ipa \
         --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
         --scheme "$XCODE_SCHEME" \
