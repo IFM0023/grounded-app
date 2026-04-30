@@ -13,8 +13,6 @@ workflows:
 
     environment:
       ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.lindsay.grounded
         certificates:
           - grounded_appstore_cert
         provisioning_profiles:
