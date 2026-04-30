@@ -2,6 +2,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Grounded</title>
+  <meta name="description" content="Grounded is a quiet space to grow closer to God — one moment at a time. A daily verse, guided reflection, journal, prayer prompts, weekly themes, and Reset (Pilates &amp; meditation). No noise, no pressure — just show up.">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
@@ -951,11 +952,6 @@
   .reflect-irl .reflect-irl-list li{position:relative;padding-left:14px;font-family:Inter,system-ui,sans-serif;font-size:12.5px;line-height:1.45;color:rgba(90,74,66,0.7);margin-bottom:8px}
   .reflect-irl .reflect-irl-list li:last-child{margin-bottom:0}
   .reflect-irl .reflect-irl-list li::before{content:'';position:absolute;left:0;top:0.5em;width:4px;height:4px;border-radius:50%;background:rgba(186,160,148,0.5)}
-  .reflect-irl.reflect-irl--after{margin:26px 0 0;border-color:rgba(234,208,204,0.2);background:rgba(255,250,248,0.45);box-shadow:none}
-  .reflect-irl.reflect-irl--after > summary{padding:8px 12px;font-size:9px;letter-spacing:0.16em;opacity:0.62}
-  .reflect-irl.reflect-irl--after .reflect-irl-list{padding:0 12px 10px 14px}
-  .reflect-irl.reflect-irl--after .reflect-irl-list li{font-size:11.5px;opacity:0.82;margin-bottom:5px}
-  .reflect-irl.reflect-irl--after .reflect-irl-list li::before{top:0.45em;opacity:0.75}
   .reflect-journal-hint{font-family:Inter,system-ui,sans-serif;font-size:13.5px;font-weight:400;color:rgba(90,74,66,0.6);text-align:center;margin:44px 0 16px;line-height:1.45;letter-spacing:0.02em}
   .reflect-journal-hint--secondary{margin-top:20px;margin-bottom:10px;font-size:13px;opacity:0.92}
   .reflect-journal-block{margin-top:0;margin-bottom:4px}
@@ -1933,6 +1929,11 @@
   .welcome-back-banner{position:relative;margin:0 0 18px;padding:14px 18px;background:linear-gradient(180deg,rgba(244,234,228,0.55),rgba(244,234,228,0.25));border:1px solid rgba(186,160,148,0.18);border-radius:var(--radius-md);text-align:center;cursor:pointer;opacity:0;transform:translateY(-4px);transition:opacity 0.9s ease,transform 0.9s ease,max-height 0.6s ease,margin 0.6s ease,padding 0.6s ease;max-height:140px;overflow:hidden;-webkit-tap-highlight-color:transparent}
   .welcome-back-banner.shown{opacity:1;transform:translateY(0)}
   .welcome-back-banner.dismissed{opacity:0;max-height:0;margin:0;padding-top:0;padding-bottom:0;border-width:0;pointer-events:none}
+  .grounded-widget-nudge{position:relative;display:flex;align-items:flex-start;gap:10px;width:calc(100% - 32px);max-width:24rem;margin:0 auto 14px;padding:12px 14px 12px 16px;background:linear-gradient(180deg,rgba(255,252,249,0.95),rgba(247,239,232,0.75));border:1px solid rgba(234,208,204,0.38);border-radius:var(--radius-md);box-shadow:0 2px 14px rgba(90,74,66,0.05);box-sizing:border-box}
+  .grounded-widget-nudge__text{flex:1;min-width:0;font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.45;color:rgba(90,74,66,0.78);margin:0;text-align:left}
+  .grounded-widget-nudge__dismiss{flex-shrink:0;width:32px;height:32px;margin:-4px -6px -4px 0;padding:0;border:none;background:transparent;border-radius:10px;font-size:1.35rem;line-height:1;color:rgba(90,74,66,0.42);cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center}
+  .grounded-widget-nudge__dismiss:hover{color:rgba(90,74,66,0.65)}
+  .grounded-widget-nudge__dismiss:active{transform:scale(0.94)}
   .welcome-back-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:15px;font-weight:400;color:var(--text);line-height:1.5;letter-spacing:0.1px;margin:0}
 
   /* ─── DAILY PROGRESS POPUP (once per day on open) — premium, emotional ─── */
@@ -2156,6 +2157,17 @@
   .profile-focus-pill svg{width:14px;height:14px;color:var(--accent-strong);flex-shrink:0;transition:color 0.2s ease}
   .profile-focus-pill.selected svg{color:#fff}
   .profile-helper-text{font-size:12.5px;color:var(--text-light);opacity:0.78;line-height:1.5;margin:-6px 0 16px;padding:0 2px;letter-spacing:0.1px}
+  .profile-about-card{text-align:left}
+  .profile-about-lead{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:500;line-height:1.45;color:var(--text);margin:0 0 14px;letter-spacing:-0.02em}
+  .profile-about-p{font-size:13.5px;line-height:1.6;color:var(--text-light);margin:0 0 18px}
+  .profile-about-h{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-strong);margin:22px 0 10px}
+  .profile-about-h:first-of-type{margin-top:4px}
+  .profile-about-list{margin:0 0 16px;padding:0 0 0 18px;font-size:13.5px;line-height:1.55;color:var(--text-light)}
+  .profile-about-list li{margin-bottom:6px}
+  .profile-about-list li:last-child{margin-bottom:0}
+  .profile-about-em{font-size:13.5px;line-height:1.6;color:var(--text);margin:0 0 14px;font-style:italic}
+  .profile-about-close{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:500;color:var(--text);margin:18px 0 6px;line-height:1.4}
+  .profile-about-tagline{font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;color:var(--text-light);margin:0;font-style:italic}
   .app-version-foot{font-size:11px;color:var(--text-light);opacity:0.5;text-align:center;margin:8px 0 4px;padding:0 20px 8px;letter-spacing:0.15px;line-height:1.4}
   .profile-rhythm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .profile-rhythm-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 8px 14px;background:var(--primary);border:1.5px solid transparent;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.25s cubic-bezier(.4,0,.2,1);font-family:inherit;box-shadow:0 2px 8px rgba(90,74,66,0.03)}
@@ -2342,6 +2354,10 @@
     <div class="screen active" id="screen-feed">
       <div class="welcome-back-banner" id="welcomeBackBanner" hidden role="status" aria-live="polite">
         <p class="welcome-back-text" id="welcomeBackText"></p>
+      </div>
+      <div class="grounded-widget-nudge" id="groundedWidgetNudge" hidden aria-hidden="true" role="region" aria-label="Home screen verse">
+        <p class="grounded-widget-nudge__text body-font">Get today&rsquo;s verse on your home screen</p>
+        <button type="button" class="grounded-widget-nudge__dismiss" id="groundedWidgetNudgeDismiss" aria-label="Dismiss">&times;</button>
       </div>
       <div class="tab-top-media" role="presentation" aria-hidden="true">
         <img src="assets/images/today-banner.jpg" alt="" width="1024" height="576" loading="eager" decoding="async" fetchpriority="high">
@@ -3256,7 +3272,7 @@
                 <h4>Morning Stretch + Prayer</h4>
                 <span class="flow-suggested-pill" hidden>Recommended</span>
               </div>
-              <p>A short moment to pause and come back to God.</p>
+              <p>Start your day grounded — stretch, breathe, and invite God into your morning.</p>
             </div>
             <span class="flow-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
           </div>
@@ -3621,6 +3637,30 @@
           <button type="button" class="reminder-style-pill" data-reminder-type="reflection" aria-pressed="false">Reflection</button>
           <button type="button" class="reminder-style-pill" data-reminder-type="minimal" aria-pressed="false">Minimal</button>
         </div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4l2.5 2.5"></path></svg>
+        <h3>About Grounded</h3>
+      </div>
+      <div class="profile-card profile-about-card">
+        <p class="profile-about-lead">Grounded is a quiet space to grow closer to God &mdash; one moment at a time.</p>
+        <p class="profile-about-p body-font">Every day, Grounded gives you a verse, a guided reflection, and a place to write what&rsquo;s on your heart. No noise. No pressure. Just you, God, and a few still minutes to breathe and come back to what matters.</p>
+        <h4 class="profile-about-h">What you&rsquo;ll find inside</h4>
+        <ul class="profile-about-list body-font">
+          <li>A daily verse chosen for where you are</li>
+          <li>Guided reflection questions to go deeper</li>
+          <li>A personal journal to capture your thoughts</li>
+          <li>Prayer prompts to help you find the words</li>
+          <li>Weekly themes to keep you rooted and growing</li>
+        </ul>
+        <h4 class="profile-about-h">Reset &mdash; body, mind, and spirit</h4>
+        <p class="profile-about-p body-font">Grounded goes beyond the page. The Reset space connects your faith to your body through guided Pilates videos and meditations designed to help you release tension, slow your thoughts, and settle into stillness. Because spiritual growth isn&rsquo;t just mental &mdash; it lives in how you breathe, move, and rest too.</p>
+        <p class="profile-about-em body-font">Whether you&rsquo;ve walked with God for years or you&rsquo;re just beginning to explore faith, Grounded meets you exactly where you are &mdash; no theology degree required, no guilt if you miss a day.</p>
+        <p class="profile-about-close">Just show up. That&rsquo;s enough.</p>
+        <p class="profile-about-tagline">Grounded. Begin where you are.</p>
       </div>
     </div>
 
@@ -4339,7 +4379,7 @@
   
   const TYPE_LABELS = { mind:"Read a verse", heart:"Say a prayer", body:"Reset your mind" };
   /** Shown in header + Profile footer. MUST match `sw.js` CACHE_VERSION (also used to bust SW registration URL). */
-  const APP_BUILD_VERSION = 'grounded-v180';
+  const APP_BUILD_VERSION = 'grounded-v182';
   const MC_ICONS = {
     mind:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>',
     heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 11V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v9"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 16"/></svg>',
@@ -4439,12 +4479,12 @@
       title:'Morning Stretch + Prayer',
       momentLine:'Begin your day with intention.',
       hook:'Stretch into the day. Center your heart.',
-      desc:'Gentle movement with a quiet moment to center your mind and come back to God.',
+      desc:'Start your day grounded — stretch, breathe, and invite God into your morning.',
       steps:[
-        'Take a few slow, deep breaths',
-        'Move your body gently',
-        'Whisper a short prayer',
-        'Sit in stillness for a moment'
+        'Find a quiet space and take 3 slow, deep breaths',
+        'Follow the video \u2014 let your body wake up gently',
+        'As you move, whisper: "Lord, this day is yours"',
+        'Close with 60 seconds of stillness before you begin your day'
       ],
       verse:'"Be still, and know that I am God." \u2014 Psalm 46:10'
     },
@@ -4454,10 +4494,10 @@
       hook:'Pause. Breathe. Begin again.',
       desc:'A pause in the middle of your day to release tension, breathe, and refocus your heart.',
       steps:[
-        'Take a few slow, deep breaths',
-        'Move your body gently',
-        'Whisper a short prayer',
-        'Sit in stillness for a moment'
+        'Step away from your screen and take 3 deep breaths',
+        'Follow the video \u2014 release the tension you have been carrying',
+        "Let your mind go quiet \u2014 you don't have to solve anything right now",
+        'Before you return, ask: "What do I actually need right now?"'
       ],
       verse:'"Come to me, all you who are weary and burdened, and I will give you rest." \u2014 Matthew 11:28'
     },
@@ -4467,10 +4507,10 @@
       hook:'Soften your body. Settle your mind.',
       desc:'Slow stretches and gratitude reflection to close your day with intention and peace.',
       steps:[
-        'Take a few slow, deep breaths',
-        'Move your body gently',
-        'Whisper a short prayer',
-        'Sit in stillness for a moment'
+        'Dim your space if you can \u2014 signal to your body it is time to slow down',
+        'Follow the video \u2014 soften and release',
+        'Think of one thing you are grateful for today',
+        'Close your eyes and let the day go \u2014 it is finished'
       ],
       verse:'"The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you." \u2014 Zephaniah 3:17'
     },
@@ -4480,10 +4520,10 @@
       hook:'Move your body. Quiet your mind.',
       desc:'A longer, full-body experience to move, release, and reset.',
       steps:[
-        'Take a few slow, deep breaths',
-        'Move your body gently',
-        'Whisper a short prayer',
-        'Sit in stillness for a moment'
+        'Give yourself full permission to be here for the whole session',
+        'Follow the video \u2014 this is your time to move and release',
+        'Between movements, breathe and pray: "Renew me, Lord"',
+        'Finish by lying still \u2014 let your body and spirit settle together'
       ],
       verse:'"Do you not know that your bodies are temples of the Holy Spirit?" \u2014 1 Corinthians 6:19'
     }
@@ -6013,6 +6053,9 @@
     syncAppShellHeader(tab);
     if (tab === 'feed' && typeof renderHomeVerse === 'function') {
       renderHomeVerse(getDefaultVerse());
+    }
+    if (tab === 'feed' && typeof maybeShowGroundedWidgetNudge === 'function') {
+      maybeShowGroundedWidgetNudge();
     }
     setTimeout(initScrollAnimations, 60);
   }
@@ -9509,6 +9552,9 @@
     }
 
     homeDisplayedVerse = payload;
+    try {
+      localStorage.setItem('grounded_current_verse', JSON.stringify(payload));
+    } catch (ePersistVerse) {}
 
     const inject = function () {
       container.querySelectorAll('.hr-block-affirmation, .hr-block-reflection').forEach(function (block) {
@@ -11611,15 +11657,6 @@
       .replace(/"/g, '&quot;');
   }
 
-  function reflectIrlForDisplay(items) {
-    if (!items || !items.length) return [];
-    return items.slice(0, 2).map((line) => {
-      const s = String(line || '').trim();
-      if (s.length <= 42) return s;
-      return s.slice(0, 40).replace(/\s+\S*$/, '') + '\u2026';
-    });
-  }
-
   function reflectTrimPrompt(s, max) {
     const t = String(s || '').trim();
     if (t.length <= max) return t;
@@ -12441,17 +12478,6 @@
     const v = buildReflectViewModel();
     const label = v.source === 'read' ? 'From your reading' : 'Verse of the moment';
     const subLabel = (v.source === 'home' && v.moodTag) ? escReflectHtml(String(v.moodTag).charAt(0).toUpperCase() + String(v.moodTag).slice(1)) : '';
-    const irlLines = reflectIrlForDisplay(v.realLife);
-    const realHtml =
-      irlLines.length
-        ? (
-            '<details class="reflect-irl reflect-irl--after" id="reflectIrlBlock">' +
-            '<summary>In real life</summary>' +
-            '<ul class="reflect-irl-list">' +
-            irlLines.map((line) => '<li>' + escReflectHtml(line) + '</li>').join('') +
-            '</ul></details>'
-          )
-        : '';
     const pLines = getReflectSessionPrompts();
     const promptsHtml = pLines
       .map(
@@ -12525,7 +12551,6 @@
       '</div></div>' +
       journalBlockHtml +
       deeperSecondHint +
-      realHtml +
       '<div class="reflect-actions-row">' +
       '<button class="journal-save body-font" type="button" id="reflectSaveEntryBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>Save entry</button>' +
       '<span class="journal-saved-msg" id="reflectEntrySavedMsg">Saved</span></div>' +
@@ -13508,6 +13533,29 @@
       const n = parseInt(localStorage.getItem(GROUNDED_COUNT_KEY) || '0', 10);
       return isNaN(n) ? 0 : n;
     } catch (_) { return 0; }
+  }
+
+  function maybeShowGroundedWidgetNudge() {
+    const el = document.getElementById('groundedWidgetNudge');
+    if (!el) return;
+    try {
+      if (localStorage.getItem('grounded_widget_nudge_dismissed') === '1') return;
+    } catch (e) {}
+    const days = getGroundedDaysCount();
+    if (days < 3) return;
+    el.removeAttribute('hidden');
+    el.setAttribute('aria-hidden', 'false');
+  }
+
+  function dismissGroundedWidgetNudge() {
+    const el = document.getElementById('groundedWidgetNudge');
+    try {
+      localStorage.setItem('grounded_widget_nudge_dismissed', '1');
+    } catch (e) {}
+    if (el) {
+      el.setAttribute('hidden', '');
+      el.setAttribute('aria-hidden', 'true');
+    }
   }
 
   /** Display count for progress UI — never 0 (showing up today counts as at least 1). */
@@ -15764,6 +15812,14 @@
   if (typeof GroundedOnboarding !== 'undefined' && typeof GroundedOnboarding.init === 'function') {
     GroundedOnboarding.init({ startFirstMoment: startFirstMoment });
   }
+  (function initGroundedWidgetNudgeDismissOnce() {
+    const b = document.getElementById('groundedWidgetNudgeDismiss');
+    if (!b || b.dataset.bound === '1') return;
+    b.dataset.bound = '1';
+    b.addEventListener('click', function () {
+      if (typeof dismissGroundedWidgetNudge === 'function') dismissGroundedWidgetNudge();
+    });
+  })();
   /* Onboarding (or other late init) must not hide /privacy or /terms after Vercel rewrite. */
   (function reassertLegalShellFromUrl() {
     if (typeof getLegalNameFromPath !== 'function' || typeof showLegalShellForRoute !== 'function') return;
@@ -15790,6 +15846,7 @@
   requestAnimationFrame(function () {
     if (typeof renderHomeVerse === 'function') renderHomeVerse(getDefaultVerse());
     if (typeof renderDailyTruths === 'function') renderDailyTruths();
+    if (typeof maybeShowGroundedWidgetNudge === 'function') maybeShowGroundedWidgetNudge();
   });
   </script>
 
