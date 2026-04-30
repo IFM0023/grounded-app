@@ -9,13 +9,17 @@ workflows:
     integrations:
       app_store_connect: Grounded
     environment:
-      ios_signing:
-  distribution_type: app_store
-  bundle_identifier: com.lindsay.grounded
-  certificates:
-    - grounded_appstore_cert
-  provisioning_profiles:
-    - Grounded App Store
+     environment:
+  ios_signing:
+    distribution_type: app_store
+    bundle_identifier: com.lindsay.grounded
+    certificates:
+      - grounded_appstore_cert
+    provisioning_profiles:
+      - Grounded App Store
+  vars:
+    XCODE_WORKSPACE: ios/App/App.xcworkspace
+    XCODE_SCHEME: App
       vars:
         XCODE_WORKSPACE: ios/App/App.xcworkspace
         XCODE_SCHEME: App
