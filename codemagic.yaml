@@ -30,8 +30,6 @@ workflows:
           xcode-project build-ipa \
             --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME" \
-            --export-method app-store \
-            --output-dir build/ios/ipa
 
     artifacts:
       - build/ios/ipa/*.ipa
