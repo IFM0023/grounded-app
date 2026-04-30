@@ -38,8 +38,8 @@ workflows:
       - name: Apply provisioning to Xcode
         script: xcode-project use-profiles
 
-    - name: Build IPA (release)
-  script: |
+   - name: Build IPA (release)
+     script: |
     xcode-project build-ipa \
       --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
       --scheme "$XCODE_SCHEME" \
