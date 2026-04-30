@@ -47,7 +47,7 @@ workflows:
       --output-dir build/ios/ipa
     
 artifacts:
-  - build/ios/ipa/App.ipa
+  - build/ios/ipa/*.ipa
 publishing:
   app_store_connect:
     auth: integration
