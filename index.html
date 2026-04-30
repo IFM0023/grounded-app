@@ -475,6 +475,9 @@
   .verse-fs-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 28px 32px;max-width:28rem;margin:0 auto;width:100%;box-sizing:border-box}
   .verse-fs-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(22px,5.2vw,32px);line-height:1.58;color:var(--text);letter-spacing:0.02em;margin:0}
   .verse-fs-ref{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.4px;color:var(--accent-strong);margin:32px 0 0;opacity:0.92}
+  .verse-fs-brand{text-align:center;padding:28px 28px 14px;flex-shrink:0;box-sizing:border-box;width:100%;max-width:28rem;margin:0 auto}
+  .verse-fs-wordmark{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:rgba(90,74,66,0.42);margin:0 0 8px;line-height:1.3}
+  .verse-fs-domain{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:400;letter-spacing:0.14em;color:rgba(90,74,66,0.42);margin:0;line-height:1.35}
   .verse-fs-toast{position:fixed;left:50%;bottom:112px;transform:translateX(-50%) translateY(8px);background:rgba(50,38,32,0.9);color:#fffaf2;font-size:11px;font-weight:500;letter-spacing:0.4px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease;z-index:2600;max-width:90vw}
   .verse-fs-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .verse-fs-actions{display:flex;gap:10px;justify-content:center;align-items:stretch;padding:14px 18px 20px;padding-bottom:max(18px,env(safe-area-inset-bottom));border-top:1px solid rgba(234,208,204,0.35);background:rgba(255,252,249,0.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -955,6 +958,7 @@
   .reflect-journal-hint{font-family:Inter,system-ui,sans-serif;font-size:13.5px;font-weight:400;color:rgba(90,74,66,0.6);text-align:center;margin:44px 0 16px;line-height:1.45;letter-spacing:0.02em}
   .reflect-journal-hint--secondary{margin-top:20px;margin-bottom:10px;font-size:13px;opacity:0.92}
   .reflect-journal-block{margin-top:0;margin-bottom:4px}
+  #reflectContent .reflect-journal-block{margin-top:44px;margin-bottom:16px}
   #reflectTextarea::placeholder{color:rgba(90,74,66,0.4)}
   .reflect-journal-textarea{min-height:200px;resize:vertical}
   .reflect-actions-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 16px}
@@ -4045,6 +4049,10 @@
       <div class="verse-fs-center" id="verseFsCenter">
         <p class="verse-fs-text" id="verseFsText"></p>
         <p class="verse-fs-ref" id="verseFsRef"></p>
+      </div>
+      <div class="verse-fs-brand" aria-hidden="true">
+        <p class="verse-fs-wordmark">Grounded</p>
+        <p class="verse-fs-domain body-font">getgroundedapp.com</p>
       </div>
       <div class="verse-fs-actions">
         <button type="button" id="verseFsSave">Save</button>
@@ -12493,8 +12501,7 @@
       reflectQuickHideSit
         ? ''
         : (
-            '<p class="reflect-journal-hint">Write whatever comes to your heart.</p>' +
-            '<div class="journal-area reflect-journal-block" style="margin-bottom:0"><textarea id="reflectTextarea" class="reflect-journal-textarea" placeholder="Write whatever comes to your heart."></textarea></div>'
+            '<div class="journal-area reflect-journal-block"><textarea id="reflectTextarea" class="reflect-journal-textarea" placeholder="Write whatever comes to your heart."></textarea></div>'
           );
     const deeperSecondHint =
       prefR === 'deeper' && momentSourceReflect
