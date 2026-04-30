@@ -8,6 +8,12 @@ const www = path.join(root, 'www');
 const files = ['index.html', 'manifest.json', 'sw.js', 'widget.html', 'bibleData.js'];
 const dirs = ['assets', 'js'];
 
+try {
+  require(path.join(__dirname, 'copy-capacitor-runtime.cjs'));
+} catch (e) {
+  console.warn('[build-www] copy-capacitor-runtime failed', e && e.message);
+}
+
 fs.rmSync(www, { recursive: true, force: true });
 fs.mkdirSync(www, { recursive: true });
 for (const f of files) {

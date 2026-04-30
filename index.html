@@ -492,11 +492,18 @@
   /* VERSE FULLSCREEN (share / focus) */
   .verse-fs-overlay{position:fixed;inset:0;z-index:2500;background:linear-gradient(165deg,#fdf9f5 0%,#f7ebe4 48%,#faf6f2 100%);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.38s cubic-bezier(.4,0,.2,1);touch-action:pan-y}
   .verse-fs-overlay.open{opacity:1;pointer-events:all}
-  .verse-fs-inner{flex:1;display:flex;flex-direction:column;min-height:100dvh;min-height:100vh;padding:max(8px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+  .verse-fs-inner{position:relative;flex:1;display:flex;flex-direction:column;min-height:100dvh;min-height:100vh;padding:max(8px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
   .verse-fs-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 14px;margin:4px 0 0 2px;border-radius:999px;background:rgba(255,255,255,0.55);border:1px solid rgba(234,208,204,0.35);color:var(--text-light);font-size:12px;font-weight:500;letter-spacing:0.2px;box-shadow:0 2px 12px rgba(90,74,66,0.06);transition:background 0.2s ease,transform 0.2s ease;-webkit-tap-highlight-color:transparent}
   .verse-fs-back svg{width:16px;height:16px;stroke-width:1.8;color:var(--accent-strong)}
   .verse-fs-back:active{transform:scale(0.96);background:rgba(255,255,255,0.75)}
-  .verse-fs-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 28px 32px;max-width:28rem;margin:0 auto;width:100%;box-sizing:border-box}
+  .verse-fs-share-capture{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:100%;max-width:28rem;margin:0 auto;min-height:0;box-sizing:border-box;
+  }
+  .verse-fs-share-capture .verse-fs-center{
+    flex:0 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 28px 32px;width:100%;box-sizing:border-box;
+  }
+  .verse-fs-share-capture .verse-fs-brand{flex-shrink:0}
   .verse-fs-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(22px,5.2vw,32px);line-height:1.58;color:var(--text);letter-spacing:0.02em;margin:0}
   .verse-fs-ref{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.4px;color:var(--accent-strong);margin:32px 0 0;opacity:0.92}
   .verse-fs-brand{text-align:center;padding:28px 28px 14px;flex-shrink:0;box-sizing:border-box;width:100%;max-width:28rem;margin:0 auto}
@@ -508,6 +515,32 @@
   .verse-fs-actions button{flex:1;max-width:112px;padding:13px 8px;border-radius:16px;background:var(--primary);border:1px solid rgba(234,208,204,0.4);font-size:12px;font-weight:500;color:var(--text);transition:background 0.2s ease,transform 0.2s ease;-webkit-tap-highlight-color:transparent}
   .verse-fs-actions button:active{transform:scale(0.97);background:var(--secondary)}
   .verse-fs-actions button.is-saved{background:rgba(212,181,173,0.22);border-color:rgba(212,181,173,0.45)}
+  .verse-fs-share-backdrop{
+    position:fixed;inset:0;z-index:2515;background:rgba(50,38,32,0.22);
+  }
+  .verse-fs-share-sheet{
+    position:fixed;left:50%;transform:translateX(-50%);
+    bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:2520;width:min(100% - 28px,300px);
+    background:linear-gradient(180deg,#fffdfb 0%,#faf4ee 100%);
+    border:1px solid rgba(234,208,204,0.55);border-radius:18px 18px 14px 14px;
+    box-shadow:0 -8px 32px rgba(90,74,66,0.1),0 4px 20px rgba(90,74,66,0.06);
+    padding:10px 12px 12px;box-sizing:border-box;
+  }
+  .verse-fs-share-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;padding:0 2px 6px;border-bottom:1px solid rgba(234,208,204,0.38)}
+  .verse-fs-share-sheet-title{margin:0;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent-strong)}
+  .verse-fs-share-sheet-dismiss{
+    border:none;background:transparent;color:rgba(90,74,66,0.45);font-size:20px;line-height:1;padding:4px 8px;cursor:pointer;border-radius:8px;
+    font-family:inherit;-webkit-tap-highlight-color:transparent;
+  }
+  .verse-fs-share-sheet-dismiss:active{color:rgba(90,74,66,0.75)}
+  .verse-fs-share-sheet-opt{
+    display:block;width:100%;margin:0 0 6px;padding:12px 14px;border-radius:12px;
+    border:1px solid rgba(234,208,204,0.45);background:rgba(255,255,255,0.88);
+    font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:var(--text);
+    text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.15s ease,transform 0.12s ease;
+  }
+  .verse-fs-share-sheet-opt:last-child{margin-bottom:0}
+  .verse-fs-share-sheet-opt:active{transform:scale(0.99);background:rgba(248,240,236,0.95)}
   body.verse-fs-open{overflow:hidden;touch-action:none}
   body.verse-fs-open .bottom-nav{opacity:0;pointer-events:none;visibility:hidden}
   /* Scripture tab (data-tab word) activates #screen-scripture; #screen-word is legacy preview shell. */
@@ -2557,6 +2590,13 @@
   .profile-about-close{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:500;color:var(--text);margin:18px 0 6px;line-height:1.4}
   .profile-about-tagline{font-family:'Playfair Display',Georgia,serif;font-size:0.95rem;color:var(--text-light);margin:0;font-style:italic}
   .app-version-foot{font-size:11px;color:var(--text-light);opacity:0.5;text-align:center;margin:8px 0 4px;padding:0 20px 8px;letter-spacing:0.15px;line-height:1.4}
+  .profile-dev-reset-wrap{margin:0 0 4px;padding:0 12px;text-align:center}
+  .profile-dev-reset-btn{
+    font-size:10px;font-weight:400;color:rgba(90,74,66,0.32);background:transparent;border:none;
+    text-decoration:underline;text-underline-offset:2px;padding:6px 8px 10px;cursor:pointer;font-family:inherit;
+    letter-spacing:0.02em;-webkit-tap-highlight-color:transparent;
+  }
+  .profile-dev-reset-btn:active{color:rgba(90,74,66,0.5)}
   .profile-rhythm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .profile-rhythm-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 8px 14px;background:var(--primary);border:1.5px solid transparent;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.25s cubic-bezier(.4,0,.2,1);font-family:inherit;box-shadow:0 2px 8px rgba(90,74,66,0.03)}
   .profile-rhythm-btn:active{transform:scale(0.97)}
@@ -2663,6 +2703,14 @@
   .reminder-style-pill{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:500;font-family:inherit;color:var(--text);background:var(--card);border:1px solid rgba(234,208,204,0.5);cursor:pointer;transition:background 0.2s ease,border-color 0.2s ease,box-shadow 0.2s ease;letter-spacing:0.02em}
   .reminder-style-pill:hover{background:rgba(255,255,255,0.7);border-color:rgba(186,160,148,0.4)}
   .reminder-style-pill.selected{background:linear-gradient(180deg,var(--petal),var(--accent-strong));border-color:transparent;color:#fff;box-shadow:0 2px 10px rgba(186,160,148,0.2)}
+  .grounded-notif-prompt{position:fixed;inset:0;z-index:10060;display:flex;align-items:center;justify-content:center;padding:max(20px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));box-sizing:border-box;background:rgba(40,32,28,0.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.35s ease,visibility 0s linear 0.35s}
+  .grounded-notif-prompt.open{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
+  .grounded-notif-prompt__panel{max-width:340px;width:100%;background:var(--card);border-radius:var(--radius-lg);padding:26px 22px 22px;box-shadow:0 16px 48px rgba(45,36,32,0.18);border:1px solid rgba(234,208,204,0.35)}
+  .grounded-notif-prompt__panel p{margin:0 0 20px;font-size:15px;line-height:1.55;color:var(--text)}
+  .grounded-notif-prompt__actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+  .grounded-notif-prompt__actions button{font-family:inherit;font-size:14px;font-weight:500;padding:12px 18px;border-radius:999px;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .grounded-notif-prompt__later{background:var(--primary);color:var(--text);border:1px solid rgba(234,208,204,0.55)}
+  .grounded-notif-prompt__yes{background:var(--text);color:var(--card)}
 
   /* ─── REMINDER BANNER (in-app notification) ───
      Anchored above the bottom nav. Slides up softly on appearance.
@@ -4016,6 +4064,16 @@
             <input type="time" class="reminder-time" id="eveningTimeInput" value="20:00" aria-label="Evening reminder time">
           </span>
         </div>
+        <div class="reminder-row">
+          <span class="rr-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            Daily reminder
+          </span>
+          <span class="rr-right">
+            <input type="time" class="reminder-time" id="groundedCapReminderTimeInput" value="08:00" aria-label="Daily reminder time">
+            <div class="profile-toggle on" id="toggleGroundedCapDailyReminder" role="switch" aria-checked="true" tabindex="0"></div>
+          </span>
+        </div>
         <label class="profile-field-label body-font" style="margin-top:18px">Message style</label>
         <p class="profile-helper-text" style="margin-top:4px;margin-bottom:0">How invitations to pause should read.</p>
         <div class="reminder-style-pills" id="reminderStylePills" role="group" aria-label="Reminder message style">
@@ -4058,6 +4116,9 @@
       <a href="#/contact" class="legal-spa-link" data-legal="contact">Contact</a>
     </div>
     <p class="app-version-foot" id="appVersionFoot" aria-label="App version"></p>
+    <div class="profile-dev-reset-wrap">
+      <button type="button" class="profile-dev-reset-btn body-font" id="profileDevResetOnboardingBtn" aria-label="Reset onboarding for development testing">Reset app (dev)</button>
+    </div>
     <div style="height:60px"></div>
   </div>
 
@@ -4402,6 +4463,15 @@
 
 
   <!-- ─── DAILY REMINDER BANNER (in-app notification) ─── -->
+  <div id="groundedNotifPermissionPrompt" class="grounded-notif-prompt" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="groundedNotifPromptCopy">
+    <div class="grounded-notif-prompt__panel">
+      <p id="groundedNotifPromptCopy" class="body-font">Can we remind you to show up each day? You can change this anytime in settings.</p>
+      <div class="grounded-notif-prompt__actions">
+        <button type="button" class="grounded-notif-prompt__later" id="groundedNotifPromptLater">Maybe later</button>
+        <button type="button" class="grounded-notif-prompt__yes" id="groundedNotifPromptYes">Yes please</button>
+      </div>
+    </div>
+  </div>
   <div class="reminder-banner" id="reminderBanner" role="alert" aria-live="polite" aria-hidden="true">
     <button class="rb-close" id="reminderClose" type="button" aria-label="Dismiss reminder">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -4428,6 +4498,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         <span>Back</span>
       </button>
+      <div class="verse-fs-share-capture" id="verseFsShareCapture">
       <div class="verse-fs-center" id="verseFsCenter">
         <p class="verse-fs-text" id="verseFsText"></p>
         <p class="verse-fs-ref" id="verseFsRef"></p>
@@ -4435,6 +4506,7 @@
       <div class="verse-fs-brand" aria-hidden="true">
         <p class="verse-fs-wordmark">Grounded</p>
         <p class="verse-fs-domain body-font">getgroundedapp.com</p>
+      </div>
       </div>
       <div class="verse-fs-dual" id="verseFsDual">
         <button type="button" class="verse-fs-pill verse-fs-pill--study" id="verseFsStudy">Study this →</button>
@@ -4445,6 +4517,16 @@
         <button type="button" id="verseFsShare">Share</button>
         <button type="button" id="verseFsCopy">Copy</button>
       </div>
+    </div>
+    <div class="verse-fs-share-backdrop" id="verseFsShareBackdrop" hidden aria-hidden="true"></div>
+    <div class="verse-fs-share-sheet" id="verseFsShareSheet" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="verseFsShareSheetTitle">
+      <div class="verse-fs-share-sheet-head">
+        <p class="verse-fs-share-sheet-title" id="verseFsShareSheetTitle">Share</p>
+        <button type="button" class="verse-fs-share-sheet-dismiss" id="verseFsShareSheetDismiss" aria-label="Close share menu">×</button>
+      </div>
+      <button type="button" class="verse-fs-share-sheet-opt" id="verseFsShareIgStories">Instagram Stories</button>
+      <button type="button" class="verse-fs-share-sheet-opt" id="verseFsShareImage">Share image</button>
+      <button type="button" class="verse-fs-share-sheet-opt" id="verseFsShareCopyText">Copy text</button>
     </div>
     <div class="verse-fs-toast" id="verseFsToast" aria-live="polite"></div>
   </div>
@@ -4674,6 +4756,10 @@
     </div>
   </div>
 
+  <script src="js/capacitor.js"></script>
+  <script src="js/cap-local-notifications.js"></script>
+  <script src="js/cap-push-notifications.js"></script>
+  <script src="js/grounded-native-notifications.js"></script>
   <script src="js/app-themes.js"></script>
   <script src="js/onboarding.js"></script>
   <script src="js/grounded-home-weekly-themes-data.js"></script>
@@ -4683,7 +4769,7 @@
   <script src="bibleData.js"></script>
   <script src="js/study-data.js"></script>
   <script src="js/study-app.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
   /* ═══════════════════════════════════════
      DATA
@@ -5425,6 +5511,11 @@
       localStorage.setItem('grounded_onboarding_completed_day', today);
       if (skipped) {
         localStorage.removeItem('grounded_theme_choice_note');
+        if (typeof window.groundedNativeNotificationsOnOnboardingComplete === 'function') {
+          try {
+            window.groundedNativeNotificationsOnOnboardingComplete();
+          } catch (eSkipN) {}
+        }
         return;
       }
       let why = [];
@@ -5460,6 +5551,11 @@
         localStorage.setItem('grounded_feeling_onboarding_preset', '1');
       }
     } catch (e) {}
+    if (typeof window.groundedNativeNotificationsOnOnboardingComplete === 'function') {
+      try {
+        window.groundedNativeNotificationsOnOnboardingComplete();
+      } catch (e2) {}
+    }
   };
 
   function clearStaleOnboardingFirstDayFlags() {
@@ -6084,6 +6180,14 @@
     const focusRow = document.getElementById('homeWeeklyFocusRow');
     const focusWord = document.getElementById('homeWeeklyFocusWord');
     if (titleEl) titleEl.textContent = wk.title;
+    try {
+      localStorage.setItem('grounded_weekly_theme_notify_title', wk.title || '');
+    } catch (eGw) {}
+    if (typeof window.groundedNativeNotifSyncFromSettings === 'function') {
+      try {
+        window.groundedNativeNotifSyncFromSettings();
+      } catch (eGw2) {}
+    }
     if (descEl) descEl.textContent = wk.subtitle || '';
     let summaryText = wk.summary != null ? String(wk.summary).trim() : '';
     if (!summaryText && wk.intro) summaryText = homeWeeklySummaryFallbackFromIntro(wk.intro);
@@ -6467,6 +6571,8 @@
     }
     setTimeout(initScrollAnimations, 60);
   }
+
+  window.switchTab = switchTab;
 
   function syncActiveMomentFeelingForSession() {
     let next = 'default';
@@ -9192,6 +9298,7 @@
     });
 
     syncReminderControlsFromStorage();
+    syncGroundedCapReminderControlsFromStorage();
 
     if (typeof applyNavLegacyFromStorage === 'function') applyNavLegacyFromStorage();
     if (typeof bindNavLegacyTogglesOnce === 'function') bindNavLegacyTogglesOnce();
@@ -9402,6 +9509,71 @@
   bindReminderToggle('toggleEveningReminder', 'eveningTimeInput', 'evening');
   bindReminderStylePills();
   syncReminderControlsFromStorage();
+  function syncGroundedCapReminderControlsFromStorage() {
+    const tog = document.getElementById('toggleGroundedCapDailyReminder');
+    const time = document.getElementById('groundedCapReminderTimeInput');
+    let on = true;
+    if (typeof window.groundedNativeNotifGetDailyReminderOn === 'function') {
+      on = window.groundedNativeNotifGetDailyReminderOn();
+    } else {
+      try {
+        const r = localStorage.getItem('grounded_daily_reminder_on');
+        on = r === null || r === '' || r === 'true' || r === '1';
+      } catch (e) {
+        on = true;
+      }
+    }
+    let tstr = '08:00';
+    try {
+      const rawT = localStorage.getItem('grounded_reminder_time');
+      if (rawT && /^\d{1,2}:\d{2}/.test(String(rawT).trim())) tstr = String(rawT).trim().slice(0, 5);
+    } catch (e2) {}
+    if (tog) {
+      tog.classList.toggle('on', on);
+      tog.setAttribute('aria-checked', String(on));
+    }
+    if (time) {
+      time.value = tstr;
+      time.disabled = !on;
+    }
+  }
+  function bindGroundedCapDailyReminderControls() {
+    const tog = document.getElementById('toggleGroundedCapDailyReminder');
+    const time = document.getElementById('groundedCapReminderTimeInput');
+    if (tog && !tog.dataset.groundedCapBound) {
+      tog.dataset.groundedCapBound = '1';
+      tog.addEventListener('click', function () {
+        this.classList.toggle('on');
+        const isOn = this.classList.contains('on');
+        this.setAttribute('aria-checked', String(isOn));
+        if (time) time.disabled = !isOn;
+        if (typeof window.groundedNativeNotifSetDailyReminderOn === 'function') {
+          window.groundedNativeNotifSetDailyReminderOn(isOn);
+        } else {
+          try {
+            localStorage.setItem('grounded_daily_reminder_on', isOn ? 'true' : 'false');
+          } catch (e) {}
+        }
+        if (typeof window.groundedNativeNotifSyncFromSettings === 'function') {
+          window.groundedNativeNotifSyncFromSettings();
+        }
+      });
+    }
+    if (time && !time.dataset.groundedCapBound) {
+      time.dataset.groundedCapBound = '1';
+      time.addEventListener('change', function () {
+        const v = this.value || '08:00';
+        try {
+          localStorage.setItem('grounded_reminder_time', v);
+        } catch (e) {}
+        if (typeof window.groundedNativeNotifSyncFromSettings === 'function') {
+          window.groundedNativeNotifSyncFromSettings();
+        }
+      });
+    }
+  }
+  bindGroundedCapDailyReminderControls();
+  syncGroundedCapReminderControlsFromStorage();
 
   document.getElementById('settingsSaveBtn').addEventListener('click', () => {
     if (!settingsAreDirty()) return;
@@ -10035,6 +10207,11 @@
     try {
       localStorage.setItem('grounded_current_verse', JSON.stringify(payload));
     } catch (ePersistVerse) {}
+    if (typeof window.groundedRescheduleNativeDailyVerseNotification === 'function') {
+      try {
+        window.groundedRescheduleNativeDailyVerseNotification();
+      } catch (eNv) {}
+    }
 
     const inject = function () {
       container.querySelectorAll('.hr-block-affirmation, .hr-block-reflection').forEach(function (block) {
@@ -11776,6 +11953,112 @@
     }
   }
 
+  /** Meta/Facebook app id for `instagram-stories://share?source_application=` — set your real ID in developers.facebook.com */
+  const VERSE_FS_INSTAGRAM_FB_APP_ID = '0';
+
+  function verseFsCloseShareSheet() {
+    const sheet = document.getElementById('verseFsShareSheet');
+    const bd = document.getElementById('verseFsShareBackdrop');
+    if (sheet) {
+      sheet.setAttribute('hidden', '');
+      sheet.setAttribute('aria-hidden', 'true');
+    }
+    if (bd) {
+      bd.setAttribute('hidden', '');
+      bd.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function verseFsOpenShareSheet() {
+    const sheet = document.getElementById('verseFsShareSheet');
+    const bd = document.getElementById('verseFsShareBackdrop');
+    if (!sheet || !bd) return;
+    bd.removeAttribute('hidden');
+    bd.setAttribute('aria-hidden', 'false');
+    sheet.removeAttribute('hidden');
+    sheet.setAttribute('aria-hidden', 'false');
+  }
+
+  function verseFsIsShareSheetOpen() {
+    const s = document.getElementById('verseFsShareSheet');
+    return !!(s && !s.hasAttribute('hidden'));
+  }
+
+  function verseFsToggleShareSheet() {
+    if (verseFsIsShareSheetOpen()) verseFsCloseShareSheet();
+    else verseFsOpenShareSheet();
+  }
+
+  function verseFsShareTextFallback() {
+    const payload = verseFsCopyPayload();
+    if (!payload) return Promise.resolve();
+    const url = typeof location !== 'undefined' ? location.href : '';
+    if (navigator.share) {
+      return navigator.share({ title: 'Verse', text: payload, url: url }).catch(function () {});
+    }
+    return Promise.resolve();
+  }
+
+  async function verseFsCaptureShareCardPng() {
+    const el = document.getElementById('verseFsShareCapture');
+    if (!el || typeof html2canvas !== 'function') return null;
+    try {
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#fdf9f5'
+      });
+      return await new Promise(function (resolve) {
+        canvas.toBlob(function (blob) {
+          resolve(blob || null);
+        }, 'image/png', 0.95);
+      });
+    } catch (err) {
+      console.warn('verseFs html2canvas', err);
+      return null;
+    }
+  }
+
+  async function verseFsShareVerseImageFile() {
+    const blob = await verseFsCaptureShareCardPng();
+    if (!blob) {
+      verseFsShowToast('Couldn\u2019t create image');
+      return false;
+    }
+    const file = new File([blob], 'grounded-verse.png', { type: 'image/png' });
+    const shareData = { files: [file], title: 'Verse' };
+    try {
+      if (navigator.share) {
+        if (!navigator.canShare || navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          return true;
+        }
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return true;
+    }
+    return false;
+  }
+
+  async function verseFsShareImageMenu() {
+    verseFsCloseShareSheet();
+    const ok = await verseFsShareVerseImageFile();
+    if (!ok) await verseFsShareTextFallback();
+  }
+
+  async function verseFsShareToInstagramStories() {
+    verseFsCloseShareSheet();
+    const ok = await verseFsShareVerseImageFile();
+    if (ok) return;
+    try {
+      window.location.href =
+        'instagram-stories://share?source_application=' +
+        encodeURIComponent(String(VERSE_FS_INSTAGRAM_FB_APP_ID || '0'));
+    } catch (e2) {}
+    await verseFsShareTextFallback();
+  }
+
   function updateVerseFsSaveButton() {
     const btn = document.getElementById('verseFsSave');
     if (!btn || !verseFsState) return;
@@ -11795,6 +12078,7 @@
     const textEl = document.getElementById('verseFsText');
     const refEl = document.getElementById('verseFsRef');
     if (!overlay || !textEl || !refEl) return;
+    verseFsCloseShareSheet();
     verseFsState = v;
     const t = verseBodyText(v).trim();
     const r = (v.ref || '').trim();
@@ -11810,6 +12094,7 @@
   function closeVerseFullscreen() {
     const overlay = document.getElementById('verseFullscreenOverlay');
     if (!overlay) return;
+    verseFsCloseShareSheet();
     overlay.classList.remove('open');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('verse-fs-open');
@@ -11905,27 +12190,71 @@
     });
     if (shareBtn) shareBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const payload = verseFsCopyPayload();
-      if (!payload) return;
-      const url = typeof location !== 'undefined' ? location.href : '';
-      if (navigator.share) {
-        navigator.share({ title: 'Verse', text: payload, url: url }).catch(() => {});
-      } else {
-        verseFsCopyExec();
-      }
+      verseFsToggleShareSheet();
     });
+    const shareBackdrop = document.getElementById('verseFsShareBackdrop');
+    const shareSheet = document.getElementById('verseFsShareSheet');
+    const shareDismiss = document.getElementById('verseFsShareSheetDismiss');
+    const shareIg = document.getElementById('verseFsShareIgStories');
+    const shareImg = document.getElementById('verseFsShareImage');
+    const shareCopyTxt = document.getElementById('verseFsShareCopyText');
+    if (shareBackdrop) {
+      shareBackdrop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        verseFsCloseShareSheet();
+      });
+    }
+    if (shareDismiss) {
+      shareDismiss.addEventListener('click', (e) => {
+        e.stopPropagation();
+        verseFsCloseShareSheet();
+      });
+    }
+    if (shareIg) {
+      shareIg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        void verseFsShareToInstagramStories();
+      });
+    }
+    if (shareImg) {
+      shareImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        void verseFsShareImageMenu();
+      });
+    }
+    if (shareCopyTxt) {
+      shareCopyTxt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        verseFsCloseShareSheet();
+        verseFsCopyExec();
+      });
+    }
+    if (shareSheet) {
+      shareSheet.addEventListener('click', (e) => e.stopPropagation());
+    }
+
     if (copyBtn) copyBtn.addEventListener('click', (e) => { e.stopPropagation(); verseFsCopyExec(); });
 
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
-      if (overlay.classList.contains('open')) closeVerseFullscreen();
+      if (!overlay.classList.contains('open')) return;
+      if (verseFsIsShareSheetOpen()) {
+        verseFsCloseShareSheet();
+        return;
+      }
+      closeVerseFullscreen();
     });
 
     let swipeY0 = 0;
     let swipeActive = false;
     overlay.addEventListener('touchstart', (e) => {
       if (!overlay.classList.contains('open')) return;
-      if (e.target.closest('.verse-fs-actions') || e.target.closest('.verse-fs-dual')) {
+      if (
+        e.target.closest('.verse-fs-actions') ||
+        e.target.closest('.verse-fs-dual') ||
+        e.target.closest('#verseFsShareSheet') ||
+        e.target.closest('#verseFsShareBackdrop')
+      ) {
         swipeActive = false;
         return;
       }
@@ -16547,6 +16876,29 @@
       } catch (e3) {
         location.reload();
       }
+    });
+  })();
+
+  (function initProfileDevResetOnboardingOnce() {
+    var b = document.getElementById('profileDevResetOnboardingBtn');
+    if (!b || b.dataset.bound) return;
+    b.dataset.bound = '1';
+    b.addEventListener('click', function () {
+      try {
+        var ck =
+          typeof GroundedThemes !== 'undefined' && GroundedThemes.ONBOARDING_COMPLETED_KEY
+            ? GroundedThemes.ONBOARDING_COMPLETED_KEY
+            : 'onboardingCompleted';
+        var sk =
+          typeof GroundedThemes !== 'undefined' && GroundedThemes.ONBOARDING_STATE_KEY
+            ? GroundedThemes.ONBOARDING_STATE_KEY
+            : 'grounded_onboarding_state';
+        localStorage.removeItem(ck);
+        localStorage.removeItem(sk);
+      } catch (e) {}
+      try {
+        location.reload();
+      } catch (e2) {}
     });
   })();
 

@@ -3,6 +3,7 @@
   "private": true,
   "description": "Local preview: npm run dev (static). For /api/* routes (chapter & verse AI), run npm run dev:api (npx vercel dev) with OPENAI_API_KEY in .env.local.",
   "scripts": {
+    "postinstall": "node scripts/copy-capacitor-runtime.cjs",
     "build": "node scripts/build-www.cjs",
     "dev": "live-server . --port=5500 --open=/index.html --watch=index.html,widget.html,sw.js,bibleData.js,manifest.json",
     "dev:onboarding": "live-server . --port=5500 --open=/index.html?onboarding=1 --watch=index.html,sw.js,bibleData.js,manifest.json,js/app-themes.js,js/onboarding.js",
@@ -16,5 +17,10 @@
     "@capacitor/ios": "^6.2.0",
     "live-server": "^1.2.2",
     "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/local-notifications": "^6.1.3",
+    "@capacitor/push-notifications": "^6.0.5"
   }
 }
