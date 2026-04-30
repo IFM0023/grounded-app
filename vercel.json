@@ -10,6 +10,7 @@
     "api/verse-explain-structured.js": { "maxDuration": 45 },
     "api/verse-explanation.js": { "maxDuration": 30 },
     "api/verse-breakdown.js": { "maxDuration": 30 },
+    "api/book-overview.js": { "maxDuration": 60 },
     "api/prayer.js": { "maxDuration": 30 }
   },
   "headers": [

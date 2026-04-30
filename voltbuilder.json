@@ -1,0 +1,11 @@
+{
+  "release": "release",
+  "verbose": true,
+  "iosPackageType": "app-store",
+  "iosDevP12": "certificates/ios_development.p12",
+  "iosDevP12Password": "REPLACE_WITH_PASSWORD_YOU_SET_WHEN_CREATING_OR_EXPORTING_IOS_DEV_P12",
+  "iosDevelopment": "certificates/ios_development.mobileprovision",
+  "iosDistP12": "certificates/ios_distribution.p12",
+  "iosDistP12Password": "REPLACE_WITH_PASSWORD_YOU_SET_WHEN_CREATING_OR_EXPORTING_IOS_DIST_P12",
+  "iosDistribution": "certificates/ios_distribution.mobileprovision"
+}

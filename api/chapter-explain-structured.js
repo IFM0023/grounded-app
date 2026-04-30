@@ -2,27 +2,34 @@ import { loadLocalEnv } from './load-local-env.js';
 import { readRequestJson } from './read-request-json.js';
 loadLocalEnv();
 
-// Structured chapter explanation — JSON: anchor, reflection (chapter-grounded).
-// POST { book, chapter } or { book, chapter, versesText } for richer context
-// Run locally: npx vercel dev (serves /api/*). Plain static servers do not expose these routes.
-
 const SYSTEM_PROMPT = `You help someone understand a Bible chapter they are reading quietly.
 
 You MUST respond with a single JSON object only (no markdown, no code fences, no text before or after).
-Use exactly these keys: "anchor", "reflection".
 
-Fields:
-- "anchor": 1–2 short sentences that name something specific about this chapter — its setting, what happens, a repeated image, or a claim in the text. Must feel tied to THIS chapter, not generic encouragement.
-- "reflection": 1–2 short sentences of calm, personal application for the reader (you may use "you"). Must follow from what the chapter is actually about.
+Required keys (all values are strings except as noted):
+- "anchor": 1–2 short sentences tied to THIS chapter (setting, action, claim).
+- "reflection": 1–2 short sentences of calm personal application (may use "you").
+- "writtenBy": author + approximate date, one short phrase.
+- "setting": historical/geographical context, 1–2 sentences.
+- "theme": 4–8 words summarizing the chapter's main theme (comma-separated or short phrase).
+- "purpose": one sentence — why this chapter matters in the book.
+- "message": 1–2 sentences — takeaway for the reader.
+- "keyVerse": object with "text" and "reference" for one representative verse (short quote OK).
+- "then": exactly 2 sentences — what this meant to the original audience. Label is not inside the string.
+- "now": exactly 2 sentences — relevance today.
+- "people": array of 0–5 objects, each { "name", "who", "why" } — key figures only; use [] if none.
+- "difficultPassage": string with 2–3 honest sentences if the chapter has harsh/judgment/violence/confusing theology that might trouble a new reader; otherwise null (JSON null).
+- "whereFits": one line placing the chapter in biblical timeline (e.g. "Written during the Babylonian exile, approximately 600 BC").
+- "crossReferences": array of 3–5 objects { "reference", "preview" } — related verses; preview is first line or paraphrase.
+- "honestQuestion": object { "question", "answer" } — one honest question a new believer might have about this passage, and a 2-sentence warm answer welcoming doubt.
 
 Rules:
-- Do NOT quote long strings of verse text back verbatim.
-- Do not give technical or meta advice about servers, apps, or how to run software.
-- Calm, simple, grounded tone. No long paragraphs.
-- Vary wording so different chapters do not all start the same way.
+- Do NOT quote long strings of verse text verbatim for the whole chapter.
+- Calm, simple, grounded tone.
+- JSON only. Use null for difficultPassage if not needed.
 
-Output format (strict JSON only):
-{ "anchor": "…", "reflection": "…" }`;
+Output example shape (illustrative):
+{ "anchor":"…","reflection":"…","writtenBy":"…","setting":"…","theme":"…","purpose":"…","message":"…","keyVerse":{"text":"…","reference":"…"},"then":"…","now":"…","people":[],"difficultPassage":null,"whereFits":"…","crossReferences":[],"honestQuestion":{"question":"…","answer":"…"}}`;
 
 function stripMarkdownFences(s) {
   return String(s || '')
@@ -50,52 +57,112 @@ function normalizeChapterKey(k) {
     .replace(/[^a-z0-9]/g, '');
 }
 
-function coerceChapterFields(parsed) {
+function str(v, max) {
+  if (v == null) return '';
+  const t = String(v).replace(/\s+/g, ' ').trim();
+  return t.slice(0, max || 2000);
+}
+
+function coerceChapterExtended(parsed) {
   if (!parsed || typeof parsed !== 'object') return null;
   const acc = {};
   for (const [k, v] of Object.entries(parsed)) {
-    if (v == null || typeof v !== 'string') continue;
+    if (v == null) continue;
     const nk = normalizeChapterKey(k);
     if (!nk) continue;
-    const t = v.replace(/\s+/g, ' ').trim();
-    if (t) acc[nk] = t;
+    if (typeof v === 'string') acc[nk] = v.replace(/\s+/g, ' ').trim();
+    else if (typeof v === 'object') acc[nk] = v;
   }
 
-  let anchor = String(acc.anchor || '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 1200);
-  let reflection = String(acc.reflection || '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 1200);
+  let anchor = str(acc.anchor, 1200);
+  let reflection = str(acc.reflection, 1200);
+  const writtenBy = str(acc.writtenby || acc.writtenBy, 400);
+  const date = str(acc.date, 120);
+  const setting = str(acc.setting, 900);
+  const theme = str(acc.theme, 200);
+  const purpose = str(acc.purpose, 500);
+  const message = str(acc.message, 900);
+  const then = str(acc.then, 900);
+  const now = str(acc.now, 900);
+  const whereFits = str(acc.wherefits || acc.whereFits, 400);
+  let difficultPassage = acc.difficultpassage != null ? acc.difficultpassage : acc.difficultPassage;
+  if (difficultPassage === null || difficultPassage === undefined) difficultPassage = null;
+  else difficultPassage = str(difficultPassage, 900) || null;
 
-  if (anchor || reflection) {
-    return { anchor, reflection };
+  let keyVerse = acc.keyverse || acc.keyVerse;
+  if (!keyVerse || typeof keyVerse !== 'object') keyVerse = { text: '', reference: '' };
+  else {
+    keyVerse = {
+      text: str(keyVerse.text, 400),
+      reference: str(keyVerse.reference, 80)
+    };
   }
 
-  const overview = String(acc.overview || '')
-    .replace(/\s+/g, ' ')
-    .trim();
-  const whatsHappening = String(acc.whatshappening || '')
-    .replace(/\s+/g, ' ')
-    .trim();
-  const keyMessage = String(acc.keymessage || '')
-    .replace(/\s+/g, ' ')
-    .trim();
-  const forYou = String(acc.foryou || '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  let people = acc.people;
+  if (!Array.isArray(people)) people = [];
+  people = people
+    .slice(0, 6)
+    .map((p) => {
+      if (!p || typeof p !== 'object') return null;
+      return {
+        name: str(p.name, 80),
+        who: str(p.who, 200),
+        why: str(p.why, 280)
+      };
+    })
+    .filter((p) => p && p.name);
 
-  if (overview || whatsHappening) {
-    anchor = [overview, whatsHappening].filter(Boolean).join(' ').slice(0, 1200);
+  let crossReferences = acc.crossreferences || acc.crossReferences;
+  if (!Array.isArray(crossReferences)) crossReferences = [];
+  crossReferences = crossReferences
+    .slice(0, 6)
+    .map((c) => {
+      if (!c || typeof c !== 'object') return null;
+      return { reference: str(c.reference, 80), preview: str(c.preview, 220) };
+    })
+    .filter((c) => c && c.reference);
+
+  let honestQuestion = acc.honestquestion || acc.honestQuestion;
+  if (!honestQuestion || typeof honestQuestion !== 'object') {
+    honestQuestion = { question: '', answer: '' };
+  } else {
+    honestQuestion = {
+      question: str(honestQuestion.question, 280),
+      answer: str(honestQuestion.answer, 900)
+    };
   }
-  if (keyMessage || forYou) {
-    reflection = [keyMessage, forYou].filter(Boolean).join(' ').slice(0, 1200);
+
+  if (!anchor || !reflection) {
+    const overview = str(acc.overview, 600);
+    const whatsHappening = str(acc.whatshappening || acc.whatsHappening, 600);
+    const keyMessage = str(acc.keymessage || acc.keyMessage, 600);
+    const forYou = str(acc.foryou || acc.forYou, 600);
+    if (overview || whatsHappening) anchor = [overview, whatsHappening].filter(Boolean).join(' ').slice(0, 1200);
+    if (keyMessage || forYou) reflection = [keyMessage, forYou].filter(Boolean).join(' ').slice(0, 1200);
+    if (setting && !anchor) anchor = setting.slice(0, 400);
+    if (message && !reflection) reflection = message.slice(0, 500);
   }
 
   if (!anchor && !reflection) return null;
-  return { anchor, reflection };
+
+  return {
+    anchor: anchor.trim(),
+    reflection: reflection.trim(),
+    writtenBy: writtenBy,
+    date: date,
+    setting,
+    theme,
+    purpose,
+    message,
+    keyVerse,
+    then,
+    now,
+    people,
+    difficultPassage,
+    whereFits,
+    crossReferences,
+    honestQuestion
+  };
 }
 
 export default async function handler(req, res) {
@@ -120,7 +187,7 @@ export default async function handler(req, res) {
     versesText = versesText.slice(0, 12000) + '…';
   }
   if (!versesText) {
-    versesText = `(No full chapter text was sent. Give a faithful, concise summary of ${book} chapter ${chapter} as it is commonly understood. Keep "anchor" and "reflection" to 1–2 short sentences each.)`;
+    versesText = `(No full chapter text was sent. Summarize ${book} chapter ${chapter} faithfully. Return all JSON keys.)`;
   }
 
   const userMessage =
@@ -141,8 +208,8 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        temperature: 0.52,
-        max_tokens: 720,
+        temperature: 0.48,
+        max_tokens: 2200,
         response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
@@ -164,16 +231,11 @@ export default async function handler(req, res) {
         : ''
     ).trim();
     const parsed = parseJsonLoose(raw);
-    const coerced = coerceChapterFields(parsed);
+    const coerced = coerceChapterExtended(parsed);
     if (!coerced) {
       return res.status(502).json({ error: 'Invalid AI response' });
     }
-    const anchor = coerced.anchor.replace(/\s+/g, ' ').trim();
-    const reflection = coerced.reflection.replace(/\s+/g, ' ').trim();
-    if (!anchor && !reflection) {
-      return res.status(502).json({ error: 'Empty explanation' });
-    }
-    return res.status(200).json({ anchor, reflection });
+    return res.status(200).json(coerced);
   } catch (e) {
     const aborted = e && (e.name === 'AbortError' || /abort/i.test(String(e)));
     return res.status(aborted ? 504 : 500).json({ error: aborted ? 'Timeout' : 'Generation failed' });
