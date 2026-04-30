@@ -1,10 +1,6 @@
-# Capacitor iOS App Store (release). `app_store_connect` must match Team integrations → App Store Connect API key name (Grounded).
-# Commit `ios/` from `npx cap add ios` once so `cap sync ios` succeeds.
-
 workflows:
   ios-app-store:
     name: Capacitor iOS App Store
-
     max_build_duration: 120
     instance_type: mac_mini_m2
 
@@ -17,27 +13,30 @@ workflows:
           - grounded_appstore_cert
         provisioning_profiles:
           - Grounded App Store
+
       vars:
         XCODE_WORKSPACE: ios/App/App.xcworkspace
         XCODE_SCHEME: App
+
       xcode: latest
 
- scripts:
-  - script: npm ci
-  - script: npm run build
-  - script: npx cap sync ios
-  - script: cd ios/App && pod install
-  - script: xcode-project use-profiles
-  - script: |
-      xcode-project build-ipa \
-        --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-        --scheme "$XCODE_SCHEME" \
-        --export-method app-store \
-        --output-dir build/ios/ipa
-    
-artifacts:
-  - build/ios/ipa/*.ipa
-publishing:
-  app_store_connect:
-    auth: integration
-    submit_to_testflight: true
+    scripts:
+      - script: npm ci
+      - script: npm run build
+      - script: npx cap sync ios
+      - script: cd ios/App && pod install
+      - script: xcode-project use-profiles
+      - script: |
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME" \
+            --export-method app-store \
+            --output-dir build/ios/ipa
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
