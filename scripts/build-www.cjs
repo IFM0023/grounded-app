@@ -5,7 +5,15 @@ const fs = require('fs');
 const path = require('path');
 const root = process.cwd();
 const www = path.join(root, 'www');
-const files = ['index.html', 'manifest.json', 'sw.js', 'widget.html', 'bibleData.js'];
+const files = [
+  'index.html',
+  'manifest.json',
+  'sw.js',
+  'widget.html',
+  'bibleData.js',
+  'icon-192.png',
+  'icon-512.png'
+];
 const dirs = ['assets', 'js', 'css'];
 
 try {

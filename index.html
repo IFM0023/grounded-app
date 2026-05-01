@@ -222,6 +222,12 @@
   .header-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:transparent;color:var(--text-light)}
   .header-btn:active{transform:scale(0.92)}
   .header-btn svg{width:18px;height:18px}
+  .header-profile-avatar{width:32px;height:32px;min-width:32px;border-radius:50%;padding:0;margin:0;border:1.5px solid rgba(168,107,98,0.3);background:#EAD0CC;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-sizing:border-box;cursor:pointer;-webkit-tap-highlight-color:transparent;color:inherit}
+  .header-profile-avatar:focus-visible{outline:2px solid rgba(168,107,98,0.45);outline-offset:2px}
+  .header-profile-avatar:active{transform:scale(0.92)}
+  .header-profile-avatar .header-profile-initial{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:500;line-height:1;color:#3D2E28}
+  .header-profile-avatar .header-profile-fallback{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+  .header-profile-avatar .header-profile-fallback svg{width:15px;height:15px;color:#A86B62}
   
   /* ─── SETTINGS MODAL ─── */
   .settings-overlay{position:fixed;inset:0;z-index:999;background:var(--overlay-bg);opacity:0;pointer-events:none;transition:opacity 0.3s ease}
@@ -253,6 +259,71 @@
   .nav-item.active svg,.nav-item.active span{color:rgba(90,74,66,0.86)}
   .nav-item.active span{font-weight:500}
   .nav-item.active{background:rgba(90,74,66,0.07)}
+  .bottom-nav .nav-item.center-btn{
+    position:relative;
+    display:flex;
+    flex:0 0 56px;
+    width:56px;
+    height:56px;
+    min-width:56px;
+    max-width:56px;
+    padding:0;
+    margin-top:-18px;
+    align-self:flex-end;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    border-radius:50%;
+    background:#CFAFA3;
+    border:none;
+    box-shadow:0 10px 24px rgba(0,0,0,0.08);
+    -webkit-tap-highlight-color:transparent
+  }
+  .bottom-nav .nav-item.center-btn:active{transform:scale(0.96)}
+  .bottom-nav .nav-item.center-btn.active{background:#CFAFA3;box-shadow:0 10px 24px rgba(0,0,0,0.1)}
+  .bottom-nav .nav-item.center-btn .nav-prayer-label{
+    position:absolute;
+    left:50%;
+    top:calc(100% + 5px);
+    transform:translateX(-50%);
+    font-size:9px;
+    font-weight:400;
+    color:rgba(90,74,66,0.42);
+    letter-spacing:0.15px;
+    line-height:1.15;
+    white-space:nowrap;
+    text-align:center
+  }
+  .bottom-nav .nav-item.center-btn.active .nav-prayer-label{color:rgba(90,74,66,0.86);font-weight:500}
+  .bottom-nav .cross-icon{
+    position:relative;
+    width:18px;
+    height:18px;
+    display:inline-block;
+    flex-shrink:0
+  }
+  .bottom-nav .cross-icon::before,
+  .bottom-nav .cross-icon::after{
+    content:"";
+    position:absolute;
+    background:#fff;
+    border-radius:2px
+  }
+  .bottom-nav .cross-icon::before{
+    width:2px;
+    height:18px;
+    left:50%;
+    top:0;
+    transform:translateX(-50%)
+  }
+  .bottom-nav .cross-icon::after{
+    width:12px;
+    height:2px;
+    left:50%;
+    top:40%;
+    transform:translateX(-50%)
+  }
   
   /* ─── SCREENS ─── */
   .section-title{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:500;text-align:center;margin:0 0 var(--sp-2);letter-spacing:-0.25px;color:var(--text);line-height:1.2}
@@ -441,17 +512,120 @@
   .home-theme-intro-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:0;line-height:1.25;letter-spacing:-0.02em}
   .home-theme-intro-sub{font-size:13px;color:var(--text-light);font-style:italic;margin:0;line-height:1.45}
   .home-theme-intro-body{font-size:14px;line-height:1.74;color:var(--text);margin:0;text-align:left}
-  .home-theme-intro-anchor-card{width:100%;max-width:22rem;margin:16px 0;background:#fff;border:1px solid var(--paper-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;box-sizing:border-box;text-align:center}
+  .home-theme-intro-anchor-card{width:100%;max-width:22rem;margin:16px 0;background:#fff;border:1px solid var(--paper-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;box-sizing:border-box;text-align:center;position:relative}
   .home-theme-intro-anchor-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-strong);margin:0;opacity:0.95}
   .home-theme-intro-anchor-text{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-style:italic;font-weight:400;line-height:1.7;color:var(--text);margin:10px 0 0}
   .home-theme-intro-anchor-ref{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent-strong);margin:8px 0 0;opacity:0.92}
   .home-theme-intro-actions{display:flex;flex-direction:column;align-items:center;width:100%}
   .home-theme-intro-actions .home-start-moment-btn{margin-bottom:0}
   .home-weekly-closing-wrap{width:100%;max-width:24rem;margin:var(--sp-3) auto 0;padding:0 var(--sp-4);box-sizing:border-box}
-  #screen-feed .home-weekly-closing-wrap .gm-week-closing{text-align:center;padding-bottom:8px}
-  #screen-feed .home-weekly-closing-wrap .gm-week-closing-questions{text-align:left;max-width:22rem;margin:0 auto 16px;line-height:1.6;font-size:13.5px;color:var(--text-light)}
-  #screen-feed .home-weekly-closing-wrap .gm-week-q{margin:0 0 10px}
-  #screen-feed .home-weekly-closing-wrap .gm-week-closing-prayer{font-family:'Playfair Display',Georgia,serif;font-size:14.5px;font-style:italic;line-height:1.65;color:var(--text);margin:0 auto 18px;max-width:22rem}
+  .gm-week-closing-card{
+    background:#FFF0ED;
+    border:1px solid rgba(234,208,204,0.5);
+    border-radius:20px;
+    padding:28px 24px;
+    margin:16px 0;
+    box-shadow:0 2px 12px rgba(90,74,66,0.06);
+    box-sizing:border-box;
+    text-align:center
+  }
+  .gm-week-closing-card .gm-kicker{
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:#B89A94;
+    margin:0 0 12px;
+    opacity:1
+  }
+  #screen-feed .gm-week-closing-card h2#gmWeekClosingLead.home-invite-title{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:22px;
+    font-weight:500;
+    letter-spacing:-0.02em;
+    color:#3D2E28;
+    line-height:1.3;
+    margin:0 0 16px;
+    text-align:center
+  }
+  .gm-week-closing-verse-box{
+    position:relative;
+    text-align:left;
+    background:rgba(255,255,255,0.6);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:12px 0;
+    box-sizing:border-box
+  }
+  .gm-week-closing-verse-box .gm-week-closing-verse-ref{
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10px;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:#B89A94;
+    margin:0 0 8px
+  }
+  .gm-week-closing-verse-box .gm-week-closing-verse-text{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:15px;
+    font-style:italic;
+    font-weight:400;
+    line-height:1.55;
+    color:#5A4A42;
+    margin:0
+  }
+  .gm-week-closing-card .gm-week-closing-questions{
+    text-align:left;
+    margin:0;
+    max-width:none
+  }
+  .gm-week-closing-q-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    counter-reset:gm-week-q
+  }
+  .gm-week-closing-q-list .gm-week-q{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin:0;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:13px;
+    line-height:1.6;
+    color:#5A4A42;
+    counter-increment:gm-week-q
+  }
+  .gm-week-closing-q-list .gm-week-q::before{
+    content:counter(gm-week-q) '.';
+    flex-shrink:0;
+    min-width:1.25em;
+    font-weight:600;
+    font-size:13px;
+    line-height:1.6;
+    color:#A86B62
+  }
+  .gm-week-closing-card .gm-week-closing-prayer{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:14px;
+    font-style:italic;
+    font-weight:400;
+    line-height:1.65;
+    color:#5A4A42;
+    margin:16px 0 0;
+    padding-top:16px;
+    border-top:1px solid rgba(234,208,204,0.4);
+    text-align:left;
+    max-width:none
+  }
+  .gm-week-closing .gm-week-start-moment-btn{margin:22px auto 0}
+  .gm-week-closing-hint{font-size:12px;line-height:1.5;color:var(--text-light);margin:0 auto 10px;max-width:22rem;padding:0 var(--sp-2)}
+  .gm-week-close-week-link{display:block;margin:0 auto 4px}
   .theme-week-complete-overlay{position:fixed;inset:0;z-index:1400;display:flex;align-items:center;justify-content:center;background:rgba(40,32,28,0.38);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:24px;box-sizing:border-box;opacity:0;pointer-events:none;transition:opacity 0.45s ease}
   .theme-week-complete-overlay.twc-open{opacity:1;pointer-events:all}
   .theme-week-complete-card{max-width:320px;width:100%;text-align:center;padding:36px 28px 34px;border-radius:22px;background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);border:1px solid rgba(234,208,204,0.28);box-shadow:0 20px 50px rgba(90,74,66,0.12)}
@@ -471,6 +645,9 @@
   .walk-with-god .walk-truths-lines .sparkle{flex-shrink:0;font-size:10px;line-height:1.6;color:#d6cfc8;margin-top:var(--sp-1);font-weight:400;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   .walk-with-god .walk-truths-lines .truth-row p{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:400;line-height:1.78;color:#4a4642;margin:0;letter-spacing:0.01em;text-align:left;flex:1;min-width:0}
   .walk-with-god .walk-truths-lines .truth-row:nth-child(2) p{color:#3f3b37}
+  .walk-with-god #walkTruthsLines.walk-truths-lines--fading{transition:opacity 0.28s ease}
+  .walk-with-god #walkTruthsLines.walk-truths-lines--fade-out{opacity:0}
+  .walk-truths-quote-block{position:relative}
   .walk-truths-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--sp-4);margin-top:var(--sp-5)}
   .walk-truths-refresh{margin-top:0;padding:8px 12px;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:11.5px;font-weight:400;letter-spacing:0.06em;color:#b8b2ac;cursor:pointer;text-decoration:underline;text-underline-offset:3px;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease,opacity 0.2s ease}
   .walk-truths-refresh:hover,.walk-truths-refresh:active{color:#9a948e}
@@ -500,19 +677,78 @@
   .verse-fs-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 14px;margin:4px 0 0 2px;border-radius:999px;background:rgba(255,255,255,0.55);border:1px solid rgba(234,208,204,0.35);color:var(--text-light);font-size:12px;font-weight:500;letter-spacing:0.2px;box-shadow:0 2px 12px rgba(90,74,66,0.06);transition:background 0.2s ease,transform 0.2s ease;-webkit-tap-highlight-color:transparent}
   .verse-fs-back svg{width:16px;height:16px;stroke-width:1.8;color:var(--accent-strong)}
   .verse-fs-back:active{transform:scale(0.96);background:rgba(255,255,255,0.75)}
-  .verse-fs-share-capture{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    width:100%;max-width:28rem;margin:0 auto;min-height:0;box-sizing:border-box;
+  /* Verse fullscreen: story-style share capture (centered card + full-bleed soft backdrop) */
+  .verse-fs-share-capture.share-screen{
+    flex:1;
+    min-height:0;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    padding:24px;
+    background:linear-gradient(to bottom,#F7F4F1,#EFE9E4);
   }
-  .verse-fs-share-capture .verse-fs-center{
-    flex:0 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 28px 32px;width:100%;box-sizing:border-box;
+  .verse-fs-share-capture .share-card{
+    width:100%;
+    max-width:320px;
+    padding:28px 22px;
+    border-radius:24px;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    text-align:center;
+    box-sizing:border-box;
   }
-  .verse-fs-share-capture .verse-fs-brand{flex-shrink:0}
+  .verse-fs-share-capture .share-verse,
+  .verse-fs-share-capture .share-card .verse-fs-text{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:20px;
+    line-height:1.6;
+    color:#2E2A27;
+    font-style:italic;
+    font-weight:400;
+    margin:0 0 18px;
+    letter-spacing:0.02em;
+  }
+  .verse-fs-share-capture .share-reference,
+  .verse-fs-share-capture .share-card .verse-fs-ref{
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    font-weight:500;
+    font-style:normal;
+    color:#A8A29E;
+    margin:0 0 16px;
+    opacity:1;
+  }
+  .verse-fs-share-capture .share-divider{
+    width:30px;
+    height:1px;
+    background:#E5DED8;
+    margin:12px auto;
+  }
+  .verse-fs-share-capture .share-brand{
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:10px;
+    letter-spacing:2px;
+    color:#B5ADA6;
+    margin-top:12px;
+    line-height:1.3;
+    font-weight:500;
+  }
+  .verse-fs-share-capture .share-url{
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:10px;
+    color:#C2BBB4;
+    margin-top:2px;
+    line-height:1.35;
+    letter-spacing:0.06em;
+  }
   .verse-fs-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(22px,5.2vw,32px);line-height:1.58;color:var(--text);letter-spacing:0.02em;margin:0}
   .verse-fs-ref{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.4px;color:var(--accent-strong);margin:32px 0 0;opacity:0.92}
-  .verse-fs-brand{text-align:center;padding:28px 28px 14px;flex-shrink:0;box-sizing:border-box;width:100%;max-width:28rem;margin:0 auto}
-  .verse-fs-wordmark{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:rgba(90,74,66,0.42);margin:0 0 8px;line-height:1.3}
-  .verse-fs-domain{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:400;letter-spacing:0.14em;color:rgba(90,74,66,0.42);margin:0;line-height:1.35}
   .verse-fs-toast{position:fixed;left:50%;bottom:112px;transform:translateX(-50%) translateY(8px);background:rgba(50,38,32,0.9);color:#fffaf2;font-size:11px;font-weight:500;letter-spacing:0.4px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease;z-index:2600;max-width:90vw}
   .verse-fs-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .verse-fs-actions{display:flex;gap:10px;justify-content:center;align-items:stretch;padding:14px 18px 20px;padding-bottom:max(18px,env(safe-area-inset-bottom));border-top:1px solid rgba(234,208,204,0.35);background:rgba(255,252,249,0.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -547,6 +783,41 @@
   .verse-fs-share-sheet-opt:active{transform:scale(0.99);background:rgba(248,240,236,0.95)}
   body.verse-fs-open{overflow:hidden;touch-action:none}
   body.verse-fs-open .bottom-nav{opacity:0;pointer-events:none;visibility:hidden}
+  /* Tappable quote / verse / prayer cards — subtle affordance + press */
+  .quote-card-tappable{position:relative;transition:transform 0.14s ease}
+  .study-verse-card.quote-card-tappable{position:relative}
+  .quote-card-tappable.quote-card-tappable--press{transform:scale(0.98)}
+  .quote-card-tappable::after{
+    content:'';
+    position:absolute;right:14px;bottom:14px;width:16px;height:16px;opacity:0.6;pointer-events:none;
+    background-color:#A86B62;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .walk-truths-quote-block.quote-card-tappable::after{bottom:18px}
+  .gm-week-closing-verse-box.quote-card-tappable::after{bottom:10px}
+  /* Content quote fullscreen (Today / Reflect / Prayer cards) */
+  .cqf-overlay{position:fixed;inset:0;z-index:2650;background:#FFF8F6;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.32s ease;touch-action:none}
+  .cqf-overlay.open{opacity:1;pointer-events:all}
+  .cqf-inner{flex:1;display:flex;flex-direction:column;min-height:100dvh;min-height:100vh;max-width:480px;width:100%;margin:0 auto;box-sizing:border-box;padding:max(8px,env(safe-area-inset-top)) 20px max(12px,env(safe-area-inset-bottom))}
+  .cqf-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 12px;margin:0 0 8px;border:none;border-radius:999px;background:rgba(255,255,255,0.65);border:1px solid rgba(234,208,204,0.4);color:var(--text-light);font-size:12px;font-weight:500;letter-spacing:0.2px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+  .cqf-back svg{width:18px;height:18px;stroke-width:1.8;color:var(--accent-strong)}
+  .cqf-scroll{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 8px 24px}
+  .cqf-type{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#B89A94;margin:0 0 16px}
+  .cqf-body{font-family:'Playfair Display',Georgia,serif;font-size:clamp(24px,5.5vw,30px);font-style:italic;font-weight:400;line-height:1.55;color:#3D2E28;margin:0 0 20px;letter-spacing:0.02em;white-space:pre-wrap}
+  .cqf-ref{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#8A7A72;margin:0}
+  .cqf-ref[hidden]{display:none !important}
+  .cqf-wordmark{font-family:'Playfair Display',Georgia,serif;font-size:12px;letter-spacing:2px;color:rgba(90,74,66,0.38);margin:28px 0 6px;text-align:center}
+  .cqf-actions{display:flex;gap:12px;justify-content:center;padding:16px 0 8px;margin-top:auto;flex-shrink:0}
+  .cqf-actions button{flex:1;max-width:160px;padding:14px 12px;border-radius:999px;border:none;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.12s ease,opacity 0.12s ease}
+  .cqf-actions button:active{transform:scale(0.98)}
+  .cqf-btn-share{background:#3D2E28;color:#fffaf5;box-shadow:0 4px 14px rgba(61,46,40,0.2)}
+  .cqf-btn-save{background:transparent;color:#3D2E28;border:1px solid rgba(61,46,40,0.35) !important}
+  .cqf-btn-save.is-saved{background:rgba(168,107,98,0.12);border-color:rgba(168,107,98,0.45) !important}
+  body.content-quote-fs-open{overflow:hidden;touch-action:none}
+  body.content-quote-fs-open .bottom-nav{opacity:0;pointer-events:none;visibility:hidden}
+  body.content-quote-fs-open .header.app-header{display:none !important}
+  #cqfShareExportRoot{position:fixed;left:-12000px;top:0;width:1080px;height:1080px;z-index:0;overflow:hidden;box-sizing:border-box;margin:0;padding:0;pointer-events:none}
   /* Scripture tab (data-tab word) activates #screen-scripture; #screen-word is legacy preview shell. */
   /* overflow-x: clip avoids the “hidden + visible” pair forcing overflow-y:auto (nested scrollbar on the column). */
   .word-screen,.scripture-screen{position:relative;isolation:isolate;overflow-x:clip;overflow-y:visible;background:transparent}
@@ -815,7 +1086,7 @@
   .prayer-week-theme-sub{font-size:13px;line-height:1.45;color:var(--text-light);font-style:italic;margin:0 0 14px}
   .prayer-week-theme-sub:empty{display:none}
   .prayer-week-theme-divider{height:0;border:none;border-top:1px solid var(--border);margin:0 auto;max-width:260px;opacity:0.9}
-  .prayer-verse-context{margin:0 0 20px;padding:16px 18px;border-radius:var(--radius-lg);border:1px solid rgba(234,208,204,0.4);background:rgba(255,252,249,0.85);max-width:28rem;margin-left:auto;margin-right:auto}
+  .prayer-verse-context{margin:0 0 20px;padding:16px 18px;border-radius:var(--radius-lg);border:1px solid rgba(234,208,204,0.4);background:rgba(255,252,249,0.85);max-width:28rem;margin-left:auto;margin-right:auto;position:relative}
   .prayer-verse-context .pvc-label{font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:var(--accent-strong);margin:0 0 8px;font-weight:500}
   .prayer-verse-context .pvc-text.display-font{font-size:15px;line-height:1.55;color:var(--text);margin:0;font-style:italic}
   .home-resume-section{text-align:center;padding:4px 0 22px;margin-top:-4px}
@@ -968,6 +1239,72 @@
   #screen-scripture .word-focus-card-cta{display:inline-flex;align-items:center;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--accent-strong);letter-spacing:0.02em;background:transparent;border:none;padding:0 0 2px;cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(186,160,148,0.35);-webkit-tap-highlight-color:transparent;transition:opacity 0.2s ease,color 0.2s ease}
   #screen-scripture .word-focus-card-cta:hover{opacity:0.82}
   #screen-scripture .word-focus-card-cta--ghost{color:#8a8580;border-bottom-color:rgba(186,160,148,0.22)}
+  /* ─── Scripture+ tab (temporary test tab) ─── */
+  .bottom-nav .nav-item--spx span{font-size:10px;line-height:1.15;max-width:58px;text-align:center;letter-spacing:-0.02em}
+  .bottom-nav .nav-item--spx svg{width:19px;height:19px}
+  #scripturePlusScreen .scripture-plus-screen{background:var(--bg);min-height:100%;position:relative;padding-bottom:88px;box-sizing:border-box}
+  #screen-scriptureplus .spx-landing{padding:var(--sp-3) var(--sp-4) var(--sp-5);max-width:420px;margin:0 auto}
+  #screen-scriptureplus .spx-header{display:flex;align-items:center;justify-content:space-between;margin:0 0 var(--sp-4);padding-top:2px}
+  #screen-scriptureplus .spx-header-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:0;letter-spacing:-0.02em;line-height:1.2}
+  #screen-scriptureplus .spx-header-actions{display:flex;align-items:center;gap:4px}
+  #screen-scriptureplus .spx-icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--text-light);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.2s ease,color 0.2s ease,transform 0.15s ease}
+  #screen-scriptureplus .spx-icon-btn:active{transform:scale(0.94)}
+  #screen-scriptureplus .spx-icon-btn svg{width:20px;height:20px;stroke-width:1.65}
+  #screen-scriptureplus .spx-icon-btn--sm{width:36px;height:36px}
+  #screen-scriptureplus .spx-icon-btn--sm svg{width:18px;height:18px}
+  #screen-scriptureplus .spx-menu-pop{position:absolute;right:var(--sp-4);top:52px;z-index:30;min-width:200px;padding:8px 0;border-radius:var(--radius);background:var(--card);border:1px solid rgba(234,208,204,0.35);box-shadow:0 10px 32px rgba(90,74,66,0.1)}
+  #screen-scriptureplus .spx-menu-item{display:block;width:100%;text-align:left;padding:12px 16px;border:none;background:transparent;font-size:14px;color:var(--text);cursor:pointer;font-family:inherit}
+  #screen-scriptureplus .spx-menu-item:active{background:var(--primary)}
+  #screen-scriptureplus .spx-search{width:100%;box-sizing:border-box;padding:14px 16px;border-radius:100px;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.85);font-family:'Inter',system-ui,sans-serif;font-size:14px;color:var(--text);margin:0 0 var(--sp-4);box-shadow:0 2px 10px rgba(90,74,66,0.04)}
+  #screen-scriptureplus .spx-search::placeholder{color:#9c9792}
+  #screen-scriptureplus .spx-search:focus{outline:none;border-color:rgba(186,160,148,0.55);box-shadow:0 4px 14px rgba(90,74,66,0.06)}
+  #screen-scriptureplus .spx-card{display:block;width:100%;text-align:left;border:none;cursor:pointer;font-family:inherit;box-sizing:border-box;border-radius:var(--card-radius);padding:0;overflow:hidden;margin-bottom:var(--sp-4);border:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.92);box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,box-shadow 0.2s ease}
+  #screen-scriptureplus .spx-card:active{transform:scale(0.992)}
+  #screen-scriptureplus .spx-card--plan{cursor:default;padding:20px 18px 18px}
+  #screen-scriptureplus .spx-card--plan:active{transform:none}
+  #screen-scriptureplus .spx-card-media{height:120px;overflow:hidden}
+  #screen-scriptureplus .spx-card-media img{width:100%;height:100%;object-fit:cover;opacity:0.92}
+  #screen-scriptureplus .spx-card-kicker{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#9c9792;margin:0;padding:16px 18px 0}
+  #screen-scriptureplus .spx-card--continue .spx-card-kicker{padding-top:14px}
+  #screen-scriptureplus .spx-card-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:500;color:#4a4542;margin:0;padding:6px 18px 0;letter-spacing:-0.02em;line-height:1.25}
+  #screen-scriptureplus .spx-card-dayline,#screen-scriptureplus .spx-card-sub{font-size:13px;line-height:1.5;color:var(--text-light);margin:0;padding:8px 18px 0}
+  #screen-scriptureplus .spx-card-meta{font-size:12px;color:#9c9792;margin:0;padding:10px 18px 18px}
+  #screen-scriptureplus .spx-progress{height:3px;background:rgba(234,208,204,0.35);margin:12px 18px 0;border-radius:100px;overflow:hidden}
+  #screen-scriptureplus .spx-progress-fill{height:100%;background:rgba(186,160,148,0.55);border-radius:100px;transition:width 0.35s ease}
+  #screen-scriptureplus .spx-card-cta{display:inline-block;margin:14px 18px 18px;padding:0 0 2px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--accent-strong);letter-spacing:0.02em;background:transparent;border:none;border-bottom:1px solid rgba(186,160,148,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-card-cta--block{display:block;width:calc(100% - 36px);margin:14px 18px 4px;padding:12px 16px;border-radius:100px;text-align:center;border:1px solid rgba(186,160,148,0.35);background:rgba(255,252,249,0.9);color:var(--text)}
+  #screen-scriptureplus .spx-details{margin-bottom:12px;border-radius:var(--radius-sm);border:1px solid rgba(234,208,204,0.2);background:rgba(255,255,255,0.72)}
+  #screen-scriptureplus .spx-details summary{font-family:'Inter',system-ui,sans-serif;padding:13px 14px;font-size:13px;font-weight:500;color:#6f6a65;cursor:pointer}
+  #screen-scriptureplus .spx-details .word-details-body{padding:0 14px 14px}
+  #screen-scriptureplus .spx-prose{font-size:14px;line-height:1.75;color:var(--text-light);margin:0}
+  #screen-scriptureplus .spx-prompts{margin:0;padding-left:18px;color:var(--text-light);line-height:1.65}
+  #screen-scriptureplus .spx-prompts li{margin-bottom:8px}
+  #screen-scriptureplus .spx-xref-row{display:flex;flex-wrap:wrap;gap:8px}
+  #screen-scriptureplus .spx-xref-pill{padding:8px 14px;border-radius:100px;font-size:12px;font-family:'Inter',system-ui,sans-serif;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.75);color:var(--text);cursor:pointer;transition:background 0.2s ease,border-color 0.2s ease}
+  #screen-scriptureplus .spx-xref-pill:active{transform:scale(0.97)}
+  #screen-scriptureplus .spx-meaning{margin-bottom:12px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));box-shadow:0 8px 28px rgba(90,74,66,0.06);border:1px solid rgba(186,160,148,0.22);overflow:hidden}
+  #screen-scriptureplus .spx-meaning.reflect-meaning--open .reflect-meaning__content{max-height:520px}
+  #screen-scriptureplus .spx-meaning .reflect-meaning__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:18px 14px 14px;border:none;background:transparent;cursor:pointer;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--text);text-align:left;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-meaning-label{flex:1}
+  #screen-scriptureplus .spx-ai-pill{font-size:10px;font-weight:600;letter-spacing:0.06em;color:rgba(90,74,66,0.55);border:1px solid rgba(186,160,148,0.35);padding:2px 7px;border-radius:6px;background:rgba(255,255,255,0.5)}
+  #screen-scriptureplus .spx-pass-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:var(--sp-4) 0 var(--sp-3)}
+  #screen-scriptureplus .spx-chip-btn{padding:9px 16px;border-radius:100px;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.75);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-chip-btn--on{border-color:rgba(186,160,148,0.55);background:rgba(244,234,228,0.55);color:var(--text)}
+  #screen-scriptureplus .spx-pass-footer{display:flex;gap:10px;margin:var(--sp-5) 0 var(--sp-2);padding-top:4px}
+  #screen-scriptureplus .spx-footer-btn{flex:1;padding:14px 12px;border-radius:100px;font-size:14px;font-weight:500;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,opacity 0.2s ease}
+  #screen-scriptureplus .spx-footer-btn:active{transform:scale(0.98)}
+  #screen-scriptureplus .spx-footer-btn--ghost{background:transparent;border:1px solid rgba(234,208,204,0.45);color:var(--text-light)}
+  #screen-scriptureplus .spx-footer-btn--primary{background:var(--text);color:var(--card);box-shadow:0 8px 22px rgba(90,74,66,0.12)}
+  #screen-scriptureplus .spx-passage-layer{position:fixed;left:0;right:0;top:0;bottom:0;z-index:160;background:var(--bg);display:flex;flex-direction:column;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));box-sizing:border-box;transform:translateX(100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);pointer-events:none;visibility:hidden}
+  #screen-scriptureplus .spx-passage-layer.spx-passage-layer--open{transform:translateX(0);pointer-events:auto;visibility:visible}
+  #screen-scriptureplus .spx-passage-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--sp-3) var(--sp-4) var(--sp-6);max-width:440px;margin:0 auto;width:100%;box-sizing:border-box}
+  #screen-scriptureplus .spx-pass-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:var(--sp-4)}
+  #screen-scriptureplus .spx-pass-back{flex-shrink:0;border:none;background:transparent;color:var(--accent-strong);font-size:14px;padding:8px 6px;margin:-6px 0 0 -6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-pass-ref{flex:1;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:var(--text);margin:6px 0 0;line-height:1.25;padding:0 4px}
+  #screen-scriptureplus .spx-pass-tools{display:flex;gap:2px;flex-shrink:0;margin-top:2px}
+  #screen-scriptureplus .spx-pass-verse{font-size:clamp(22px,5vw,28px);line-height:1.55;font-style:italic;font-weight:400;text-align:center;color:var(--text);margin:var(--sp-2) 0 var(--sp-4);padding:var(--sp-3) var(--sp-2);letter-spacing:0.02em}
+  #screen-scriptureplus .spx-pass-verse.spx-pass-verse--lg{font-size:clamp(26px,6vw,34px)}
+  #screen-scriptureplus .spx-pass-verse.spx-pass-verse--soft{color:#6f6a65}
   #screen-scripture .scripture-reading-note{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.55;color:#9c9792;text-align:center;margin:16px auto 0;max-width:26rem;padding:0 var(--sp-2)}
   #screen-scripture .scripture-guided-reading{margin-top:28px;padding:0 0 6px}
   #screen-scripture .scripture-guided-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:500;color:#4a4542;text-align:center;margin:0 0 10px;letter-spacing:-0.02em;line-height:1.25}
@@ -1111,12 +1448,33 @@
   .profile-legal-links .legal-spa-link:hover,.profile-legal-links .legal-spa-link:focus{color:var(--text);border-bottom-color:rgba(186,160,148,0.45);outline:none}
   .legal-links-sep{color:rgba(90,74,66,0.32);user-select:none;font-size:12px}
   body.legal-page-open .app-header,body.legal-page-open .bottom-nav{display:none !important}
-  body.legal-page-open{overflow-x:hidden;background:linear-gradient(180deg,#FFF8F6 0%,#FFFDFB 100%);background-attachment:fixed;color:#3D2E28}
+  body.legal-page-open{overflow-x:hidden;padding-top:env(safe-area-inset-top);background:linear-gradient(180deg,#FFF8F6 0%,#FFFDFB 100%);background-attachment:fixed;color:#3D2E28}
   .legal-app-shell{min-height:100vh;min-height:100dvh;display:block;background:#FFF8F6;background-image:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(244,234,228,0.45) 0%,transparent 55%)}
+  .legal-app-shell > .top-bar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:16px max(20px,env(safe-area-inset-left)) 12px max(20px,env(safe-area-inset-right));
+    background:#F7F3EF;
+    box-sizing:border-box
+  }
+  .legal-app-shell > .top-bar .back-button{
+    font-size:14px;
+    color:#7A6F66;
+    background:none;
+    border:none;
+    font-family:'Inter',system-ui,sans-serif;
+    cursor:pointer;
+    padding:0;
+    margin:0;
+    -webkit-tap-highlight-color:transparent;
+    line-height:1.35;
+    letter-spacing:0.01em
+  }
+  .legal-app-shell > .top-bar .back-button:active{opacity:0.6}
+  .legal-app-shell > .top-bar .back-button:focus-visible{outline:2px solid rgba(122,111,102,0.35);outline-offset:3px;border-radius:4px}
   .legal-page{max-width:680px;margin:0 auto;padding:12px 24px max(32px,env(safe-area-inset-bottom)) 24px;box-sizing:border-box;opacity:1;transform:none;transition:opacity 0.45s ease,transform 0.45s cubic-bezier(.2,.7,.2,1)}
   .legal-page.legal-page--visible{opacity:1;transform:none}
-  .legal-back{display:inline-flex;align-items:center;gap:6px;margin:0 0 28px;padding:8px 4px 8px 0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:#3D2E28;cursor:pointer;letter-spacing:0.02em;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease}
-  .legal-back:hover,.legal-back:focus{color:#5A4A42;outline:none}
   .legal-article{text-align:left}
   .legal-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:500;color:#3D2E28;line-height:1.25;margin:0 0 8px;letter-spacing:-0.02em}
   .legal-updated{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:400;color:rgba(61,46,40,0.72);letter-spacing:0.06em;margin:0 0 40px}
@@ -1127,7 +1485,10 @@
   .legal-prose li::before{content:'';position:absolute;left:-0.8em;top:0.65em;width:4px;height:4px;border-radius:50%;background:rgba(186,160,148,0.5)}
   .legal-prose a{color:var(--accent-strong);text-decoration:none;border-bottom:1px solid rgba(186,160,148,0.4);transition:color 0.2s ease,border-color 0.2s ease}
   .legal-prose a:hover{color:var(--text);border-bottom-color:var(--accent-strong)}
-  .legal-contact-lead{text-align:center;font-family:'Inter',system-ui,sans-serif;font-size:1.02rem;color:#3D2E28;line-height:1.65;margin:12px 0 28px}
+  .legal-contact-lead{text-align:center;font-family:'Inter',system-ui,sans-serif;font-size:1.02rem;color:#3D2E28;line-height:1.65;margin:12px 0 20px}
+  .legal-contact-support-line{text-align:center;font-family:'Inter',system-ui,sans-serif;font-size:15px;font-weight:400;color:#3D2E28;line-height:1.65;margin:0 0 14px;letter-spacing:0.01em}
+  .legal-article--contact .legal-mail--contact{color:#2A221E;font-weight:600;font-size:1.06rem;border-bottom-color:rgba(61,46,40,0.3)}
+  .legal-article--contact .legal-mail--contact:hover,.legal-article--contact .legal-mail--contact:focus{color:#1A1411;border-bottom-color:rgba(61,46,40,0.5);outline:none}
   .legal-email-wrap{text-align:center;margin:8px 0 24px}
   .legal-mail{font-family:'Inter',system-ui,sans-serif;font-size:1.05rem;font-weight:500;letter-spacing:0.02em;color:var(--accent-strong);text-decoration:none;border-bottom:1px solid rgba(186,160,148,0.4);padding-bottom:1px;transition:color 0.2s ease,border-color 0.2s ease}
   .legal-mail:hover,.legal-mail:focus{color:var(--text);border-bottom-color:var(--accent-strong);outline:none}
@@ -1190,6 +1551,87 @@
     padding:12px 18px 24px
   }
   #reflectWaysDeeperBody .word-reflect-card.wd-reflect-deeper-inner{background:transparent;padding:2px 0 0;margin:0;border:none;box-shadow:none}
+  .ways-deeper--reflect .reflect-meaning{
+    margin-bottom:12px;
+    border-radius:var(--radius);
+    background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));
+    box-shadow:0 8px 28px rgba(90,74,66,0.08);
+    border:1px solid rgba(186,160,148,0.24);
+    overflow:hidden
+  }
+  .ways-deeper--reflect .reflect-meaning__trigger{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:20px 16px 16px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:0.02em;
+    color:var(--text);
+    text-align:left;
+    -webkit-tap-highlight-color:transparent
+  }
+  .reflect-meaning__chevron{
+    display:inline-block;
+    line-height:1;
+    color:var(--text-light);
+    opacity:0.65;
+    transition:transform 0.25s ease;
+    font-size:14px
+  }
+  .reflect-meaning--open .reflect-meaning__chevron{transform:rotate(180deg)}
+  .reflect-meaning__content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease,opacity 0.25s ease;
+    opacity:0;
+    padding:0 16px
+  }
+  .reflect-meaning--open .reflect-meaning__content{
+    max-height:400px;
+    opacity:1;
+    padding-bottom:18px
+  }
+  .reflect-meaning__body{
+    font-size:15px;
+    line-height:1.6;
+    color:#5F5A55;
+    text-align:left;
+    padding:12px 4px 4px;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif
+  }
+  .reflect-meaning__body.reflect-meaning__body--enter{
+    animation:reflectMeaningBodyEnter 0.3s ease
+  }
+  @keyframes reflectMeaningBodyEnter{
+    from{opacity:0;transform:translateY(4px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .reflect-meaning__loading{
+    display:flex;
+    gap:6px;
+    justify-content:center;
+    margin:12px 0
+  }
+  .reflect-meaning__loading .dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#B8B1AA;
+    animation:reflectMeaningDotPulse 1.2s infinite ease-in-out
+  }
+  .reflect-meaning__loading .dot:nth-child(2){animation-delay:0.2s}
+  .reflect-meaning__loading .dot:nth-child(3){animation-delay:0.4s}
+  @keyframes reflectMeaningDotPulse{
+    0%,100%{opacity:0.3;transform:scale(0.9)}
+    50%{opacity:1;transform:scale(1)}
+  }
   #reflectContent .journal-save.body-font,#reflectContent .reflect-btm-secondary.body-font{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif}
   #reflectContent .study-section-label.body-font{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif}
   #reflectContent .study-prompt{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif}
@@ -1245,7 +1687,7 @@
   .guided-moment-screen .gm-intro-focus-rule{width:32px;height:1px;margin:12px auto 16px;background:var(--petal);border:none;padding:0}
   .guided-moment-screen .gm-intro-hook{font-size:14px;line-height:1.6;color:var(--text-light);margin:0 auto 6px;max-width:22rem;text-align:center}
   .guided-moment-screen #gmMomentIntroBlock.gm-intro--weekly.moment-container{background:linear-gradient(180deg,var(--bg) 0%,var(--primary) 100%);border-radius:var(--radius-lg);padding:20px 18px 4px;box-sizing:border-box;width:100%;max-width:24rem;margin:0 auto}
-  .guided-moment-screen .gm-anchor-card{width:100%;max-width:22rem;margin:16px 0;background:#fff;border:1px solid var(--paper-border);border-radius:var(--radius);padding:20px;box-sizing:border-box;text-align:center;box-shadow:var(--shadow)}
+  .guided-moment-screen .gm-anchor-card{width:100%;max-width:22rem;margin:16px 0;background:#fff;border:1px solid var(--paper-border);border-radius:var(--radius);padding:20px;box-sizing:border-box;text-align:center;box-shadow:var(--shadow);position:relative}
   .guided-moment-screen .gm-anchor-label{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-strong);margin:0;opacity:0.95}
   .guided-moment-screen .gm-anchor-text{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-style:italic;font-weight:400;line-height:1.7;color:var(--text);margin:10px 0 0}
   .guided-moment-screen .gm-anchor-ref{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent-strong);margin:8px 0 0;opacity:0.92}
@@ -1295,7 +1737,7 @@
   .guided-moment-screen .moment-custom-wrap.open{display:block}
   .guided-moment-screen .moment-custom-wrap textarea{width:100%;min-height:72px;resize:none;padding:14px 16px;border-radius:var(--radius);border:1px solid rgba(234,208,204,0.4);background:rgba(255,252,249,0.9);font-size:14px;line-height:1.5;color:var(--text);font-family:inherit;box-sizing:border-box}
   .guided-moment-screen .moment-custom-go{width:100%;margin-top:10px;padding:12px 20px;border-radius:100px;border:1px solid rgba(212,181,173,0.5);background:linear-gradient(180deg,var(--primary) 0%,var(--secondary) 100%);font-size:13px;font-weight:500;font-family:inherit;color:var(--text);cursor:pointer;box-shadow:0 4px 14px rgba(186,160,148,0.12)}
-  .guided-moment-screen .moment-result-card{text-align:left;width:100%;max-width:340px;margin:0 auto;padding:24px 22px 22px;border-radius:var(--radius-lg);border:1px solid rgba(234,208,204,0.35);background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);box-shadow:0 8px 24px rgba(90,74,66,0.06)}
+  .guided-moment-screen .moment-result-card{position:relative;text-align:left;width:100%;max-width:340px;margin:0 auto;padding:24px 22px 22px;border-radius:var(--radius-lg);border:1px solid rgba(234,208,204,0.35);background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);box-shadow:0 8px 24px rgba(90,74,66,0.06)}
   .guided-moment-screen .moment-result-card.loading .moment-body{opacity:0.55;font-style:italic}
   .guided-moment-screen .moment-body{font-family:'Playfair Display',Georgia,serif;font-size:16px;line-height:1.75;color:var(--text);white-space:pre-line;margin:0;font-weight:400;font-style:italic}
   .guided-moment-screen .moment-body::first-line{font-size:18px;font-weight:500;font-style:normal;letter-spacing:0.2px;color:var(--text)}
@@ -1530,28 +1972,73 @@
   .study-landing-header{margin:0 0 var(--sp-5)}
   .study-landing-title{font-size:1.62rem;line-height:1.22;font-weight:500;color:var(--text);margin:0 0 10px;letter-spacing:-0.02em}
   .study-landing-sub{font-size:14px;line-height:1.55;color:var(--text-light);margin:0;max-width:22rem}
-  .study-landing-header--tagline-only{margin:0 0 var(--sp-4);text-align:left}
-  .study-landing-tagline{
-    font-size:15.5px;line-height:1.55;color:var(--text-light);margin:0;max-width:26rem;
-    font-style:italic;font-weight:400;
+  /* Study landing hero subtitle — match Today / Reflect / Reset tab tone (Inter, warm gray, narrow column) */
+  .study-landing-header.study-landing-header--tagline-only{
+    margin:0 auto 0;
+    max-width:280px;
+    text-align:center;
+    box-sizing:border-box;
+  }
+  .study-landing-header.study-landing-header--tagline-only .study-landing-tagline{
+    margin:14px 0 26px;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+    font-size:15px;
+    font-weight:400;
+    font-style:normal;
+    line-height:1.5;
+    letter-spacing:0.2px;
+    text-align:center;
+    color:#8F8A85;
+    opacity:0.9;
+    max-width:none;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
   .study-landing-actions--solo{}
   .study-landing-search-panel{
     margin:0 0 var(--sp-5);
-    padding:16px 16px 18px;
+    padding:20px 18px;
     border-radius:var(--radius-lg);
     border:1px solid rgba(234,208,204,0.45);
     background:rgba(255,255,255,0.88);
     box-shadow:0 4px 18px rgba(90,74,66,0.05);
+    display:flex;
+    flex-direction:column;
+    gap:0
+  }
+  .study-landing-search-modal-title{
+    font-size:1.22rem;
+    font-weight:500;
+    line-height:1.25;
+    color:var(--text);
+    margin:0 0 8px;
+    text-align:center;
+    letter-spacing:-0.02em
+  }
+  .study-landing-search-modal-sub{
+    font-size:14px;
+    line-height:1.55;
+    color:#8F8A85;
+    text-align:center;
+    margin:0 0 16px;
+    max-width:22rem;
+    align-self:center
+  }
+  .study-landing-search-modal-hint{
+    font-size:12px;
+    line-height:1.45;
+    color:#B0AAA5;
+    text-align:center;
+    margin:8px 0 0
   }
   .study-landing-search-label{display:block;font-size:12px;font-weight:600;color:var(--accent-strong);margin:0 0 8px}
   .study-landing-search-input{
     width:100%;box-sizing:border-box;padding:12px 14px;border-radius:12px;
     border:1px solid rgba(234,208,204,0.55);font-size:14px;background:rgba(255,255,255,0.95);color:var(--text);
-    margin:0 0 14px;font-family:'Inter',system-ui,sans-serif;
+    margin:0;font-family:'Inter',system-ui,sans-serif;
   }
   .study-landing-search-input::placeholder{color:var(--text-light);opacity:0.85}
-  .study-landing-search-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .study-landing-search-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px}
   .study-landing-search-go{flex:0 1 auto;width:auto;min-width:8rem;padding-left:20px;padding-right:20px}
   .study-landing-actions{
     display:flex;
@@ -2550,6 +3037,8 @@
   .sv-mood-tag{display:inline-block;padding:5px 14px;background:var(--primary);border-radius:999px;font-size:11px;font-weight:500;color:var(--accent-strong);letter-spacing:0.6px;margin-bottom:12px;position:relative;z-index:1}
   
   /* ─── PROFILE & SETTINGS ─── */
+  .profile-settings-top-mark{display:flex;justify-content:center;padding:8px 0 4px;margin:0 0 4px;color:rgba(168,107,98,0.38);pointer-events:none}
+  .profile-settings-top-mark svg{display:block}
   .profile-section{margin-bottom:32px}
   .profile-section-title{display:flex;align-items:center;gap:10px;margin-bottom:18px}
   .profile-section-title svg{width:18px;height:18px;color:var(--accent-strong);flex-shrink:0}
@@ -2695,6 +3184,7 @@
     .header-btn:hover{background:var(--secondary)}
     .save-btn:hover{transform:scale(1.1)}
     .nav-item:hover{background:var(--primary);transform:translateY(-1px)}
+    .bottom-nav .nav-item.center-btn:hover{background:#d8beb4;transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,0.1)}
     .detail-back:hover{background:rgba(255,255,255,0.95);transform:scale(1.05)}
     .settings-close:hover{background:var(--secondary)}
     .flow-modal-close button:hover{background:var(--secondary);transform:scale(1.05)}
@@ -2827,8 +3317,11 @@
       </div>
       <div class="header-actions">
         <span id="appVersionBadge" class="app-version-badge" title="App build"></span>
-        <button class="header-btn" id="settingsBtn" aria-label="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <button type="button" class="header-profile-avatar" id="settingsBtn" aria-label="Settings">
+          <span class="header-profile-initial" id="headerProfileInitial" hidden></span>
+          <span class="header-profile-fallback" id="headerProfileIconWrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </span>
         </button>
       </div>
     </div>
@@ -2872,13 +3365,22 @@
         </div>
         <div class="home-weekly-closing-wrap" id="homeWeeklyClosingWrap" style="display:none">
           <div class="gm-week-closing moment-container" id="gmWeekClosing" hidden>
-            <p class="gm-kicker" id="gmWeekClosingKicker">Closing the week</p>
-            <h2 class="gm-title" id="gmWeekClosingLead"></h2>
-            <p class="gm-week-closing-verse-ref body-font" id="gmWeekClosingVerseRef"></p>
-            <p class="gm-copy gm-week-closing-verse-text" id="gmWeekClosingVerseText"></p>
-            <div class="gm-week-closing-questions body-font" id="gmWeekClosingQuestions"></div>
-            <p class="gm-week-closing-prayer serif" id="gmWeekClosingPrayer"></p>
-            <button type="button" class="gm-primary-btn" id="gmWeekCloseBtn" hidden>Close this week</button>
+            <div class="gm-week-closing-card">
+              <p class="gm-kicker" id="gmWeekClosingKicker">Closing the week</p>
+              <h2 class="home-invite-title serif display-font" id="gmWeekClosingLead"></h2>
+              <div class="gm-week-closing-verse-box quote-card-tappable" tabindex="0" role="button" aria-label="View closing verse">
+                <p class="gm-week-closing-verse-ref body-font" id="gmWeekClosingVerseRef"></p>
+                <p class="gm-copy gm-week-closing-verse-text" id="gmWeekClosingVerseText"></p>
+              </div>
+              <div class="gm-week-closing-questions body-font" id="gmWeekClosingQuestions"></div>
+              <p class="gm-week-closing-prayer serif" id="gmWeekClosingPrayer"></p>
+            </div>
+            <button type="button" class="home-start-moment-btn gm-week-start-moment-btn" id="gmWeekStartMomentBtn" hidden aria-describedby="gmWeekClosingHint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.5h5.7l-4.6 3.4 1.8 5.5-4.7-3.4-4.7 3.4 1.8-5.5-4.6-3.4h5.7z"></path></svg>
+              Start your moment
+            </button>
+            <p class="gm-week-closing-hint body-font" id="gmWeekClosingHint" hidden>Finish today&rsquo;s moment first, then close out the week.</p>
+            <button type="button" class="home-weekly-theme-swap gm-week-close-week-link" id="gmWeekCloseBtn" hidden>Close this week</button>
           </div>
         </div>
         <div class="home-theme-intro-card" id="homeThemeIntroCard" hidden>
@@ -2901,7 +3403,7 @@
             <p class="home-theme-intro-title" id="homeThemeIntroTitle"></p>
             <p class="home-theme-intro-sub body-font" id="homeThemeIntroSub"></p>
             <p class="home-theme-intro-body body-font" id="homeThemeIntroBody"></p>
-            <div class="home-theme-intro-anchor-card" id="homeThemeIntroAnchorCard" hidden>
+            <div class="home-theme-intro-anchor-card quote-card-tappable" id="homeThemeIntroAnchorCard" hidden tabindex="0" role="button" aria-label="View anchor verse">
               <p class="home-theme-intro-anchor-label">This week&rsquo;s anchor verse</p>
               <p class="home-theme-intro-anchor-text serif" id="homeThemeIntroAnchorText"></p>
               <p class="home-theme-intro-anchor-ref" id="homeThemeIntroAnchorRef"></p>
@@ -2936,7 +3438,7 @@
       </div></div>
       </div>
       <div class="home-section home-today-verse-section" id="homeResponse">
-        <div class="verse-card word-vod-card" id="homeTodayVerseCard" role="button" tabindex="0" aria-label="Open verse">
+        <div class="verse-card word-vod-card quote-card-tappable" id="homeTodayVerseCard" role="button" tabindex="0" aria-label="Open verse">
           <div class="wv-label body-font" id="homeVerseLabel">TODAY&#8217;S VERSE</div>
           <div class="wv-text display-font" id="homeVerseText"></div>
           <div class="wv-ref body-font" id="homeVerseRef"></div>
@@ -2946,8 +3448,10 @@
         <button type="button" class="home-resume-reading home-resume-reading--secondary" id="homeResumeReadingBtn">Resume reading →</button>
       </div>
       <div class="home-section walk-with-god" id="walkWithGod">
+        <div class="walk-truths-quote-block quote-card-tappable" id="walkTruthsQuoteBlock" tabindex="0" role="button" aria-label="View declarations">
         <p class="walk-truths-title serif">Words to speak over yourself today</p>
         <div class="walk-truths-lines" id="walkTruthsLines" aria-live="polite"></div>
+        </div>
         <div class="walk-truths-actions">
           <button type="button" class="walk-truths-refresh" id="walkTruthsRefreshBtn">Refresh truths</button>
           <button type="button" class="walk-truths-save" id="walkTruthsSaveCardBtn">Save this</button>
@@ -2998,7 +3502,7 @@
           <p class="gm-week-about-body body-font" id="gmWeekAboutBody" hidden></p>
           <p class="gm-subline">Pause • Breathe • Be present</p>
           <p class="gm-intro-hook body-font" id="gmIntroHook" hidden></p>
-          <div class="gm-anchor-card" id="gmAnchorCard" hidden>
+          <div class="gm-anchor-card quote-card-tappable" id="gmAnchorCard" hidden tabindex="0" role="button" aria-label="View anchor verse">
             <p class="gm-anchor-label">This week&rsquo;s anchor</p>
             <p class="gm-anchor-text serif" id="gmAnchorText"></p>
             <p class="gm-anchor-ref" id="gmAnchorRef"></p>
@@ -3049,7 +3553,7 @@
           <div id="momentPrayerPick" hidden aria-hidden="true"></div>
           <div id="momentPrayerResult" hidden>
             <div class="moment-result-stack" id="momentResultStack">
-              <div class="moment-result-card" id="momentResultCard" aria-live="polite">
+              <div class="moment-result-card quote-card-tappable" id="momentResultCard" aria-live="polite" tabindex="0" role="button" aria-label="View prayer">
                 <p class="moment-body" id="momentBodyText"></p>
                 <div class="moment-takeaway" id="momentTakeawayBlock">
                   <p class="moment-takeaway-label">Hold onto this today</p>
@@ -3563,6 +4067,106 @@
 
   </div>
 
+  <div id="scripturePlusScreen" class="app-shell-screen">
+    <div class="screen scripture-plus-screen" id="screen-scriptureplus">
+      <div class="spx-landing">
+        <header class="spx-header">
+          <h1 class="spx-header-title serif">Scripture</h1>
+          <div class="spx-header-actions">
+            <button type="button" class="spx-icon-btn" id="spxHeaderHeartBtn" aria-label="Open Reflect">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </button>
+            <button type="button" class="spx-icon-btn" id="spxHeaderMenuBtn" aria-label="Menu" aria-expanded="false" aria-haspopup="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="12" cy="19" r="1.2"></circle></svg>
+            </button>
+          </div>
+        </header>
+        <div class="spx-menu-pop body-font" id="spxMenuPopover" hidden role="menu">
+          <button type="button" class="spx-menu-item" id="spxMenuOpenScripture" role="menuitem">Open classic Scripture</button>
+          <button type="button" class="spx-menu-item" id="spxMenuOpenStudy" role="menuitem">Open Study</button>
+          <button type="button" class="spx-menu-item" id="spxMenuOpenSettings" role="menuitem">Settings</button>
+        </div>
+        <div class="spx-inner body-font">
+          <label for="spxSearchInput" class="visually-hidden">Search verse, passage, or topic</label>
+          <input type="search" id="spxSearchInput" class="spx-search" placeholder="Search verse, passage, or topic" autocomplete="off" enterkeyhint="search" />
+          <button type="button" class="spx-card spx-card--continue" id="spxContinueCard" hidden>
+            <div class="spx-card-media" aria-hidden="true"><img src="assets/images/word.jpg" alt="" width="640" height="360" loading="lazy" decoding="async"></div>
+            <p class="spx-card-kicker">Continue reading</p>
+            <p class="spx-card-title serif" id="spxContinueTitle">John 3</p>
+            <div class="spx-progress" aria-hidden="true"><div class="spx-progress-fill" id="spxContinueProgressFill" style="width:0%"></div></div>
+            <p class="spx-card-meta body-font" id="spxContinuePct">0% complete</p>
+          </button>
+          <div class="spx-card spx-card--plan" id="spxWeeklyCard" hidden>
+            <p class="spx-card-kicker">Weekly plan</p>
+            <p class="spx-card-title serif" id="spxWeeklyTitle"></p>
+            <p class="spx-card-dayline body-font" id="spxWeeklyDay"></p>
+            <p class="spx-card-sub body-font" id="spxWeeklyDesc"></p>
+            <button type="button" class="spx-card-cta" id="spxWeeklyCta">Continue plan</button>
+          </div>
+        </div>
+      </div>
+      <div class="spx-passage-layer" id="scripturePlusPassageLayer" hidden aria-hidden="true">
+        <div class="spx-passage-scroll">
+          <div class="spx-pass-head">
+            <button type="button" class="spx-pass-back body-font" id="spxPassBackBtn" aria-label="Back">← Back</button>
+            <p class="spx-pass-ref serif" id="spxPassRef"></p>
+            <div class="spx-pass-tools">
+              <button type="button" class="spx-icon-btn spx-icon-btn--sm" id="spxToolAudio" aria-label="Listen (when available)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+              <button type="button" class="spx-icon-btn spx-icon-btn--sm" id="spxToolText" aria-label="Text size">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4l6-16h4"></path><path d="M9 20h6"></path></svg>
+              </button>
+              <button type="button" class="spx-icon-btn spx-icon-btn--sm" id="spxToolTheme" aria-label="Comfort reading">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="spx-pass-verse serif display-font" id="spxPassVerse"></div>
+          <div class="spx-pass-toolbar">
+            <button type="button" class="spx-chip-btn" id="spxShareBtn">Share</button>
+            <button type="button" class="spx-chip-btn" id="spxSaveBtn">Save</button>
+            <button type="button" class="spx-chip-btn" id="spxHighlightBtn">Highlight</button>
+            <button type="button" class="spx-chip-btn" id="spxMoreBtn">More</button>
+          </div>
+          <div class="reflect-meaning spx-meaning" id="spxMeaningRoot">
+            <button type="button" class="reflect-meaning__trigger" id="spxMeaningTrigger" aria-expanded="false" aria-controls="spxMeaningContent">
+              <span class="spx-meaning-label">What this means</span>
+              <span class="spx-ai-pill" aria-hidden="true">AI</span>
+              <span class="reflect-meaning__chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div class="reflect-meaning__content" id="spxMeaningContent">
+              <div class="reflect-meaning__body" id="spxMeaningBody"></div>
+            </div>
+          </div>
+          <details class="word-details spx-details">
+            <summary>Context</summary>
+            <div class="word-details-body"><div id="spxCtxBody" class="body-font spx-prose"></div></div>
+          </details>
+          <details class="word-details spx-details">
+            <summary>Cross references</summary>
+            <div class="word-details-body"><div class="spx-xref-row" id="spxXrefRow" role="group" aria-label="Cross references"></div></div>
+          </details>
+          <details class="word-details spx-details">
+            <summary>Reflect on this</summary>
+            <div class="word-details-body"><ul class="spx-prompts body-font" id="spxReflectList"></ul></div>
+          </details>
+          <details class="word-details spx-details">
+            <summary>Pray this verse</summary>
+            <div class="word-details-body">
+              <p class="body-font spx-prose" id="spxPrayLead"></p>
+              <button type="button" class="spx-card-cta spx-card-cta--block" id="spxPrayTurnBtn">Turn this into a prayer</button>
+            </div>
+          </details>
+          <div class="spx-pass-footer">
+            <button type="button" class="spx-footer-btn spx-footer-btn--ghost body-font" id="spxSitBtn">Sit with this</button>
+            <button type="button" class="spx-footer-btn spx-footer-btn--primary body-font" id="spxPrayBtn">Pray with this</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="reflectScreen" class="app-shell-screen">
 
     <!-- JOURNAL -->
@@ -3812,7 +4416,7 @@
         <p class="prayer-week-theme-sub body-font" id="prayerWeeklyThemeSub"></p>
         <div class="prayer-week-theme-divider" aria-hidden="true"></div>
       </div>
-      <div class="prayer-verse-context" id="prayerVerseContextBanner" hidden>
+      <div class="prayer-verse-context quote-card-tappable" id="prayerVerseContextBanner" hidden tabindex="0" role="button" aria-label="View verse">
         <p class="pvc-label body-font">Praying with</p>
         <p class="pvc-text display-font" id="prayerVerseContextText"></p>
       </div>
@@ -3835,7 +4439,7 @@
       </div>
       <div class="prayer-result" id="prayerResult" hidden>
         <div class="prayer-result-stack" id="prayerResultStack">
-          <div class="prayer-result-card" id="prayerResultCard" aria-live="polite">
+          <div class="prayer-result-card quote-card-tappable" id="prayerResultCard" aria-live="polite" tabindex="0" role="button" aria-label="View prayer">
             <p class="prayer-body display-font" id="prayerBodyText"></p>
             <div class="prayer-takeaway" id="prayerTakeawayBlock">
               <p class="pt-label">&#x2728; Hold onto this today:</p>
@@ -3866,7 +4470,7 @@
           <p class="prayer-dive-reflect body-font" id="prayerDiveReflect"></p>
           <button type="button" class="prayer-btn prayer-btn-primary prayer-dive-home-btn" id="prayerDiveTakeHomeBtn">Continue your moment</button>
         </div>
-        <aside class="scripture-pairing" id="scripturePairing" hidden aria-label="Scripture pairing">
+        <aside class="scripture-pairing quote-card-tappable" id="scripturePairing" hidden aria-label="Scripture pairing" tabindex="0" role="button">
           <p class="scripture-label body-font">A verse to sit with</p>
           <p class="scripture-ref body-font" id="scriptureRef"></p>
           <p class="scripture-text display-font" id="scriptureText"></p>
@@ -3878,6 +4482,9 @@
 
   <div id="profileScreen" class="app-shell-screen">
   <div class="screen" id="screen-profile">
+    <div class="profile-settings-top-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </div>
     <!-- Profile -->
     <div class="profile-section">
       <div class="profile-section-title">
@@ -4179,8 +4786,10 @@
   </div>
 
   <div id="privacyScreen" class="app-shell-screen legal-app-shell" aria-label="Privacy Policy">
+    <div class="top-bar">
+      <button type="button" class="back-button" onclick="handleBack()" aria-label="Back to Grounded">← Grounded</button>
+    </div>
     <div class="legal-page" id="privacyPage" tabindex="-1">
-      <button type="button" class="legal-back" id="privacyBackBtn" aria-label="Back to app">← Back to app</button>
       <article class="legal-article" lang="en">
         <h1 class="legal-title">Privacy Policy</h1>
         <p class="legal-updated">Last updated: April 27, 2026</p>
@@ -4227,15 +4836,17 @@
           <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated date.</p>
           <h2>Contact</h2>
           <p>If you have any questions, you can contact us at:</p>
-          <p><strong><a href="mailto:hello@getgrounded.app">hello@getgrounded.app</a></strong></p>
+          <p><strong><a href="mailto:support@getgroundedapp.com">support@getgroundedapp.com</a></strong></p>
         </div>
       </article>
     </div>
   </div>
 
   <div id="termsScreen" class="app-shell-screen legal-app-shell" aria-label="Terms of Use">
+    <div class="top-bar">
+      <button type="button" class="back-button" onclick="handleBack()" aria-label="Back to Grounded">← Grounded</button>
+    </div>
     <div class="legal-page" id="termsPage" tabindex="-1">
-      <button type="button" class="legal-back" id="termsBackBtn" aria-label="Back to app">← Back to app</button>
       <article class="legal-article" lang="en">
         <h1 class="legal-title">Terms of Use</h1>
         <p class="legal-updated">Last updated: April 2026</p>
@@ -4257,21 +4868,23 @@
           <p>We may update these terms as the app evolves. Continued use of the app means you accept any updates.</p>
           <h2>Contact</h2>
           <p>If you have questions, contact us at:</p>
-          <p><strong><a href="mailto:hello@getgrounded.app">hello@getgrounded.app</a></strong></p>
+          <p><strong><a href="mailto:support@getgroundedapp.com">support@getgroundedapp.com</a></strong></p>
         </div>
       </article>
     </div>
   </div>
 
   <div id="contactScreen" class="app-shell-screen legal-app-shell" aria-label="Contact">
+    <div class="top-bar">
+      <button type="button" class="back-button" onclick="handleBack()" aria-label="Back to Grounded">← Grounded</button>
+    </div>
     <div class="legal-page" id="contactPage" tabindex="-1">
-      <button type="button" class="legal-back" id="contactBackBtn" aria-label="Back to app">← Back to app</button>
       <article class="legal-article legal-article--contact" lang="en">
         <h1 class="legal-title" style="text-align:center">Contact</h1>
         <p class="legal-contact-lead">We&rsquo;re here if you need anything.</p>
-        <p class="legal-updated" style="text-align:center;margin-bottom:8px">For support, questions, or feedback</p>
+        <p class="legal-contact-support-line">For support, questions, or feedback</p>
         <div class="legal-email-wrap">
-          <a class="legal-mail" href="mailto:hello@getgrounded.app">hello@getgrounded.app</a>
+          <a class="legal-mail legal-mail--contact" href="mailto:support@getgroundedapp.com">support@getgroundedapp.com</a>
         </div>
         <p class="legal-reply-hint">We typically respond within 24&ndash;48 hours.</p>
       </article>
@@ -4546,15 +5159,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         <span>Back</span>
       </button>
-      <div class="verse-fs-share-capture" id="verseFsShareCapture">
-      <div class="verse-fs-center" id="verseFsCenter">
-        <p class="verse-fs-text" id="verseFsText"></p>
-        <p class="verse-fs-ref" id="verseFsRef"></p>
-      </div>
-      <div class="verse-fs-brand" aria-hidden="true">
-        <p class="verse-fs-wordmark">Grounded</p>
-        <p class="verse-fs-domain body-font">getgroundedapp.com</p>
-      </div>
+      <div class="verse-fs-share-capture share-screen" id="verseFsShareCapture">
+        <div class="share-card">
+          <p class="verse-fs-text share-verse" id="verseFsText"></p>
+          <p class="verse-fs-ref share-reference" id="verseFsRef"></p>
+          <div class="share-divider" aria-hidden="true"></div>
+          <div class="share-brand">GROUNDED</div>
+          <div class="share-url">getgroundedapp.com</div>
+        </div>
       </div>
       <div class="verse-fs-dual" id="verseFsDual">
         <button type="button" class="verse-fs-pill verse-fs-pill--study" id="verseFsStudy">Study this →</button>
@@ -4578,6 +5190,27 @@
     </div>
     <div class="verse-fs-toast" id="verseFsToast" aria-live="polite"></div>
   </div>
+
+  <!-- Content quote fullscreen (home / reflect / prayer cards — share + save) -->
+  <div class="cqf-overlay" id="contentQuoteFsOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cqfBody">
+    <div class="cqf-inner">
+      <button type="button" class="cqf-back" id="contentQuoteFsBack" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Back</span>
+      </button>
+      <div class="cqf-scroll">
+        <p class="cqf-type" id="cqfType"></p>
+        <p class="cqf-body" id="cqfBody"></p>
+        <p class="cqf-ref" id="cqfRef"></p>
+      </div>
+      <p class="cqf-wordmark" aria-hidden="true">Grounded</p>
+      <div class="cqf-actions">
+        <button type="button" class="cqf-btn-save" id="contentQuoteFsSave">Save</button>
+        <button type="button" class="cqf-btn-share" id="contentQuoteFsShare">Share this</button>
+      </div>
+    </div>
+  </div>
+  <div id="cqfShareExportRoot" aria-hidden="true"></div>
 
   <div class="vb-overlay" id="verseBreakdownModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="verseBreakdownRef">
     <div class="vb-backdrop" id="verseBreakdownBackdrop"></div>
@@ -4623,9 +5256,16 @@
       </svg>
       <span>Study</span>
     </button>
-    <button class="nav-item" data-tab="prayer" type="button" aria-label="Prayer">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.5V18.5"></path><path d="M7.2 9.2h9.6"></path></svg>
-      <span>Prayer</span>
+    <button class="nav-item nav-item--spx" data-tab="scriptureplus" type="button" aria-label="Scripture Plus">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      </svg>
+      <span>Scripture+</span>
+    </button>
+    <button class="nav-item center-btn" data-tab="prayer" type="button" aria-label="Prayer">
+      <span class="cross-icon" aria-hidden="true"></span>
+      <span class="nav-prayer-label">Prayer</span>
     </button>
     <button class="nav-item" data-tab="reflect" type="button" aria-label="Reflect">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.4v2.6M12 17v2.6M4.4 12h2.6M17 12h2.6M9.1 9.1 6.2 6.2M15 9.1 17.8 6.2M15 14.9 17.8 17.8M9.1 14.9 6.2 17.8"></path></svg>
@@ -4918,7 +5558,7 @@
   
   const TYPE_LABELS = { mind:"Read a verse", heart:"Say a prayer", body:"Reset your mind" };
   /** Shown in header + Profile footer. MUST match `sw.js` CACHE_VERSION (also used to bust SW registration URL). */
-  const APP_BUILD_VERSION = 'grounded-v183';
+  const APP_BUILD_VERSION = 'grounded-v187';
   const MC_ICONS = {
     mind:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>',
     heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 11V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v9"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 16"/></svg>',
@@ -5078,7 +5718,7 @@
   } catch (e) {
     savedIds = [];
   }
-  const VALID_TABS = ['feed', 'pilates', 'reflect', 'study', 'scripture', 'word', 'prayer', 'journal', 'profile'];
+  const VALID_TABS = ['feed', 'pilates', 'reflect', 'study', 'scripture', 'word', 'prayer', 'journal', 'profile', 'scriptureplus'];
   const storedTab = localStorage.getItem('activeTab');
   let currentTab = VALID_TABS.indexOf(storedTab) !== -1 ? storedTab : 'feed';
   if (currentTab === 'scripture') {
@@ -5153,6 +5793,29 @@
   /* ═══════════════════════════════════════
      GREETING
      ═══════════════════════════════════════ */
+  function syncHeaderProfileAvatar() {
+    var initEl = document.getElementById('headerProfileInitial');
+    var iconWrap = document.getElementById('headerProfileIconWrap');
+    if (!initEl || !iconWrap) return;
+    var name = '';
+    try {
+      name = (localStorage.getItem('userName') || localStorage.getItem('grounded_user_name') || '').trim();
+    } catch (e0) {}
+    var letter = '';
+    if (name.length) {
+      var c = name.charAt(0);
+      if (c && /\S/.test(c)) letter = c.toLocaleUpperCase();
+    }
+    if (letter) {
+      initEl.textContent = letter;
+      initEl.removeAttribute('hidden');
+      iconWrap.setAttribute('hidden', '');
+    } else {
+      initEl.textContent = '';
+      initEl.setAttribute('hidden', '');
+      iconWrap.removeAttribute('hidden');
+    }
+  }
   function getGreetingBase() {
     const tod = typeof getGroundedTimeOfDayPref === 'function' ? getGroundedTimeOfDayPref() : 'flexible';
     if (tod === 'morning') return 'Good morning';
@@ -5169,6 +5832,7 @@
     const el = document.getElementById('greetingText');
     if (el) el.textContent = name ? base + ', ' + name : base;
     if (typeof applyHomeVerseLabelFromPrefs === 'function') applyHomeVerseLabelFromPrefs();
+    syncHeaderProfileAvatar();
   }
   updateGreeting();
   
@@ -5180,7 +5844,7 @@
   /* ═══════════════════════════════════════
      NAVIGATION
      ═══════════════════════════════════════ */
-  const APP_SHELL_IDS = ['todayScreen', 'readScreen', 'prayerScreen', 'reflectScreen', 'resetScreen', 'profileScreen', 'privacyScreen', 'termsScreen', 'contactScreen'];
+  const APP_SHELL_IDS = ['todayScreen', 'readScreen', 'scripturePlusScreen', 'prayerScreen', 'reflectScreen', 'resetScreen', 'profileScreen', 'privacyScreen', 'termsScreen', 'contactScreen'];
   var legalReturnTab = 'profile';
   var LEGAL_ROUTE_MAP = {
     privacy: { screen: 'privacyScreen', page: 'privacyPage' },
@@ -5321,6 +5985,19 @@
     window.scrollTo(0, 0);
   }
 
+  function handleBack() {
+    if (typeof closeAppLegalPage === 'function' && document.body.classList.contains('legal-page-open')) {
+      closeAppLegalPage();
+      return;
+    }
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = '/';
+    }
+  }
+  window.handleBack = handleBack;
+
   function showScreen(screenId) {
     APP_SHELL_IDS.forEach(function (id) {
       const el = document.getElementById(id);
@@ -5342,7 +6019,8 @@
       study: 'reflectScreen',
       journal: 'reflectScreen',
       pilates: 'resetScreen',
-      profile: 'profileScreen'
+      profile: 'profileScreen',
+      scriptureplus: 'scripturePlusScreen'
     };
     const id = map[tab] || 'todayScreen';
     showScreen(id);
@@ -5643,6 +6321,448 @@
     });
   }
 
+  /* ═══════════════════════════════════════
+     Scripture+ (test tab — unified reading flow)
+     ═══════════════════════════════════════ */
+  const SPX_SAVED_KEY = 'grounded_scripture_plus_saved';
+  var spxPassState = { bookRaw: '', displayBook: '', chapter: 1, verseStart: 1, verseEnd: 1, refLine: '', quote: '', vbKey: '' };
+
+  function closeSpxMenu() {
+    var pop = document.getElementById('spxMenuPopover');
+    var btn = document.getElementById('spxHeaderMenuBtn');
+    if (pop) pop.hidden = true;
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function closeScripturePlusPassage() {
+    var layer = document.getElementById('scripturePlusPassageLayer');
+    var root = document.getElementById('spxMeaningRoot');
+    var trg = document.getElementById('spxMeaningTrigger');
+    var body = document.getElementById('spxMeaningBody');
+    if (root) root.classList.remove('reflect-meaning--open');
+    if (trg) trg.setAttribute('aria-expanded', 'false');
+    if (body) {
+      body.innerHTML = '';
+      delete body.dataset.loaded;
+    }
+    if (layer) {
+      layer.classList.remove('spx-passage-layer--open');
+      layer.hidden = true;
+      layer.setAttribute('aria-hidden', 'true');
+    }
+    document.querySelectorAll('#screen-scriptureplus details.spx-details').forEach(function (d) {
+      try {
+        d.open = false;
+      } catch (e) {}
+    });
+  }
+
+  function spxBookProgressPercent(book, chapter) {
+    var b = typeof bfCanonicalBookName === 'function' ? bfCanonicalBookName(book) : book;
+    var max = typeof bfChapterCount === 'function' ? bfChapterCount(b) : 0;
+    var ch = Math.max(1, parseInt(String(chapter), 10) || 1);
+    if (!max || max < 1) return 0;
+    return Math.min(100, Math.round((ch / max) * 100));
+  }
+
+  function spxDefaultXrefs(book, chapter) {
+    var b = (book || '').toLowerCase();
+    var ch = parseInt(String(chapter), 10) || 1;
+    if (b.indexOf('philippians') !== -1 && ch === 4) {
+      return [
+        { bookRaw: 'John', chapter: 14, verseStart: 27, verseEnd: 27 },
+        { bookRaw: 'Isaiah', chapter: 26, verseStart: 3, verseEnd: 4 },
+        { bookRaw: 'Psalms', chapter: 46, verseStart: 10, verseEnd: 10 }
+      ];
+    }
+    if (b.indexOf('psalm') !== -1 && ch === 62) {
+      return [
+        { bookRaw: 'Psalms', chapter: 62, verseStart: 5, verseEnd: 6 },
+        { bookRaw: 'Psalms', chapter: 4, verseStart: 8, verseEnd: 8 },
+        { bookRaw: 'Matthew', chapter: 11, verseStart: 28, verseEnd: 30 }
+      ];
+    }
+    return [
+      { bookRaw: 'Romans', chapter: 15, verseStart: 13, verseEnd: 13 },
+      { bookRaw: 'Philippians', chapter: 4, verseStart: 6, verseEnd: 7 },
+      { bookRaw: 'Psalms', chapter: 23, verseStart: 1, verseEnd: 3 }
+    ];
+  }
+
+  function spxFormatRef(displayBook, chapter, vs, ve) {
+    var d = displayBook || '';
+    if (ve > vs) return d + ' ' + chapter + ':' + vs + '\u2013' + ve;
+    return d + ' ' + chapter + ':' + vs;
+  }
+
+  function bindSpxMeaningAiOnce() {
+    var root = document.getElementById('spxMeaningRoot');
+    var trigger = document.getElementById('spxMeaningTrigger');
+    var meanEl = document.getElementById('spxMeaningBody');
+    if (!root || !trigger || !meanEl || root.dataset.spxAiBound === '1') return;
+    root.dataset.spxAiBound = '1';
+    var inflight = false;
+    var errMsg = 'This will open up shortly. Try again in a moment.';
+    var loadingHtml =
+      '<p class="body-font spx-thinking" style="text-align:center;font-size:13px;color:var(--text-light);margin:0 0 10px">Thinking\u2026</p>' +
+      '<div class="reflect-meaning__loading" role="status" aria-live="polite">' +
+      '<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+    function setMeaningLoading() {
+      meanEl.classList.remove('reflect-meaning__body--enter');
+      meanEl.innerHTML = loadingHtml;
+    }
+    trigger.addEventListener(
+      'click',
+      function () {
+        var open = root.classList.toggle('reflect-meaning--open');
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open) return;
+        if (meanEl.dataset.loaded === 'true') return;
+        if (inflight) return;
+        inflight = true;
+        setMeaningLoading();
+        var verseBlock = (spxPassState.refLine + (spxPassState.quote ? '\n' + spxPassState.quote : '')).trim().slice(0, 1400);
+        var url =
+          typeof groundedApiUrl === 'function' ? groundedApiUrl('/api/reflect-meaning') : '/api/reflect-meaning';
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            verse: verseBlock,
+            reflection: 'Scripture+ reading. Offer a calm, grounded explanation for someone sitting quietly with this passage.'
+          })
+        })
+          .then(function (res) {
+            return res.json().then(function (data) {
+              return { ok: res.ok, data: data };
+            });
+          })
+          .then(function (out) {
+            var text = out.ok && out.data && out.data.meaning && String(out.data.meaning).trim();
+            if (text) {
+              meanEl.textContent = text;
+              meanEl.dataset.loaded = 'true';
+              meanEl.classList.remove('reflect-meaning__body--enter');
+              void meanEl.offsetWidth;
+              requestAnimationFrame(function () {
+                meanEl.classList.add('reflect-meaning__body--enter');
+              });
+            } else {
+              meanEl.textContent = errMsg;
+              delete meanEl.dataset.loaded;
+              meanEl.classList.remove('reflect-meaning__body--enter');
+            }
+          })
+          .catch(function () {
+            meanEl.textContent = errMsg;
+            delete meanEl.dataset.loaded;
+            meanEl.classList.remove('reflect-meaning__body--enter');
+          })
+          .finally(function () {
+            inflight = false;
+          });
+      },
+      { passive: true }
+    );
+  }
+
+  function renderSpxXrefPills(list) {
+    var row = document.getElementById('spxXrefRow');
+    if (!row) return;
+    row.innerHTML = '';
+    list.forEach(function (x) {
+      var lab =
+        (typeof bfCanonicalBookName === 'function' ? bfCanonicalBookName(x.bookRaw) : x.bookRaw) +
+        ' ' +
+        x.chapter +
+        ':' +
+        x.verseStart;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'spx-xref-pill';
+      btn.textContent = lab;
+      btn.addEventListener('click', function () {
+        void openScripturePlusPassage({
+          bookRaw: x.bookRaw,
+          chapter: x.chapter,
+          verseStart: x.verseStart,
+          verseEnd: x.verseEnd || x.verseStart
+        });
+      });
+      row.appendChild(btn);
+    });
+  }
+
+  async function openScripturePlusPassage(parsed) {
+    if (!parsed || !parsed.bookRaw || !parsed.chapter) return;
+    var ch = Math.max(1, parseInt(String(parsed.chapter), 10) || 1);
+    var vs = Math.max(1, parseInt(String(parsed.verseStart || 1), 10) || 1);
+    var ve = Math.max(vs, parseInt(String(parsed.verseEnd || vs), 10) || vs);
+    var layer = document.getElementById('scripturePlusPassageLayer');
+    var verseEl = document.getElementById('spxPassVerse');
+    var refEl = document.getElementById('spxPassRef');
+    if (!layer || !verseEl || !refEl) return;
+    closeSpxMenu();
+    verseEl.textContent = 'Loading\u2026';
+    refEl.textContent = '';
+    layer.hidden = false;
+    layer.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function () {
+      layer.classList.add('spx-passage-layer--open');
+    });
+    var meanRoot = document.getElementById('spxMeaningRoot');
+    var meanBody = document.getElementById('spxMeaningBody');
+    var meanTrg = document.getElementById('spxMeaningTrigger');
+    if (meanRoot) meanRoot.classList.remove('reflect-meaning--open');
+    if (meanTrg) meanTrg.setAttribute('aria-expanded', 'false');
+    if (meanBody) {
+      meanBody.innerHTML = '';
+      delete meanBody.dataset.loaded;
+    }
+    try {
+      var result = await loadChapterVerses(parsed.bookRaw, ch);
+      var verses = result.verses || [];
+      var displayBook = result.displayBook || (typeof bfCanonicalBookName === 'function' ? bfCanonicalBookName(parsed.bookRaw) : parsed.bookRaw);
+      var lines = [];
+      for (var i = vs; i <= ve && i <= verses.length; i++) {
+        lines.push('\u201c' + String(verses[i - 1] || '').trim() + '\u201d');
+      }
+      var quote = lines.join('\n\n');
+      var refLine = spxFormatRef(displayBook, ch, vs, ve);
+      refEl.textContent = refLine;
+      verseEl.textContent = quote || '\u2014';
+      var vbKey =
+        typeof verseHighlightStorageKey === 'function'
+          ? verseHighlightStorageKey(parsed.bookRaw, ch, vs)
+          : String(displayBook + '|' + ch + '|' + vs).toLowerCase();
+      spxPassState = {
+        bookRaw: parsed.bookRaw,
+        displayBook: displayBook,
+        chapter: ch,
+        verseStart: vs,
+        verseEnd: ve,
+        refLine: refLine,
+        quote: quote,
+        vbKey: vbKey
+      };
+      var hiBtn = document.getElementById('spxHighlightBtn');
+      if (hiBtn && typeof isVerseKeyHighlighted === 'function') {
+        hiBtn.classList.toggle('spx-chip-btn--on', isVerseKeyHighlighted(vbKey));
+      }
+      var ctx = document.getElementById('spxCtxBody');
+      if (ctx) {
+        ctx.innerHTML =
+          '<p><strong>Who wrote it</strong> \u2014 ' +
+          displayBook +
+          ' is part of the broader witness of Scripture; many voices and editors shaped what we read today, always pointing toward God\u2019s character.</p>' +
+          '<p><strong>What\u2019s happening</strong> \u2014 This passage sits in chapter ' +
+          ch +
+          ', where the writer slows down so we can notice what matters about God and about us.</p>' +
+          '<p><strong>Why it matters</strong> \u2014 Not to add pressure, but to offer language when your inner life feels noisy or thin.</p>';
+      }
+      renderSpxXrefPills(spxDefaultXrefs(displayBook, ch));
+      var ul = document.getElementById('spxReflectList');
+      if (ul) {
+        ul.innerHTML =
+          '<li>Where does a phrase from this passage meet something you\u2019re actually carrying?</li>' +
+          '<li>What would it look like to receive this gently instead of debating it?</li>' +
+          '<li>What is one small way this could shape your next conversation or pause?</li>';
+      }
+      var pray = document.getElementById('spxPrayLead');
+      if (pray) {
+        pray.textContent =
+          'You don\u2019t need the right words. God meets honesty more than polish. Let this verse become a doorway, not a performance.';
+      }
+      bindSpxMeaningAiOnce();
+    } catch (e) {
+      verseEl.textContent = 'We couldn\u2019t load this passage. Check your connection and try again.';
+      refEl.textContent = '';
+    }
+  }
+
+  function renderScripturePlusTab() {
+    var resume = typeof readBibleResume === 'function' ? readBibleResume() : null;
+    var cont = document.getElementById('spxContinueCard');
+    var title = document.getElementById('spxContinueTitle');
+    var fill = document.getElementById('spxContinueProgressFill');
+    var pct = document.getElementById('spxContinuePct');
+    if (cont && title && fill && pct) {
+      if (resume && resume.book && resume.chapter) {
+        cont.hidden = false;
+        title.textContent = (typeof bfCanonicalBookName === 'function' ? bfCanonicalBookName(resume.book) : resume.book) + ' ' + resume.chapter;
+        var p = spxBookProgressPercent(resume.book, resume.chapter);
+        fill.style.width = p + '%';
+        pct.textContent = p + '% through this book (by chapter)';
+      } else {
+        cont.hidden = true;
+      }
+    }
+    var wkCard = document.getElementById('spxWeeklyCard');
+    var info = typeof getScriptureSuggestedReadingForCurrentWeek === 'function' ? getScriptureSuggestedReadingForCurrentWeek() : null;
+    if (wkCard && info) {
+      wkCard.hidden = false;
+      var tEl = document.getElementById('spxWeeklyTitle');
+      var dEl = document.getElementById('spxWeeklyDay');
+      var sEl = document.getElementById('spxWeeklyDesc');
+      if (tEl) tEl.textContent = info.themeTitle || '';
+      var ctxW = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
+      if (dEl) {
+        if (ctxW && ctxW.day) {
+          var weekend = !!ctxW.isWeekend;
+          var di = ctxW.dayIndex;
+          dEl.textContent = weekend ? 'Day 5 of 5' : 'Day ' + di + ' of 5';
+          dEl.hidden = false;
+        } else {
+          dEl.textContent = '';
+          dEl.hidden = true;
+        }
+      }
+      if (sEl) sEl.textContent = info.note || '';
+    } else if (wkCard) {
+      wkCard.hidden = true;
+    }
+  }
+
+  function bindScripturePlusOnce() {
+    var root = document.getElementById('screen-scriptureplus');
+    if (!root || root.dataset.spxBound === '1') return;
+    root.dataset.spxBound = '1';
+    document.getElementById('spxHeaderHeartBtn') &&
+      document.getElementById('spxHeaderHeartBtn').addEventListener('click', function () {
+        closeSpxMenu();
+        if (typeof switchTab === 'function') switchTab('reflect');
+      });
+    var menuBtn = document.getElementById('spxHeaderMenuBtn');
+    var pop = document.getElementById('spxMenuPopover');
+    if (menuBtn && pop) {
+      menuBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = pop.hidden;
+        pop.hidden = !open;
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function () {
+        closeSpxMenu();
+      });
+      pop.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
+    var m1 = document.getElementById('spxMenuOpenScripture');
+    if (m1)
+      m1.addEventListener('click', function () {
+        closeSpxMenu();
+        if (typeof switchTab === 'function') switchTab('word');
+      });
+    var m2 = document.getElementById('spxMenuOpenStudy');
+    if (m2)
+      m2.addEventListener('click', function () {
+        closeSpxMenu();
+        if (typeof switchTab === 'function') switchTab('study');
+      });
+    var m3 = document.getElementById('spxMenuOpenSettings');
+    if (m3)
+      m3.addEventListener('click', function () {
+        closeSpxMenu();
+        if (typeof switchTab === 'function') switchTab('profile');
+      });
+    var cont = document.getElementById('spxContinueCard');
+    if (cont)
+      cont.addEventListener('click', function () {
+        var r = typeof readBibleResume === 'function' ? readBibleResume() : null;
+        if (!r || !r.book || !r.chapter) return;
+        void openScripturePlusPassage({ bookRaw: r.book, chapter: r.chapter, verseStart: 1, verseEnd: 1 });
+      });
+    var wcta = document.getElementById('spxWeeklyCta');
+    if (wcta)
+      wcta.addEventListener('click', function () {
+        var info = typeof getScriptureSuggestedReadingForCurrentWeek === 'function' ? getScriptureSuggestedReadingForCurrentWeek() : null;
+        if (!info) return;
+        void openScripturePlusPassage({ bookRaw: info.book, chapter: info.chapter, verseStart: 1, verseEnd: 1 });
+      });
+    var inp = document.getElementById('spxSearchInput');
+    if (inp) {
+      inp.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        var p = parseScripturePlusSearchQuery(inp.value);
+        if (p) void openScripturePlusPassage(p);
+      });
+    }
+    document.getElementById('spxPassBackBtn') &&
+      document.getElementById('spxPassBackBtn').addEventListener('click', function () {
+        closeScripturePlusPassage();
+      });
+    document.getElementById('spxToolText') &&
+      document.getElementById('spxToolText').addEventListener('click', function () {
+        var v = document.getElementById('spxPassVerse');
+        if (v) v.classList.toggle('spx-pass-verse--lg');
+      });
+    document.getElementById('spxToolTheme') &&
+      document.getElementById('spxToolTheme').addEventListener('click', function () {
+        var v = document.getElementById('spxPassVerse');
+        if (v) v.classList.toggle('spx-pass-verse--soft');
+      });
+    document.getElementById('spxToolAudio') &&
+      document.getElementById('spxToolAudio').addEventListener('click', function () {
+        try {
+          if (!window.speechSynthesis) return;
+          window.speechSynthesis.cancel();
+          var u = new SpeechSynthesisUtterance((spxPassState.quote || '').replace(/\u201c|\u201d/g, '"'));
+          window.speechSynthesis.speak(u);
+        } catch (eA) {}
+      });
+    document.getElementById('spxShareBtn') &&
+      document.getElementById('spxShareBtn').addEventListener('click', function () {
+        var t = (spxPassState.refLine + '\n\n' + spxPassState.quote).trim();
+        if (navigator.share) {
+          navigator.share({ title: spxPassState.refLine, text: t }).catch(function () {});
+        } else {
+          try {
+            navigator.clipboard.writeText(t);
+          } catch (eC) {}
+        }
+      });
+    document.getElementById('spxSaveBtn') &&
+      document.getElementById('spxSaveBtn').addEventListener('click', function () {
+        try {
+          var arr = JSON.parse(localStorage.getItem(SPX_SAVED_KEY) || '[]');
+          if (!Array.isArray(arr)) arr = [];
+          arr.unshift({ ref: spxPassState.refLine, quote: spxPassState.quote, ts: Date.now() });
+          localStorage.setItem(SPX_SAVED_KEY, JSON.stringify(arr.slice(0, 80)));
+        } catch (eS) {}
+      });
+    document.getElementById('spxHighlightBtn') &&
+      document.getElementById('spxHighlightBtn').addEventListener('click', function () {
+        if (!spxPassState.vbKey || typeof setVerseKeyHighlighted !== 'function' || typeof isVerseKeyHighlighted !== 'function') return;
+        var on = !isVerseKeyHighlighted(spxPassState.vbKey);
+        setVerseKeyHighlighted(spxPassState.vbKey, on);
+        var hiBtn = document.getElementById('spxHighlightBtn');
+        if (hiBtn) hiBtn.classList.toggle('spx-chip-btn--on', on);
+      });
+    document.getElementById('spxMoreBtn') &&
+      document.getElementById('spxMoreBtn').addEventListener('click', function () {
+        if (!spxPassState.bookRaw || !spxPassState.chapter) return;
+        closeScripturePlusPassage();
+        if (typeof openReader === 'function') void openReader(spxPassState.bookRaw, spxPassState.chapter);
+      });
+    document.getElementById('spxSitBtn') &&
+      document.getElementById('spxSitBtn').addEventListener('click', function () {
+        closeScripturePlusPassage();
+      });
+    function goPray() {
+      closeScripturePlusPassage();
+      if (typeof switchTab === 'function') switchTab('prayer');
+    }
+    document.getElementById('spxPrayBtn') &&
+      document.getElementById('spxPrayBtn').addEventListener('click', goPray);
+    document.getElementById('spxPrayTurnBtn') &&
+      document.getElementById('spxPrayTurnBtn').addEventListener('click', goPray);
+  }
+
+  window.closeScripturePlusPassage = closeScripturePlusPassage;
+
   function renderScriptureWeekReadingCard() {
     const card = document.getElementById('scriptureWeekReadingCard');
     const kickerEl = document.getElementById('scriptureWeekReadingKicker');
@@ -5891,18 +7011,20 @@
     }
     if (qEl) {
       qEl.textContent = '';
-      const p1 = document.createElement('p');
-      p1.className = 'gm-week-q';
-      p1.textContent = '1. What shifted in you this week, even slightly?';
-      const p2 = document.createElement('p');
-      p2.className = 'gm-week-q';
-      p2.textContent = '2. What from ' + themeTitle + ' do you want to carry forward?';
-      const p3 = document.createElement('p');
-      p3.className = 'gm-week-q';
-      p3.textContent = '3. What do you want to release before next week begins?';
-      qEl.appendChild(p1);
-      qEl.appendChild(p2);
-      qEl.appendChild(p3);
+      const ol = document.createElement('ol');
+      ol.className = 'gm-week-closing-q-list';
+      const lines = [
+        'What shifted in you this week, even slightly?',
+        'What from ' + themeTitle + ' do you want to carry forward?',
+        'What do you want to release before next week begins?'
+      ];
+      lines.forEach(function (line) {
+        const li = document.createElement('li');
+        li.className = 'gm-week-q';
+        li.textContent = line;
+        ol.appendChild(li);
+      });
+      qEl.appendChild(ol);
     }
     if (prEl) prEl.textContent = closingPrayerText || '';
   }
@@ -5911,13 +7033,26 @@
     const wrap = document.getElementById('homeWeeklyClosingWrap');
     const closing = document.getElementById('gmWeekClosing');
     const closeBtn = document.getElementById('gmWeekCloseBtn');
-    if (!wrap || !closing) return;
+    const weekStartBtn = document.getElementById('gmWeekStartMomentBtn');
+    const weekHint = document.getElementById('gmWeekClosingHint');
+    const homeMainStart = document.getElementById('homeStartMomentBtn');
+    function hideClosingChrome() {
+      if (wrap) wrap.style.display = 'none';
+      if (closing) closing.hidden = true;
+      if (closeBtn) closeBtn.hidden = true;
+      if (weekStartBtn) weekStartBtn.hidden = true;
+      if (weekHint) weekHint.hidden = true;
+      if (homeMainStart) homeMainStart.hidden = false;
+      momentWeeklyClosingUiActive = false;
+    }
+    if (!wrap || !closing) {
+      const hms = document.getElementById('homeStartMomentBtn');
+      if (hms) hms.hidden = false;
+      return;
+    }
     const day = new Date().getDay();
     if (day !== 5 && day !== 6 && day !== 0) {
-      wrap.style.display = 'none';
-      closing.hidden = true;
-      if (closeBtn) closeBtn.hidden = true;
-      momentWeeklyClosingUiActive = false;
+      hideClosingChrome();
       return;
     }
     wrap.style.display = '';
@@ -5926,10 +7061,7 @@
     const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
     const janClosed = typeof isGroundedJan1ThemeWeekClosed === 'function' && isGroundedJan1ThemeWeekClosed();
     if (!anchor || !ctx || !ctx.day || janClosed) {
-      wrap.style.display = 'none';
-      closing.hidden = true;
-      if (closeBtn) closeBtn.hidden = true;
-      momentWeeklyClosingUiActive = false;
+      hideClosingChrome();
       return;
     }
     const prayer =
@@ -5938,6 +7070,9 @@
     populateHomeWeeklyClosingLayout(ctx.themeTitle || '', anchor, prayer);
     closing.hidden = false;
     if (closeBtn) closeBtn.hidden = false;
+    if (weekStartBtn) weekStartBtn.hidden = false;
+    if (weekHint) weekHint.hidden = false;
+    if (homeMainStart) homeMainStart.hidden = true;
     momentWeeklyClosingUiActive = true;
   }
 
@@ -6097,30 +7232,13 @@
   }
 
   function focusWordToDisplayPhrase(word) {
-    const w = String(word || '').trim();
+    let w = String(word || '').trim();
     if (!w) return '';
-    if (/^you\s/i.test(w)) return w.charAt(0).toUpperCase() + w.slice(1);
-    if (/\s{2,}/.test(w) || w.length > 40) return w;
-    const lower = w.toLowerCase();
-    const youAreSet = new Set([
-      'known',
-      'beloved',
-      'chosen',
-      'enough',
-      'made',
-      'seen',
-      'held',
-      'whole',
-      'free',
-      'loved',
-      'forgiven',
-      'new',
-      'worthy',
-      'welcome'
-    ]);
+    w = w.replace(/^you are invited into\s+/i, '').trim();
+    if (!w) return '';
+    if (/\s{2,}/.test(w) || w.length > 40) return w.charAt(0).toUpperCase() + w.slice(1);
     if (!/\s/.test(w)) {
-      if (youAreSet.has(lower)) return 'You are ' + lower;
-      return 'You are invited into ' + lower;
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
     }
     return w.charAt(0).toUpperCase() + w.slice(1);
   }
@@ -6275,6 +7393,12 @@
         focusWord.textContent = '';
         focusRow.hidden = true;
       }
+    }
+    const swapBtnHome = document.getElementById('homeWeeklyThemeSwapBtn');
+    if (swapBtnHome && WEEKLY_THEMES.length) {
+      const hideSwapLastDay = ctx && ctx.dayIndex === 5;
+      swapBtnHome.hidden = !!hideSwapLastDay;
+      swapBtnHome.setAttribute('aria-hidden', hideSwapLastDay ? 'true' : 'false');
     }
     if (previewRuleEl) {
       const showRule =
@@ -6544,6 +7668,7 @@
 
   function groundedScreenIdForTab(t) {
     if (t === 'word' || t === 'scripture') return 'scripture';
+    if (t === 'scriptureplus') return 'scriptureplus';
     return t;
   }
 
@@ -6563,6 +7688,10 @@
       }
     } catch (eOnbTab) {}
     const prevTab = currentTab;
+    if (prevTab === 'scriptureplus' && tab !== 'scriptureplus') {
+      if (typeof closeScripturePlusPassage === 'function') closeScripturePlusPassage();
+      if (typeof closeSpxMenu === 'function') closeSpxMenu();
+    }
     if (prevTab === 'study' && tab !== 'study') {
       try {
         if (typeof collapseGroundedVbbPanels === 'function') {
@@ -6601,6 +7730,10 @@
     if (tab === 'word') { renderScripture(); }
     if (tab === 'reflect' && typeof renderReflect === 'function') renderReflect();
     if (tab === 'study') renderStudy();
+    if (tab === 'scriptureplus') {
+      if (typeof bindScripturePlusOnce === 'function') bindScripturePlusOnce();
+      if (typeof renderScripturePlusTab === 'function') renderScripturePlusTab();
+    }
     if (tab === 'journal') {
       renderJournalHistory();
       document.querySelectorAll('.journal-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.jtab === 'write'));
@@ -6846,6 +7979,14 @@
         if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
       });
     }
+    const gmWeekStartBtn = document.getElementById('gmWeekStartMomentBtn');
+    if (gmWeekStartBtn) {
+      gmWeekStartBtn.addEventListener('click', function () {
+        const intro = document.getElementById('homeThemeIntroCard');
+        if (intro && !intro.hidden && typeof dismissHomeThemeIntro === 'function') dismissHomeThemeIntro();
+        openGuidedMomentFlow();
+      });
+    }
     const twcOv = document.getElementById('themeWeekCompleteOverlay');
     if (twcOv) {
       twcOv.addEventListener('click', function () {
@@ -7036,6 +8177,7 @@
   } else {
     applyAppShellForTab(currentTab);
     syncAppShellHeader(currentTab);
+    if (typeof bindScripturePlusOnce === 'function') bindScripturePlusOnce();
 
     /* Restore last active tab on load.
        Visual swap happens synchronously (no flash of the default screen).
@@ -7101,16 +8243,6 @@
     var w = a.getAttribute('data-legal');
     if (w === 'privacy' || w === 'terms' || w === 'contact') openAppLegalPage(w);
   }, true);
-
-  (function initLegalBackButtons() {
-    var p = document.getElementById('privacyBackBtn');
-    var t = document.getElementById('termsBackBtn');
-    var c = document.getElementById('contactBackBtn');
-    function back() { if (typeof closeAppLegalPage === 'function') closeAppLegalPage(); }
-    if (p) p.addEventListener('click', back);
-    if (t) t.addEventListener('click', back);
-    if (c) c.addEventListener('click', back);
-  })();
 
   const greetingEl = document.querySelector('.greeting');
   if (greetingEl) {
@@ -9241,7 +10373,14 @@
       theme:   localStorage.getItem(SETTINGS_KEYS.theme) || 'soft',
       showRef: localStorage.getItem(SETTINGS_KEYS.showRef) !== 'false',
       moodAdj: localStorage.getItem(SETTINGS_KEYS.moodAdj) !== 'false',
-      focus:   JSON.parse(localStorage.getItem(SETTINGS_KEYS.focus) || '[]'),
+      focus:   (function () {
+        try {
+          const f = JSON.parse(localStorage.getItem(SETTINGS_KEYS.focus) || '[]');
+          return Array.isArray(f) ? f : [];
+        } catch (e) {
+          return [];
+        }
+      })(),
       rhythm:  localStorage.getItem(SETTINGS_KEYS.rhythm) || ''
     };
   }
@@ -10156,6 +11295,14 @@
         }
       }
     }
+    if (!v) {
+      v = getDefaultVerse();
+      if (v) {
+        try {
+          localStorage.setItem('grounded_current_verse', JSON.stringify(v));
+        } catch (e1) {}
+      }
+    }
     if (!v) return;
 
     renderHomeVerse(v, { animate: animate });
@@ -10339,7 +11486,19 @@
     if (!card || card.dataset.verseTapBound === '1') return;
     card.dataset.verseTapBound = '1';
     const openFs = function () {
-      if (homeDisplayedVerse && typeof openVerseFullscreen === 'function') {
+      if (!homeDisplayedVerse) return;
+      var ref = String(homeDisplayedVerse.ref || '').trim();
+      var body = typeof verseBodyText === 'function' ? verseBodyText(homeDisplayedVerse).trim() : '';
+      var cat = typeof mapHomeVerseShareLabel === 'function' ? mapHomeVerseShareLabel() : 'VERSE OF THE MOMENT';
+      if (typeof openContentQuoteFullscreen === 'function') {
+        openContentQuoteFullscreen({
+          bodyText: body,
+          refText: ref,
+          categoryLabel: cat,
+          saveRef: ref,
+          saveText: body
+        });
+      } else if (typeof openVerseFullscreen === 'function') {
         openVerseFullscreen(homeDisplayedVerse);
       }
     };
@@ -10475,6 +11634,24 @@
     const chapter = parseInt(lm[2], 10);
     if (!bookRaw || !chapter || isNaN(verseStart)) return null;
     return { bookRaw, chapter, verseStart, verseEnd };
+  }
+
+  function parseScripturePlusSearchQuery(raw) {
+    const q = String(raw || '').trim();
+    if (!q) return null;
+    const colon = parseScriptureReference(q);
+    if (colon) return colon;
+    const m = q.match(/^(.+?)\s+(\d+)\s*$/);
+    if (m) {
+      const bookRaw = m[1].trim();
+      const chapter = parseInt(m[2], 10);
+      if (bookRaw && chapter) return { bookRaw, chapter, verseStart: 1, verseEnd: 1 };
+    }
+    const low = q.toLowerCase();
+    if (/peace|anx|calm|worry|stress/.test(low)) return { bookRaw: 'Philippians', chapter: 4, verseStart: 6, verseEnd: 7 };
+    if (/love|kind|patient/.test(low)) return { bookRaw: '1 Corinthians', chapter: 13, verseStart: 4, verseEnd: 7 };
+    if (/hope|strength|persever/.test(low)) return { bookRaw: 'Romans', chapter: 15, verseStart: 13, verseEnd: 13 };
+    return null;
   }
 
   function localBibleKeyForBook(bookRaw) {
@@ -12121,7 +13298,7 @@
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#fdf9f5'
+        backgroundColor: '#EFE9E4'
       });
       return await new Promise(function (resolve) {
         canvas.toBlob(function (blob) {
@@ -12173,6 +13350,379 @@
     await verseFsShareTextFallback();
   }
 
+  var contentQuoteFsState = null;
+
+  function cqfEscHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function mapHomeVerseShareLabel() {
+    const lab = document.getElementById('homeVerseLabel');
+    const t = lab ? String(lab.textContent || '').toLowerCase() : '';
+    if (t.indexOf('end your day') !== -1) return 'END YOUR DAY WITH THIS';
+    return 'VERSE OF THE MOMENT';
+  }
+
+  function cqfStripCurlyQuotes(s) {
+    return String(s || '')
+      .replace(/^\u201c+/, '')
+      .replace(/\u201d+$/, '')
+      .trim();
+  }
+
+  function openContentQuoteFullscreen(cfg) {
+    try { if (typeof closeVerseFullscreen === 'function') closeVerseFullscreen(); } catch (_v) {}
+    const ov = document.getElementById('contentQuoteFsOverlay');
+    const bodyEl = document.getElementById('cqfBody');
+    const refEl = document.getElementById('cqfRef');
+    const typeEl = document.getElementById('cqfType');
+    if (!ov || !bodyEl || !typeEl) return;
+    contentQuoteFsState = cfg || null;
+    if (!contentQuoteFsState) return;
+    typeEl.textContent = contentQuoteFsState.categoryLabel || '';
+    bodyEl.textContent = contentQuoteFsState.bodyText || '';
+    var refStr = String(contentQuoteFsState.refText || '').trim();
+    if (refEl) {
+      refEl.textContent = refStr;
+      refEl.hidden = !refStr;
+    }
+    ov.classList.add('open');
+    ov.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('content-quote-fs-open');
+    updateContentQuoteFsSave();
+    if (typeof markGroundedDay === 'function') markGroundedDay();
+  }
+
+  function closeContentQuoteFullscreen() {
+    var ov = document.getElementById('contentQuoteFsOverlay');
+    if (ov) {
+      ov.classList.remove('open');
+      ov.setAttribute('aria-hidden', 'true');
+    }
+    document.body.classList.remove('content-quote-fs-open');
+    contentQuoteFsState = null;
+  }
+
+  function updateContentQuoteFsSave() {
+    var btn = document.getElementById('contentQuoteFsSave');
+    if (!btn || !contentQuoteFsState) return;
+    var sr = String(contentQuoteFsState.saveRef || '').trim();
+    var st = String(contentQuoteFsState.saveText || '').trim();
+    if (typeof isVerseFavorite === 'function' && isVerseFavorite(sr, st)) {
+      btn.textContent = 'Saved';
+      btn.classList.add('is-saved');
+    } else {
+      btn.textContent = 'Save';
+      btn.classList.remove('is-saved');
+    }
+  }
+
+  function buildCqfShareExportHtml(st) {
+    var iconSvg =
+      '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto 28px;color:#B89A94">' +
+      '<path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
+      '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>';
+    var ref = String(st.refText || '').trim();
+    var refBlock = ref
+      ? ('<p style="margin:0;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#B89A94;text-align:center">' +
+        cqfEscHtml(ref) +
+        '</p>')
+      : '';
+    return (
+      '<div style="width:1080px;height:1080px;box-sizing:border-box;background:#FFF8F6;padding:80px;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:Inter,system-ui,sans-serif">' +
+      iconSvg +
+      '<p style="margin:0 0 32px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#B89A94">' +
+      cqfEscHtml(st.categoryLabel || '') +
+      '</p>' +
+      '<p style="margin:0 0 24px;font-family:Playfair Display,Georgia,serif;font-size:36px;font-style:italic;font-weight:400;line-height:1.5;color:#3D2E28;max-width:920px;white-space:pre-wrap">' +
+      cqfEscHtml(st.bodyText || '') +
+      '</p>' +
+      refBlock +
+      '<div style="flex:1;min-height:60px"></div>' +
+      '<div style="width:240px;height:1px;background:rgba(234,208,204,0.6);margin:24px auto"></div>' +
+      '<p style="margin:8px 0 0;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#B89A94">GROUNDED</p>' +
+      '<p style="margin:6px 0 0;font-size:10px;letter-spacing:0.12em;color:#C4A29E">getgroundedapp.com</p>' +
+      '</div>'
+    );
+  }
+
+  async function shareContentQuoteFsImage() {
+    var st = contentQuoteFsState;
+    if (!st) return;
+    var root = document.getElementById('cqfShareExportRoot');
+    if (!root || typeof html2canvas !== 'function') {
+      if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t share');
+      return;
+    }
+    root.innerHTML = buildCqfShareExportHtml(st);
+    var plate = root.firstElementChild;
+    if (!plate) return;
+    try {
+      var canvas = await html2canvas(plate, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#FFF8F6'
+      });
+      var blob = await new Promise(function (resolve) {
+        canvas.toBlob(function (b) {
+          resolve(b || null);
+        }, 'image/png', 0.95);
+      });
+      root.innerHTML = '';
+      if (!blob) {
+        if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t share');
+        return;
+      }
+      var file = new File([blob], 'grounded-verse.png', { type: 'image/png' });
+      var shareData = { files: [file], title: 'Grounded' };
+      if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch (eShare) {}
+      }
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'grounded-verse.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.setTimeout(function () {
+        try {
+          URL.revokeObjectURL(url);
+        } catch (e2) {}
+      }, 2000);
+      if (typeof verseFsShowToast === 'function') verseFsShowToast('Saved image');
+    } catch (err) {
+      console.warn('cqf share', err);
+      root.innerHTML = '';
+      if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t share');
+    }
+  }
+
+  function saveContentQuoteFs() {
+    var st = contentQuoteFsState;
+    if (!st) return;
+    var sr = String(st.saveRef || '').trim();
+    var tx = String(st.saveText || '').trim();
+    if (!tx) return;
+    if (typeof addFavoriteVerse === 'function') {
+      if (addFavoriteVerse(sr || '\u00a0', tx)) {
+        if (typeof verseFsShowToast === 'function') verseFsShowToast('Saved to favorites');
+      } else {
+        if (typeof verseFsShowToast === 'function') verseFsShowToast('Already saved');
+      }
+      updateContentQuoteFsSave();
+    }
+  }
+
+  (function initContentQuoteFs() {
+    var ov = document.getElementById('contentQuoteFsOverlay');
+    var back = document.getElementById('contentQuoteFsBack');
+    var shareBtn = document.getElementById('contentQuoteFsShare');
+    var saveBtn = document.getElementById('contentQuoteFsSave');
+    if (!ov || ov.dataset.cqfBound === '1') return;
+    ov.dataset.cqfBound = '1';
+    if (back) back.addEventListener('click', closeContentQuoteFullscreen);
+    if (shareBtn)
+      shareBtn.addEventListener('click', function () {
+        void shareContentQuoteFsImage();
+      });
+    if (saveBtn) saveBtn.addEventListener('click', saveContentQuoteFs);
+
+    function press(el, down) {
+      if (!el) return;
+      el.classList.toggle('quote-card-tappable--press', !!down);
+    }
+
+    function bindCardTap(el, handler) {
+      if (!el || el.dataset.cqfTap === '1') return;
+      el.dataset.cqfTap = '1';
+      el.addEventListener('pointerdown', function () {
+        press(el, true);
+      });
+      el.addEventListener('pointerup', function () {
+        press(el, false);
+      });
+      el.addEventListener('pointercancel', function () {
+        press(el, false);
+      });
+      el.addEventListener('pointerleave', function () {
+        press(el, false);
+      });
+      el.addEventListener('click', function (e) {
+        if (
+          e.target.closest(
+            'button,a,input,textarea,.walk-truths-actions,.moment-completion-actions,.prayer-completion-actions,.prayer-takeaway,.moment-takeaway,.moment-dive-panel,.moment-text-link,.prayer-text-link'
+          )
+        ) {
+          return;
+        }
+        handler(e);
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        handler(e);
+      });
+    }
+
+    bindCardTap(document.getElementById('homeThemeIntroAnchorCard'), function () {
+      var tx = document.getElementById('homeThemeIntroAnchorText');
+      var rf = document.getElementById('homeThemeIntroAnchorRef');
+      var body = cqfStripCurlyQuotes(tx && tx.textContent);
+      var ref = rf ? String(rf.textContent || '').trim() : '';
+      if (!body && !ref) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: ref,
+        categoryLabel: "THIS WEEK'S VERSE",
+        saveRef: ref,
+        saveText: body
+      });
+    });
+
+    var closingBox = document.querySelector('.gm-week-closing-verse-box.quote-card-tappable');
+    bindCardTap(closingBox, function () {
+      var tx = document.getElementById('gmWeekClosingVerseText');
+      var rf = document.getElementById('gmWeekClosingVerseRef');
+      var body = cqfStripCurlyQuotes(tx && tx.textContent);
+      var ref = rf ? String(rf.textContent || '').trim() : '';
+      if (!body && !ref) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: ref,
+        categoryLabel: 'END YOUR DAY WITH THIS',
+        saveRef: ref,
+        saveText: body
+      });
+    });
+
+    bindCardTap(document.getElementById('walkTruthsQuoteBlock'), function () {
+      var nodes = document.querySelectorAll('#walkTruthsLines .truth-row p');
+      var lines = [];
+      nodes.forEach(function (n) {
+        var t = String(n.textContent || '').trim();
+        if (t) lines.push(t);
+      });
+      var body = lines.join('\n\n');
+      if (!body) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: '',
+        categoryLabel: 'SPEAK THIS TODAY',
+        saveRef: 'Words to speak',
+        saveText: body
+      });
+    });
+
+    bindCardTap(document.getElementById('gmAnchorCard'), function () {
+      var tx = document.getElementById('gmAnchorText');
+      var rf = document.getElementById('gmAnchorRef');
+      var body = cqfStripCurlyQuotes(tx && tx.textContent);
+      var ref = rf ? String(rf.textContent || '').trim() : '';
+      if (!body && !ref) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: ref,
+        categoryLabel: "THIS WEEK'S VERSE",
+        saveRef: ref,
+        saveText: body
+      });
+    });
+
+    bindCardTap(document.getElementById('momentResultCard'), function () {
+      var b = document.getElementById('momentBodyText');
+      var body = b ? String(b.textContent || '').trim() : '';
+      if (!body) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: '',
+        categoryLabel: "TODAY'S PRAYER",
+        saveRef: 'Prayer',
+        saveText: body
+      });
+    });
+
+    bindCardTap(document.getElementById('prayerResultCard'), function () {
+      var b = document.getElementById('prayerBodyText');
+      var body = b ? String(b.textContent || '').trim() : '';
+      if (!body) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: '',
+        categoryLabel: "TODAY'S PRAYER",
+        saveRef: 'Prayer',
+        saveText: body
+      });
+    });
+
+    bindCardTap(document.getElementById('prayerVerseContextBanner'), function () {
+      var t = document.getElementById('prayerVerseContextText');
+      var body = t ? cqfStripCurlyQuotes(t.textContent) : '';
+      if (!body) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: '',
+        categoryLabel: 'VERSE OF THE MOMENT',
+        saveRef: 'Prayer context',
+        saveText: body
+      });
+    });
+
+    bindCardTap(document.getElementById('scripturePairing'), function () {
+      var ref = document.getElementById('scriptureRef');
+      var tx = document.getElementById('scriptureText');
+      var refStr = ref ? String(ref.textContent || '').trim() : '';
+      var body = tx ? cqfStripCurlyQuotes(tx.textContent) : '';
+      if (!body && !refStr) return;
+      openContentQuoteFullscreen({
+        bodyText: body,
+        refText: refStr,
+        categoryLabel: 'VERSE OF THE MOMENT',
+        saveRef: refStr,
+        saveText: body
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var o = document.getElementById('contentQuoteFsOverlay');
+      if (o && o.classList.contains('open')) {
+        e.preventDefault();
+        closeContentQuoteFullscreen();
+      }
+    });
+
+    var reflectHost = document.getElementById('reflectContent');
+    if (reflectHost) {
+      reflectHost.dataset.cqfReflectDeleg = '1';
+      reflectHost.addEventListener('click', function (e) {
+        var card = e.target.closest('.study-verse-card.quote-card-tappable');
+        if (!card || !reflectHost.contains(card)) return;
+        if (e.target.closest('button,a')) return;
+        var refEl = card.querySelector('.sv-ref');
+        var txtEl = card.querySelector('.sv-text');
+        var ref = refEl ? String(refEl.textContent || '').trim() : '';
+        var body = txtEl ? cqfStripCurlyQuotes(txtEl.textContent) : '';
+        if (!body && !ref) return;
+        openContentQuoteFullscreen({
+          bodyText: body,
+          refText: ref,
+          categoryLabel: 'VERSE OF THE MOMENT',
+          saveRef: ref,
+          saveText: body
+        });
+      });
+    }
+  })();
+
   function updateVerseFsSaveButton() {
     const btn = document.getElementById('verseFsSave');
     if (!btn || !verseFsState) return;
@@ -12188,6 +13738,7 @@
   }
 
   function openVerseFullscreen(v) {
+    try { if (typeof closeContentQuoteFullscreen === 'function') closeContentQuoteFullscreen(); } catch (_cq) {}
     const overlay = document.getElementById('verseFullscreenOverlay');
     const textEl = document.getElementById('verseFsText');
     const refEl = document.getElementById('verseFsRef');
@@ -12461,7 +14012,16 @@
     ]
   };
 
-  let completedBooks = JSON.parse(localStorage.getItem('grounded_scripture') || '[]');
+  let completedBooks = [];
+  try {
+    const raw = JSON.parse(localStorage.getItem('grounded_scripture') || '[]');
+    completedBooks = Array.isArray(raw) ? raw : [];
+  } catch (e) {
+    completedBooks = [];
+    try {
+      localStorage.removeItem('grounded_scripture');
+    } catch (e2) {}
+  }
   
   function toggleBook(book) {
     if (completedBooks.includes(book)) {
@@ -12929,9 +14489,104 @@
     return base;
   }
 
-  function setReflectDeeperFromVerse(v) {
+  function getReflectMeaningContextForApi(v) {
+    const refLine = v && v.ref ? String(v.ref).trim() : '';
+    const textLine = v && v.text != null ? String(v.text).trim() : '';
+    const verse = (refLine + (textLine ? '\n' + textLine : '')).trim();
+    const ta = document.getElementById('reflectTextarea');
+    const journal = ta && String(ta.value).trim();
+    if (journal) {
+      return { verse: verse.slice(0, 1400), reflection: journal.slice(0, 1400) };
+    }
+    const lead = getReflectLeadTextForSession();
+    const explain = v && v.explain && String(v.explain).trim();
+    const reflection =
+      explain && explain !== lead ? lead + '\n\n' + explain : lead;
+    return { verse: verse.slice(0, 1400), reflection: String(reflection).slice(0, 1400) };
+  }
+
+  function bindReflectMeaningAiOnOpen(v) {
+    const root = document.getElementById('reflectMeaningRoot');
+    const trigger = document.getElementById('reflectMeaningTrigger');
     const meanEl = document.getElementById('reflectDeeperMeanBody');
-    if (meanEl) meanEl.textContent = (v && v.explain) ? v.explain : '';
+    if (!root || !trigger || !meanEl || root.dataset.reflectAiBound === '1') return;
+    root.dataset.reflectAiBound = '1';
+    var inflight = false;
+    var errMsg = 'This will open up shortly. Try again in a moment.';
+    var loadingHtml =
+      '<div class="reflect-meaning__loading" role="status" aria-live="polite">' +
+      '<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+    function setMeaningLoading() {
+      meanEl.classList.remove('reflect-meaning__body--enter');
+      meanEl.innerHTML = loadingHtml;
+    }
+    trigger.addEventListener(
+      'click',
+      function () {
+        var open = root.classList.toggle('reflect-meaning--open');
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open) return;
+        if (meanEl.dataset.loaded === 'true') return;
+        if (inflight) return;
+        inflight = true;
+        setMeaningLoading();
+        var ctx = getReflectMeaningContextForApi(v);
+        var url =
+          typeof groundedApiUrl === 'function'
+            ? groundedApiUrl('/api/reflect-meaning')
+            : '/api/reflect-meaning';
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ verse: ctx.verse, reflection: ctx.reflection })
+        })
+          .then(function (res) {
+            return res.json().then(function (data) {
+              return { ok: res.ok, data: data };
+            });
+          })
+          .then(function (out) {
+            var text =
+              out.ok && out.data && out.data.meaning && String(out.data.meaning).trim();
+            if (text) {
+              meanEl.textContent = text;
+              meanEl.dataset.loaded = 'true';
+              meanEl.classList.remove('reflect-meaning__body--enter');
+              void meanEl.offsetWidth;
+              requestAnimationFrame(function () {
+                meanEl.classList.add('reflect-meaning__body--enter');
+              });
+            } else {
+              meanEl.textContent = errMsg;
+              delete meanEl.dataset.loaded;
+              meanEl.classList.remove('reflect-meaning__body--enter');
+            }
+          })
+          .catch(function () {
+            meanEl.textContent = errMsg;
+            delete meanEl.dataset.loaded;
+            meanEl.classList.remove('reflect-meaning__body--enter');
+          })
+          .finally(function () {
+            inflight = false;
+          });
+      },
+      { passive: true }
+    );
+  }
+
+  function setReflectDeeperFromVerse(v) {
+    const meanRoot = document.getElementById('reflectMeaningRoot');
+    const meanTrigger = document.getElementById('reflectMeaningTrigger');
+    if (meanRoot) meanRoot.classList.remove('reflect-meaning--open');
+    if (meanTrigger) meanTrigger.setAttribute('aria-expanded', 'false');
+    const meanEl = document.getElementById('reflectDeeperMeanBody');
+    if (meanEl) {
+      meanEl.textContent = 'Tap to reflect on this moment.';
+      delete meanEl.dataset.loaded;
+      meanEl.classList.remove('reflect-meaning__body--enter');
+    }
     const rl = document.getElementById('reflectDeeperRlList');
     if (rl) {
       rl.innerHTML = '';
@@ -13726,7 +15381,7 @@
       weeklyJourneyHtml +
       themeContextHtml +
       '<p class="reflect-moment-label body-font">' + label + '</p>' +
-      '<div class="study-verse-card">' +
+      '<div class="study-verse-card quote-card-tappable" tabindex="0">' +
       (subLabel ? ('<span class="sv-mood-tag">' + subLabel + '</span>') : '') +
       '<p class="reflect-verse-label body-font">' + (v.source === 'flow' || v.source === 'moment' ? 'A verse to sit with' : 'This moment') + '</p>' +
       '<p class="sv-ref sv-ref--reflect body-font">' + escReflectHtml(v.ref || '') + '</p>' +
@@ -13748,7 +15403,14 @@
       '<span class="wd-title wd-title--reflect-sit body-font">Sit with this for a moment</span>' +
       '<svg class="wd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></button>' +
       '<div class="wd-body" id="reflectWaysDeeperBody" aria-hidden="true"><div class="word-reflect-card wd-reflect-deeper-inner">' +
-      '<details class="word-details word-details--reflect-primary" id="reflectDeeperDetailMean"><summary><span class="wd-sum-lead"><span class="wd-sum-icon" aria-hidden="true"><svg class="wd-sum-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"><path d="M12 2.5l1.1 3.4h3.6l-2.9 2.1 1.1 3.4-2.9-2.1-2.9 2.1 1.1-3.4-2.9-2.1h3.6z"/></svg></span><span class="wd-sum-text">What this means</span></span></summary><div class="word-details-body"><p id="reflectDeeperMeanBody"></p></div></details>' +
+      '<div class="reflect-meaning" id="reflectMeaningRoot">' +
+      '<button type="button" class="reflect-meaning__trigger" id="reflectMeaningTrigger" aria-expanded="false" aria-controls="reflectMeaningContent">' +
+      '<span>What this means</span>' +
+      '<span class="reflect-meaning__chevron" aria-hidden="true">\u2304</span>' +
+      '</button>' +
+      '<div class="reflect-meaning__content" id="reflectMeaningContent">' +
+      '<div class="reflect-meaning__body" id="reflectDeeperMeanBody"></div>' +
+      '</div></div>' +
       '<details class="word-details word-details--reflect-secondary" id="reflectDeeperDetailRl"><summary><span class="wd-sum-lead"><span class="wd-sum-icon" aria-hidden="true"><svg class="wd-sum-svg" width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.5"/></svg></span><span class="wd-sum-text">In real life</span></span></summary><div class="word-details-body"><ul id="reflectDeeperRlList" class="scripture-rl"></ul></div></details>' +
       '<details class="word-details word-details--reflect-secondary" id="reflectDeeperDetailTry"><summary><span class="wd-sum-lead"><span class="wd-sum-icon" aria-hidden="true"><svg class="wd-sum-svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11M13 7l5 5-5 5"/></svg></span><span class="wd-sum-text">Try this today</span></span></summary><div class="word-details-body"><p id="reflectDeeperTryBody"></p></div></details>' +
       '</div></div></div>' +
@@ -13762,6 +15424,7 @@
 
     reflectYourJourneyBind(container);
     setReflectDeeperFromVerse(v);
+    bindReflectMeaningAiOnOpen(v);
     (function reflectWaysDeeperInit() {
       const rwd = document.getElementById('reflectWaysDeeper');
       const rwdb = document.getElementById('reflectWaysDeeperBtn');
@@ -13788,9 +15451,16 @@
         rwdb2.setAttribute('aria-expanded', 'true');
         rbody2.setAttribute('aria-hidden', 'false');
       }
-      ['reflectDeeperDetailMean', 'reflectDeeperDetailRl', 'reflectDeeperDetailTry'].forEach(function (id) {
-        const d = document.getElementById(id);
-        if (d) d.open = true;
+      ['reflectMeaningRoot', 'reflectDeeperDetailRl', 'reflectDeeperDetailTry'].forEach(function (id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (id === 'reflectMeaningRoot') {
+          el.classList.add('reflect-meaning--open');
+          const trg = document.getElementById('reflectMeaningTrigger');
+          if (trg) trg.setAttribute('aria-expanded', 'true');
+        } else {
+          el.open = true;
+        }
       });
     }
 
@@ -15714,163 +17384,59 @@
   if (typeof renderHomeWeeklyTheme === 'function') renderHomeWeeklyTheme();
 
   /* ═══════════════════════════════════════
-     Today — spoken affirmations (library + rotation)
-     Pools match home feeling pills; keyed by localStorage 'grounded_feeling'.
+     Today — spoken affirmations (shared library)
      ═══════════════════════════════════════ */
-  const DAILY_TRUTHS_MAP = {
-    anxious: [
-      'I can move through today with peace',
-      'I can name what I feel without fixing it all at once',
-      'Peace can grow quietly in the background of a busy day',
-      'I can breathe slowly and let my body unclench a little',
-      'I can return to stillness as many times as I need',
-      'I can release what was never mine to control',
-      'I can speak to myself with the patience I offer a friend',
-      'My nervous system deserves softness too',
-      'I can leave room for wonder instead of only worry',
-      'I can soften my shoulders and unclench my jaw',
-      'I am held even when I cannot feel it yet',
-      'I can welcome today without demanding certainty first'
-    ],
-    overwhelmed: [
-      'I don\u2019t have to carry everything on my own',
-      'I am allowed to rest without earning it first',
-      'My worth is not measured by my productivity today',
-      'It is okay to move at a human pace',
-      'I am allowed to ask for help without apologizing',
-      'God sees what I carry, even what I do not say aloud',
-      'I can let today be enough without adding pressure',
-      'I can do the next right thing, not the whole future',
-      'I am not alone in what feels heavy today',
-      'God\u2019s pace is often slower and kinder than mine'
-    ],
-    lost: [
-      'God is guiding me even when I don\u2019t see it yet',
-      'Small steps still count as faithfulness',
-      'I don\u2019t have to have every answer before I begin',
-      'I am not behind; I am simply on my own path',
-      'I can hold hope and uncertainty in the same hand',
-      'One honest prayer is enough for this hour',
-      'I can begin again without a perfect plan',
-      'I can trust the slow work of becoming',
-      'I can trust that guidance often looks like the next step'
-    ],
-    grateful: [
-      'Light often arrives in ordinary moments',
-      'Today I can notice what is already good',
-      'God is near in silence as much as in striving',
-      'I can celebrate small progress without minimizing it',
-      'I am allowed to enjoy simple goodness without guilt',
-      'I can widen my attention to the kindness already woven through today',
-      'Thankfulness can be a soft light \u2014 I do not have to force it loud',
-      'I can receive this moment as a gift without bargaining for a different one'
-    ],
-    strength: [
-      'I am learning; that is not the same as failing',
-      'I can walk through this day without proving my value',
-      'Mercy is stronger than my worst moment',
-      'I can be faithful in quiet ways no one else sees',
-      'I can release the lie that I must always be strong',
-      'I can keep going tenderly \u2014 strength and gentleness can share the same heart',
-      'What I need today is honest, not heroic',
-      'I can stand beside myself on the hard days instead of turning away'
-    ],
-    default: [
-      'God meets me in honesty more than in performance',
-      'I can choose one gentle thing for myself today',
-      'I don\u2019t have to rush my healing to make it valid',
-      'God\u2019s kindness does not depend on my mood',
-      'Grace covers the gap between my intention and my limits',
-      'I can receive love before I feel fully put together',
-      'I can be here, as I am, and still belong',
-      'I do not have to earn rest or softness to receive them'
-    ]
-  };
-
-  /** UI label "Peaceful" maps to pill id `strength`; older builds may store the label. */
-  const DAILY_TRUTHS_ALIASES = {
-    peaceful: 'strength'
-  };
-
-  const DAILY_TRUTHS_EMPTY_FALLBACK = [
-    "I don't have to carry everything on my own",
-    "God is guiding me even when I don't see it yet",
-    'I can move through today with peace'
+  const GROUNDED_DECLARATIONS = [
+    "God's opinion of me was settled before I woke up.",
+    "I don't have to earn my place in this day.",
+    "What I'm carrying was never meant for one pair of hands.",
+    "I am known completely and loved without condition.",
+    "My worth isn't attached to my output today.",
+    "God is not surprised by where I am right now.",
+    "I don't have to have it together to be held.",
+    "Slowness is not the same as falling behind.",
+    "I was made on purpose, not by accident.",
+    "Fear is loud but it doesn't get the final word.",
+    "I can do the next right thing without seeing the whole path.",
+    "Rest is not something I earn — it's something I receive.",
+    "I am not too much, and I am not too little.",
+    "God meets me in the ordinary, not just the mountaintop.",
+    "Healing is happening even when I can't feel it moving.",
+    "I don't have to perform my way into belonging.",
+    "My limits are not my failures — they are my shape.",
+    "One honest step is enough for today.",
+    "I am allowed to want good things without apologizing.",
+    "Grace is not waiting for me to get it right first.",
+    "I can be honest with God without losing His nearness.",
+    "Stillness is not wasted time — it's where truth finds me.",
+    "I don't have to carry yesterday into today.",
+    "Being gentle with myself is not weakness — it's wisdom.",
+    "God's faithfulness doesn't depend on my consistency.",
+    "I am seen in the places I feel most invisible.",
+    "What feels like an ending might be a door.",
+    "I don't need to rush what God is doing slowly.",
+    "I am held even when I can't feel the hands.",
+    "Today is enough. I am enough. This moment counts.",
+    "What I did yesterday has already been forgiven — I don't have to keep paying for it.",
+    "Forgiveness is not something I have to feel before it becomes true.",
+    "I am not defined by the worst thing I've done or the worst thing done to me.",
+    "The slate is clean — not because I earned it, because Jesus said so.",
+    "I can release what hurt me without pretending it didn't happen.",
+    "Salvation is not a reward for getting it right — it's a gift I was handed while I was still a mess.",
+    "I belong to God — not because of my performance, but because of His choice.",
+    "The cross already covered what I keep replaying in my head at 2am.",
+    "I am free — not almost free, not conditionally free. Free.",
+    "No version of my past disqualifies me from what God has next."
   ];
 
-  function buildThemeAwareWalkTruthsPool() {
-    if (typeof getMomentFlowWeeklyContext !== 'function') return null;
-    const wk = typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
-    if (!wk || !wk.title) return null;
-    const ctx = getMomentFlowWeeklyContext(new Date());
-    const title = String(wk.title).trim();
-    const sub = String(wk.subtitle || '').trim();
-    const focusRaw = ctx && ctx.day && ctx.day.focus != null ? String(ctx.day.focus).trim() : '';
-    const fp = typeof focusWordToDisplayPhrase === 'function' ? focusWordToDisplayPhrase(focusRaw) : focusRaw;
-    let feeling = 'default';
-    try {
-      feeling = (localStorage.getItem('grounded_feeling') || 'default').toLowerCase();
-    } catch (e) {}
-    const mapped = DAILY_TRUTHS_ALIASES[feeling] || feeling;
-    const feelPool = (DAILY_TRUTHS_MAP[mapped] || DAILY_TRUTHS_MAP.default || []).map(function (x) {
-      return String(x || '').trim();
-    });
-    const lines = [];
-    if (sub) {
-      const flow = sub.charAt(0).toLowerCase() + sub.slice(1).replace(/\.$/, '');
-      lines.push(
-        '\u201c' +
-          title +
-          '\u201d keeps you company this week as you lean into ' +
-          flow +
-          '.'
-      );
-    } else {
-      lines.push('\u201c' + title + '\u201d is a quiet arc\u2014small steps, honest breaths, room for God.');
-    }
-    if (fp) {
-      lines.push(
-        (/\.$/.test(fp) ? fp + ' ' : fp + '. ') +
-          'Grace meets you where you actually are, not where you think you should be.'
-      );
-    } else {
-      lines.push('You can show up without a polished story; God already meets you in ordinary moments.');
-    }
-    const promptHint =
-      ctx && ctx.day && ctx.day.prompt != null ? String(ctx.day.prompt).replace(/\s+/g, ' ').trim() : '';
-    if (promptHint.length > 28 && promptHint.length < 200) lines.push(promptHint);
-    lines.push('One gentle sentence at a time is enough for today.');
-    const out = [];
-    const seen = {};
-    lines.concat(feelPool).forEach(function (line) {
-      const t = String(line || '').trim();
-      if (t.length < 12) return;
-      if (seen[t]) return;
-      seen[t] = 1;
-      out.push(t);
-    });
-    return out.length >= 3 ? out : null;
-  }
-
   function getActiveDailyTruthsList() {
-    const themePool = buildThemeAwareWalkTruthsPool();
-    if (themePool && themePool.length >= 3) return themePool;
-    let currentFeeling = 'default';
-    try {
-      currentFeeling = (localStorage.getItem('grounded_feeling') || 'default').toLowerCase();
-    } catch (_) {}
-    const mapped = DAILY_TRUTHS_ALIASES[currentFeeling] || currentFeeling;
-    let pool =
-      (DAILY_TRUTHS_MAP && DAILY_TRUTHS_MAP[mapped]) ||
-      (DAILY_TRUTHS_MAP && DAILY_TRUTHS_MAP['default']) ||
-      [];
-    if (!Array.isArray(pool) || pool.length === 0) {
-      pool = DAILY_TRUTHS_EMPTY_FALLBACK.slice();
-    }
-    return pool;
+    return GROUNDED_DECLARATIONS;
   }
 
   let walkTruthsCurrentKey = '';
+  let walkTruthsLastIndices = [];
+  let walkTruthsRefreshBusy = false;
+  const WALK_TRUTHS_FADE_MS = 280;
   let walkTruthsFallbackTimer = null;
 
   function scheduleWalkTruthsFallbackRender() {
@@ -15879,7 +17445,7 @@
       walkTruthsFallbackTimer = null;
       const host = document.getElementById('walkTruthsLines');
       if (!host || host.querySelector('.truth-row')) return;
-      const def = DAILY_TRUTHS_MAP['default'];
+      const def = GROUNDED_DECLARATIONS;
       if (!def || !def.length) return;
       const n = def.length;
       const idx = n < 3 ? [0, 1, 2].slice(0, n) : pickThreeUniqueIndices(n, Math.random);
@@ -15939,7 +17505,7 @@
     const list = getActiveDailyTruthsList();
     const n = list.length;
     if (n < 1) {
-      const fb = DAILY_TRUTHS_EMPTY_FALLBACK;
+      const fb = GROUNDED_DECLARATIONS;
       const m = fb.length;
       if (m < 1) return [];
       if (m < 3) return [0, 1, 2].slice(0, m);
@@ -15950,34 +17516,50 @@
     return pickThreeUniqueIndices(n, rand);
   }
 
-  function pickRandomTruthIndicesDifferentFrom(prevKey) {
+  function walkTruthsShuffleInPlace(arr, rand) {
+    const r = rand || Math.random;
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(r() * (i + 1));
+      const t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+  }
+
+  function pickThreeDisjointFromPrevious(prevIndices) {
     const list = getActiveDailyTruthsList();
-    const n = list.length;
-    if (n < 3) return getDailyTruthIndices();
-    let attempt = 0;
-    let next;
-    do {
-      next = pickThreeUniqueIndices(n, Math.random);
-      attempt++;
-    } while (attempt < 40 && indicesKey(next) === prevKey);
-    return next;
+    const len = list.length;
+    if (len < 1) return [];
+    if (len < 3) return [0, 1, 2].slice(0, len);
+    const exclude = Object.create(null);
+    if (prevIndices && prevIndices.length) {
+      prevIndices.forEach(function (ix) {
+        if (typeof ix === 'number' && ix >= 0 && ix < len) exclude[ix] = 1;
+      });
+    }
+    const avail = [];
+    for (let a = 0; a < len; a++) {
+      if (!exclude[a]) avail.push(a);
+    }
+    if (avail.length < 3) {
+      return pickThreeUniqueIndices(len, Math.random);
+    }
+    walkTruthsShuffleInPlace(avail, Math.random);
+    return avail.slice(0, 3);
   }
 
   function renderDailyTruthIndices(indices, forcedList) {
     const host = document.getElementById('walkTruthsLines');
     if (!host) return;
     if (!indices || indices.length === 0) {
-      const fb = DAILY_TRUTHS_EMPTY_FALLBACK;
+      const fb = GROUNDED_DECLARATIONS;
       const m = fb.length;
       const retry = m < 1 ? [] : m < 3 ? [0, 1, 2].slice(0, m) : pickThreeUniqueIndices(m, Math.random);
       if (retry.length) renderDailyTruthIndices(retry, fb);
       return;
     }
     walkTruthsCurrentKey = indicesKey(indices);
-    let currentFeeling = 'default';
-    try {
-      currentFeeling = (localStorage.getItem('grounded_feeling') || 'default').toLowerCase();
-    } catch (e) {}
+    walkTruthsLastIndices = indices.slice();
     const list =
       Array.isArray(forcedList) && forcedList.length ? forcedList : getActiveDailyTruthsList();
     const truths = indices
@@ -15998,7 +17580,7 @@
       })
       .join('');
     if (!html) {
-      const def = DAILY_TRUTHS_EMPTY_FALLBACK;
+      const def = GROUNDED_DECLARATIONS;
       const n = def.length;
       const fb = n < 1 ? [] : n < 3 ? [0, 1, 2].slice(0, n) : pickThreeUniqueIndices(n, Math.random);
       html = fb
@@ -16028,7 +17610,29 @@
   }
 
   function refreshDailyTruths() {
-    renderDailyTruthIndices(pickRandomTruthIndicesDifferentFrom(walkTruthsCurrentKey));
+    if (walkTruthsRefreshBusy) return;
+    const host = document.getElementById('walkTruthsLines');
+    const nextIdx = pickThreeDisjointFromPrevious(walkTruthsLastIndices);
+    if (!host) {
+      renderDailyTruthIndices(nextIdx);
+      return;
+    }
+    walkTruthsRefreshBusy = true;
+    host.classList.add('walk-truths-lines--fading');
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        host.classList.add('walk-truths-lines--fade-out');
+      });
+    });
+    window.setTimeout(function () {
+      renderDailyTruthIndices(nextIdx);
+      host.classList.remove('walk-truths-lines--fade-out');
+      void host.offsetWidth;
+      window.setTimeout(function () {
+        host.classList.remove('walk-truths-lines--fading');
+        walkTruthsRefreshBusy = false;
+      }, WALK_TRUTHS_FADE_MS + 50);
+    }, WALK_TRUTHS_FADE_MS);
   }
 
   (function initWalkTruthsRefresh() {
@@ -16053,12 +17657,24 @@
     }
   }
 
+  function persistGroundedSavedDeclarations(lines) {
+    try {
+      let prev = JSON.parse(localStorage.getItem('grounded_saved_declarations') || '[]');
+      if (!Array.isArray(prev)) prev = [];
+      lines.forEach(function (line) {
+        if (line) prev.push(line);
+      });
+      localStorage.setItem('grounded_saved_declarations', JSON.stringify(prev));
+    } catch (e1) { /* silent */ }
+  }
+
   function saveCard() {
     const card = document.getElementById('truths-card');
     const btn = document.getElementById('walkTruthsSaveCardBtn');
     if (!card) return;
     const lines = getWalkTruthStrings();
     if (lines.length < 1) return;
+    persistGroundedSavedDeclarations(lines);
     if (typeof html2canvas !== 'function') {
       console.warn('html2canvas failed to load');
       return;
@@ -16167,7 +17783,16 @@
   /* ═══════════════════════════════════════
      JOURNAL SAVE SYSTEM
      ═══════════════════════════════════════ */
-  let journalEntries = JSON.parse(localStorage.getItem('grounded_journal_entries') || '[]');
+  let journalEntries = [];
+  try {
+    const rawJ = JSON.parse(localStorage.getItem('grounded_journal_entries') || '[]');
+    journalEntries = Array.isArray(rawJ) ? rawJ : [];
+  } catch (e) {
+    journalEntries = [];
+    try {
+      localStorage.removeItem('grounded_journal_entries');
+    } catch (e2) {}
+  }
   let activeJournalPrompt = '';
   let journalPromptSource = '';
 
