@@ -1109,23 +1109,23 @@
   .profile-legal-links .legal-spa-link:hover,.profile-legal-links .legal-spa-link:focus{color:var(--text);border-bottom-color:rgba(186,160,148,0.45);outline:none}
   .legal-links-sep{color:rgba(90,74,66,0.32);user-select:none;font-size:12px}
   body.legal-page-open .app-header,body.legal-page-open .bottom-nav{display:none !important}
-  body.legal-page-open{overflow-x:hidden}
-  .legal-app-shell{min-height:100vh;min-height:100dvh;display:block;background:var(--card);background-image:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(244,234,228,0.35) 0%,transparent 55%)}
-  .legal-page{max-width:720px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) 24px max(32px,env(safe-area-inset-bottom)) 24px;box-sizing:border-box;opacity:0;transform:translateY(8px);transition:opacity 0.55s ease,transform 0.55s cubic-bezier(.2,.7,.2,1)}
-  .legal-page.legal-page--visible{opacity:1;transform:translateY(0)}
-  .legal-back{display:inline-flex;align-items:center;gap:6px;margin:0 0 28px;padding:8px 4px 8px 0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:400;color:var(--text-light);cursor:pointer;letter-spacing:0.02em;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease}
-  .legal-back:hover,.legal-back:focus{color:var(--text);outline:none}
+  body.legal-page-open{overflow-x:hidden;background:linear-gradient(180deg,#FFF8F6 0%,#FFFDFB 100%);background-attachment:fixed;color:#3D2E28}
+  .legal-app-shell{min-height:100vh;min-height:100dvh;display:block;background:#FFF8F6;background-image:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(244,234,228,0.45) 0%,transparent 55%)}
+  .legal-page{max-width:680px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) 24px max(32px,env(safe-area-inset-bottom)) 24px;box-sizing:border-box;opacity:1;transform:none;transition:opacity 0.45s ease,transform 0.45s cubic-bezier(.2,.7,.2,1)}
+  .legal-page.legal-page--visible{opacity:1;transform:none}
+  .legal-back{display:inline-flex;align-items:center;gap:6px;margin:0 0 28px;padding:8px 4px 8px 0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:#3D2E28;cursor:pointer;letter-spacing:0.02em;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease}
+  .legal-back:hover,.legal-back:focus{color:#5A4A42;outline:none}
   .legal-article{text-align:left}
-  .legal-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:500;color:rgba(70,55,50,0.95);line-height:1.25;margin:0 0 8px;letter-spacing:-0.02em}
-  .legal-updated{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:400;color:var(--text-light);letter-spacing:0.06em;margin:0 0 40px;opacity:0.9}
-  .legal-prose h2{font-family:'Playfair Display',Georgia,serif;font-size:1.2rem;font-weight:500;color:rgba(80,64,58,0.92);margin:36px 0 14px;letter-spacing:-0.01em}
-  .legal-prose p,.legal-prose li{font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.7;color:rgba(70,60,55,0.9);margin:0 0 16px;letter-spacing:0.01em}
+  .legal-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:500;color:#3D2E28;line-height:1.25;margin:0 0 8px;letter-spacing:-0.02em}
+  .legal-updated{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:400;color:rgba(61,46,40,0.72);letter-spacing:0.06em;margin:0 0 40px}
+  .legal-prose h2{font-family:'Playfair Display',Georgia,serif;font-size:1.2rem;font-weight:500;color:#3D2E28;margin:36px 0 14px;letter-spacing:-0.01em}
+  .legal-prose p,.legal-prose li{font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.7;color:#3D2E28;margin:0 0 16px;letter-spacing:0.01em}
   .legal-prose ul{margin:0 0 18px;padding:0 0 0 1.1em;list-style:none}
   .legal-prose li{position:relative;margin-bottom:10px}
   .legal-prose li::before{content:'';position:absolute;left:-0.8em;top:0.65em;width:4px;height:4px;border-radius:50%;background:rgba(186,160,148,0.5)}
   .legal-prose a{color:var(--accent-strong);text-decoration:none;border-bottom:1px solid rgba(186,160,148,0.4);transition:color 0.2s ease,border-color 0.2s ease}
   .legal-prose a:hover{color:var(--text);border-bottom-color:var(--accent-strong)}
-  .legal-contact-lead{text-align:center;font-family:'Inter',system-ui,sans-serif;font-size:1.02rem;color:rgba(70,60,55,0.88);line-height:1.65;margin:12px 0 28px}
+  .legal-contact-lead{text-align:center;font-family:'Inter',system-ui,sans-serif;font-size:1.02rem;color:#3D2E28;line-height:1.65;margin:12px 0 28px}
   .legal-email-wrap{text-align:center;margin:8px 0 24px}
   .legal-mail{font-family:'Inter',system-ui,sans-serif;font-size:1.05rem;font-weight:500;letter-spacing:0.02em;color:var(--accent-strong);text-decoration:none;border-bottom:1px solid rgba(186,160,148,0.4);padding-bottom:1px;transition:color 0.2s ease,border-color 0.2s ease}
   .legal-mail:hover,.legal-mail:focus{color:var(--text);border-bottom-color:var(--accent-strong);outline:none}
@@ -4132,7 +4132,7 @@
 
   <div id="privacyScreen" class="app-shell-screen legal-app-shell" aria-label="Privacy Policy">
     <div class="legal-page" id="privacyPage" tabindex="-1">
-      <button type="button" class="legal-back" id="privacyBackBtn" aria-label="Back">← Back</button>
+      <button type="button" class="legal-back" id="privacyBackBtn" aria-label="Back to app">← Back to app</button>
       <article class="legal-article" lang="en">
         <h1 class="legal-title">Privacy Policy</h1>
         <p class="legal-updated">Last updated: April 27, 2026</p>
@@ -4187,7 +4187,7 @@
 
   <div id="termsScreen" class="app-shell-screen legal-app-shell" aria-label="Terms of Use">
     <div class="legal-page" id="termsPage" tabindex="-1">
-      <button type="button" class="legal-back" id="termsBackBtn" aria-label="Back">← Back</button>
+      <button type="button" class="legal-back" id="termsBackBtn" aria-label="Back to app">← Back to app</button>
       <article class="legal-article" lang="en">
         <h1 class="legal-title">Terms of Use</h1>
         <p class="legal-updated">Last updated: April 2026</p>
@@ -4217,7 +4217,7 @@
 
   <div id="contactScreen" class="app-shell-screen legal-app-shell" aria-label="Contact">
     <div class="legal-page" id="contactPage" tabindex="-1">
-      <button type="button" class="legal-back" id="contactBackBtn" aria-label="Back">← Back</button>
+      <button type="button" class="legal-back" id="contactBackBtn" aria-label="Back to app">← Back to app</button>
       <article class="legal-article legal-article--contact" lang="en">
         <h1 class="legal-title" style="text-align:center">Contact</h1>
         <p class="legal-contact-lead">We&rsquo;re here if you need anything.</p>
@@ -5284,6 +5284,7 @@
     try { document.body.setAttribute('data-app-screen', screenId || ''); } catch (e) {}
   }
   function applyAppShellForTab(tab) {
+    if (document.body.classList.contains('legal-page-open')) return;
     const map = {
       feed: 'todayScreen',
       scripture: 'readScreen',
