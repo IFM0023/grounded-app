@@ -90,7 +90,7 @@
   body,body *{transition:background-color 0.3s ease,color 0.3s ease,box-shadow 0.3s ease,border-color 0.3s ease,transform 0.25s ease}
   
   /* ─── GLOBAL ─── */
-  body{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-end) 100%);background-attachment:fixed;color:var(--text);min-height:100dvh;height:auto;padding-bottom:max(88px,calc(70px + env(safe-area-inset-bottom)));padding-top:max(0px,env(safe-area-inset-top))}
+  body{margin:0;padding:0;padding-bottom:max(88px,calc(70px + env(safe-area-inset-bottom)));background:linear-gradient(180deg,var(--bg) 0%,var(--bg-end) 100%);background-attachment:fixed;color:var(--text);min-height:100dvh;height:auto}
   .serif{font-family:'Playfair Display',Georgia,serif}
   .script{font-family:'Caveat',cursive}
   .display-font{
@@ -180,24 +180,31 @@
   ::selection{background:var(--secondary);color:var(--text)}
   
   /* ─── APP SHELL: shared header + main column (mobile design system) ─── */
-  .main-container.container{max-width:420px;margin:0 auto;padding:var(--layout-pad-top) var(--layout-pad-x) var(--layout-pad-bottom);padding-left:max(var(--layout-pad-x),env(safe-area-inset-left));padding-right:max(var(--layout-pad-x),env(safe-area-inset-right));position:relative}
-  .header.app-header{position:sticky;top:0;z-index:100;margin:0 0 var(--sp-6);padding:0;background:linear-gradient(180deg,var(--bg) 70%,rgba(255,248,246,0));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;display:flex;flex-direction:column;align-items:stretch}
+  .main-container.container.main-content{max-width:420px;margin:0 auto;position:relative;box-sizing:border-box;padding:0 var(--layout-pad-x) var(--layout-pad-bottom);padding-left:max(var(--layout-pad-x),env(safe-area-inset-left));padding-right:max(var(--layout-pad-x),env(safe-area-inset-right))}
+  .header.app-header{position:sticky;top:0;z-index:100;margin:0 0 var(--sp-6);padding:0;padding-top:env(safe-area-inset-top);background:linear-gradient(180deg,var(--bg) 70%,rgba(255,248,246,0));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;display:flex;flex-direction:column;align-items:stretch}
   body.word-bible-open .header.app-header,
   body[data-active-tab="guided-moment"] .header.app-header,
   body.verse-fs-open .header.app-header{display:none}
-  .ah-top-bar.top-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);padding-top:max(var(--sp-3),env(safe-area-inset-top));box-sizing:border-box}
-  body[data-active-tab="feed"] .ah-top-bar.top-bar{padding-top:16px;align-items:start}
+  .ah-top-bar.top-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);box-sizing:border-box}
   .ah-tb-left{display:flex;align-items:center;justify-content:flex-start;min-height:38px}
   .ah-tb-center{min-width:0;max-width:100%;justify-self:center;text-align:center}
-  body[data-active-tab="feed"] .ah-tb-center{align-self:start;padding-top:2px}
   #feedGreetingBlock{width:100%}
   /* Home greeting: hide on every tab except Today (align with body[data-active-tab] + JS [hidden]) */
   #feedGreetingBlock[hidden],
   #feedGreetingBlock[hidden] .greeting{display:none !important}
   body[data-active-tab]:not([data-active-tab="feed"]) #feedGreetingBlock{display:none !important}
   body[data-active-tab="feed"] #feedGreetingBlock{display:block !important}
-  body[data-active-tab]:not([data-active-tab="feed"]) #appHeaderPageIntro{display:block !important;visibility:visible}
   body[data-active-tab="feed"] #appHeaderPageIntro[hidden]{display:none !important}
+  /* Same top stack as Today: no global title/subtitle strip under the bar on any non-feed tab. */
+  body[data-active-tab]:not([data-active-tab="feed"]) #appHeaderPageIntro{
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    pointer-events:none;
+  }
   body[data-active-tab]:not([data-active-tab="guided-moment"]) .header.app-header{margin-bottom:0}
   .top-bar-back{border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--text-light);padding:8px 6px 8px 0;cursor:pointer;-webkit-tap-highlight-color:transparent;line-height:1.2}
   .top-bar-back:active{opacity:0.75}
@@ -210,10 +217,6 @@
   .app-header-page-intro{padding:0 4px 0}
   .page-title{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:500;text-align:center;margin:var(--sp-2) 0 var(--sp-2);letter-spacing:-0.25px;color:var(--text);line-height:1.2}
   .page-subtitle{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-style:italic;font-weight:400;text-align:center;opacity:0.7;color:var(--text-light);margin:0 auto var(--sp-4);max-width:22rem;line-height:1.6}
-  body[data-active-tab="word"] .app-header-page-intro{text-align:center;padding:0 var(--sp-3) var(--sp-2)}
-  body[data-active-tab="word"] #globalPageTitle.page-title{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(20px,4.8vw,22px);letter-spacing:-0.02em;text-align:center;margin:var(--sp-2) auto var(--sp-2)}
-  body[data-active-tab="word"] #globalPageSubtitle.page-subtitle{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-style:normal;font-weight:400;letter-spacing:0.04em;color:#9c9792;opacity:1;line-height:1.5;max-width:22rem;text-align:center;margin-left:auto;margin-right:auto}
-  body[data-active-tab="word"] #globalPageDirection.page-direction-hint{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#9c9792;line-height:1.5;text-align:center;margin:12px auto 0;max-width:24rem;padding:0 var(--sp-2)}
   .page-subtitle[hidden]{display:none !important;margin:0}
   .app-version-badge{font-size:9px;font-weight:500;letter-spacing:0.35px;color:var(--text-light);opacity:0.62;user-select:none;font-family:inherit;line-height:1;max-width:72px;text-align:right}
   .header-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:transparent;color:var(--text-light)}
@@ -272,6 +275,7 @@
   .reflection-card .word-details summary{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;font-weight:500;letter-spacing:0.01em}
   .screen{display:none;padding:0 0 var(--sp-8);animation:fadeIn 0.35s cubic-bezier(.4,0,.2,1)}
   .screen.active{display:block}
+  .app-shell-screen,.detail-screen{padding-top:0}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   
   /* ─── BACKGROUND DECOR ─── */
@@ -947,8 +951,6 @@
   .scripture-screen .scripture-vod-card:focus{outline:2px solid rgba(186,160,148,0.45);outline-offset:3px}
   .scripture-read-actions{max-width:22rem;margin:0 auto 8px}
   .scripture-btn-row{display:flex;flex-direction:column;gap:10px;align-items:stretch}
-  #screen-scripture > .tab-top-media:first-child{margin:var(--sp-4) auto 0}
-  #screen-study > .tab-top-media:first-child{margin:var(--sp-4) auto 0}
   #screen-scripture .word-tab-reading-top{width:100%;max-width:420px;margin:0 auto;padding:24px var(--sp-3) 0;box-sizing:border-box}
   #screen-scripture .scripture-week-reading-card{max-width:420px;margin:0 auto var(--sp-4);padding:18px 20px;border-radius:var(--radius);box-sizing:border-box;text-align:left;background:#fff;border:1px solid var(--paper-border);box-shadow:var(--shadow)}
   #screen-scripture .scripture-week-reading-kicker{font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-strong);margin:0;line-height:1.35}
@@ -1017,7 +1019,7 @@
   .reflect-prompts-wrap .study-prompt{cursor:pointer}
   .reflect-prompts-wrap--focus{display:flex;flex-direction:column;gap:12px}
   .reflect-prompts-wrap--focus .study-prompt{font-size:13.5px;padding:16px 18px;line-height:1.45;letter-spacing:0.01em}
-  .reflect-lead{white-space:normal;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:15px;font-style:italic;font-weight:400;color:var(--text-light);line-height:1.75;max-width:460px;margin:0 auto;padding-top:32px;letter-spacing:0.01em}
+  .reflect-lead{white-space:normal;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:15px;font-style:italic;font-weight:400;color:var(--text-light);line-height:1.75;max-width:460px;margin:0 auto;padding-top:0;letter-spacing:0.01em}
   .reflect-lead .reflect-lead-line{display:block}
   .reflect-lead .reflect-lead-line + .reflect-lead-line{margin-top:0.4em}
   .reflect-irl{margin:0;border-radius:14px;border:1px solid rgba(234,208,204,0.4);background:rgba(255,252,249,0.5)}
@@ -1111,7 +1113,7 @@
   body.legal-page-open .app-header,body.legal-page-open .bottom-nav{display:none !important}
   body.legal-page-open{overflow-x:hidden;background:linear-gradient(180deg,#FFF8F6 0%,#FFFDFB 100%);background-attachment:fixed;color:#3D2E28}
   .legal-app-shell{min-height:100vh;min-height:100dvh;display:block;background:#FFF8F6;background-image:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(244,234,228,0.45) 0%,transparent 55%)}
-  .legal-page{max-width:680px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) 24px max(32px,env(safe-area-inset-bottom)) 24px;box-sizing:border-box;opacity:1;transform:none;transition:opacity 0.45s ease,transform 0.45s cubic-bezier(.2,.7,.2,1)}
+  .legal-page{max-width:680px;margin:0 auto;padding:12px 24px max(32px,env(safe-area-inset-bottom)) 24px;box-sizing:border-box;opacity:1;transform:none;transition:opacity 0.45s ease,transform 0.45s cubic-bezier(.2,.7,.2,1)}
   .legal-page.legal-page--visible{opacity:1;transform:none}
   .legal-back{display:inline-flex;align-items:center;gap:6px;margin:0 0 28px;padding:8px 4px 8px 0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:#3D2E28;cursor:pointer;letter-spacing:0.02em;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease}
   .legal-back:hover,.legal-back:focus{color:#5A4A42;outline:none}
@@ -1215,7 +1217,7 @@
   .moment-card .mc-arrow{width:20px;height:20px;flex-shrink:0;color:var(--text-light);opacity:0.25;align-self:center;transition:all 0.3s cubic-bezier(.4,0,.2,1)}
   .moment-card::before{content:'';position:absolute;left:0;top:18px;bottom:18px;width:2.5px;border-radius:2px;background:var(--petal);opacity:0.35;transition:opacity 0.3s ease}
   /* Guided moment — only visible with .active. (A bare .guided-moment-screen{display:flex} was overriding .screen{display:none}, so "Come as you are" appeared under every tab.) */
-  .screen.guided-moment-screen{display:none;box-sizing:border-box;min-height:calc(100dvh - 96px);flex-direction:column;padding:0;position:relative;overflow-x:hidden}
+  .screen.guided-moment-screen{display:none;box-sizing:border-box;min-height:calc(100dvh - 96px);flex-direction:column;padding:0!important;position:relative;overflow-x:hidden}
   .screen.guided-moment-screen.active{display:flex}
   .guided-moment-screen .gm-modal-layer{position:fixed;inset:0;bottom:96px;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:10px 12px 12px;box-sizing:border-box;width:100%;max-width:100%;opacity:1;transform:scale(1);transform-origin:50% 45%;transition:opacity 0.26s ease,transform 0.26s ease}
   .guided-moment-screen .gm-modal-backdrop{position:absolute;inset:0;z-index:0;margin:0;padding:0;border:none;border-radius:0;background:rgba(48,38,34,0.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.2s ease}
@@ -1489,7 +1491,7 @@
   /* ─── STUDY PAGE — ENFORCED FONT SYSTEM ───
      Inherit reset + explicit assignments so nothing falls back to Arial. */
   .study-app-hero{
-    margin:var(--sp-4) var(--sp-4) 0;
+    margin:0 var(--sp-4) var(--sp-4);
     border-radius:var(--radius-lg);
     background-color:#e8e0da;
     background-image:url('assets/images/study-hero.png');
@@ -1812,6 +1814,52 @@
   .study-inline-vn{font-weight:700;color:var(--accent-strong);margin-right:6px}
   .study-app-section{margin-bottom:18px}
   .study-verse-inline-list{display:flex;flex-direction:column;gap:2px}
+  /* Verse-by-verse (Study + Scripture reader): collapsible block */
+  .g-vbb{position:relative;margin:0;padding:0}
+  .g-vbb-divider{
+    height:1px;margin:0 0 18px;border:0;
+    background:linear-gradient(90deg,rgba(186,160,148,0),rgba(186,160,148,0.35) 15%,rgba(186,160,148,0.35) 85%,rgba(186,160,148,0));
+  }
+  .g-vbb-title{
+    margin:0 0 10px;font-size:10px;font-weight:500;letter-spacing:1.35px;text-transform:uppercase;
+    color:var(--accent-strong);font-family:'Inter',system-ui,sans-serif;text-align:left;line-height:1.3
+  }
+  #screen-study .g-vbb-title.study-app-eyebrow{margin:0 0 10px}
+  .g-vbb-toggle{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;box-sizing:border-box;
+    margin:0;padding:12px 14px;border-radius:12px;cursor:pointer;text-align:left;font:inherit;
+    font-size:14px;font-weight:500;color:var(--text);
+    border:1px solid rgba(234,208,204,0.45);background:rgba(255,255,255,0.78);
+    box-shadow:0 1px 3px rgba(90,74,66,0.04);-webkit-tap-highlight-color:transparent;transition:background .2s ease,border-color .2s ease
+  }
+  .g-vbb-toggle:active{background:rgba(255,252,249,0.95)}
+  .g-vbb-toggle-label{flex:1;min-width:0}
+  .g-vbb-chevron{flex-shrink:0;opacity:0.62;color:var(--text-light);transition:transform .32s cubic-bezier(.33,1,.68,1)}
+  .g-vbb--open .g-vbb-chevron{transform:rotate(180deg)}
+  .g-vbb-panel{
+    max-height:0;opacity:0;overflow:hidden;
+    transition:max-height .38s cubic-bezier(.33,1,.68,1),opacity .24s ease;
+    will-change:max-height
+  }
+  .g-vbb--open .g-vbb-panel{
+    max-height:min(75vh,3200px);opacity:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain
+  }
+  .g-vbb-panel-inner{padding-top:12px}
+  #screen-study .g-vbb-panel-inner.study-verse-inline-list{gap:0}
+  #screen-study .g-vbb-panel-inner .study-inline-verse{
+    font-size:12px;line-height:1.55;margin-bottom:10px;padding:11px 13px
+  }
+  #screen-study .g-vbb-panel-inner .study-inline-verse:last-child{margin-bottom:0}
+  .word-bible-shell .g-vbb-title--reader{margin:0 0 10px}
+  .word-bible-shell .g-vbb-panel-inner .scripture-card{padding-top:2px}
+  .word-bible-shell .g-vbb-panel-inner .scripture-card button.cr-verse.verse{
+    font-size:15px;line-height:1.72;margin-bottom:12px;padding-bottom:2px
+  }
+  .word-bible-shell .g-vbb-panel-inner .scripture-card button.cr-verse.verse:last-child{margin-bottom:0}
+  @media (prefers-reduced-motion:reduce){
+    .g-vbb-panel,.g-vbb-chevron{transition:none}
+  }
   /* Chapter breakdown: <details> folds (same chevron pattern as .word-details) */
   #screen-study .study-chapter-fold{margin-bottom:8px}
   #screen-study .study-app-card--facts .study-chapter-fold:last-child{margin-bottom:0}
@@ -2761,7 +2809,7 @@
   </div>
   
   <!-- ─── MAIN CONTENT ─── -->
-  <main class="container main-container">
+  <main class="container main-container main-content">
 
   <header class="header app-header" role="banner">
     <div class="ah-top-bar top-bar">
@@ -4633,61 +4681,61 @@
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="grow_closer" aria-pressed="false">
               <span class="on-goal-text">I want to grow closer to God</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="quiet_moment" aria-pressed="false">
               <span class="on-goal-text">I just need a quiet moment</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="anxious_peace" aria-pressed="false">
               <span class="on-goal-text">I feel anxious and need peace</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="overwhelmed" aria-pressed="false">
               <span class="on-goal-text">I feel overwhelmed</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="guidance_now" aria-pressed="false">
               <span class="on-goal-text">I need guidance right now</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="daily_habit" aria-pressed="false">
               <span class="on-goal-text">I want to build a daily habit</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="disconnected" aria-pressed="false">
               <span class="on-goal-text">I feel disconnected from God</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="difficult_season" aria-pressed="false">
               <span class="on-goal-text">I’m going through something difficult</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="consistent" aria-pressed="false">
               <span class="on-goal-text">I want to be more consistent</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
             <button type="button" class="on-choice on-choice--pill on-choice--goal" data-on-goal="feel_better_today" aria-pressed="false">
               <span class="on-goal-text">I just want to feel better today</span
               ><span class="on-goal-check" aria-hidden="true"
-                ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
+                ><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg
               ></span>
             </button>
           </div>
@@ -5301,33 +5349,20 @@
     if (tab === 'feed' && typeof renderHomeWeeklyTheme === 'function') renderHomeWeeklyTheme();
   }
 
-  /* Copy for minimal shell header (Today / feed keeps the warm greeting block). */
-  const TAB_HEADER_COPY = {
-    scripture: { title: 'Read Scripture', sub: 'Pick up where you left off or begin today' },
-    word: { title: 'Read Scripture', sub: 'Pick up where you left off or begin today' },
-    reflect: { title: 'Reflect', sub: 'Space to be still and honest' },
-    study: { title: 'Study', sub: 'Go deeper into what you\u2019re reading' },
-    prayer: { title: 'Prayer', sub: 'What do you need prayer for today?' },
-    journal: { title: 'Journal', sub: 'A quiet space for your thoughts' },
-    pilates: { title: 'Reset', sub: 'A quiet space to breathe, reset, and return to Him.' },
-    profile: { title: 'Settings', sub: 'Your space and rhythms' }
-  };
-
   function syncAppShellHeader(tab) {
     const feedBlk = document.getElementById('feedGreetingBlock');
     const pageIntro = document.getElementById('appHeaderPageIntro');
-    const globalTitle = document.getElementById('globalPageTitle');
-    const globalSub = document.getElementById('globalPageSubtitle');
     const globalDir = document.getElementById('globalPageDirection');
     const backBtn = document.getElementById('topBarBackBtn');
     /* Always sync — previously an early return could leave ← Back visible after leaving Settings. */
     if (backBtn) backBtn.hidden = tab !== 'profile';
-    if (!feedBlk || !pageIntro || !globalTitle || !globalSub) return;
+    if (!feedBlk || !pageIntro) return;
 
     if (tab === 'feed') {
       feedBlk.hidden = false;
       feedBlk.removeAttribute('aria-hidden');
       pageIntro.hidden = true;
+      pageIntro.setAttribute('aria-hidden', 'true');
       if (globalDir) globalDir.hidden = true;
       return;
     }
@@ -5335,21 +5370,10 @@
     feedBlk.hidden = true;
     feedBlk.setAttribute('aria-hidden', 'true');
 
-    pageIntro.hidden = false;
-    pageIntro.removeAttribute('aria-hidden');
-
-    const meta = TAB_HEADER_COPY[tab] || TAB_HEADER_COPY.scripture;
-    globalTitle.textContent = meta.title;
-    if (meta.sub) {
-      globalSub.textContent = meta.sub;
-      globalSub.hidden = false;
-    } else {
-      globalSub.textContent = '';
-      globalSub.hidden = true;
-    }
-    if (globalDir) {
-      globalDir.hidden = tab !== 'word';
-    }
+    /* Match Today: keep the page-intro block hidden on every other tab (no duplicate title strip under the bar). */
+    pageIntro.hidden = true;
+    pageIntro.setAttribute('aria-hidden', 'true');
+    if (globalDir) globalDir.hidden = true;
   }
 
   /** True while the full-screen guided "Come as you are" flow is open (not a real bottom-nav tab). */
@@ -6525,6 +6549,27 @@
 
   function switchTab(tab) {
     if (tab === 'scripture') tab = 'word';
+    try {
+      const obRoot = document.getElementById('onboardingRoot');
+      if (
+        tab !== 'feed' &&
+        obRoot &&
+        !obRoot.hasAttribute('hidden') &&
+        typeof GroundedThemes !== 'undefined' &&
+        typeof GroundedThemes.shouldShowOnboardingUI === 'function' &&
+        GroundedThemes.shouldShowOnboardingUI()
+      ) {
+        tab = 'feed';
+      }
+    } catch (eOnbTab) {}
+    const prevTab = currentTab;
+    if (prevTab === 'study' && tab !== 'study') {
+      try {
+        if (typeof collapseGroundedVbbPanels === 'function') {
+          collapseGroundedVbbPanels(document.getElementById('studyAppRoot'));
+        }
+      } catch (eVbb) {}
+    }
     if (currentTab === 'reflect' && tab !== 'reflect') {
       try { sessionStorage.removeItem('grounded_reflect_override'); } catch (e) {}
     }
@@ -10608,6 +10653,46 @@
       })()
     );
     wrap.appendChild(pre);
+    const vbb = document.createElement('div');
+    vbb.className = 'g-vbb';
+    vbb.setAttribute('data-g-vbb', '1');
+    const divider = document.createElement('div');
+    divider.className = 'g-vbb-divider';
+    divider.setAttribute('aria-hidden', 'true');
+    vbb.appendChild(divider);
+    const vbbTitle = document.createElement('p');
+    vbbTitle.className = 'g-vbb-title g-vbb-title--reader';
+    vbbTitle.textContent = 'Read verse by verse';
+    vbb.appendChild(vbbTitle);
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'g-vbb-toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    const toggleLabel = document.createElement('span');
+    toggleLabel.className = 'g-vbb-toggle-label';
+    toggleLabel.textContent = 'Show verses';
+    toggle.appendChild(toggleLabel);
+    const chev = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    chev.setAttribute('class', 'g-vbb-chevron');
+    chev.setAttribute('width', '18');
+    chev.setAttribute('height', '18');
+    chev.setAttribute('viewBox', '0 0 24 24');
+    chev.setAttribute('fill', 'none');
+    chev.setAttribute('aria-hidden', 'true');
+    const chevPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    chevPath.setAttribute('d', 'M6 9l6 6 6-6');
+    chevPath.setAttribute('stroke', 'currentColor');
+    chevPath.setAttribute('stroke-width', '2');
+    chevPath.setAttribute('stroke-linecap', 'round');
+    chevPath.setAttribute('stroke-linejoin', 'round');
+    chev.appendChild(chevPath);
+    toggle.appendChild(chev);
+    vbb.appendChild(toggle);
+    const panel = document.createElement('div');
+    panel.className = 'g-vbb-panel';
+    panel.setAttribute('aria-hidden', 'true');
+    const inner = document.createElement('div');
+    inner.className = 'g-vbb-panel-inner';
     const card = document.createElement('div');
     card.className = 'scripture-card';
     const hiSet = getVerseHighlightSet();
@@ -10638,7 +10723,17 @@
       });
       card.appendChild(p);
     });
-    wrap.appendChild(card);
+    inner.appendChild(card);
+    panel.appendChild(inner);
+    vbb.appendChild(panel);
+    toggle.addEventListener('click', () => {
+      const open = !vbb.classList.contains('g-vbb--open');
+      vbb.classList.toggle('g-vbb--open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggleLabel.textContent = open ? 'Hide verses' : 'Show verses';
+      panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
+    wrap.appendChild(vbb);
     const goWrap = document.createElement('div');
     goWrap.className = 'cr-go-deeper-wrap';
     const colStudy = document.createElement('div');
@@ -11086,7 +11181,25 @@
     });
   }
 
+  function collapseGroundedVbbPanels(root) {
+    if (!root || !root.querySelectorAll) return;
+    root.querySelectorAll('.g-vbb.g-vbb--open').forEach((vbb) => {
+      vbb.classList.remove('g-vbb--open');
+      const btn = vbb.querySelector('.g-vbb-toggle');
+      const lab = vbb.querySelector('.g-vbb-toggle-label');
+      const pan = vbb.querySelector('.g-vbb-panel');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+      if (lab) lab.textContent = 'Show verses';
+      if (pan) pan.setAttribute('aria-hidden', 'true');
+    });
+  }
+
   function hideWordBibleShell() {
+    try {
+      if (typeof collapseGroundedVbbPanels === 'function') {
+        collapseGroundedVbbPanels(document.getElementById('chapterReaderBody'));
+      }
+    } catch (eVbb2) {}
     document.querySelectorAll('.screen.screen--bible-dim').forEach((el) => el.classList.remove('screen--bible-dim'));
     const shell = document.getElementById('wordBibleShell');
     if (shell) {

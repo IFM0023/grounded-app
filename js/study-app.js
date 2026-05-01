@@ -219,6 +219,26 @@
     );
   }
 
+  /** Verse-by-verse list: collapsed by default; toggle + animated panel (shared .g-vbb styles in index.html). */
+  function studyVerseByVerseCollapsibleHtml(verseListInner) {
+    if (!String(verseListInner || '').trim()) return '';
+    var chev =
+      '<svg class="g-vbb-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+    return (
+      '<div class="g-vbb" data-g-vbb="1">' +
+      '<div class="g-vbb-divider" aria-hidden="true"></div>' +
+      '<p class="g-vbb-title study-app-eyebrow">Read verse by verse</p>' +
+      '<button type="button" class="g-vbb-toggle" data-act="vbb-toggle" aria-expanded="false">' +
+      '<span class="g-vbb-toggle-label">Show verses</span>' +
+      chev +
+      '</button>' +
+      '<div class="g-vbb-panel" aria-hidden="true">' +
+      '<div class="g-vbb-panel-inner study-verse-inline-list">' +
+      verseListInner +
+      '</div></div></div>'
+    );
+  }
+
   function chip(t) {
     return '<span class="study-theme-chip">' + esc(t) + '</span>';
   }
@@ -1080,6 +1100,17 @@
       } else if (act === 'pray-v') {
         if (bridge().openPrayerWithVerse && state.book && state.verse && state.verseText)
           bridge().openPrayerWithVerse(state.book, state.chapter, state.verse, state.verseText);
+      } else if (act === 'vbb-toggle') {
+        var vbb = t.closest('.g-vbb');
+        if (!vbb) return;
+        var open = !vbb.classList.contains('g-vbb--open');
+        vbb.classList.toggle('g-vbb--open', open);
+        var tbtn = vbb.querySelector('.g-vbb-toggle');
+        var lab = vbb.querySelector('.g-vbb-toggle-label');
+        var pan = vbb.querySelector('.g-vbb-panel');
+        if (tbtn) tbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (lab) lab.textContent = open ? 'Hide verses' : 'Show verses';
+        if (pan) pan.setAttribute('aria-hidden', open ? 'false' : 'true');
       }
     };
     root.onkeydown = function (ev) {
@@ -1309,13 +1340,7 @@
         '</button>';
     }
     var verseBlock =
-      '<div class="study-app-section">' +
-      studyChapterFoldHtml(
-        'Read verse by verse',
-        '<div class="study-verse-inline-list">' + verseListInner + '</div>',
-        'study-app-eyebrow study-chapter-fold__title'
-      ) +
-      '</div>';
+      '<div class="study-app-section study-app-section--vbb">' + studyVerseByVerseCollapsibleHtml(verseListInner) + '</div>';
 
     var people =
       d.people && d.people.length

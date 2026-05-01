@@ -6,7 +6,7 @@ const path = require('path');
 const root = process.cwd();
 const www = path.join(root, 'www');
 const files = ['index.html', 'manifest.json', 'sw.js', 'widget.html', 'bibleData.js'];
-const dirs = ['assets', 'js'];
+const dirs = ['assets', 'js', 'css'];
 
 try {
   require(path.join(__dirname, 'copy-capacitor-runtime.cjs'));

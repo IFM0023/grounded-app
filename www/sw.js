@@ -10,7 +10,7 @@
  * Bump CACHE_VERSION whenever you ship changes you want users to pick up
  * immediately. Old caches will be deleted on the next page load.
  */
-const CACHE_VERSION = 'grounded-v184';
+const CACHE_VERSION = 'grounded-v185';
 /* Resolve shell URLs from this script’s folder so the app works in a subpath. */
 const SW_DIR = new URL('./', self.location.href);
 function shellUrl(path) {
@@ -57,6 +57,11 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+function isSpaLegalPath(pathname) {
+  const p = (pathname || '/').replace(/\/$/, '') || '/';
+  return p === '/privacy' || p === '/terms' || p === '/contact';
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
@@ -77,9 +82,18 @@ self.addEventListener('fetch', (event) => {
     url.pathname.endsWith('.html') ||
     (accept.includes('text/html') && !accept.includes('application/json'));
   if (looksLikeHtml) {
+    const isLegalNav = req.mode === 'navigate' && isSpaLegalPath(url.pathname);
     event.respondWith(
       fetch(req)
         .then((res) => {
+          /* Some hosts return 404 for /privacy etc. even though the app is a SPA.
+             Fall back to index.html so client routing + legal shell can run. */
+          if (isLegalNav && res && !res.ok) {
+            return fetch(INDEX_HTML, { credentials: 'same-origin' }).then((shellRes) => {
+              if (shellRes && shellRes.ok) return shellRes;
+              return caches.match(INDEX_HTML).then((c) => c || res);
+            });
+          }
           if (res && res.status === 200 && res.type === 'basic') {
             const copy = res.clone();
             caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));

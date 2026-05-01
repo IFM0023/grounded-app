@@ -295,6 +295,12 @@
     root.classList.remove('onboarding-root--closing');
     root.removeAttribute('hidden');
     root.setAttribute('aria-hidden', 'false');
+    try {
+      var activeTab = document.body.getAttribute('data-active-tab') || 'feed';
+      if (activeTab !== 'feed' && typeof global.switchTab === 'function') {
+        global.switchTab('feed');
+      }
+    } catch (eSwFeed) {}
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         root.classList.add('is-visible');

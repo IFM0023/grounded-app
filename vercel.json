@@ -1,8 +1,13 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "www",
   "rewrites": [
     { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/privacy/", "destination": "/index.html" },
     { "source": "/terms", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" }
+    { "source": "/terms/", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/contact/", "destination": "/index.html" }
   ],
   "functions": {
     "api/chapter-explain-structured.js": { "maxDuration": 60 },
