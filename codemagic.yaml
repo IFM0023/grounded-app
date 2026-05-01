@@ -19,20 +19,21 @@ workflows:
       xcode: latest
 
     scripts:
-  - npm ci
-  - npm run build
-  - npx cap sync ios
-  - cd ios/App && pod install
-  - xcode-project use-profiles
+      - npm ci
+      - npm run build
+      - npx cap sync ios
+      - cd ios/App && pod install
+      - xcode-project use-profiles
 
-  - name: Set build number
-    script: |
-      /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ios/App/App/Info.plist
+      - name: Set build number
+        script: |
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ios/App/App/Info.plist
 
-  - name: Build IPA
-    script: xcode-project build-ipa --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
       - name: Build IPA
-        script: xcode-project build-ipa --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
+        script: |
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
 
     artifacts:
       - build/ios/ipa/*.ipa
