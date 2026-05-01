@@ -520,8 +520,8 @@
   .home-theme-intro-actions .home-start-moment-btn{margin-bottom:0}
   .home-weekly-closing-wrap{width:100%;max-width:24rem;margin:var(--sp-3) auto 0;padding:0 var(--sp-4);box-sizing:border-box}
   .gm-week-closing-card{
-    background:#FFF0ED;
-    border:1px solid rgba(234,208,204,0.5);
+    background:#FAFAF8;
+    border:1px solid rgba(234,208,204,0.3);
     border-radius:20px;
     padding:28px 24px;
     margin:16px 0;
@@ -623,7 +623,6 @@
     text-align:left;
     max-width:none
   }
-  .gm-week-closing .gm-week-start-moment-btn{margin:22px auto 0}
   .gm-week-closing-hint{font-size:12px;line-height:1.5;color:var(--text-light);margin:0 auto 10px;max-width:22rem;padding:0 var(--sp-2)}
   .gm-week-close-week-link{display:block;margin:0 auto 4px}
   .theme-week-complete-overlay{position:fixed;inset:0;z-index:1400;display:flex;align-items:center;justify-content:center;background:rgba(40,32,28,0.38);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:24px;box-sizing:border-box;opacity:0;pointer-events:none;transition:opacity 0.45s ease}
@@ -1244,6 +1243,10 @@
   .bottom-nav .nav-item--spx svg{width:19px;height:19px}
   #scripturePlusScreen .scripture-plus-screen{background:var(--bg);min-height:100%;position:relative;padding-bottom:88px;box-sizing:border-box}
   #screen-scriptureplus .spx-landing{padding:var(--sp-3) var(--sp-4) var(--sp-5);max-width:420px;margin:0 auto}
+  #screen-scriptureplus .tab-top-media{margin-top:0;margin-bottom:var(--sp-3)}
+  #screen-scriptureplus .spx-hero-copy{text-align:center;margin:0 auto var(--sp-5);max-width:24rem;padding:0 var(--sp-2)}
+  #screen-scriptureplus .spx-hero-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:var(--sp-3) 0 var(--sp-2);letter-spacing:-0.02em;line-height:1.28}
+  #screen-scriptureplus .spx-hero-sub{font-size:14px;line-height:1.58;color:var(--text-light);margin:0 auto;max-width:20rem;opacity:0.95}
   #screen-scriptureplus .spx-header{display:flex;align-items:center;justify-content:space-between;margin:0 0 var(--sp-4);padding-top:2px}
   #screen-scriptureplus .spx-header-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:0;letter-spacing:-0.02em;line-height:1.2}
   #screen-scriptureplus .spx-header-actions{display:flex;align-items:center;gap:4px}
@@ -1255,9 +1258,24 @@
   #screen-scriptureplus .spx-menu-pop{position:absolute;right:var(--sp-4);top:52px;z-index:30;min-width:200px;padding:8px 0;border-radius:var(--radius);background:var(--card);border:1px solid rgba(234,208,204,0.35);box-shadow:0 10px 32px rgba(90,74,66,0.1)}
   #screen-scriptureplus .spx-menu-item{display:block;width:100%;text-align:left;padding:12px 16px;border:none;background:transparent;font-size:14px;color:var(--text);cursor:pointer;font-family:inherit}
   #screen-scriptureplus .spx-menu-item:active{background:var(--primary)}
-  #screen-scriptureplus .spx-search{width:100%;box-sizing:border-box;padding:14px 16px;border-radius:100px;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.85);font-family:'Inter',system-ui,sans-serif;font-size:14px;color:var(--text);margin:0 0 var(--sp-4);box-shadow:0 2px 10px rgba(90,74,66,0.04)}
+  #screen-scriptureplus .spx-search{width:100%;box-sizing:border-box;padding:14px 16px;border-radius:100px;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.85);font-family:'Inter',system-ui,sans-serif;font-size:14px;color:var(--text);margin:0;box-shadow:0 2px 10px rgba(90,74,66,0.04)}
+  #screen-scriptureplus .spx-search--subtle{margin:var(--sp-5) 0 0;padding:12px 16px;font-size:13px;opacity:0.95}
   #screen-scriptureplus .spx-search::placeholder{color:#9c9792}
   #screen-scriptureplus .spx-search:focus{outline:none;border-color:rgba(186,160,148,0.55);box-shadow:0 4px 14px rgba(90,74,66,0.06)}
+  #screen-scriptureplus .spx-paths-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:var(--sp-3);margin-top:var(--sp-2)}
+  #screen-scriptureplus .spx-path-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;width:100%;min-height:168px;box-sizing:border-box;border:none;cursor:pointer;font-family:inherit;border-radius:var(--card-radius);padding:var(--card-padding) var(--sp-4);border:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.92);box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);transition:transform 0.15s ease,box-shadow 0.2s ease;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-path-card:active{transform:scale(0.992)}
+  #screen-scriptureplus .spx-path-card--explore{cursor:pointer}
+  #screen-scriptureplus .spx-path-title{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:#4a4542;margin:0 0 var(--sp-2);line-height:1.28;letter-spacing:-0.02em}
+  #screen-scriptureplus .spx-path-meta{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:500;color:var(--text);margin:0 0 var(--sp-2);line-height:1.3}
+  #screen-scriptureplus .spx-path-sub{font-size:13px;line-height:1.45;color:var(--text-light);margin:0 0 var(--sp-2);max-width:100%}
+  #screen-scriptureplus .spx-path-dayline{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#9c9792;margin:0 0 var(--sp-2)}
+  #screen-scriptureplus .spx-path-bible-lines{font-size:13px;color:var(--text-light);margin:0 0 4px;line-height:1.5;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  #screen-scriptureplus .spx-path-bible-lines span{white-space:nowrap}
+  #screen-scriptureplus .spx-path-bible-meta{font-size:12px;color:#9c9792;margin:0 0 var(--sp-3)}
+  #screen-scriptureplus .spx-path-card .spx-progress{width:100%;align-self:stretch;margin:0 0 var(--sp-2)}
+  #screen-scriptureplus .spx-path-foot{font-size:12px;color:#9c9792;margin:0 0 auto;padding-bottom:var(--sp-2)}
+  #screen-scriptureplus .spx-path-cta{margin-top:auto;font-size:13px;font-weight:500;color:var(--accent-strong);letter-spacing:0.02em;border-bottom:1px solid rgba(186,160,148,0.35);padding-bottom:1px}
   #screen-scriptureplus .spx-card{display:block;width:100%;text-align:left;border:none;cursor:pointer;font-family:inherit;box-sizing:border-box;border-radius:var(--card-radius);padding:0;overflow:hidden;margin-bottom:var(--sp-4);border:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.92);box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,box-shadow 0.2s ease}
   #screen-scriptureplus .spx-card:active{transform:scale(0.992)}
   #screen-scriptureplus .spx-card--plan{cursor:default;padding:20px 18px 18px}
@@ -1265,36 +1283,52 @@
   #screen-scriptureplus .spx-card-media{height:120px;overflow:hidden}
   #screen-scriptureplus .spx-card-media img{width:100%;height:100%;object-fit:cover;opacity:0.92}
   #screen-scriptureplus .spx-card-kicker{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#9c9792;margin:0;padding:16px 18px 0}
-  #screen-scriptureplus .spx-card--continue .spx-card-kicker{padding-top:14px}
+  #screen-scriptureplus .spx-card--continue .spx-card-kicker{padding-top:18px}
+  #screen-scriptureplus .spx-card-micro{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.45;color:#9c9792;margin:0;padding:6px 18px 0}
+  #screen-scriptureplus .spx-card--new{text-align:left;padding:0 0 4px;cursor:pointer}
+  #screen-scriptureplus .spx-card--new .spx-card-title{padding-top:20px}
+  #screen-scriptureplus .spx-card--new .spx-card-sub{padding-bottom:4px}
   #screen-scriptureplus .spx-card-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:500;color:#4a4542;margin:0;padding:6px 18px 0;letter-spacing:-0.02em;line-height:1.25}
   #screen-scriptureplus .spx-card-dayline,#screen-scriptureplus .spx-card-sub{font-size:13px;line-height:1.5;color:var(--text-light);margin:0;padding:8px 18px 0}
+  #screen-scriptureplus .spx-card--plan .spx-card-kicker{color:var(--accent-strong);opacity:0.88;letter-spacing:0.12em;font-size:10.5px}
+  #screen-scriptureplus .spx-card--plan .spx-card-dayline{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#9c9792;padding-top:12px}
+  #screen-scriptureplus #spxWeeklyDesc{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;max-height:1.55em}
   #screen-scriptureplus .spx-card-meta{font-size:12px;color:#9c9792;margin:0;padding:10px 18px 18px}
   #screen-scriptureplus .spx-progress{height:3px;background:rgba(234,208,204,0.35);margin:12px 18px 0;border-radius:100px;overflow:hidden}
   #screen-scriptureplus .spx-progress-fill{height:100%;background:rgba(186,160,148,0.55);border-radius:100px;transition:width 0.35s ease}
   #screen-scriptureplus .spx-card-cta{display:inline-block;margin:14px 18px 18px;padding:0 0 2px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--accent-strong);letter-spacing:0.02em;background:transparent;border:none;border-bottom:1px solid rgba(186,160,148,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
   #screen-scriptureplus .spx-card-cta--block{display:block;width:calc(100% - 36px);margin:14px 18px 4px;padding:12px 16px;border-radius:100px;text-align:center;border:1px solid rgba(186,160,148,0.35);background:rgba(255,252,249,0.9);color:var(--text)}
-  #screen-scriptureplus .spx-details{margin-bottom:12px;border-radius:var(--radius-sm);border:1px solid rgba(234,208,204,0.2);background:rgba(255,255,255,0.72)}
-  #screen-scriptureplus .spx-details summary{font-family:'Inter',system-ui,sans-serif;padding:13px 14px;font-size:13px;font-weight:500;color:#6f6a65;cursor:pointer}
-  #screen-scriptureplus .spx-details .word-details-body{padding:0 14px 14px}
+  #screen-scriptureplus .spx-details{margin-bottom:var(--sp-5);border-radius:var(--card-radius);border:1px solid rgba(234,208,204,0.28);background:rgba(255,252,249,0.92);box-shadow:0 2px 14px rgba(90,74,66,0.04);overflow:hidden}
+  #screen-scriptureplus .spx-details summary{font-family:'Inter',system-ui,sans-serif;padding:16px var(--card-padding);font-size:14px;font-weight:500;color:#6f6a65;cursor:pointer}
+  #screen-scriptureplus .spx-details .word-details-body{padding:0 var(--card-padding) var(--card-padding)}
   #screen-scriptureplus .spx-prose{font-size:14px;line-height:1.75;color:var(--text-light);margin:0}
   #screen-scriptureplus .spx-prompts{margin:0;padding-left:18px;color:var(--text-light);line-height:1.65}
   #screen-scriptureplus .spx-prompts li{margin-bottom:8px}
   #screen-scriptureplus .spx-xref-row{display:flex;flex-wrap:wrap;gap:8px}
   #screen-scriptureplus .spx-xref-pill{padding:8px 14px;border-radius:100px;font-size:12px;font-family:'Inter',system-ui,sans-serif;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.75);color:var(--text);cursor:pointer;transition:background 0.2s ease,border-color 0.2s ease}
   #screen-scriptureplus .spx-xref-pill:active{transform:scale(0.97)}
-  #screen-scriptureplus .spx-meaning{margin-bottom:12px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));box-shadow:0 8px 28px rgba(90,74,66,0.06);border:1px solid rgba(186,160,148,0.22);overflow:hidden}
+  #screen-scriptureplus .spx-meaning{margin-bottom:var(--sp-5);border-radius:var(--card-radius);background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);border:1px solid rgba(234,208,204,0.22);overflow:hidden}
   #screen-scriptureplus .spx-meaning.reflect-meaning--open .reflect-meaning__content{max-height:520px}
-  #screen-scriptureplus .spx-meaning .reflect-meaning__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:18px 14px 14px;border:none;background:transparent;cursor:pointer;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--text);text-align:left;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-meaning .reflect-meaning__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:18px var(--card-padding) 14px;border:none;background:transparent;cursor:pointer;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:var(--text);text-align:left;-webkit-tap-highlight-color:transparent}
   #screen-scriptureplus .spx-meaning-label{flex:1}
-  #screen-scriptureplus .spx-ai-pill{font-size:10px;font-weight:600;letter-spacing:0.06em;color:rgba(90,74,66,0.55);border:1px solid rgba(186,160,148,0.35);padding:2px 7px;border-radius:6px;background:rgba(255,255,255,0.5)}
-  #screen-scriptureplus .spx-pass-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:var(--sp-4) 0 var(--sp-3)}
+  #screen-scriptureplus #spxMeaningBody.reflect-meaning__body.spx-meaning-reveal{animation:spxMeaningReveal 0.55s ease forwards}
+  @keyframes spxMeaningReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion: reduce){
+    #screen-scriptureplus #spxMeaningBody.reflect-meaning__body.spx-meaning-reveal{animation:none}
+  }
+  #screen-scriptureplus .spx-meaning-retry-wrap{text-align:center;padding:4px 8px 16px}
+  #screen-scriptureplus .spx-meaning-retry-lead{max-width:22rem;margin:0 auto}
+  #screen-scriptureplus .spx-meaning-retry-btn{margin-top:14px;padding:11px 22px;border-radius:100px;border:1px solid rgba(186,160,148,0.45);background:rgba(255,252,249,0.95);font-size:13px;font-weight:500;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+  #screen-scriptureplus .spx-pass-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:var(--sp-6) 0 var(--sp-4)}
   #screen-scriptureplus .spx-chip-btn{padding:9px 16px;border-radius:100px;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.75);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--text-light);cursor:pointer;-webkit-tap-highlight-color:transparent}
   #screen-scriptureplus .spx-chip-btn--on{border-color:rgba(186,160,148,0.55);background:rgba(244,234,228,0.55);color:var(--text)}
-  #screen-scriptureplus .spx-pass-footer{display:flex;gap:10px;margin:var(--sp-5) 0 var(--sp-2);padding-top:4px}
-  #screen-scriptureplus .spx-footer-btn{flex:1;padding:14px 12px;border-radius:100px;font-size:14px;font-weight:500;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,opacity 0.2s ease}
-  #screen-scriptureplus .spx-footer-btn:active{transform:scale(0.98)}
-  #screen-scriptureplus .spx-footer-btn--ghost{background:transparent;border:1px solid rgba(234,208,204,0.45);color:var(--text-light)}
-  #screen-scriptureplus .spx-footer-btn--primary{background:var(--text);color:var(--card);box-shadow:0 8px 22px rgba(90,74,66,0.12)}
+  #screen-scriptureplus .spx-pass-moment{text-align:center;margin:var(--sp-5) 0 var(--sp-6);padding:var(--sp-5) var(--card-padding);border-radius:var(--card-radius);background:rgba(255,252,249,0.92);border:1px solid rgba(234,208,204,0.22);box-shadow:0 2px 14px rgba(90,74,66,0.04)}
+  #screen-scriptureplus .spx-pass-moment-label{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-strong);opacity:0.88;margin:0 0 var(--sp-4);line-height:1.35}
+  #screen-scriptureplus .spx-pass-moment-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  #screen-scriptureplus .spx-moment-btn{flex:1;min-width:132px;max-width:200px;padding:13px 16px;border-radius:100px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,opacity 0.2s ease}
+  #screen-scriptureplus .spx-moment-btn:active{transform:scale(0.98)}
+  #screen-scriptureplus .spx-moment-btn--ghost{background:transparent;border:1px solid rgba(234,208,204,0.45);color:var(--text-light)}
+  #screen-scriptureplus .spx-moment-btn--primary{background:var(--text);color:var(--card);border:none;box-shadow:0 8px 22px rgba(90,74,66,0.12)}
   #screen-scriptureplus .spx-passage-layer{position:fixed;left:0;right:0;top:0;bottom:0;z-index:160;background:var(--bg);display:flex;flex-direction:column;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));box-sizing:border-box;transform:translateX(100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);pointer-events:none;visibility:hidden}
   #screen-scriptureplus .spx-passage-layer.spx-passage-layer--open{transform:translateX(0);pointer-events:auto;visibility:visible}
   #screen-scriptureplus .spx-passage-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--sp-3) var(--sp-4) var(--sp-6);max-width:440px;margin:0 auto;width:100%;box-sizing:border-box}
@@ -1302,9 +1336,34 @@
   #screen-scriptureplus .spx-pass-back{flex-shrink:0;border:none;background:transparent;color:var(--accent-strong);font-size:14px;padding:8px 6px;margin:-6px 0 0 -6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
   #screen-scriptureplus .spx-pass-ref{flex:1;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:var(--text);margin:6px 0 0;line-height:1.25;padding:0 4px}
   #screen-scriptureplus .spx-pass-tools{display:flex;gap:2px;flex-shrink:0;margin-top:2px}
-  #screen-scriptureplus .spx-pass-verse{font-size:clamp(22px,5vw,28px);line-height:1.55;font-style:italic;font-weight:400;text-align:center;color:var(--text);margin:var(--sp-2) 0 var(--sp-4);padding:var(--sp-3) var(--sp-2);letter-spacing:0.02em}
+  #screen-scriptureplus .spx-pass-verse{font-size:clamp(22px,5vw,28px);line-height:1.55;font-style:italic;font-weight:400;text-align:center;color:var(--text);margin:var(--sp-2) 0 var(--sp-3);padding:var(--sp-3) var(--sp-2);letter-spacing:0.02em}
   #screen-scriptureplus .spx-pass-verse.spx-pass-verse--lg{font-size:clamp(26px,6vw,34px)}
   #screen-scriptureplus .spx-pass-verse.spx-pass-verse--soft{color:#6f6a65}
+  #screen-scriptureplus .spx-browse-picker{display:flex;flex-direction:column;gap:12px;padding-bottom:var(--sp-4)}
+  #screen-scriptureplus .spx-browse-picker-row{width:100%;text-align:left;padding:16px 18px;border-radius:var(--card-radius);border:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.92);box-shadow:0 2px 14px rgba(90,74,66,0.04);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease}
+  #screen-scriptureplus .spx-browse-picker-row:active{transform:scale(0.992)}
+  #screen-scriptureplus .spx-browse-picker-title{display:block;font-size:17px;font-weight:500;color:#4a4542;margin:0 0 4px;letter-spacing:-0.02em}
+  #screen-scriptureplus .spx-browse-picker-sub{display:block;font-size:13px;color:var(--text-light)}
+  #screen-scriptureplus .spx-not-sure-section{margin-top:var(--sp-6);padding-top:var(--sp-5)}
+  #screen-scriptureplus .spx-not-sure-label{font-size:15px;font-weight:500;color:var(--text);margin:0 0 var(--sp-3);text-align:center;line-height:1.35;letter-spacing:-0.02em;opacity:0.92}
+  #screen-scriptureplus .spx-not-sure-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+  #screen-scriptureplus .spx-guided-chip{padding:10px 16px;border-radius:100px;font-size:13px;font-weight:400;color:var(--text-light);letter-spacing:0.15px;background:var(--paper);border:1px solid var(--paper-border);cursor:pointer;box-shadow:0 1px 4px rgba(90,74,66,0.04);transition:background 0.2s ease,border-color 0.2s ease,color 0.2s ease,transform 0.15s ease;-webkit-tap-highlight-color:transparent;line-height:1.2;font-family:inherit}
+  #screen-scriptureplus .spx-guided-chip:active{transform:scale(0.97)}
+  #screen-scriptureplus .spx-guided-chip:hover{color:var(--text);border-color:rgba(186,160,148,0.35)}
+  #screen-scriptureplus .spx-browse-layer{position:fixed;left:0;right:0;top:0;bottom:0;z-index:158;background:var(--bg);display:flex;flex-direction:column;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));box-sizing:border-box;transform:translateX(100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);pointer-events:none;visibility:hidden}
+  #screen-scriptureplus .spx-browse-layer.spx-browse-layer--open{transform:translateX(0);pointer-events:auto;visibility:visible}
+  #screen-scriptureplus .spx-browse-panel{flex:1;display:flex;flex-direction:column;min-height:0;max-width:440px;margin:0 auto;width:100%;box-sizing:border-box;padding:var(--sp-3) var(--sp-4) 0}
+  #screen-scriptureplus .spx-browse-head{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-4);min-height:40px}
+  #screen-scriptureplus .spx-browse-title{flex:1;font-size:18px;font-weight:500;color:var(--text);margin:0;line-height:1.25;text-align:center;padding-right:52px;box-sizing:border-box}
+  #screen-scriptureplus .spx-browse-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:var(--sp-6)}
+  #screen-scriptureplus .spx-browse-book-list{display:flex;flex-direction:column;gap:10px;padding-bottom:var(--sp-4)}
+  #screen-scriptureplus .spx-browse-book-row{width:100%;text-align:left;padding:14px 16px;border-radius:var(--card-radius);border:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.92);font-size:15px;font-weight:500;color:var(--text);cursor:pointer;box-shadow:0 2px 14px rgba(90,74,66,0.04);transition:transform 0.15s ease,background 0.2s ease;font-family:inherit;-webkit-tap-highlight-color:transparent}
+  #screen-scriptureplus .spx-browse-book-row:active{transform:scale(0.992)}
+  #screen-scriptureplus .spx-browse-chapter-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding-bottom:var(--sp-4)}
+  @media(min-width:400px){#screen-scriptureplus .spx-browse-chapter-grid{grid-template-columns:repeat(6,1fr)}}
+  #screen-scriptureplus .spx-browse-chapter-btn{aspect-ratio:1;min-height:44px;border-radius:var(--radius);border:1px solid rgba(234,208,204,0.35);background:rgba(255,252,249,0.85);font-size:14px;font-weight:500;color:var(--text);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:background 0.2s ease,border-color 0.2s ease}
+  #screen-scriptureplus .spx-browse-chapter-btn:active{transform:scale(0.96)}
+  #screen-scriptureplus .spx-browse-empty{text-align:center;padding:var(--sp-5);color:var(--text-light);font-size:14px}
   #screen-scripture .scripture-reading-note{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.55;color:#9c9792;text-align:center;margin:16px auto 0;max-width:26rem;padding:0 var(--sp-2)}
   #screen-scripture .scripture-guided-reading{margin-top:28px;padding:0 0 6px}
   #screen-scripture .scripture-guided-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:500;color:#4a4542;text-align:center;margin:0 0 10px;letter-spacing:-0.02em;line-height:1.25}
@@ -2264,7 +2323,43 @@
   .study-plan-days-toggle:active{opacity:0.85}
   .study-plan-day-n{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent-strong)}
   .study-plan-day-txt{font-size:12.5px;color:var(--text);line-height:1.4}
-  .study-browse-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .study-landing-guided{margin-bottom:var(--sp-5)}
+  .study-landing-guided .study-app-section-title{margin-bottom:14px}
+  .study-guided-active{margin-bottom:14px}
+  .study-guided-active .study-app-card{margin-bottom:0}
+  .study-app-card--guided-active{
+    border-color:rgba(186,160,148,0.52);
+    background:linear-gradient(165deg,rgba(255,255,255,0.96),rgba(248,240,236,0.78));
+    box-shadow:0 4px 20px rgba(90,74,66,0.07);
+    padding:20px 18px;
+  }
+  .study-guided-active-label{margin-bottom:10px}
+  .study-guided-active-day{margin-bottom:4px;color:var(--text)}
+  .study-guided-cta{
+    display:inline-flex;align-items:center;margin-top:6px;padding:0;border:none;background:none;
+    font:inherit;font-size:13px;font-weight:600;color:var(--accent-strong);cursor:pointer;
+    text-decoration:underline;text-underline-offset:3px;-webkit-tap-highlight-color:transparent;
+  }
+  .study-guided-cta:active{opacity:0.82}
+  .study-guided-featured{display:grid;gap:12px}
+  .study-guided-featured--grid{grid-template-columns:1fr}
+  @media(min-width:420px){
+    .study-guided-featured--grid{grid-template-columns:1fr 1fr}
+  }
+  .study-guided-featured .study-app-card{margin-bottom:0}
+  .study-app-card--guided-feature{padding:16px 14px}
+  .study-guided-featured-desc{margin-bottom:8px !important}
+  .study-guided-viewall{margin:18px 0 0;text-align:center}
+  .study-guided-viewall-btn{
+    font-size:13px;font-weight:500;color:var(--text-light);background:none;border:none;padding:6px 10px;
+    cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:inherit;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .study-guided-viewall-btn:active{opacity:0.8}
+  .study-plans-all-title{margin:0 0 8px}
+  .study-plans-all-sub{margin:0 0 18px}
+  .study-plans-all-list .study-app-card{margin-bottom:12px}
+  .study-plans-all-list .study-app-card:last-child{margin-bottom:0}
   .study-browse-tile{
     display:flex;flex-direction:column;align-items:flex-start;gap:4px;
     padding:14px 12px;border-radius:var(--radius);
@@ -3375,12 +3470,6 @@
               <div class="gm-week-closing-questions body-font" id="gmWeekClosingQuestions"></div>
               <p class="gm-week-closing-prayer serif" id="gmWeekClosingPrayer"></p>
             </div>
-            <button type="button" class="home-start-moment-btn gm-week-start-moment-btn" id="gmWeekStartMomentBtn" hidden aria-describedby="gmWeekClosingHint">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.5h5.7l-4.6 3.4 1.8 5.5-4.7-3.4-4.7 3.4 1.8-5.5-4.6-3.4h5.7z"></path></svg>
-              Start your moment
-            </button>
-            <p class="gm-week-closing-hint body-font" id="gmWeekClosingHint" hidden>Finish today&rsquo;s moment first, then close out the week.</p>
-            <button type="button" class="home-weekly-theme-swap gm-week-close-week-link" id="gmWeekCloseBtn" hidden>Close this week</button>
           </div>
         </div>
         <div class="home-theme-intro-card" id="homeThemeIntroCard" hidden>
@@ -3414,6 +3503,8 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.5h5.7l-4.6 3.4 1.8 5.5-4.7-3.4-4.7 3.4 1.8-5.5-4.6-3.4h5.7z"></path></svg>
           Start your moment
         </button>
+        <p class="gm-week-closing-hint body-font" id="gmWeekClosingHint" hidden>Finish today&rsquo;s moment first, then close out the week.</p>
+        <button type="button" class="home-weekly-theme-swap gm-week-close-week-link" id="gmWeekCloseBtn" hidden>Close this week</button>
       </section>
       <div class="home-section home-checkin home-checkin--integrated">
         <div class="checkin-decor">
@@ -4086,23 +4177,47 @@
           <button type="button" class="spx-menu-item" id="spxMenuOpenStudy" role="menuitem">Open Study</button>
           <button type="button" class="spx-menu-item" id="spxMenuOpenSettings" role="menuitem">Settings</button>
         </div>
+        <div class="tab-top-media" role="presentation" aria-hidden="true">
+          <img src="assets/images/word.jpg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </div>
+        <div class="spx-hero-copy">
+          <h2 class="spx-hero-title serif">Start where you are</h2>
+          <p class="spx-hero-sub body-font">Let something speak to you today</p>
+        </div>
         <div class="spx-inner body-font">
-          <label for="spxSearchInput" class="visually-hidden">Search verse, passage, or topic</label>
-          <input type="search" id="spxSearchInput" class="spx-search" placeholder="Search verse, passage, or topic" autocomplete="off" enterkeyhint="search" />
-          <button type="button" class="spx-card spx-card--continue" id="spxContinueCard" hidden>
-            <div class="spx-card-media" aria-hidden="true"><img src="assets/images/word.jpg" alt="" width="640" height="360" loading="lazy" decoding="async"></div>
-            <p class="spx-card-kicker">Continue reading</p>
-            <p class="spx-card-title serif" id="spxContinueTitle">John 3</p>
-            <div class="spx-progress" aria-hidden="true"><div class="spx-progress-fill" id="spxContinueProgressFill" style="width:0%"></div></div>
-            <p class="spx-card-meta body-font" id="spxContinuePct">0% complete</p>
-          </button>
-          <div class="spx-card spx-card--plan" id="spxWeeklyCard" hidden>
-            <p class="spx-card-kicker">Weekly plan</p>
-            <p class="spx-card-title serif" id="spxWeeklyTitle"></p>
-            <p class="spx-card-dayline body-font" id="spxWeeklyDay"></p>
-            <p class="spx-card-sub body-font" id="spxWeeklyDesc"></p>
-            <button type="button" class="spx-card-cta" id="spxWeeklyCta">Continue plan</button>
+          <div class="spx-paths-grid" id="spxPathsGrid">
+            <button type="button" class="spx-path-card" id="spxPathContinue" hidden>
+              <h3 class="spx-path-title serif">Continue where you left off</h3>
+              <p class="spx-path-meta serif" id="spxContinueTitle"></p>
+              <div class="spx-progress" aria-hidden="true"><div class="spx-progress-fill" id="spxContinueProgressFill" style="width:0%"></div></div>
+              <p class="spx-path-foot body-font" id="spxContinuePct"></p>
+              <span class="spx-path-cta">Resume →</span>
+            </button>
+            <button type="button" class="spx-path-card" id="spxPathGuided" hidden>
+              <h3 class="spx-path-title serif">Follow a guided path</h3>
+              <p class="spx-path-meta serif" id="spxWeeklyTitle"></p>
+              <p class="spx-path-sub body-font" id="spxWeeklyDesc"></p>
+              <p class="spx-path-dayline body-font" id="spxWeeklyDay"></p>
+              <span class="spx-path-cta">Continue journey →</span>
+            </button>
+            <button type="button" class="spx-path-card spx-path-card--explore" id="spxPathExplore">
+              <h3 class="spx-path-title serif">Open the Bible</h3>
+              <p class="spx-path-bible-lines body-font"><span>Old Testament</span><span aria-hidden="true"> · </span><span>New Testament</span></p>
+              <p class="spx-path-bible-meta body-font">39 books · 27 books</p>
+              <span class="spx-path-cta">Browse books →</span>
+            </button>
           </div>
+          <label for="spxSearchInput" class="visually-hidden">Search verse, passage, or topic</label>
+          <input type="search" id="spxSearchInput" class="spx-search spx-search--subtle" placeholder="Search a verse or topic" autocomplete="off" enterkeyhint="search" />
+          <section class="spx-not-sure-section" aria-labelledby="spxNotSureLabel">
+            <p class="spx-not-sure-label serif" id="spxNotSureLabel">Not sure where to start?</p>
+            <div class="spx-not-sure-chips" id="spxGuidedChips" role="group" aria-label="Suggested starting points">
+              <button type="button" class="spx-guided-chip body-font" data-spx-guided="anxious">Feeling anxious</button>
+              <button type="button" class="spx-guided-chip body-font" data-spx-guided="peace">Want peace</button>
+              <button type="button" class="spx-guided-chip body-font" data-spx-guided="direction">Need direction</button>
+              <button type="button" class="spx-guided-chip body-font" data-spx-guided="read">Just explore</button>
+            </div>
+          </section>
         </div>
       </div>
       <div class="spx-passage-layer" id="scripturePlusPassageLayer" hidden aria-hidden="true">
@@ -4123,6 +4238,13 @@
             </div>
           </div>
           <div class="spx-pass-verse serif display-font" id="spxPassVerse"></div>
+          <section class="spx-pass-moment" aria-labelledby="spxPassMomentLabel">
+            <p class="spx-pass-moment-label" id="spxPassMomentLabel">Take a moment with this</p>
+            <div class="spx-pass-moment-btns">
+              <button type="button" class="spx-moment-btn spx-moment-btn--ghost body-font" id="spxSitBtn">Sit with this</button>
+              <button type="button" class="spx-moment-btn spx-moment-btn--primary body-font" id="spxPrayBtn">Pray with this</button>
+            </div>
+          </section>
           <div class="spx-pass-toolbar">
             <button type="button" class="spx-chip-btn" id="spxShareBtn">Share</button>
             <button type="button" class="spx-chip-btn" id="spxSaveBtn">Save</button>
@@ -4131,8 +4253,7 @@
           </div>
           <div class="reflect-meaning spx-meaning" id="spxMeaningRoot">
             <button type="button" class="reflect-meaning__trigger" id="spxMeaningTrigger" aria-expanded="false" aria-controls="spxMeaningContent">
-              <span class="spx-meaning-label">What this means</span>
-              <span class="spx-ai-pill" aria-hidden="true">AI</span>
+              <span class="spx-meaning-label">What this reveals</span>
               <span class="reflect-meaning__chevron" aria-hidden="true">⌄</span>
             </button>
             <div class="reflect-meaning__content" id="spxMeaningContent">
@@ -4140,28 +4261,33 @@
             </div>
           </div>
           <details class="word-details spx-details">
-            <summary>Context</summary>
+            <summary>What&rsquo;s happening here</summary>
             <div class="word-details-body"><div id="spxCtxBody" class="body-font spx-prose"></div></div>
           </details>
           <details class="word-details spx-details">
-            <summary>Cross references</summary>
-            <div class="word-details-body"><div class="spx-xref-row" id="spxXrefRow" role="group" aria-label="Cross references"></div></div>
+            <summary>Related scripture</summary>
+            <div class="word-details-body"><div class="spx-xref-row" id="spxXrefRow" role="group" aria-label="Related scripture"></div></div>
           </details>
-          <details class="word-details spx-details">
-            <summary>Reflect on this</summary>
+          <details class="word-details spx-details" id="spxReflectDetails">
+            <summary>Sit with this</summary>
             <div class="word-details-body"><ul class="spx-prompts body-font" id="spxReflectList"></ul></div>
           </details>
           <details class="word-details spx-details">
-            <summary>Pray this verse</summary>
+            <summary>Turn this into a prayer</summary>
             <div class="word-details-body">
               <p class="body-font spx-prose" id="spxPrayLead"></p>
-              <button type="button" class="spx-card-cta spx-card-cta--block" id="spxPrayTurnBtn">Turn this into a prayer</button>
+              <button type="button" class="spx-card-cta spx-card-cta--block" id="spxPrayTurnBtn">Continue in Prayer →</button>
             </div>
           </details>
-          <div class="spx-pass-footer">
-            <button type="button" class="spx-footer-btn spx-footer-btn--ghost body-font" id="spxSitBtn">Sit with this</button>
-            <button type="button" class="spx-footer-btn spx-footer-btn--primary body-font" id="spxPrayBtn">Pray with this</button>
+        </div>
+      </div>
+      <div class="spx-browse-layer" id="spxBrowseLayer" hidden aria-hidden="true">
+        <div class="spx-browse-panel body-font">
+          <div class="spx-browse-head">
+            <button type="button" class="spx-pass-back body-font" id="spxBrowseBackBtn" aria-label="Back">← Back</button>
+            <h2 class="spx-browse-title serif" id="spxBrowseTitle"></h2>
           </div>
+          <div class="spx-browse-scroll" id="spxBrowseBody"></div>
         </div>
       </div>
     </div>
@@ -6344,6 +6470,7 @@
     if (body) {
       body.innerHTML = '';
       delete body.dataset.loaded;
+      body.classList.remove('reflect-meaning__body--enter', 'spx-meaning-reveal');
     }
     if (layer) {
       layer.classList.remove('spx-passage-layer--open');
@@ -6355,6 +6482,7 @@
         d.open = false;
       } catch (e) {}
     });
+    if (typeof closeSpxBrowseLayer === 'function') closeSpxBrowseLayer();
   }
 
   function spxBookProgressPercent(book, chapter) {
@@ -6395,6 +6523,180 @@
     return d + ' ' + chapter + ':' + vs;
   }
 
+  var spxBrowseNav = { screen: 'closed', testament: null, book: null, fromPicker: false };
+
+  function closeSpxBrowseLayer() {
+    var layer = document.getElementById('spxBrowseLayer');
+    if (layer) {
+      layer.classList.remove('spx-browse-layer--open');
+      layer.hidden = true;
+      layer.setAttribute('aria-hidden', 'true');
+    }
+    spxBrowseNav = { screen: 'closed', testament: null, book: null, fromPicker: false };
+  }
+
+  function renderSpxBrowseTestamentPicker() {
+    spxBrowseNav.screen = 'picker';
+    spxBrowseNav.testament = null;
+    spxBrowseNav.book = null;
+    var titleEl = document.getElementById('spxBrowseTitle');
+    var bodyEl = document.getElementById('spxBrowseBody');
+    if (!titleEl || !bodyEl) return;
+    titleEl.textContent = 'Open the Bible';
+    bodyEl.innerHTML = '';
+    var wrap = document.createElement('div');
+    wrap.className = 'spx-browse-picker';
+    var rows = [
+      ['ot', 'Old Testament', '39 books'],
+      ['nt', 'New Testament', '27 books']
+    ];
+    rows.forEach(function (row) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'spx-browse-picker-row';
+      b.innerHTML =
+        '<span class="serif spx-browse-picker-title">' +
+        row[1] +
+        '</span><span class="body-font spx-browse-picker-sub">' +
+        row[2] +
+        '</span>';
+      b.addEventListener('click', function () {
+        spxBrowseNav.testament = row[0];
+        spxBrowseNav.book = null;
+        renderSpxBrowseBooks();
+        try {
+          var layer = document.getElementById('spxBrowseLayer');
+          var sc = layer && layer.querySelector('.spx-browse-scroll');
+          if (sc) sc.scrollTop = 0;
+        } catch (eSc) {}
+      });
+      wrap.appendChild(b);
+    });
+    bodyEl.appendChild(wrap);
+  }
+
+  function openSpxBrowseEntry() {
+    closeSpxMenu();
+    spxBrowseNav = { screen: 'picker', testament: null, book: null, fromPicker: true };
+    var layer = document.getElementById('spxBrowseLayer');
+    if (!layer) return;
+    layer.hidden = false;
+    layer.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function () {
+      layer.classList.add('spx-browse-layer--open');
+    });
+    renderSpxBrowseTestamentPicker();
+    try {
+      var sc = layer.querySelector('.spx-browse-scroll');
+      if (sc) sc.scrollTop = 0;
+    } catch (eSc) {}
+  }
+
+  function spxBrowseBooksArray() {
+    return spxBrowseNav.testament === 'nt' ? BF_NT_BOOKS : BF_OT_BOOKS;
+  }
+
+  function renderSpxBrowseBooks() {
+    spxBrowseNav.screen = 'books';
+    spxBrowseNav.book = null;
+    var titleEl = document.getElementById('spxBrowseTitle');
+    var bodyEl = document.getElementById('spxBrowseBody');
+    if (!titleEl || !bodyEl) return;
+    titleEl.textContent = spxBrowseNav.testament === 'nt' ? 'New Testament' : 'Old Testament';
+    bodyEl.innerHTML = '';
+    var list = document.createElement('div');
+    list.className = 'spx-browse-book-list';
+    spxBrowseBooksArray().forEach(function (name) {
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'spx-browse-book-row body-font';
+      row.textContent = name;
+      row.addEventListener('click', function () {
+        spxBrowseNav.book = name;
+        renderSpxBrowseChapters();
+      });
+      list.appendChild(row);
+    });
+    bodyEl.appendChild(list);
+  }
+
+  function renderSpxBrowseChapters() {
+    var book = spxBrowseNav.book;
+    if (!book) return;
+    spxBrowseNav.screen = 'chapters';
+    var titleEl = document.getElementById('spxBrowseTitle');
+    var bodyEl = document.getElementById('spxBrowseBody');
+    if (!titleEl || !bodyEl) return;
+    titleEl.textContent = book;
+    bodyEl.innerHTML = '';
+    var max = typeof bfChapterCount === 'function' ? bfChapterCount(book) : 0;
+    if (!max || max < 1) {
+      bodyEl.innerHTML = '<p class="body-font spx-browse-empty">Chapters aren\u2019t available for this book yet.</p>';
+      return;
+    }
+    var grid = document.createElement('div');
+    grid.className = 'spx-browse-chapter-grid';
+    grid.setAttribute('aria-label', 'Chapters in ' + book);
+    for (var c = 1; c <= max; c++) {
+      (function (ch) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'spx-browse-chapter-btn body-font';
+        b.textContent = String(ch);
+        b.addEventListener('click', function () {
+          closeSpxBrowseLayer();
+          void openScripturePlusPassage({ bookRaw: book, chapter: ch, verseStart: 1, verseEnd: 1 });
+        });
+        grid.appendChild(b);
+      })(c);
+    }
+    bodyEl.appendChild(grid);
+  }
+
+  function openSpxBrowseTestament(testament) {
+    if (testament !== 'ot' && testament !== 'nt') return;
+    closeSpxMenu();
+    spxBrowseNav = { screen: 'books', testament: testament, book: null, fromPicker: false };
+    var layer = document.getElementById('spxBrowseLayer');
+    if (!layer) return;
+    layer.hidden = false;
+    layer.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function () {
+      layer.classList.add('spx-browse-layer--open');
+    });
+    renderSpxBrowseBooks();
+    try {
+      var sc = layer.querySelector('.spx-browse-scroll');
+      if (sc) sc.scrollTop = 0;
+    } catch (eSc) {}
+  }
+
+  function spxBrowseBack() {
+    if (spxBrowseNav.screen === 'chapters') {
+      renderSpxBrowseBooks();
+      try {
+        var layer = document.getElementById('spxBrowseLayer');
+        var sc = layer && layer.querySelector('.spx-browse-scroll');
+        if (sc) sc.scrollTop = 0;
+      } catch (eS) {}
+      return;
+    }
+    if (spxBrowseNav.screen === 'books') {
+      if (spxBrowseNav.fromPicker) {
+        renderSpxBrowseTestamentPicker();
+        try {
+          var layer2 = document.getElementById('spxBrowseLayer');
+          var sc2 = layer2 && layer2.querySelector('.spx-browse-scroll');
+          if (sc2) sc2.scrollTop = 0;
+        } catch (eS2) {}
+        return;
+      }
+      closeSpxBrowseLayer();
+      return;
+    }
+    closeSpxBrowseLayer();
+  }
+
   function bindSpxMeaningAiOnce() {
     var root = document.getElementById('spxMeaningRoot');
     var trigger = document.getElementById('spxMeaningTrigger');
@@ -6402,15 +6704,76 @@
     if (!root || !trigger || !meanEl || root.dataset.spxAiBound === '1') return;
     root.dataset.spxAiBound = '1';
     var inflight = false;
-    var errMsg = 'This will open up shortly. Try again in a moment.';
-    var loadingHtml =
-      '<p class="body-font spx-thinking" style="text-align:center;font-size:13px;color:var(--text-light);margin:0 0 10px">Thinking\u2026</p>' +
-      '<div class="reflect-meaning__loading" role="status" aria-live="polite">' +
-      '<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+
     function setMeaningLoading() {
-      meanEl.classList.remove('reflect-meaning__body--enter');
-      meanEl.innerHTML = loadingHtml;
+      meanEl.classList.remove('reflect-meaning__body--enter', 'spx-meaning-reveal');
+      meanEl.innerHTML =
+        '<p class="body-font spx-thinking" style="text-align:center;font-size:13px;color:var(--text-light);margin:0 0 10px">Understanding this\u2026</p>' +
+        '<div class="reflect-meaning__loading" role="status" aria-live="polite">' +
+        '<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
     }
+
+    function setMeaningRetry() {
+      meanEl.classList.remove('reflect-meaning__body--enter', 'spx-meaning-reveal');
+      meanEl.innerHTML =
+        '<div class="spx-meaning-retry-wrap">' +
+        '<p class="body-font spx-meaning-retry-lead" style="font-size:13px;color:var(--text-light);margin:0;line-height:1.55">We couldn\u2019t quite reach that yet.</p>' +
+        '<button type="button" class="spx-meaning-retry-btn body-font" data-spx-meaning-retry="1">Try again</button>' +
+        '</div>';
+    }
+
+    function runMeaningFetch() {
+      var verseBlock = (spxPassState.refLine + (spxPassState.quote ? '\n' + spxPassState.quote : '')).trim().slice(0, 1400);
+      var url =
+        typeof groundedApiUrl === 'function' ? groundedApiUrl('/api/reflect-meaning') : '/api/reflect-meaning';
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          verse: verseBlock,
+          reflection: 'Scripture+ reading. Offer a calm, grounded explanation for someone sitting quietly with this passage.'
+        })
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            return { ok: res.ok, data: data };
+          });
+        })
+        .then(function (out) {
+          var text = out.ok && out.data && out.data.meaning && String(out.data.meaning).trim();
+          if (text) {
+            meanEl.textContent = text;
+            meanEl.dataset.loaded = 'true';
+            meanEl.classList.remove('reflect-meaning__body--enter', 'spx-meaning-reveal');
+            void meanEl.offsetWidth;
+            requestAnimationFrame(function () {
+              meanEl.classList.add('reflect-meaning__body--enter', 'spx-meaning-reveal');
+            });
+          } else {
+            delete meanEl.dataset.loaded;
+            setMeaningRetry();
+          }
+        })
+        .catch(function () {
+          delete meanEl.dataset.loaded;
+          setMeaningRetry();
+        })
+        .finally(function () {
+          inflight = false;
+        });
+    }
+
+    meanEl.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-spx-meaning-retry]');
+      if (!t) return;
+      e.preventDefault();
+      if (inflight) return;
+      inflight = true;
+      setMeaningLoading();
+      runMeaningFetch();
+    });
+
     trigger.addEventListener(
       'click',
       function () {
@@ -6421,47 +6784,7 @@
         if (inflight) return;
         inflight = true;
         setMeaningLoading();
-        var verseBlock = (spxPassState.refLine + (spxPassState.quote ? '\n' + spxPassState.quote : '')).trim().slice(0, 1400);
-        var url =
-          typeof groundedApiUrl === 'function' ? groundedApiUrl('/api/reflect-meaning') : '/api/reflect-meaning';
-        fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({
-            verse: verseBlock,
-            reflection: 'Scripture+ reading. Offer a calm, grounded explanation for someone sitting quietly with this passage.'
-          })
-        })
-          .then(function (res) {
-            return res.json().then(function (data) {
-              return { ok: res.ok, data: data };
-            });
-          })
-          .then(function (out) {
-            var text = out.ok && out.data && out.data.meaning && String(out.data.meaning).trim();
-            if (text) {
-              meanEl.textContent = text;
-              meanEl.dataset.loaded = 'true';
-              meanEl.classList.remove('reflect-meaning__body--enter');
-              void meanEl.offsetWidth;
-              requestAnimationFrame(function () {
-                meanEl.classList.add('reflect-meaning__body--enter');
-              });
-            } else {
-              meanEl.textContent = errMsg;
-              delete meanEl.dataset.loaded;
-              meanEl.classList.remove('reflect-meaning__body--enter');
-            }
-          })
-          .catch(function () {
-            meanEl.textContent = errMsg;
-            delete meanEl.dataset.loaded;
-            meanEl.classList.remove('reflect-meaning__body--enter');
-          })
-          .finally(function () {
-            inflight = false;
-          });
+        runMeaningFetch();
       },
       { passive: true }
     );
@@ -6504,6 +6827,7 @@
     var refEl = document.getElementById('spxPassRef');
     if (!layer || !verseEl || !refEl) return;
     closeSpxMenu();
+    if (typeof closeSpxBrowseLayer === 'function') closeSpxBrowseLayer();
     verseEl.textContent = 'Loading\u2026';
     refEl.textContent = '';
     layer.hidden = false;
@@ -6519,6 +6843,7 @@
     if (meanBody) {
       meanBody.innerHTML = '';
       delete meanBody.dataset.loaded;
+      meanBody.classList.remove('reflect-meaning__body--enter', 'spx-meaning-reveal');
     }
     try {
       var result = await loadChapterVerses(parsed.bookRaw, ch);
@@ -6583,7 +6908,7 @@
 
   function renderScripturePlusTab() {
     var resume = typeof readBibleResume === 'function' ? readBibleResume() : null;
-    var cont = document.getElementById('spxContinueCard');
+    var cont = document.getElementById('spxPathContinue');
     var title = document.getElementById('spxContinueTitle');
     var fill = document.getElementById('spxContinueProgressFill');
     var pct = document.getElementById('spxContinuePct');
@@ -6598,7 +6923,7 @@
         cont.hidden = true;
       }
     }
-    var wkCard = document.getElementById('spxWeeklyCard');
+    var wkCard = document.getElementById('spxPathGuided');
     var info = typeof getScriptureSuggestedReadingForCurrentWeek === 'function' ? getScriptureSuggestedReadingForCurrentWeek() : null;
     if (wkCard && info) {
       wkCard.hidden = false;
@@ -6667,19 +6992,24 @@
         closeSpxMenu();
         if (typeof switchTab === 'function') switchTab('profile');
       });
-    var cont = document.getElementById('spxContinueCard');
+    var cont = document.getElementById('spxPathContinue');
     if (cont)
       cont.addEventListener('click', function () {
         var r = typeof readBibleResume === 'function' ? readBibleResume() : null;
         if (!r || !r.book || !r.chapter) return;
         void openScripturePlusPassage({ bookRaw: r.book, chapter: r.chapter, verseStart: 1, verseEnd: 1 });
       });
-    var wcta = document.getElementById('spxWeeklyCta');
-    if (wcta)
-      wcta.addEventListener('click', function () {
+    var guided = document.getElementById('spxPathGuided');
+    if (guided)
+      guided.addEventListener('click', function () {
         var info = typeof getScriptureSuggestedReadingForCurrentWeek === 'function' ? getScriptureSuggestedReadingForCurrentWeek() : null;
         if (!info) return;
         void openScripturePlusPassage({ bookRaw: info.book, chapter: info.chapter, verseStart: 1, verseEnd: 1 });
+      });
+    var explore = document.getElementById('spxPathExplore');
+    if (explore)
+      explore.addEventListener('click', function () {
+        if (typeof openSpxBrowseEntry === 'function') openSpxBrowseEntry();
       });
     var inp = document.getElementById('spxSearchInput');
     if (inp) {
@@ -6688,6 +7018,25 @@
         e.preventDefault();
         var p = parseScripturePlusSearchQuery(inp.value);
         if (p) void openScripturePlusPassage(p);
+      });
+    }
+    document.getElementById('spxBrowseBackBtn') &&
+      document.getElementById('spxBrowseBackBtn').addEventListener('click', function () {
+        if (typeof spxBrowseBack === 'function') spxBrowseBack();
+      });
+    var chips = document.getElementById('spxGuidedChips');
+    if (chips) {
+      chips.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-spx-guided]');
+        if (!b || !chips.contains(b)) return;
+        var key = b.getAttribute('data-spx-guided');
+        var pool = typeof SCRIPTURE_GUIDED_DESTINATIONS !== 'undefined' ? SCRIPTURE_GUIDED_DESTINATIONS[key] : null;
+        if (!pool || !pool.length) return;
+        var pair =
+          typeof pickGuidedReadingDestination === 'function' ? pickGuidedReadingDestination(pool) : pool[0];
+        if (!pair || !pair[0]) return;
+        var chapter = Math.max(1, parseInt(String(pair[1]), 10) || 1);
+        void openScripturePlusPassage({ bookRaw: pair[0], chapter: chapter, verseStart: 1, verseEnd: 1 });
       });
     }
     document.getElementById('spxPassBackBtn') &&
@@ -6749,6 +7098,20 @@
       });
     document.getElementById('spxSitBtn') &&
       document.getElementById('spxSitBtn').addEventListener('click', function () {
+        var d = document.getElementById('spxReflectDetails');
+        if (d) {
+          try {
+            d.open = true;
+          } catch (eD) {}
+          try {
+            d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } catch (eS) {
+            try {
+              d.scrollIntoView();
+            } catch (eS2) {}
+          }
+          return;
+        }
         closeScripturePlusPassage();
       });
     function goPray() {
@@ -7033,21 +7396,15 @@
     const wrap = document.getElementById('homeWeeklyClosingWrap');
     const closing = document.getElementById('gmWeekClosing');
     const closeBtn = document.getElementById('gmWeekCloseBtn');
-    const weekStartBtn = document.getElementById('gmWeekStartMomentBtn');
     const weekHint = document.getElementById('gmWeekClosingHint');
-    const homeMainStart = document.getElementById('homeStartMomentBtn');
     function hideClosingChrome() {
       if (wrap) wrap.style.display = 'none';
       if (closing) closing.hidden = true;
       if (closeBtn) closeBtn.hidden = true;
-      if (weekStartBtn) weekStartBtn.hidden = true;
       if (weekHint) weekHint.hidden = true;
-      if (homeMainStart) homeMainStart.hidden = false;
       momentWeeklyClosingUiActive = false;
     }
     if (!wrap || !closing) {
-      const hms = document.getElementById('homeStartMomentBtn');
-      if (hms) hms.hidden = false;
       return;
     }
     const day = new Date().getDay();
@@ -7070,9 +7427,7 @@
     populateHomeWeeklyClosingLayout(ctx.themeTitle || '', anchor, prayer);
     closing.hidden = false;
     if (closeBtn) closeBtn.hidden = false;
-    if (weekStartBtn) weekStartBtn.hidden = false;
     if (weekHint) weekHint.hidden = false;
-    if (homeMainStart) homeMainStart.hidden = true;
     momentWeeklyClosingUiActive = true;
   }
 
@@ -7977,14 +8332,6 @@
         if (typeof recordWeeklyMomentArcCompletion === 'function') recordWeeklyMomentArcCompletion();
         if (typeof showThemeWeekCompleteMoment === 'function') showThemeWeekCompleteMoment();
         if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
-      });
-    }
-    const gmWeekStartBtn = document.getElementById('gmWeekStartMomentBtn');
-    if (gmWeekStartBtn) {
-      gmWeekStartBtn.addEventListener('click', function () {
-        const intro = document.getElementById('homeThemeIntroCard');
-        if (intro && !intro.hidden && typeof dismissHomeThemeIntro === 'function') dismissHomeThemeIntro();
-        openGuidedMomentFlow();
       });
     }
     const twcOv = document.getElementById('themeWeekCompleteOverlay');
@@ -14505,6 +14852,22 @@
     return { verse: verse.slice(0, 1400), reflection: String(reflection).slice(0, 1400) };
   }
 
+  /** When /api/reflect-meaning fails, show copy already on the verse or from today’s weekly theme day. */
+  function getReflectMeaningFallbackText(v) {
+    const explain = v && v.explain != null ? String(v.explain).trim() : '';
+    if (explain) return explain;
+    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
+    if (ctx && ctx.day && ctx.day.reflection != null) {
+      const t = String(ctx.day.reflection).trim();
+      if (t) return t;
+    }
+    if (typeof getReflectLeadTextForSession === 'function') {
+      const lead = String(getReflectLeadTextForSession() || '').trim();
+      if (lead) return lead;
+    }
+    return 'Take a breath and stay with this for a moment. Nothing here needs fixing before you are allowed to rest.';
+  }
+
   function bindReflectMeaningAiOnOpen(v) {
     const root = document.getElementById('reflectMeaningRoot');
     const trigger = document.getElementById('reflectMeaningTrigger');
@@ -14512,7 +14875,6 @@
     if (!root || !trigger || !meanEl || root.dataset.reflectAiBound === '1') return;
     root.dataset.reflectAiBound = '1';
     var inflight = false;
-    var errMsg = 'This will open up shortly. Try again in a moment.';
     var loadingHtml =
       '<div class="reflect-meaning__loading" role="status" aria-live="polite">' +
       '<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
@@ -14542,9 +14904,14 @@
           body: JSON.stringify({ verse: ctx.verse, reflection: ctx.reflection })
         })
           .then(function (res) {
-            return res.json().then(function (data) {
-              return { ok: res.ok, data: data };
-            });
+            return res
+              .json()
+              .then(function (data) {
+                return { ok: res.ok, data: data };
+              })
+              .catch(function () {
+                return { ok: false, data: null };
+              });
           })
           .then(function (out) {
             var text =
@@ -14558,15 +14925,23 @@
                 meanEl.classList.add('reflect-meaning__body--enter');
               });
             } else {
-              meanEl.textContent = errMsg;
-              delete meanEl.dataset.loaded;
+              meanEl.textContent = getReflectMeaningFallbackText(v);
+              meanEl.dataset.loaded = 'true';
               meanEl.classList.remove('reflect-meaning__body--enter');
+              void meanEl.offsetWidth;
+              requestAnimationFrame(function () {
+                meanEl.classList.add('reflect-meaning__body--enter');
+              });
             }
           })
           .catch(function () {
-            meanEl.textContent = errMsg;
-            delete meanEl.dataset.loaded;
+            meanEl.textContent = getReflectMeaningFallbackText(v);
+            meanEl.dataset.loaded = 'true';
             meanEl.classList.remove('reflect-meaning__body--enter');
+            void meanEl.offsetWidth;
+            requestAnimationFrame(function () {
+              meanEl.classList.add('reflect-meaning__body--enter');
+            });
           })
           .finally(function () {
             inflight = false;
