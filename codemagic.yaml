@@ -18,7 +18,7 @@ workflows:
         XCODE_SCHEME: App
       xcode: latest
 
-   scripts:
+    scripts:
   - npm ci
   - npm run build
   - npx cap sync ios
@@ -29,10 +29,10 @@ workflows:
     script: |
       /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ios/App/App/Info.plist
 
-  - |
-    xcode-project build-ipa \
-      --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-      --scheme "$XCODE_SCHEME"
+  - name: Build IPA
+    script: xcode-project build-ipa --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
+      - name: Build IPA
+        script: xcode-project build-ipa --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
 
     artifacts:
       - build/ios/ipa/*.ipa
