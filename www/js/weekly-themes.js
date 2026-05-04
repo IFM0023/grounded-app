@@ -533,7 +533,7 @@
             (ref ? 'These lines (' + ref + ') ' : 'This scripture ') +
             'belongs to the week’s theme of ' +
             (theme.title || 'walking with God') +
-            ' and to today’s focus on ' +
+            ' and to today’s step toward ' +
             (foc || 'your heart') +
             '. Let them be a companion, not a quiz.';
         } else {
@@ -544,6 +544,208 @@
               ? '—finds a home in ' + ref + ', because God speaks into ordinary days, not only ideal ones.'
               : '—finds a home in this week’s arc with God.');
         }
+      }
+    }
+  })();
+
+  function weeklyDayApplicationFromPrompt(foc, pr, verseRef) {
+    var f = foc ? String(foc).trim() : '';
+    var p = pr ? String(pr).trim() : '';
+    var v = verseRef ? String(verseRef).trim() : '';
+    var hook = p
+      ? 'Before the day ends, run one small experiment with God: ' + p + ' Keep it concrete enough that you could describe what you did in one sentence.'
+      : 'Before the day ends, choose one concrete act—words, pause, apology, boundary, or gratitude—that matches today’s focus' +
+        (f ? ' (“' + f + '”)' : '') +
+        ' instead of only thinking about it.';
+    if (v) {
+      return hook + ' Let ' + v + ' be the lens, not the lever you use to pressure yourself.';
+    }
+    return hook;
+  }
+
+  var WEEKLY_INSIGHT_FALLBACKS = [
+    'It is easy to treat this week as inspiration and skip the awkward part: Scripture only changes you where it interrupts a default behavior, not where it confirms what you already wanted to believe.',
+    'Most of us nod at verses like this and still live as if we must self-generate peace, worth, and outcomes. The tension between that instinct and what the text invites is where today actually begins.',
+    'We often read for a mood and miss the claim: God is addressing real fear, real relationships, and real time. The “aha” is usually less about new information and more about honesty you have been postponing.',
+    'Agreement is not the same as reception. You can say “true” and still keep your hands closed. The gift is letting the line land somewhere specific—body, calendar, or a conversation you keep avoiding.',
+    'Spiritual growth is not mainly intensity; it is repetition with mercy. The insight you need may not sound novel—it may sound like something you already know but have not practiced where it costs you.'
+  ];
+
+  function weeklyDayInsightFallback(themeTitle, foc, h) {
+    var i = typeof h === 'number' ? h % WEEKLY_INSIGHT_FALLBACKS.length : 0;
+    var t = themeTitle ? String(themeTitle).trim() : '';
+    var f = foc ? String(foc).trim() : '';
+    var base = WEEKLY_INSIGHT_FALLBACKS[i];
+    if (t || f) {
+      return base + (f ? ' Notice where “' + f + '” collides with how you normally cope.' : '');
+    }
+    return base;
+  }
+
+  var WEEKLY_CLOSE_LINES = [
+    'Let one sentence from today stay with you. You do not have to finish the whole theme—only let this day land where you actually live.',
+    'Carry what helped; release what did not. When you return tomorrow, you are allowed to be a slightly different version of honest.',
+    'Nothing about today had to be perfect to be real. Small faithfulness still counts—and it makes the next step easier to find.',
+    'You showed up with your real mind, not a polished one. That is the kind of presence God keeps meeting in the stories we love.',
+    'When the noise returns, you have language now. Use it gently with yourself—and come back when you want the next line of the journey.',
+    'Rest in one true thing you noticed today. Hunger for the next step is allowed; so is closing your eyes for a minute and receiving quiet.'
+  ];
+
+  function weeklyDayCloseLine(themeTitle, foc, di) {
+    var h = hashString(String(themeTitle || '') + '\n' + String(foc || '') + '\n' + String(di || 0));
+    return WEEKLY_CLOSE_LINES[h % WEEKLY_CLOSE_LINES.length];
+  }
+
+  function weeklyDayRespondPrayer(themeTitle, foc, pr, verseRef) {
+    var f = foc ? String(foc).trim() : 'this day';
+    var p = pr ? String(pr).trim() : '';
+    var v = verseRef ? String(verseRef).trim() : '';
+    var mid = p
+      ? ' You know what I am circling when I ask: ' + p.slice(0, 120) + (p.length > 120 ? '…' : '')
+      : ' You know what I am carrying beneath my words.';
+    var tail = v
+      ? ' Let what is true in ' + v + ' shape my next step with mercy, not pressure.'
+      : ' Shape my next step with mercy, not pressure.';
+    return 'God, meet me in ' + f + '.' + mid + tail + ' Amen.';
+  }
+
+  /**
+   * Meaning + insight (split from legacy `reflection`) and three grounded Reflect prompts.
+   * Keeps Reflect tab from repeating the same paragraph above and below scripture.
+   */
+  (function enrichHomeWeeklyThemesReflectCopy() {
+    if (!WEEKLY_THEMES || !WEEKLY_THEMES.length) return;
+    for (var ti = 0; ti < WEEKLY_THEMES.length; ti++) {
+      var theme = WEEKLY_THEMES[ti];
+      var days = theme && theme.days;
+      if (!days || !days.length) continue;
+      for (var di = 0; di < days.length; di++) {
+        var day = days[di];
+        if (!day || day.reflectCopyEnriched) continue;
+        var raw =
+          day.reflection == null
+            ? ''
+            : typeof day.reflection === 'string'
+              ? day.reflection
+              : Array.isArray(day.reflection)
+                ? day.reflection.join(' ')
+                : String(day.reflection);
+        raw = raw.replace(/\s+/g, ' ').trim();
+        var verseRef =
+          day.verse &&
+          ((day.verse.reference != null && String(day.verse.reference).trim()) ||
+            (day.verse.ref != null && String(day.verse.ref).trim()) ||
+            '');
+        var foc = day.focus != null ? String(day.focus).trim() : '';
+        var qPrompt = day.prompt != null ? String(day.prompt).trim() : '';
+        if (!raw) {
+          if (!day.meaning || !String(day.meaning).trim()) {
+            var vt = day.verse && day.verse.text != null ? String(day.verse.text).trim() : '';
+            day.meaning = vt
+              ? 'Let this verse be today’s anchor under “' +
+                String(theme.title || 'this week').trim() +
+                '”: ' +
+                vt
+              : 'Today’s invitation under “' +
+                String(theme.title || 'this week').trim() +
+                '” is to stay present with God in small, honest moments—no performance required.';
+          }
+          if (!day.insight || !String(day.insight).trim()) {
+            day.insight = weeklyDayInsightFallback(
+              theme.title,
+              foc,
+              hashString(String(theme.title || '') + '|' + qPrompt + '|' + String(di))
+            );
+          }
+          if (!day.application || !String(day.application).trim()) {
+            day.application = weeklyDayApplicationFromPrompt(foc, qPrompt, verseRef);
+          }
+          if (!day.close || !String(day.close).trim()) {
+            day.close = weeklyDayCloseLine(theme.title, foc, di);
+          }
+          if (!day.prayer || !String(day.prayer).trim()) {
+            day.prayer = weeklyDayRespondPrayer(theme.title, foc, qPrompt, verseRef);
+          }
+          var q1e = qPrompt;
+          if (!q1e) {
+            q1e =
+              'Where does ' +
+              (foc || 'this week’s focus') +
+              ' meet a real choice you are facing before the weekend?';
+          }
+          var q2e = verseRef
+            ? 'Reread ' +
+              verseRef +
+              '—which phrase lands as comfort, which as challenge, and what might that tension be telling you?'
+            : 'Which phrase lands as comfort, which as challenge—and what might that tension be telling you?';
+          var q3e =
+            'If you took this passage seriously for forty-eight hours, what is one behavior someone close to you might actually notice?';
+          if (!day.reflectQs || !day.reflectQs.length) {
+            day.reflectQs = [q1e, q2e, q3e];
+          }
+          day.reflectCopyEnriched = true;
+          continue;
+        }
+        if (!day.meaning || !day.insight) {
+          var parts = raw
+            .split(/\.\s+/)
+            .map(function (p) {
+              return p.replace(/\s+/g, ' ').trim();
+            })
+            .filter(Boolean);
+          var n = parts.length;
+          if (n >= 3) {
+            day.meaning = parts[0].replace(/\s+$/, '');
+            if (!/[.!?]$/.test(day.meaning)) day.meaning += '.';
+            day.insight = parts[1].replace(/\s+$/, '');
+            if (!/[.!?]$/.test(day.insight)) day.insight += '.';
+            day.application = parts
+              .slice(2)
+              .join('. ')
+              .replace(/\s+/g, ' ')
+              .trim();
+            if (day.application && !/[.!?]$/.test(day.application)) day.application += '.';
+          } else if (n === 2) {
+            day.meaning = parts[0] + (/[.!?]$/.test(parts[0]) ? '' : '.');
+            day.insight = parts[1] + (/[.!?]$/.test(parts[1]) ? '' : '.');
+            day.application = weeklyDayApplicationFromPrompt(foc, qPrompt, verseRef);
+          } else {
+            day.meaning = raw;
+            day.insight = weeklyDayInsightFallback(
+              theme.title,
+              foc,
+              hashString(raw + String(theme.title || '') + String(foc || ''))
+            );
+            day.application = weeklyDayApplicationFromPrompt(foc, qPrompt, verseRef);
+          }
+        }
+        if (!day.application || !String(day.application).trim()) {
+          day.application = weeklyDayApplicationFromPrompt(foc, qPrompt, verseRef);
+        }
+        if (!day.close || !String(day.close).trim()) {
+          day.close = weeklyDayCloseLine(theme.title, foc, di);
+        }
+        if (!day.prayer || !String(day.prayer).trim()) {
+          day.prayer = weeklyDayRespondPrayer(theme.title, foc, qPrompt, verseRef);
+        }
+        var q1 = qPrompt;
+        if (!q1) {
+          q1 =
+            'Where does ' +
+            (foc || 'this week’s focus') +
+            ' meet a real choice you are facing before the weekend?';
+        }
+        var q2 = verseRef
+          ? 'Reread ' +
+            verseRef +
+            '—which phrase lands as comfort, which as challenge, and what might that tension be telling you?'
+          : 'Which phrase lands as comfort, which as challenge—and what might that tension be telling you?';
+        var q3 =
+          'If you took this passage seriously for forty-eight hours, what is one behavior someone close to you might actually notice?';
+        if (!day.reflectQs || !day.reflectQs.length) {
+          day.reflectQs = [q1, q2, q3];
+        }
+        day.reflectCopyEnriched = true;
       }
     }
   })();

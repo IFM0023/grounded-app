@@ -10,11 +10,7 @@
     { "source": "/contact/", "destination": "/index.html" }
   ],
   "functions": {
-    "api/*.js": { "memory": 1024, "maxDuration": 30 },
-    "api/chapter-explain-structured.js": { "memory": 1024, "maxDuration": 60 },
-    "api/chapter-explain.js": { "memory": 1024, "maxDuration": 60 },
-    "api/verse-explain-structured.js": { "memory": 1024, "maxDuration": 45 },
-    "api/book-overview.js": { "memory": 1024, "maxDuration": 60 }
+    "api/*.js": { "memory": 1024, "maxDuration": 60 }
   },
   "headers": [
     {

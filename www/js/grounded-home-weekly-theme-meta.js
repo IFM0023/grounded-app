@@ -197,7 +197,7 @@
     },
     {
       summary:
-        "You weren't built to lug everything solo. One honest connection shrinks shame faster than scrolling.",
+        "You weren't built to carry everything solo. One honest connection shrinks shame faster than scrolling.",
       intro:
         'This week remembers we are made for connection — repair, vulnerability, presence. Inner work here resists isolation as default and asks who God might be placing in your path. Healing often travels through relationship.',
       anchorVerse: { text: 'And let us consider how we may spur one another on toward love and good deeds.', reference: 'Hebrews 10:24' },

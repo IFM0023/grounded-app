@@ -1,5 +1,5 @@
 /**
- * Capacitor local notifications: daily verse reminder + weekly theme (native only).
+ * Capacitor local notifications: daily Today reminder (short invite + verse ref) + weekly theme (native only).
  * Depends on: js/capacitor.js, js/cap-local-notifications.js (and cap-push-notifications.js) loaded before this file.
  */
 (function (global) {
@@ -30,13 +30,66 @@
     }
   }
 
-  function getVerseRefBody() {
+  /** Book + chapter + verse only (no full verse text). */
+  function normalizeVerseReference(ref) {
+    var s = String(ref || '').trim();
+    if (!s) return '';
+    s = s.split(/\n/)[0].trim();
+    if (s.length > 72) return '';
+    return s;
+  }
+
+  function getVerseReferenceOnly() {
     try {
       var v = JSON.parse(localStorage.getItem('grounded_current_verse') || 'null');
-      var ref = v && String(v.ref || '').trim();
-      if (ref) return ref;
+      var r = v && normalizeVerseReference(v.ref);
+      if (r) return r;
     } catch (e) {}
-    return 'Take a moment with God today.';
+    return '';
+  }
+
+  /** Morning = 5–11, midday = 12–16, evening = 17–4 (matches scheduled reminder hour). */
+  function timeBandFromHour(h) {
+    if (h >= 5 && h < 12) return 'morning';
+    if (h >= 12 && h < 17) return 'midday';
+    return 'evening';
+  }
+
+  function pickDailyInviteLine(hour) {
+    var band = timeBandFromHour(hour);
+    var pools = {
+      morning: [
+        'Begin your day grounded.',
+        'Show up for one quiet minute.',
+        'Before the noise, pause here.',
+        'Return for a breath with God.'
+      ],
+      midday: [
+        'Take a moment to reset.',
+        'Step away and breathe.',
+        'Center before you continue.',
+        'Pause and reconnect.'
+      ],
+      evening: [
+        'Slow down and return.',
+        'End the day with God.',
+        'Set it down for a minute.',
+        'Start again right here.',
+        'You are held today.'
+      ]
+    };
+    var list = pools[band] || pools.midday;
+    var d = new Date();
+    var ix = (d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate()) % list.length;
+    return list[ix];
+  }
+
+  /** Calm short line + em dash + ref, or message only if no ref. */
+  function buildDailyNotificationBody(hour) {
+    var msg = pickDailyInviteLine(hour);
+    var ref = getVerseReferenceOnly();
+    if (!ref) return msg;
+    return msg + ' \u2014 ' + ref;
   }
 
   function getWeeklyThemeName() {
@@ -120,13 +173,13 @@
     var LN = getLocalNotifications();
     if (!LN) return Promise.resolve();
     var hm = parseTimeHHMM(getReminderTimeStr());
-    var body = getVerseRefBody();
+    var body = buildDailyNotificationBody(hm.hour);
     return cancelDaily().then(function () {
       return LN.schedule({
         notifications: [
           {
             id: ID_DAILY,
-            title: 'Your daily moment',
+            title: 'Today',
             body: body,
             schedule: {
               every: 'day',
