@@ -713,12 +713,17 @@
   .walk-truths-save{margin-top:0;padding:8px 12px;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:11.5px;font-weight:400;letter-spacing:0.06em;color:#b8b2ac;cursor:pointer;text-decoration:underline;text-underline-offset:3px;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease,opacity 0.2s ease}
   .walk-truths-save:hover,.walk-truths-save:active{color:#9a948e}
   .walk-truths-save:disabled{opacity:0.45;cursor:wait;pointer-events:none}
-  /* Off-screen export card (Daily Truths share image — IG story 1080×1920) */
-  #truths-card{position:fixed;left:-12000px;top:0;width:1080px;height:1920px;z-index:0;overflow:hidden;box-sizing:border-box;background:linear-gradient(180deg,#f7f4f2,#f1ebe6);display:flex;align-items:center;justify-content:center;margin:0;padding:0}
-  #truths-card .card-inner{text-align:center;padding:60px;box-sizing:border-box;max-width:100%}
-  #truths-card .sparkle-top,#truths-card .sparkle-bottom{font-size:24px;line-height:1;color:#cfc7bf;margin:20px 0;font-family:'Inter',system-ui,sans-serif;font-weight:400}
-  #truths-card .truths-text p{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:40px;font-weight:400;line-height:1.6;color:#3f3b37;margin:20px 0;padding:0}
-  #truths-card .brand{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:400;margin-top:60px;color:#8f8a85;letter-spacing:0.02em}
+  /* Off-screen export: Daily Truths — same 9:16 share card as verse (see #truths-card + .grounded-share-capture) */
+  #truths-card{position:fixed;left:-12000px;top:0;width:1080px;min-height:1920px;height:auto;z-index:0;overflow:visible;box-sizing:border-box;margin:0;padding:0;background:#F7F4F2;display:flex;align-items:center;justify-content:center}
+  #truths-card .grounded-share-capture.share-screen{width:540px;height:auto;min-height:960px;max-width:none;max-height:none;aspect-ratio:unset;margin:0;flex:0 0 auto}
+  .grounded-share-capture .share-sub-lead{
+    margin:10px 0 0;padding:0 8px;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:clamp(11px,2.8vw,13px);font-weight:400;line-height:1.5;letter-spacing:0.04em;
+    color:#6e6058;opacity:0.88;text-align:center;max-width:24rem;
+  }
+  .grounded-share-capture .share-sub-lead[hidden]{display:none!important}
+  .grounded-share-capture .share-icon-wrap--cross .share-icon-svg{opacity:0.92}
   .home-checkin-title.display-font{font-size:20px;margin-bottom:16px;letter-spacing:-0.3px;color:var(--text);text-align:center;position:relative}
   .home-checkin--integrated{margin-bottom:22px}
   .home-checkin--integrated .home-checkin-title.display-font{font-size:18px;font-weight:500;margin-bottom:14px;letter-spacing:-0.25px;color:var(--text);opacity:0.95}
@@ -732,33 +737,33 @@
   /* VERSE FULLSCREEN (share / focus) */
   .verse-fs-overlay{position:fixed;inset:0;z-index:2500;background:linear-gradient(165deg,#fdf9f5 0%,#f7ebe4 48%,#faf6f2 100%);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.38s cubic-bezier(.4,0,.2,1);touch-action:pan-y}
   .verse-fs-overlay.open{opacity:1;pointer-events:all}
-  .verse-fs-inner{position:relative;flex:1;display:flex;flex-direction:column;min-height:100dvh;min-height:100vh;padding:max(8px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+  .verse-fs-inner{position:relative;flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(8px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
   .verse-fs-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 14px;margin:4px 0 0 2px;border-radius:999px;background:rgba(255,255,255,0.55);border:1px solid rgba(234,208,204,0.35);color:var(--text-light);font-size:12px;font-weight:500;letter-spacing:0.2px;box-shadow:0 2px 12px rgba(90,74,66,0.06);transition:background 0.2s ease,transform 0.2s ease;-webkit-tap-highlight-color:transparent}
   .verse-fs-back svg{width:16px;height:16px;stroke-width:1.8;color:var(--accent-strong)}
   .verse-fs-back:active{transform:scale(0.96);background:rgba(255,255,255,0.75)}
   /* Verse fullscreen: 9:16 share capture (IG Story / TikTok — premium blush, export-safe) */
-  .verse-fs-share-capture.share-screen{
-    flex:1;
+  .verse-fs-share-capture.share-screen, .grounded-share-capture.share-screen{
+    flex:1 1 auto;
     min-height:0;
     width:min(92vw, 360px);
     max-width:540px;
-    aspect-ratio:9/16;
-    max-height:min(78vh, 720px);
     height:auto;
+    max-height:none;
     margin:0 auto;
     display:flex;
-    align-items:stretch;
+    flex-direction:column;
+    align-items:center;
     justify-content:center;
     box-sizing:border-box;
     padding:12px;
     background:linear-gradient(180deg,#F8F6F4 0%,#F2EAE6 52%,#EADDD7 100%);
     border-radius:28px;
     box-shadow:0 12px 40px rgba(90,74,66,0.08),inset 0 1px 0 rgba(255,255,255,0.45);
-    overflow:hidden;
+    overflow:visible;
     position:relative;
     isolation:isolate;
   }
-  .verse-fs-share-capture.share-screen::before{
+  .verse-fs-share-capture.share-screen::before, .grounded-share-capture.share-screen::before{
     content:'';
     position:absolute;
     inset:0;
@@ -766,7 +771,7 @@
     pointer-events:none;
     z-index:0;
   }
-  .verse-fs-share-capture.share-screen::after{
+  .verse-fs-share-capture.share-screen::after, .grounded-share-capture.share-screen::after{
     content:'';
     position:absolute;
     top:-20%;
@@ -778,25 +783,29 @@
     z-index:0;
     opacity:0.85;
   }
-  .verse-fs-share-capture .share-card{
+  .verse-fs-share-capture .share-card, .grounded-share-capture .share-card{
     position:relative;
     z-index:1;
-    flex:1;
-    min-height:0;
+    flex:0 1 auto;
     width:100%;
+    max-width:420px;
+    margin:0 auto;
     display:flex;
     flex-direction:column;
+    justify-content:center;
     align-items:center;
     text-align:center;
     box-sizing:border-box;
-    padding:clamp(20px,5.5vw,34px) clamp(18px,4.5vw,28px) clamp(18px,4vw,26px);
-    border-radius:22px;
-    background:linear-gradient(180deg,rgba(255,253,251,0.72) 0%,rgba(252,246,242,0.55) 100%);
-    border:1px solid rgba(234,208,204,0.28);
-    box-shadow:0 8px 28px rgba(90,74,66,0.06),inset 0 1px 0 rgba(255,255,255,0.65);
-    overflow:hidden;
+    padding:32px 24px;
+    border-radius:24px;
+    height:auto;
+    min-height:420px;
+    background:linear-gradient(180deg,#ffffff 0%,#fdf9f6 52%,#faf4ee 100%);
+    border:1px solid rgba(234,208,204,0.38);
+    box-shadow:0 18px 52px rgba(90,74,66,0.12),0 8px 24px rgba(90,74,66,0.07),inset 0 1px 0 rgba(255,255,255,0.92);
+    overflow:visible;
   }
-  .verse-fs-share-capture .share-card__glow{
+  .verse-fs-share-capture .share-card__glow, .grounded-share-capture .share-card__glow{
     position:absolute;
     inset:18% 8% auto;
     height:42%;
@@ -805,18 +814,61 @@
     pointer-events:none;
     z-index:0;
   }
-  .verse-fs-share-capture .share-card > *:not(.share-card__glow){position:relative;z-index:1}
-  .verse-fs-share-capture .share-top{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:10px;
-    margin:0 0 clamp(14px,3.5vw,22px);
-    flex-shrink:0;
+  .verse-fs-share-capture .share-card > *:not(.share-card__glow), .grounded-share-capture .share-card > *:not(.share-card__glow){position:relative;z-index:1}
+  /* Unified sections: label → main → sub → footer */
+  .verse-fs-share-capture .share-title, .grounded-share-capture .share-title{
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    margin:0 0 clamp(10px,2.8vw,16px);flex-shrink:0;width:100%;
   }
-  .verse-fs-share-capture .share-icon-wrap{
+  .verse-fs-share-capture .share-title__meta, .grounded-share-capture .share-title__meta{
+    display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+  }
+  .verse-fs-share-capture .share-title__label, .grounded-share-capture .share-title__label{
+    margin:0;padding:0;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#8a726a;
+    opacity:0.88;line-height:1.35;text-align:center;max-width:18rem;
+  }
+  .verse-fs-share-capture .share-title__dot, .grounded-share-capture .share-title__dot{
+    width:4px;height:4px;border-radius:50%;background:rgba(160,122,106,0.35);margin:0;
+  }
+  .verse-fs-share-capture .share-divider, .grounded-share-capture .share-divider{
+    width:min(240px,88%);height:1px;margin:0 auto clamp(8px,2.2vw,14px);
+    background:linear-gradient(90deg,transparent,rgba(186,160,148,0.38),transparent);
+    flex-shrink:0;border:none;padding:0;
+  }
+  .verse-fs-share-capture .share-divider--soft, .grounded-share-capture .share-divider--soft{
+    opacity:0.72;
+  }
+  .verse-fs-share-capture .share-main, .grounded-share-capture .share-main{
+    flex:0 1 auto;
+    width:100%;
+    max-width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 0 clamp(8px,2.2vw,14px);
+    overflow:visible;
+    word-break:break-word;
+    white-space:normal;
+    line-height:1.6;
+    font-size:clamp(18px,2.5vw,22px);
+  }
+  .verse-fs-share-capture .share-sub, .grounded-share-capture .share-sub{
+    width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;
+    margin:0 0 clamp(10px,2.8vw,16px);flex-shrink:0;
+  }
+  .verse-fs-share-capture .share-sub-lead, .grounded-share-capture .share-sub-lead{
+    margin:0;padding:0 8px;
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:clamp(11px,2.8vw,13px);font-weight:400;line-height:1.55;letter-spacing:0.04em;
+    color:#6e6058;opacity:0.88;text-align:center;max-width:24rem;
+  }
+  .verse-fs-share-capture .share-sub-lead[hidden], .grounded-share-capture .share-sub-lead[hidden]{display:none!important}
+  .verse-fs-share-capture .share-icon-wrap, .grounded-share-capture .share-icon-wrap{
     width:44px;
     height:44px;
+    flex-shrink:0;
     border-radius:50% 50% 48% 52% / 42% 42% 58% 58%;
     background:rgba(244,228,222,0.55);
     border:1px solid rgba(220,190,180,0.28);
@@ -825,63 +877,40 @@
     justify-content:center;
     box-shadow:0 2px 12px rgba(90,74,66,0.04);
   }
-  .verse-fs-share-capture .share-icon-svg{
+  .verse-fs-share-capture .share-icon-svg, .grounded-share-capture .share-icon-svg{
     width:18px;
     height:18px;
     color:#9a7268;
     opacity:0.88;
   }
-  .verse-fs-share-capture .share-kicker{
-    margin:0;
-    padding:0;
-    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:10px;
-    font-weight:500;
-    letter-spacing:0.28em;
-    text-transform:uppercase;
-    color:#8a726a;
-    opacity:0.88;
-    line-height:1.35;
-  }
-  .verse-fs-share-capture .share-kicker-dot{
-    width:4px;
-    height:4px;
-    border-radius:50%;
-    background:rgba(160,122,106,0.35);
-    margin:2px 0 0;
-  }
-  .verse-fs-share-capture .share-verse-wrap{
-    flex:1;
-    min-height:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    margin:0 0 clamp(12px,3vw,20px);
-    overflow:hidden;
-  }
   .verse-fs-share-capture .share-verse,
-  .verse-fs-share-capture .share-card .verse-fs-text.share-verse{
+  .grounded-share-capture .share-verse,
+  .verse-fs-share-capture .share-main .verse-fs-text.share-verse,
+  .grounded-share-capture .share-main .verse-fs-text.share-verse{
     margin:0;
     padding:0 2px;
     font-family:'Playfair Display',Georgia,serif;
-    font-size:clamp(17px,4.6vw,22px);
-    line-height:1.62;
+    font-size:1em;
+    line-height:inherit;
     font-weight:400;
-    font-style:normal;
+    font-style:italic;
     letter-spacing:0.02em;
-    color:#2E2A28;
+    color:#3c3028;
     text-align:center;
     max-width:26rem;
     text-wrap:balance;
+    word-break:break-word;
+    white-space:normal;
   }
   .verse-fs-share-capture .share-verse .share-verse-em,
-  .verse-fs-share-capture .share-card .verse-fs-text .share-verse-em{
+  .grounded-share-capture .share-verse .share-verse-em,
+  .verse-fs-share-capture .share-main .verse-fs-text .share-verse-em,
+  .grounded-share-capture .share-main .verse-fs-text .share-verse-em{
     font-style:italic;
     font-weight:400;
     color:#B07A6A;
   }
-  .verse-fs-share-capture .share-ref-pill{
+  .verse-fs-share-capture .share-ref-pill, .grounded-share-capture .share-ref-pill{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -891,11 +920,14 @@
     background:rgba(248,236,232,0.85);
     border:1px solid rgba(224,198,190,0.45);
     box-shadow:0 1px 0 rgba(255,255,255,0.65) inset;
-    margin:0 auto clamp(14px,3.5vw,22px);
+    margin:0 auto 0;
     flex-shrink:0;
   }
+  .verse-fs-share-capture .share-ref-pill[hidden], .grounded-share-capture .share-ref-pill[hidden]{display:none!important}
   .verse-fs-share-capture .share-reference,
-  .verse-fs-share-capture .share-card .verse-fs-ref.share-reference{
+  .grounded-share-capture .share-reference,
+  .verse-fs-share-capture .share-card .verse-fs-ref.share-reference,
+  .grounded-share-capture .share-card .verse-fs-ref.share-reference{
     margin:0;
     font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     font-size:10.5px;
@@ -907,8 +939,8 @@
     opacity:0.92;
     line-height:1.35;
   }
-  .verse-fs-share-capture .share-footer-block{
-    margin-top:auto;
+  .verse-fs-share-capture .share-footer, .grounded-share-capture .share-footer{
+    margin-top:clamp(10px,2.5vw,18px);
     padding-top:6px;
     flex-shrink:0;
     width:100%;
@@ -917,25 +949,25 @@
     align-items:center;
     gap:10px;
   }
-  .verse-fs-share-capture .share-wave{
+  .verse-fs-share-capture .share-wave, .grounded-share-capture .share-wave{
     position:relative;
     width:min(220px,72%);
     height:14px;
     margin:4px 0 2px;
   }
-  .verse-fs-share-capture .share-wave__svg{
+  .verse-fs-share-capture .share-wave__svg, .grounded-share-capture .share-wave__svg{
     display:block;
     width:100%;
     height:12px;
     color:rgba(138,108,96,0.38);
   }
-  .verse-fs-share-capture .share-wave__svg path{
+  .verse-fs-share-capture .share-wave__svg path, .grounded-share-capture .share-wave__svg path{
     fill:none;
     stroke:currentColor;
     stroke-width:0.9;
     stroke-linecap:round;
   }
-  .verse-fs-share-capture .share-wave__dot{
+  .verse-fs-share-capture .share-wave__dot, .grounded-share-capture .share-wave__dot{
     position:absolute;
     left:50%;
     top:50%;
@@ -945,7 +977,7 @@
     border-radius:50%;
     background:rgba(160,122,106,0.42);
   }
-  .verse-fs-share-capture .share-brand{
+  .verse-fs-share-capture .share-brand, .grounded-share-capture .share-brand{
     font-family:'Playfair Display',Georgia,serif;
     font-size:clamp(22px,5.5vw,28px);
     font-weight:500;
@@ -955,7 +987,7 @@
     line-height:1.2;
     text-transform:none;
   }
-  .verse-fs-share-capture .share-tagline{
+  .verse-fs-share-capture .share-tagline, .grounded-share-capture .share-tagline{
     font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     font-size:9px;
     font-weight:500;
@@ -1016,28 +1048,37 @@
   }
   .walk-truths-quote-block.quote-card-tappable::after{bottom:18px}
   .gm-week-closing-verse-box.quote-card-tappable::after{bottom:10px}
-  /* Content quote fullscreen (Today / Reflect / Prayer cards) */
-  .cqf-overlay{position:fixed;inset:0;z-index:2650;background:#FFF8F6;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.32s ease;touch-action:none}
+  /* Content quote fullscreen — match verse fullscreen: gradient page, share shell + card, frosted actions. */
+  .cqf-overlay{position:fixed;inset:0;z-index:2650;background:linear-gradient(165deg,#fdf9f5 0%,#f7ebe4 48%,#faf6f2 100%);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.32s ease;touch-action:pan-y}
   .cqf-overlay.open{opacity:1;pointer-events:all}
-  .cqf-inner{flex:1;display:flex;flex-direction:column;min-height:100dvh;min-height:100vh;max-width:480px;width:100%;margin:0 auto;box-sizing:border-box;padding:max(8px,env(safe-area-inset-top)) 20px max(12px,env(safe-area-inset-bottom))}
-  .cqf-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 12px;margin:0 0 8px;border:none;border-radius:999px;background:rgba(255,255,255,0.65);border:1px solid rgba(234,208,204,0.4);color:var(--text-light);font-size:12px;font-weight:500;letter-spacing:0.2px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
-  .cqf-back svg{width:18px;height:18px;stroke-width:1.8;color:var(--accent-strong)}
-  .cqf-scroll{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 8px 24px}
-  .cqf-type{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#B89A94;margin:0 0 16px}
-  .cqf-body{font-family:'Playfair Display',Georgia,serif;font-size:clamp(24px,5.5vw,30px);font-style:italic;font-weight:400;line-height:1.55;color:#3D2E28;margin:0 0 20px;letter-spacing:0.02em;white-space:pre-wrap}
-  .cqf-ref{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#8A7A72;margin:0}
-  .cqf-ref[hidden]{display:none !important}
-  .cqf-wordmark{font-family:'Playfair Display',Georgia,serif;font-size:12px;letter-spacing:2px;color:rgba(90,74,66,0.38);margin:28px 0 6px;text-align:center}
-  .cqf-actions{display:flex;gap:12px;justify-content:center;padding:16px 0 8px;margin-top:auto;flex-shrink:0}
-  .cqf-actions button{flex:1;max-width:160px;padding:14px 12px;border-radius:999px;border:none;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 0.12s ease,opacity 0.12s ease}
-  .cqf-actions button:active{transform:scale(0.98)}
-  .cqf-btn-share{background:#3D2E28;color:#fffaf5;box-shadow:0 4px 14px rgba(61,46,40,0.2)}
-  .cqf-btn-save{background:transparent;color:#3D2E28;border:1px solid rgba(61,46,40,0.35) !important}
-  .cqf-btn-save.is-saved{background:rgba(168,107,98,0.12);border-color:rgba(168,107,98,0.45) !important}
+  .cqf-inner{position:relative;flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;width:100%;max-width:min(100%,440px);margin:0 auto;box-sizing:border-box;padding:max(8px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+  .cqf-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 14px;margin:4px 0 0 2px;border:none;border-radius:999px;background:rgba(255,255,255,0.55);border:1px solid rgba(234,208,204,0.35);color:var(--text-light);font-size:12px;font-weight:500;letter-spacing:0.2px;box-shadow:0 2px 12px rgba(90,74,66,0.06);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:background 0.2s ease,transform 0.2s ease}
+  .cqf-back svg{width:16px;height:16px;stroke-width:1.8;color:var(--accent-strong)}
+  .cqf-back:active{transform:scale(0.96);background:rgba(255,255,255,0.75)}
+  .cqf-card-stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 10px 12px;overflow:visible;-webkit-overflow-scrolling:touch}
+  .cqf-share-capture-host{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-height:0;
+    flex:1 1 auto;
+  }
+  .cqf-share-capture-host .verse-fs-share-capture.share-screen{
+    flex:0 1 auto;
+    width:min(92vw,360px);
+    max-width:min(100%,400px);
+    margin:0 auto;
+  }
+  .cqf-overlay .verse-fs-dual,
+  .cqf-overlay .verse-fs-actions{margin-left:auto;margin-right:auto}
+  .cqf-overlay .verse-fs-actions{margin-top:auto}
   body.content-quote-fs-open{overflow:hidden;touch-action:none}
   body.content-quote-fs-open .bottom-nav{opacity:0;pointer-events:none;visibility:hidden}
   body.content-quote-fs-open .header.app-header{display:none !important}
-  #cqfShareExportRoot{position:fixed;left:-12000px;top:0;width:1080px;height:1080px;z-index:0;overflow:hidden;box-sizing:border-box;margin:0;padding:0;pointer-events:none}
+  #cqfShareExportRoot{position:fixed;left:-12000px;top:0;width:560px;min-height:1000px;height:auto;z-index:0;overflow:visible;box-sizing:border-box;margin:0;padding:0;pointer-events:none;display:flex;align-items:flex-start;justify-content:flex-start;background:#F7F4F2}
+  #cqfShareExportRoot > .grounded-share-capture.share-screen{flex:0 0 auto}
   /* Scripture tab (data-tab word) activates #screen-scripture; #screen-word is legacy preview shell. */
   /* overflow-x: clip avoids the “hidden + visible” pair forcing overflow-y:auto (nested scrollbar on the column). */
   .word-screen,.scripture-screen{position:relative;isolation:isolate;overflow-x:clip;overflow-y:visible;background:transparent}
@@ -2133,6 +2174,14 @@
     .guided-moment-screen .gm-modal-layer{transition:none}
     .guided-moment-screen.guided-moment--closing .gm-modal-layer{transform:none;opacity:0}
   }
+  /* Start Your Moment / guided flow: full pointer capture (bottom-nav is z-index 200; modal layer was 120). */
+  body[data-active-tab="guided-moment"]{overflow:hidden}
+  body[data-active-tab="guided-moment"] main.main-container.main-content{pointer-events:none}
+  body[data-active-tab="guided-moment"] #screen-guided-moment.active{pointer-events:auto}
+  body[data-active-tab="guided-moment"] .bottom-nav{pointer-events:none}
+  .guided-moment-screen.active .gm-modal-layer{z-index:260;pointer-events:auto;touch-action:none}
+  .guided-moment-screen.active .gm-modal-panel{pointer-events:auto;touch-action:pan-y}
+  .guided-moment-screen.active .gm-modal-backdrop{touch-action:none}
   .guided-moment-screen .gm-step1-botanical-decor{position:absolute;top:4px;right:44px;width:120px;height:120px;pointer-events:none;color:var(--petal);z-index:0;opacity:0;visibility:hidden;transition:opacity 0.35s ease}
   .guided-moment-screen:has(#guidedMomentStepHost[data-gm-step="1"]) .gm-step1-botanical-decor{opacity:0.15;visibility:visible}
   @media(prefers-reduced-motion:reduce){.guided-moment-screen .gm-step1-botanical-decor{transition:none}}
@@ -3483,7 +3532,17 @@
   .moment-flow.moment-flow--open{opacity:1;visibility:visible;pointer-events:all;transition:opacity 0.55s ease-out,visibility 0s linear 0s}
   body.moment-flow-open{overflow:hidden}
   @keyframes mflowCardEnter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-  .moment-flow__card{position:relative;box-sizing:border-box;width:90%;max-width:440px;max-height:min(90vh,calc(100dvh - 40px));height:auto;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:28px;border:1px solid rgba(234,208,204,0.3);background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);box-shadow:0 20px 60px rgba(0,0,0,0.08),0 8px 20px rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.85);padding:48px 32px;text-align:center;opacity:0.98;transform:translateY(6px);animation:mflowCardEnter 0.3s ease-out 0.04s both;flex-shrink:1;min-height:0}
+  .moment-flow__card{position:relative;box-sizing:border-box;width:90%;max-width:440px;max-height:min(90vh,calc(100dvh - 40px));height:auto;overflow-x:visible;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:28px;border:1px solid rgba(234,208,204,0.3);background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);box-shadow:0 20px 60px rgba(0,0,0,0.08),0 8px 20px rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.85);padding:48px 32px;text-align:center;opacity:0.98;transform:translateY(6px);animation:mflowCardEnter 0.3s ease-out 0.04s both;flex-shrink:1;min-height:0}
+  .mflow-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:8;width:36px;height:36px;padding:0;margin:0;border-radius:50%;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;color:#6f5c55;cursor:pointer;transition:opacity 0.2s ease,transform 0.2s ease,background 0.2s ease;-webkit-tap-highlight-color:transparent;opacity:0.6;box-sizing:border-box;font-family:inherit}
+  .mflow-nav:hover{opacity:1;transform:translateY(-50%) scale(1.05)}
+  .mflow-nav:focus-visible{outline:2px solid rgba(186,160,148,0.45);outline-offset:2px}
+  .mflow-nav[disabled],.mflow-nav[hidden]{display:none!important}
+  .mflow-prev{left:-50px}
+  .mflow-next{right:-50px}
+  @media (max-width:600px){
+    .mflow-prev{left:8px}
+    .mflow-next{right:8px}
+  }
   .mflow-week-track{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;font-weight:400;font-style:italic;color:var(--text-light);margin:-6px auto 12px;padding:0 6px;line-height:1.45;opacity:0.72;text-align:center;max-width:22rem;letter-spacing:0.02em}
   .mflow-slab{opacity:0;pointer-events:none;position:absolute;left:0;right:0;top:0;padding:0;box-sizing:border-box;min-height:0;transform:translateY(6px);transition:opacity 0.28s ease-out,transform 0.28s ease-out;will-change:opacity,transform}
   .mflow-slab--on{opacity:1;pointer-events:auto;position:relative;left:auto;right:auto;top:auto;transform:translateY(0)}
@@ -3511,7 +3570,7 @@
   .mflow-receive-ref--below-verse{margin:8px 0 0}
   .mflow-receive-context{font-family:'Inter',system-ui,sans-serif;font-size:12.5px;font-weight:400;line-height:1.58;color:var(--text-light);margin:0 0 14px;opacity:0.9}
   .mflow-receive-text{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;line-height:1.55;color:var(--text);font-style:italic;margin:0}
-  .mflow-receive-versectx{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:400;font-style:italic;color:var(--text-light);line-height:1.55;margin:10px 0 0;text-align:center;opacity:0.95}
+  .mflow-receive-versectx{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:400;font-style:italic;color:var(--text-light);line-height:1.55;margin:10px 0 0;text-align:center;opacity:0.95;max-width:100%;overflow-wrap:break-word;white-space:normal}
   .mflow-tap-hint{font-size:12px;color:var(--text-light);margin-top:16px;opacity:0.75}
   .mflow-textarea{width:100%;min-height:88px;max-height:200px;resize:vertical;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(186,160,148,0.25);background:rgba(255,251,247,0.9);font-family:Inter,system-ui,sans-serif;font-size:15px;color:var(--text);line-height:1.45;margin:16px 0 0;box-sizing:border-box;transition:opacity 0.3s ease-out,transform 0.3s ease-out}
   .mflow-textarea::placeholder{color:var(--text-light);opacity:0.6}
@@ -3555,7 +3614,7 @@
 
   /* ─── FLOW MODAL ─── */
   .flow-modal-overlay{position:fixed;inset:0;z-index:1100;background:rgba(40,30,25,0.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease}
-  .flow-modal-overlay.open{opacity:1;pointer-events:all}
+  .flow-modal-overlay.open{opacity:1;pointer-events:all;touch-action:none}
   .flow-modal{position:relative;width:100%;max-width:480px;max-height:92vh;background:var(--card);border-radius:var(--radius-lg) var(--radius-lg) 0 0;box-shadow:var(--shadow-lg);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;opacity:0;transform:translateY(18px) scale(0.95);transition:opacity 0.3s ease-out,transform 0.3s cubic-bezier(.4,0,.2,1);scrollbar-width:none}
   .flow-modal::-webkit-scrollbar{display:none}
   .flow-modal-overlay.open .flow-modal{opacity:1;transform:translateY(0) scale(1)}
@@ -5840,6 +5899,8 @@
   <div class="moment-flow" id="momentFlowOverlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="mflowA11yTitle">
     <span id="mflowA11yTitle" class="visually-hidden">Guided moment</span>
     <div class="moment-flow__card" id="momentFlowCard">
+      <button type="button" class="mflow-nav mflow-prev" data-action="plan-flow-prev" aria-label="Previous step" hidden>&#8249;</button>
+      <button type="button" class="mflow-nav mflow-next" data-action="plan-flow-next" aria-label="Next step" hidden>&#8250;</button>
       <p class="mflow-week-track" id="mflowWeekTrackLabel" hidden></p>
       <div class="mflow-slab" data-mflow-step="1" id="mflowStep1" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Arrive</p>
@@ -5861,7 +5922,7 @@
       </div>
       <div class="mflow-slab" data-mflow-step="4" id="mflowStep4" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Reflect</p>
-        <p class="mflow-reflect-leadin mflow-stagger" id="mflowReflectLeadin" style="--mflow-i:1">Take a moment to consider this:</p>
+        <p class="mflow-reflect-leadin mflow-stagger" id="mflowReflectLeadin" style="--mflow-i:1">Notice this:</p>
         <p class="mflow-reflect-from-week mflow-stagger" id="mflowReflectFromWeek" style="--mflow-i:2" hidden></p>
         <p class="mflow-title mflow-reflect-prompt-text mflow-stagger" id="mflowReflectPrompt" style="--mflow-i:3">What feels most true for you right now?</p>
         <label for="mflowReflectInput" class="visually-hidden">Optional reflection</label>
@@ -5872,7 +5933,7 @@
       <div class="mflow-slab" data-mflow-step="5" id="mflowStep5" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Respond</p>
         <p class="mflow-respond-prayer mflow-stagger" id="mflowRespondPrayer" style="--mflow-i:1"></p>
-        <p class="mflow-respond-own-words mflow-stagger" id="mflowRespondOwnWords" style="--mflow-i:2">You can sit with this, or say it in your own words</p>
+        <p class="mflow-respond-own-words mflow-stagger" id="mflowRespondOwnWords" style="--mflow-i:2">Move with this:</p>
         <button type="button" class="mflow-btn mflow-btn--primary mflow-btn--respond-cta mflow-stagger" id="mflowBtnRespondCont" style="--mflow-i:3">Continue &rarr;</button>
       </div>
       <div class="mflow-slab" data-mflow-step="6" id="mflowStep6" hidden>
@@ -5949,37 +6010,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         <span>Back</span>
       </button>
-      <div class="verse-fs-share-capture share-screen" id="verseFsShareCapture">
-        <div class="share-card">
-          <div class="share-card__glow" aria-hidden="true"></div>
-          <div class="share-top">
-            <div class="share-icon-wrap" aria-hidden="true">
-              <svg class="share-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 2.5l1.2 3.6 3.8.1-3 2.3 1.1 3.7L12 10.2 8.9 12.2l1.1-3.7-3-2.3 3.8-.1L12 2.5z"/>
-                <path d="M19 14l.7 2.1 2.2.1-1.7 1.3.6 2.2L19 18.5l-1.8 1.3.6-2.2-1.7-1.3 2.2-.1L19 14z" opacity="0.85"/>
-              </svg>
-            </div>
-            <p class="share-kicker body-font" id="verseFsShareKicker">VERSE OF THE MOMENT</p>
-            <span class="share-kicker-dot" aria-hidden="true"></span>
-          </div>
-          <div class="share-verse-wrap">
-            <div class="verse-fs-text share-verse" id="verseFsText"></div>
-          </div>
-          <div class="share-ref-pill">
-            <p class="verse-fs-ref share-reference body-font" id="verseFsRef"></p>
-          </div>
-          <div class="share-footer-block">
-            <div class="share-wave" aria-hidden="true">
-              <svg class="share-wave__svg" viewBox="0 0 280 14" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 7 C70 2, 210 12, 280 7"/>
-              </svg>
-              <span class="share-wave__dot"></span>
-            </div>
-            <div class="share-brand" id="verseFsBrandWord">Grounded</div>
-            <p class="share-tagline body-font" id="verseFsTagline">Be still. Grow deeper. Live rooted.</p>
-          </div>
-        </div>
-      </div>
+      <div class="verse-fs-share-capture share-screen" id="verseFsShareCapture"></div>
       <div class="verse-fs-dual" id="verseFsDual">
         <button type="button" class="verse-fs-pill verse-fs-pill--study" id="verseFsStudy">Study this →</button>
         <button type="button" class="verse-fs-pill verse-fs-pill--reflect" id="verseFsReflect">Reflect on this →</button>
@@ -6003,22 +6034,24 @@
     <div class="verse-fs-toast" id="verseFsToast" aria-live="polite"></div>
   </div>
 
-  <!-- Content quote fullscreen (home / reflect / prayer cards — share + save) -->
-  <div class="cqf-overlay" id="contentQuoteFsOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cqfBody">
+  <!-- Content quote fullscreen — same share-card system as verse (createShareCard) -->
+  <div class="cqf-overlay" id="contentQuoteFsOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cqfShareCardTitle">
     <div class="cqf-inner">
       <button type="button" class="cqf-back" id="contentQuoteFsBack" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
         <span>Back</span>
       </button>
-      <div class="cqf-scroll">
-        <p class="cqf-type" id="cqfType"></p>
-        <p class="cqf-body" id="cqfBody"></p>
-        <p class="cqf-ref" id="cqfRef"></p>
+      <div class="cqf-card-stage">
+        <div id="cqfShareCaptureHost" class="cqf-share-capture-host" aria-live="polite"></div>
       </div>
-      <p class="cqf-wordmark" aria-hidden="true">Grounded</p>
-      <div class="cqf-actions">
-        <button type="button" class="cqf-btn-save" id="contentQuoteFsSave">Save</button>
-        <button type="button" class="cqf-btn-share" id="contentQuoteFsShare">Share this</button>
+      <div class="verse-fs-dual" id="contentQuoteFsDual" role="group" aria-label="Next steps">
+        <button type="button" class="verse-fs-pill verse-fs-pill--study" id="contentQuoteFsStudy">Study this →</button>
+        <button type="button" class="verse-fs-pill verse-fs-pill--reflect" id="contentQuoteFsReflect">Reflect on this →</button>
+      </div>
+      <div class="verse-fs-actions" id="contentQuoteFsToolbar" role="toolbar" aria-label="Save and share">
+        <button type="button" id="contentQuoteFsSave">Save</button>
+        <button type="button" id="contentQuoteFsShare">Share this</button>
+        <button type="button" id="contentQuoteFsCopy">Copy</button>
       </div>
     </div>
   </div>
@@ -8478,7 +8511,14 @@
       document.getElementById('spxShareBtn').addEventListener('click', function () {
         var t = (spxPassState.refLine + '\n\n' + spxPassState.quote).trim();
         if (navigator.share) {
-          navigator.share({ title: spxPassState.refLine, text: t }).catch(function () {});
+          navigator
+            .share({ title: spxPassState.refLine, text: t })
+            .then(function () {
+              if (typeof window.trackEvent === 'function') {
+                window.trackEvent('content_shared', { surface: 'scriptureplus' });
+              }
+            })
+            .catch(function () {});
         } else {
           try {
             navigator.clipboard.writeText(t);
@@ -9775,6 +9815,11 @@
     if (tab === 'feed' && typeof renderHomeVerse === 'function') {
       renderHomeVerse(getDefaultVerse());
     }
+    if (tab === 'feed' && typeof trackEvent === 'function') {
+      try {
+        trackEvent('home_viewed', { fromTab: prevTab });
+      } catch (eHomeTrack) {}
+    }
     setTimeout(initScrollAnimations, 60);
   }
 
@@ -10015,6 +10060,11 @@
     if (toReset) toReset.addEventListener('click', () => switchTab('pilates'));
     if (start) {
       start.addEventListener('click', function () {
+        if (typeof trackEvent === 'function') {
+          try {
+            void trackEvent('moment_started', { source: 'home_start_moment' });
+          } catch (eTr) {}
+        }
         const intro = document.getElementById('homeThemeIntroCard');
         if (intro && !intro.hidden && typeof dismissHomeThemeIntro === 'function') dismissHomeThemeIntro();
         openGuidedMomentFlow();
@@ -10034,6 +10084,17 @@
       });
     }
     const gmPanel = document.getElementById('guidedMomentModalPanel');
+    const gmLayer = document.getElementById('guidedMomentModalLayer');
+    if (gmLayer) {
+      gmLayer.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
+    if (gmPanel) {
+      gmPanel.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
     let gmSwipeY0 = 0;
     let gmSwipeX0 = 0;
     let gmSwipeT0 = 0;
@@ -10197,6 +10258,11 @@
     applyAppShellForTab(currentTab);
     syncAppShellHeader(currentTab);
     if (typeof bindScripturePlusOnce === 'function') bindScripturePlusOnce();
+    if (currentTab === 'feed' && typeof trackEvent === 'function') {
+      try {
+        trackEvent('home_viewed', { source: 'initial_load' });
+      } catch (eInitHome) {}
+    }
 
     /* Restore last active tab on load.
        Visual swap happens synchronously (no flash of the default screen).
@@ -14357,6 +14423,47 @@
     }
   }
 
+  function getGroundedAnalyticsUserId() {
+    try {
+      if (!localStorage.getItem('grounded_user_id')) {
+        var id =
+          typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : String(Date.now()) + '-' + Math.random().toString(36).slice(2, 11);
+        localStorage.setItem('grounded_user_id', id);
+      }
+      return localStorage.getItem('grounded_user_id') || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  async function trackEvent(eventName, meta) {
+    meta = meta || {};
+    var userId = '';
+    try {
+      userId = getGroundedAnalyticsUserId();
+    } catch (eU) {}
+    try {
+      await fetch(groundedApiUrl('/api/track'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          event: eventName,
+          meta: meta,
+          ts: Date.now(),
+          userId: userId
+        })
+      });
+    } catch (e) {
+      try {
+        console.log('tracking failed', e);
+      } catch (eLog) {}
+    }
+  }
+  window.trackEvent = trackEvent;
+
   function fetchVerseStructuredExplainIntoBody(reference, verseText, bodyEl, loadEl, meta) {
     loadEl.style.display = '';
     loadEl.textContent = 'Explaining…';
@@ -15617,7 +15724,14 @@
     if (!payload) return Promise.resolve();
     const url = typeof location !== 'undefined' ? location.href : '';
     if (navigator.share) {
-      return navigator.share({ title: 'Verse', text: payload, url: url }).catch(function () {});
+      return navigator
+        .share({ title: 'Verse', text: payload, url: url })
+        .then(function () {
+          if (typeof window.trackEvent === 'function') {
+            window.trackEvent('content_shared', { surface: 'verse_text' });
+          }
+        })
+        .catch(function () {});
     }
     return Promise.resolve();
   }
@@ -15630,14 +15744,305 @@
       .replace(/"/g, '&quot;');
   }
 
-  /** Rhythm + soft highlights for share card (HTML safe; copy still uses plain verseFsCopyPayload). */
-  function verseFsShareFormatVerseHtml(raw) {
-    var s = String(raw || '')
+  /** Escape text for share-card HTML (alias). */
+  function shareCardEsc(s) {
+    return verseFsShareEsc(s);
+  }
+
+  /** Default accent phrases (faith anchors, relational hooks). Longest first for replace order. */
+  var SHARE_CARD_DEFAULT_PHRASES = [
+    'love and good deeds',
+    'cast all your anxiety on him',
+    'cast all your anxiety',
+    'peace of God',
+    'hope and a future',
+    'plans to prosper you',
+    'plans to prosper',
+    'do not be anxious about anything',
+    'do not be anxious',
+    'do not be afraid',
+    'do not fear',
+    'good news of great joy',
+    'good news',
+    'meeting together',
+    'spur one another',
+    'one another',
+    'spur'
+  ];
+
+  function shareCardIconStarHtml() {
+    return (
+      '<svg class="share-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M12 2.5l1.2 3.6 3.8.1-3 2.3 1.1 3.7L12 10.2 8.9 12.2l1.1-3.7-3-2.3 3.8-.1L12 2.5z"/>' +
+      '<path d="M19 14l.7 2.1 2.2.1-1.7 1.3.6 2.2L19 18.5l-1.8 1.3.6-2.2-1.7-1.3 2.2-.1L19 14z" opacity="0.85"/>' +
+      '</svg>'
+    );
+  }
+
+  function shareCardIconCrossHtml() {
+    return (
+      '<svg class="share-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M12 4v16M6 10h12"/>' +
+      '</svg>'
+    );
+  }
+
+  /**
+   * Single API shape for share surfaces: label/body map to title/contentPlain; footer maps to brand line.
+   * Empty string contentPlain must not block body/content (same for reference vs ref).
+   * @param {Record<string, unknown>} opts
+   */
+  function normalizeShareCardInput(opts) {
+    opts = opts || {};
+    var titlePick = opts.title;
+    if (titlePick == null || String(titlePick).trim() === '') titlePick = opts.label;
+    var cp = opts.contentPlain;
+    if (cp == null || String(cp).trim() === '') {
+      cp = opts.body != null ? opts.body : opts.content;
+    }
+    var refPick = opts.reference;
+    if (refPick == null || String(refPick).trim() === '') {
+      refPick = opts.ref;
+    }
+    return {
+      title: titlePick != null ? String(titlePick) : '',
+      contentPlain: cp,
+      contentHtml: opts.contentHtml != null ? opts.contentHtml : opts.bodyHtml,
+      reference: refPick,
+      subtext: opts.subtext,
+      highlightWords: opts.highlightWords,
+      icon: opts.icon,
+      type: opts.type,
+      footerBrand: opts.footerBrand != null ? opts.footerBrand : opts.footer,
+      footerTagline: opts.footerTagline,
+      domIds: opts.domIds
+    };
+  }
+
+  function shareDomIdAttr(id) {
+    var s = String(id == null ? '' : id).trim();
+    if (!s || !/^[-a-zA-Z0-9_]+$/.test(s)) return '';
+    return ' id="' + s + '"';
+  }
+
+  /**
+   * Premium share layout — unified sections: .share-title, .share-main, .share-sub, .share-footer.
+   * @param {{ type?: string, title?: string, label?: string, content?: string, contentPlain?: string, body?: string, subtext?: string, reference?: string, ref?: string, highlightWords?: string[], footer?: string, footerBrand?: string, footerTagline?: string, domIds?: { kicker?: string, main?: string, ref?: string, sub?: string, brand?: string, tagline?: string } }} opts
+   * @returns {string} inner HTML starting with .share-card
+   */
+  function renderShareCard(opts) {
+    opts = normalizeShareCardInput(opts || {});
+    var d = opts.domIds || {};
+    var title = shareCardEsc(String(opts.title || '').trim() || 'GROUNDED');
+    var refText = String(opts.reference != null ? opts.reference : '').trim();
+    var refInner = shareCardEsc(refText);
+    var sub = String(opts.subtext || '').trim();
+    var contentSrc = opts.contentPlain != null ? opts.contentPlain : opts.content;
+    var contentPlain = String(contentSrc != null ? contentSrc : '').trim();
+    var extra = opts.highlightWords && opts.highlightWords.length ? opts.highlightWords : null;
+    var bodyHtml = '';
+    if (opts.contentHtml != null && String(opts.contentHtml).trim()) {
+      bodyHtml = String(opts.contentHtml);
+    } else if (contentPlain) {
+      bodyHtml = shareCardFormatMainHtml(contentPlain, extra);
+    }
+    var typ = String(opts.type || '').toLowerCase();
+    var useCross = opts.icon === 'cross' || typ === 'prayer';
+    var icon = useCross ? shareCardIconCrossHtml() : shareCardIconStarHtml();
+    var iconWrapClass = 'share-icon-wrap' + (useCross ? ' share-icon-wrap--cross' : '');
+    var subLeadBlock =
+      '<p class="share-sub-lead body-font" data-share="sub"' +
+      shareDomIdAttr(d.sub) +
+      (sub ? '>' + shareCardEsc(sub) + '</p>' : ' hidden></p>');
+    var pillHtml =
+      '<div class="share-ref-pill"' +
+      (refText ? '' : ' hidden') +
+      '><p class="verse-fs-ref share-reference body-font" data-share="ref"' +
+      shareDomIdAttr(d.ref) +
+      '>' +
+      refInner +
+      '</p></div>';
+    var fbRaw = opts.footerBrand != null ? String(opts.footerBrand).trim() : '';
+    var ftRaw = opts.footerTagline != null ? String(opts.footerTagline).trim() : '';
+    var fbHtml = shareCardEsc(fbRaw || 'Grounded');
+    var ftHtml = shareCardEsc(ftRaw || 'Be still. Grow deeper. Live rooted.');
+    return (
+      '<div class="share-card">' +
+      '<div class="share-card__glow" aria-hidden="true"></div>' +
+      '<div class="share-title">' +
+      '<div class="share-title__meta">' +
+      '<span class="' +
+      iconWrapClass +
+      '" data-share="icon">' +
+      icon +
+      '</span>' +
+      '<span class="share-title__label body-font" data-share="kicker"' +
+      shareDomIdAttr(d.kicker) +
+      '>' +
+      title +
+      '</span></div>' +
+      '<span class="share-title__dot" aria-hidden="true"></span></div>' +
+      '<div class="share-divider" aria-hidden="true"></div>' +
+      '<div class="share-main">' +
+      '<div class="verse-fs-text share-verse" data-share="main"' +
+      shareDomIdAttr(d.main) +
+      '>' +
+      bodyHtml +
+      '</div></div>' +
+      '<div class="share-divider share-divider--soft" aria-hidden="true"></div>' +
+      '<div class="share-sub">' +
+      subLeadBlock +
+      pillHtml +
+      '</div>' +
+      '<div class="share-footer">' +
+      '<div class="share-wave" aria-hidden="true">' +
+      '<svg class="share-wave__svg" viewBox="0 0 280 14" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7 C70 2, 210 12, 280 7"/></svg>' +
+      '<span class="share-wave__dot"></span></div>' +
+      '<div class="share-brand" data-share="brand"' +
+      shareDomIdAttr(d.brand) +
+      '>' +
+      fbHtml +
+      '</div>' +
+      '<p class="share-tagline body-font" data-share="tagline"' +
+      shareDomIdAttr(d.tagline) +
+      '>' +
+      ftHtml +
+      '</p>' +
+      '</div></div>'
+    );
+  }
+
+  /**
+   * Reusable premium share card (unified .share-title / .share-main / .share-sub / .share-footer).
+   * @param {{ title?: string, label?: string, content?: string, contentPlain?: string, body?: string, reference?: string, type?: string, icon?: 'star'|'cross', highlightWords?: string[], footer?: string, footerBrand?: string, footerTagline?: string, domIds?: object }} opts
+   * @returns {HTMLDivElement} Outer shell with class verse-fs-share-capture share-screen (ready to mount or export).
+   */
+  function createShareCard(opts) {
+    opts = normalizeShareCardInput(opts || {});
+    var wrap = document.createElement('div');
+    wrap.className = 'verse-fs-share-capture share-screen';
+    var rawTitle = String(opts.title != null ? opts.title : '').trim() || 'GROUNDED';
+    var title = rawTitle.toUpperCase();
+    var content = String(opts.contentPlain != null ? opts.contentPlain : '').trim();
+    var reference = String(opts.reference != null ? opts.reference : '').trim();
+    var typ = String(opts.type || '').toLowerCase();
+    var icon =
+      opts.icon === 'cross' || typ === 'prayer' ? 'cross' : 'star';
+    wrap.innerHTML = renderShareCard({
+      title: title,
+      contentPlain: content,
+      contentHtml: opts.contentHtml,
+      reference: reference,
+      icon: icon,
+      highlightWords: opts.highlightWords,
+      footerBrand: opts.footerBrand,
+      footerTagline: opts.footerTagline,
+      domIds: opts.domIds
+    });
+    return wrap;
+  }
+
+  function applyShareCardOpts(captureRoot, opts) {
+    if (!captureRoot) return;
+    opts = normalizeShareCardInput(opts || {});
+    if (!captureRoot.querySelector('.share-card')) {
+      captureRoot.innerHTML = renderShareCard({
+        title: 'GROUNDED',
+        contentPlain: '',
+        reference: '',
+        icon: 'star',
+        domIds: opts.domIds
+      });
+    }
+    var k = captureRoot.querySelector('[data-share="kicker"]');
+    var m = captureRoot.querySelector('[data-share="main"]');
+    var s = captureRoot.querySelector('[data-share="sub"]');
+    var r = captureRoot.querySelector('[data-share="ref"]');
+    var ic = captureRoot.querySelector('[data-share="icon"]');
+    var brand = captureRoot.querySelector('[data-share="brand"]');
+    var tag = captureRoot.querySelector('[data-share="tagline"]');
+    var title = String(opts.title || '').trim();
+    if (k) k.textContent = title || 'GROUNDED';
+    if (m) {
+      if (opts.contentHtml != null && String(opts.contentHtml).trim() !== '') {
+        m.innerHTML = String(opts.contentHtml);
+      } else {
+        var plain = String(opts.contentPlain != null ? opts.contentPlain : '').trim();
+        m.innerHTML = plain ? shareCardFormatMainHtml(plain, opts.highlightWords) : '';
+      }
+    }
+    if (s) {
+      var sub = String(opts.subtext || '').trim();
+      s.textContent = sub;
+      s.hidden = !sub;
+    }
+    if (r) {
+      r.textContent = String(opts.reference != null ? opts.reference : '').trim();
+      var pill = r.closest('.share-ref-pill');
+      if (pill) pill.hidden = !String(r.textContent || '').trim();
+    }
+    if (brand) {
+      var fb = opts.footerBrand != null ? String(opts.footerBrand).trim() : '';
+      brand.textContent = fb || 'Grounded';
+    }
+    if (tag) {
+      var ft = opts.footerTagline != null ? String(opts.footerTagline).trim() : '';
+      tag.textContent = ft || 'Be still. Grow deeper. Live rooted.';
+    }
+    var typ = String(opts.type || '').toLowerCase();
+    var useCross = opts.icon === 'cross' || typ === 'prayer';
+    if (ic) {
+      ic.classList.toggle('share-icon-wrap--cross', useCross);
+      ic.innerHTML = useCross ? shareCardIconCrossHtml() : shareCardIconStarHtml();
+    }
+    var subWrap = captureRoot.querySelector('.share-sub');
+    if (subWrap) {
+      var hasSub = s && !s.hidden && String(s.textContent || '').trim();
+      var hasRef = r && String(r.textContent || '').trim();
+      subWrap.style.display = hasSub || hasRef ? '' : 'none';
+    }
+  }
+
+  /** Public facade: one ShareCard API for label/body/reference + render/create/apply. */
+  var ShareCard = {
+    normalizeOpts: normalizeShareCardInput,
+    renderInnerHtml: function (u) {
+      return renderShareCard(normalizeShareCardInput(u || {}));
+    },
+    create: function (u) {
+      return createShareCard(normalizeShareCardInput(u || {}));
+    },
+    apply: function (root, u) {
+      applyShareCardOpts(root, normalizeShareCardInput(u || {}));
+    }
+  };
+
+  try {
+    window.renderShareCard = renderShareCard;
+    window.createShareCard = createShareCard;
+    window.applyShareCardOpts = applyShareCardOpts;
+    window.ShareCard = ShareCard;
+    window.groundedShareCaptureElementToPng = groundedShareCaptureElementToPng;
+  } catch (eGlobShare) {}
+
+  /** Serif body + line breaks + soft rose accents (shared by verse, truths, CQF export). */
+  function shareCardFormatMainHtml(raw, highlightWords) {
+    var rawIn = String(raw == null ? '' : raw);
+    if (rawIn.indexOf('\n') !== -1) {
+      return rawIn
+        .split(/\n+/)
+        .map(function (ln) {
+          return shareCardFormatMainHtml(ln.trim(), highlightWords);
+        })
+        .filter(Boolean)
+        .join('<br>');
+    }
+    var s = rawIn
       .trim()
       .replace(/^[\u201c\u201d\u2018\u2019'"']+|[\u201c\u201d\u2018\u2019'"']+$/g, '');
     s = s.replace(/\s+/g, ' ');
     if (!s) return '';
-    var html = verseFsShareEsc(s);
+    var html = shareCardEsc(s);
     if (s.length > 72) {
       html = html.replace(/;\s+/g, ';<br>');
       html = html.replace(/,\s+/g, ',<br>');
@@ -15645,37 +16050,34 @@
     if (s.length > 110) {
       html = html.replace(/\s+and\s+/gi, '<br>and ');
     }
-    var phrases = [
-      'love and good deeds',
-      'cast all your anxiety on him',
-      'cast all your anxiety',
-      'peace of God',
-      'hope and a future',
-      'plans to prosper you',
-      'plans to prosper',
-      'do not be anxious about anything',
-      'do not be anxious',
-      'do not be afraid',
-      'do not fear',
-      'good news of great joy',
-      'good news',
-      'meeting together',
-      'one another',
-      'spur one another',
-      'spur'
-    ];
+    var phrases = SHARE_CARD_DEFAULT_PHRASES.slice();
+    if (highlightWords && highlightWords.length) {
+      highlightWords.forEach(function (w) {
+        var t = String(w || '').trim();
+        if (t && phrases.indexOf(t) === -1) phrases.push(t);
+      });
+    }
+    phrases.sort(function (a, b) {
+      return b.length - a.length;
+    });
     phrases.forEach(function (ph) {
-      var escPh = verseFsShareEsc(ph);
+      var t = String(ph || '').trim();
+      if (t.length < 2) return;
+      var escPh = shareCardEsc(t);
       var re = new RegExp('\\b(' + escPh.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'gi');
       html = html.replace(re, '<em class="share-verse-em">$1</em>');
     });
     return html;
   }
 
-  async function verseFsCaptureShareCardPng() {
-    const el = document.getElementById('verseFsShareCapture');
+  /** Rhythm + soft highlights for share card (HTML safe; copy still uses plain verseFsCopyPayload). */
+  function verseFsShareFormatVerseHtml(raw) {
+    return shareCardFormatMainHtml(raw, null);
+  }
+
+  async function groundedShareCaptureElementToPng(el) {
     if (!el || typeof html2canvas !== 'function') return null;
-    var keys = ['width', 'height', 'maxWidth', 'maxHeight', 'aspect-ratio', 'margin', 'padding'];
+    var keys = ['width', 'height', 'maxWidth', 'maxHeight', 'minHeight', 'aspect-ratio', 'margin', 'padding'];
     var prev = {};
     keys.forEach(function (k) {
       prev[k] = el.style.getPropertyValue(k);
@@ -15683,7 +16085,8 @@
     try {
       el.style.setProperty('box-sizing', 'border-box');
       el.style.setProperty('width', '540px');
-      el.style.setProperty('height', '960px');
+      el.style.setProperty('height', 'auto');
+      el.style.setProperty('min-height', '960px');
       el.style.setProperty('max-width', 'none');
       el.style.setProperty('max-height', 'none');
       el.style.setProperty('aspect-ratio', 'unset');
@@ -15694,11 +16097,17 @@
           requestAnimationFrame(r);
         });
       });
+      var capW = Math.max(1, Math.ceil(el.scrollWidth));
+      var capH = Math.max(1, Math.ceil(el.scrollHeight));
       const canvas = await html2canvas(el, {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#F8F6F4'
+        backgroundColor: '#F8F6F4',
+        width: capW,
+        height: capH,
+        windowWidth: capW,
+        windowHeight: capH
       });
       return await new Promise(function (resolve) {
         canvas.toBlob(function (blob) {
@@ -15706,7 +16115,7 @@
         }, 'image/png', 0.95);
       });
     } catch (err) {
-      console.warn('verseFs html2canvas', err);
+      console.warn('grounded share html2canvas', err);
       return null;
     } finally {
       keys.forEach(function (k) {
@@ -15714,6 +16123,10 @@
         else el.style.removeProperty(k);
       });
     }
+  }
+
+  async function verseFsCaptureShareCardPng() {
+    return groundedShareCaptureElementToPng(document.getElementById('verseFsShareCapture'));
   }
 
   async function verseFsShareVerseImageFile() {
@@ -15728,6 +16141,9 @@
       if (navigator.share) {
         if (!navigator.canShare || navigator.canShare(shareData)) {
           await navigator.share(shareData);
+          if (typeof window.trackEvent === 'function') {
+            window.trackEvent('content_shared', { surface: 'verse_image' });
+          }
           return true;
         }
       }
@@ -15779,22 +16195,68 @@
       .trim();
   }
 
+  /**
+   * Weekly anchor cards set #gmAnchorText / #homeThemeIntroAnchorText to "" when the theme has a ref but no verse copy.
+   * Recover verse text from the same weekly slot used to paint the card.
+   * @param {Element|null} txEl
+   * @returns {string}
+   */
+  function cqfAnchorBodyFromDomOrTheme(txEl) {
+    var domBody = cqfStripCurlyQuotes(txEl && txEl.textContent);
+    if (String(domBody || '').trim()) return String(domBody).trim();
+    try {
+      var slotIx =
+        typeof getHomeWeeklyThemeSlotIndex === 'function' ? getHomeWeeklyThemeSlotIndex() : 0;
+      if (typeof WEEKLY_THEMES !== 'undefined' && WEEKLY_THEMES[slotIx] && WEEKLY_THEMES[slotIx].anchorVerse) {
+        var t = String(WEEKLY_THEMES[slotIx].anchorVerse.text || '').trim();
+        if (t) return t;
+      }
+    } catch (eW) {}
+    try {
+      if (typeof getThemeAnchorVerse === 'function') {
+        var themeObj =
+          typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
+        var anchor = getThemeAnchorVerse(themeObj);
+        if (anchor && String(anchor.text || '').trim()) return String(anchor.text).trim();
+      }
+    } catch (eA) {}
+    return '';
+  }
+
   function openContentQuoteFullscreen(cfg) {
     try { if (typeof closeVerseFullscreen === 'function') closeVerseFullscreen(); } catch (_v) {}
     const ov = document.getElementById('contentQuoteFsOverlay');
-    const bodyEl = document.getElementById('cqfBody');
-    const refEl = document.getElementById('cqfRef');
-    const typeEl = document.getElementById('cqfType');
-    if (!ov || !bodyEl || !typeEl) return;
+    const host = document.getElementById('cqfShareCaptureHost');
+    if (!ov || !host || typeof createShareCard !== 'function') return;
     contentQuoteFsState = cfg || null;
     if (!contentQuoteFsState) return;
-    typeEl.textContent = contentQuoteFsState.categoryLabel || '';
-    bodyEl.textContent = contentQuoteFsState.bodyText || '';
+    host.innerHTML = '';
     var refStr = String(contentQuoteFsState.refText || '').trim();
-    if (refEl) {
-      refEl.textContent = refStr;
-      refEl.hidden = !refStr;
-    }
+    var labRaw = String(contentQuoteFsState.categoryLabel || '').trim();
+    var typ = labRaw.toLowerCase().indexOf('prayer') !== -1 ? 'prayer' : '';
+    var bodyRaw =
+      contentQuoteFsState.bodyText != null && String(contentQuoteFsState.bodyText).trim() !== ''
+        ? contentQuoteFsState.bodyText
+        : contentQuoteFsState.saveText != null
+          ? contentQuoteFsState.saveText
+          : '';
+    var cardEl =
+      typeof ShareCard !== 'undefined' && ShareCard.create
+        ? ShareCard.create({
+            label: labRaw || 'SPEAK THIS TODAY',
+            body: bodyRaw,
+            reference: refStr,
+            type: typ
+          })
+        : createShareCard({
+            title: labRaw || 'SPEAK THIS TODAY',
+            contentPlain: String(bodyRaw || ''),
+            reference: refStr,
+            type: typ
+          });
+    host.appendChild(cardEl);
+    var kicker = cardEl.querySelector('[data-share="kicker"]');
+    if (kicker) kicker.id = 'cqfShareCardTitle';
     ov.classList.add('open');
     ov.setAttribute('aria-hidden', 'false');
     document.body.classList.add('content-quote-fs-open');
@@ -15804,6 +16266,8 @@
 
   function closeContentQuoteFullscreen() {
     var ov = document.getElementById('contentQuoteFsOverlay');
+    var host = document.getElementById('cqfShareCaptureHost');
+    if (host) host.innerHTML = '';
     if (ov) {
       ov.classList.remove('open');
       ov.setAttribute('aria-hidden', 'true');
@@ -15826,75 +16290,178 @@
     }
   }
 
-  function buildCqfShareExportHtml(st) {
-    var iconSvg =
-      '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto 28px;color:#B89A94">' +
-      '<path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
-      '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>';
+  function contentQuoteFsCopyPayload() {
+    var st = contentQuoteFsState;
+    if (!st) return '';
+    var text = String(st.bodyText || '')
+      .replace(/\s+/g, ' ')
+      .trim();
     var ref = String(st.refText || '').trim();
-    var refBlock = ref
-      ? ('<p style="margin:0;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#B89A94;text-align:center">' +
-        cqfEscHtml(ref) +
-        '</p>')
-      : '';
+    if (!text) return '';
+    if (ref) return '\u201C' + text + '\u201D \u2014 ' + ref;
+    return '\u201C' + text + '\u201D';
+  }
+
+  function contentQuoteFsCopyExec() {
+    var payload = contentQuoteFsCopyPayload();
+    if (!payload) return;
+    function fallbackCopy(str) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = str;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (e) {
+        return false;
+      }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(payload).then(
+        function () {
+          if (typeof verseFsShowToast === 'function') verseFsShowToast('Copied');
+        },
+        function () {
+          if (fallbackCopy(payload) && typeof verseFsShowToast === 'function') verseFsShowToast('Copied');
+          else if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t copy');
+        }
+      );
+    } else {
+      if (fallbackCopy(payload) && typeof verseFsShowToast === 'function') verseFsShowToast('Copied');
+      else if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t copy');
+    }
+  }
+
+  function contentQuoteFsOpenStudy() {
+    var st = contentQuoteFsState;
+    if (!st) return;
+    var ref = String(st.refText || '').trim();
+    var text = String(st.bodyText || '')
+      .replace(/^\u201c+|\u201d+$/g, '')
+      .trim();
+    var p = typeof parseScriptureReference === 'function' ? parseScriptureReference(ref) : null;
+    if (p && p.bookRaw && text) {
+      try {
+        sessionStorage.setItem(
+          'grounded_study_pending_verse',
+          JSON.stringify({
+            book:
+              typeof bfCanonicalBookName === 'function'
+                ? bfCanonicalBookName(p.bookRaw) || p.bookRaw
+                : p.bookRaw,
+            chapter: p.chapter,
+            verse: p.verseStart,
+            text: text.replace(/^\u201c|\u201d$/g, '').trim() || text,
+            ref: ref
+          })
+        );
+        sessionStorage.setItem('grounded_study_handoff', 'scripture');
+      } catch (e0) {}
+      closeContentQuoteFullscreen();
+      showScreen('reflectScreen');
+      switchTab('study');
+      if (window.GroundedStudyApp && typeof GroundedStudyApp.onTabShown === 'function') {
+        GroundedStudyApp.onTabShown();
+      }
+      return;
+    }
+    closeContentQuoteFullscreen();
+    if (typeof showScreen === 'function') showScreen('readScreen');
+    if (typeof switchTab === 'function') switchTab('scriptureplus');
+  }
+
+  function contentQuoteFsOpenReflect() {
+    var st = contentQuoteFsState;
+    if (!st) return;
+    var ref = String(st.refText || '').trim();
+    var text = String(st.bodyText || '').trim();
+    var explain = 'Let this stay with you. What is one thing it stirs in you?';
+    try {
+      sessionStorage.setItem(
+        'grounded_reflect_override',
+        JSON.stringify({
+          ref: ref,
+          text: text,
+          source: 'content-quote',
+          explain: explain,
+          context: '',
+          realLife: null,
+          prompts: null,
+          moodTag: null
+        })
+      );
+    } catch (e2) {}
+    closeContentQuoteFullscreen();
+    showScreen('reflectScreen');
+    switchTab('reflect');
+  }
+
+  function shareCardExportWrapHtml(opts) {
     return (
-      '<div style="width:1080px;height:1080px;box-sizing:border-box;background:#FFF8F6;padding:80px;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:Inter,system-ui,sans-serif">' +
-      iconSvg +
-      '<p style="margin:0 0 32px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#B89A94">' +
-      cqfEscHtml(st.categoryLabel || '') +
-      '</p>' +
-      '<p style="margin:0 0 24px;font-family:Playfair Display,Georgia,serif;font-size:36px;font-style:italic;font-weight:400;line-height:1.5;color:#3D2E28;max-width:920px;white-space:pre-wrap">' +
-      cqfEscHtml(st.bodyText || '') +
-      '</p>' +
-      refBlock +
-      '<div style="flex:1;min-height:60px"></div>' +
-      '<div style="width:240px;height:1px;background:rgba(234,208,204,0.6);margin:24px auto"></div>' +
-      '<p style="margin:8px 0 0;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#B89A94">GROUNDED</p>' +
-      '<p style="margin:6px 0 0;font-size:10px;letter-spacing:0.12em;color:#C4A29E">getgroundedapp.com</p>' +
+      '<div class="grounded-share-capture share-screen" style="width:540px;height:auto;min-height:960px;max-width:none;max-height:none;aspect-ratio:unset;margin:0;padding:14px;border-radius:28px;box-sizing:border-box;background:linear-gradient(180deg,#F8F6F4 0%,#F2EAE6 52%,#EADDD7 100%);box-shadow:0 12px 40px rgba(90,74,66,0.08),inset 0 1px 0 rgba(255,255,255,0.45)">' +
+      renderShareCard(opts) +
       '</div>'
     );
+  }
+
+  function cqfShareBodyDistilled(body) {
+    var b = String(body || '').replace(/\s+/g, ' ').trim();
+    if (b.length <= 420) return b;
+    var cut = b.slice(0, 420);
+    var sp = cut.lastIndexOf(' ');
+    if (sp > 200) cut = cut.slice(0, sp);
+    return cut.trim() + '\u2026';
   }
 
   async function shareContentQuoteFsImage() {
     var st = contentQuoteFsState;
     if (!st) return;
     var root = document.getElementById('cqfShareExportRoot');
-    if (!root || typeof html2canvas !== 'function') {
+    if (!root || typeof groundedShareCaptureElementToPng !== 'function') {
       if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t share');
       return;
     }
-    root.innerHTML = buildCqfShareExportHtml(st);
+    var labRaw = String(st.categoryLabel || '').trim();
+    var titleShare = (labRaw || 'SIT WITH THIS').toUpperCase();
+    var body = cqfStripCurlyQuotes(String(st.bodyText || '').trim());
+    var refStr = String(st.refText || '').trim();
+    var icon = labRaw.toLowerCase().indexOf('prayer') !== -1 ? 'cross' : 'star';
+    root.innerHTML = shareCardExportWrapHtml({
+      type: 'cqf',
+      title: titleShare,
+      contentPlain: cqfShareBodyDistilled(body),
+      reference: refStr,
+      icon: icon
+    });
     var plate = root.firstElementChild;
     if (!plate) return;
     try {
-      var canvas = await html2canvas(plate, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#FFF8F6'
-      });
-      var blob = await new Promise(function (resolve) {
-        canvas.toBlob(function (b) {
-          resolve(b || null);
-        }, 'image/png', 0.95);
-      });
+      var blob = await groundedShareCaptureElementToPng(plate);
       root.innerHTML = '';
       if (!blob) {
         if (typeof verseFsShowToast === 'function') verseFsShowToast('Couldn\u2019t share');
         return;
       }
-      var file = new File([blob], 'grounded-verse.png', { type: 'image/png' });
+      var file = new File([blob], 'grounded-share.png', { type: 'image/png' });
       var shareData = { files: [file], title: 'Grounded' };
       if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
         try {
           await navigator.share(shareData);
+          if (typeof window.trackEvent === 'function') {
+            window.trackEvent('content_shared', { surface: 'content_quote_image' });
+          }
           return;
         } catch (eShare) {}
       }
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'grounded-verse.png';
+      a.download = 'grounded-share.png';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -15932,6 +16499,9 @@
     var back = document.getElementById('contentQuoteFsBack');
     var shareBtn = document.getElementById('contentQuoteFsShare');
     var saveBtn = document.getElementById('contentQuoteFsSave');
+    var copyBtn = document.getElementById('contentQuoteFsCopy');
+    var studyBtn = document.getElementById('contentQuoteFsStudy');
+    var reflBtn = document.getElementById('contentQuoteFsReflect');
     if (!ov || ov.dataset.cqfBound === '1') return;
     ov.dataset.cqfBound = '1';
     if (back) back.addEventListener('click', closeContentQuoteFullscreen);
@@ -15940,6 +16510,21 @@
         void shareContentQuoteFsImage();
       });
     if (saveBtn) saveBtn.addEventListener('click', saveContentQuoteFs);
+    if (copyBtn)
+      copyBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        contentQuoteFsCopyExec();
+      });
+    if (studyBtn)
+      studyBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        contentQuoteFsOpenStudy();
+      });
+    if (reflBtn)
+      reflBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        contentQuoteFsOpenReflect();
+      });
 
     function press(el, down) {
       if (!el) return;
@@ -15981,7 +16566,7 @@
     bindCardTap(document.getElementById('homeThemeIntroAnchorCard'), function () {
       var tx = document.getElementById('homeThemeIntroAnchorText');
       var rf = document.getElementById('homeThemeIntroAnchorRef');
-      var body = cqfStripCurlyQuotes(tx && tx.textContent);
+      var body = cqfAnchorBodyFromDomOrTheme(tx);
       var ref = rf ? String(rf.textContent || '').trim() : '';
       if (!body && !ref) return;
       openContentQuoteFullscreen({
@@ -15997,7 +16582,7 @@
     bindCardTap(closingBox, function () {
       var tx = document.getElementById('gmWeekClosingVerseText');
       var rf = document.getElementById('gmWeekClosingVerseRef');
-      var body = cqfStripCurlyQuotes(tx && tx.textContent);
+      var body = cqfAnchorBodyFromDomOrTheme(tx);
       var ref = rf ? String(rf.textContent || '').trim() : '';
       if (!body && !ref) return;
       openContentQuoteFullscreen({
@@ -16017,7 +16602,7 @@
         if (t) lines.push(t);
       });
       var body = lines.join('\n\n');
-      if (!body) return;
+      if (!String(body || '').trim()) return;
       openContentQuoteFullscreen({
         bodyText: body,
         refText: '',
@@ -16030,7 +16615,7 @@
     bindCardTap(document.getElementById('gmAnchorCard'), function () {
       var tx = document.getElementById('gmAnchorText');
       var rf = document.getElementById('gmAnchorRef');
-      var body = cqfStripCurlyQuotes(tx && tx.textContent);
+      var body = cqfAnchorBodyFromDomOrTheme(tx);
       var ref = rf ? String(rf.textContent || '').trim() : '';
       if (!body && !ref) return;
       openContentQuoteFullscreen({
@@ -16128,6 +16713,15 @@
     }
   })();
 
+  var VERSE_FS_SHARE_DOM_IDS = {
+    kicker: 'verseFsShareKicker',
+    main: 'verseFsText',
+    ref: 'verseFsRef',
+    sub: 'verseFsShareSub',
+    brand: 'verseFsBrandWord',
+    tagline: 'verseFsTagline'
+  };
+
   function updateVerseFsSaveButton() {
     const btn = document.getElementById('verseFsSave');
     if (!btn || !verseFsState) return;
@@ -16145,29 +16739,28 @@
   function openVerseFullscreen(v) {
     try { if (typeof closeContentQuoteFullscreen === 'function') closeContentQuoteFullscreen(); } catch (_cq) {}
     const overlay = document.getElementById('verseFullscreenOverlay');
-    const textEl = document.getElementById('verseFsText');
-    const refEl = document.getElementById('verseFsRef');
-    const kickerEl = document.getElementById('verseFsShareKicker');
-    if (!overlay || !textEl || !refEl) return;
+    const cap = document.getElementById('verseFsShareCapture');
+    if (!overlay || !cap) return;
     verseFsCloseShareSheet();
     verseFsState = v;
     const t = verseBodyText(v).trim();
     const r = (v.ref || '').trim();
-    if (kickerEl) {
-      var lab = '';
-      try {
-        lab = typeof mapHomeVerseShareLabel === 'function' ? String(mapHomeVerseShareLabel() || '').trim() : '';
-      } catch (_mk) {}
-      kickerEl.textContent = lab || 'VERSE OF THE MOMENT';
-    }
-    if (t) {
-      textEl.innerHTML = verseFsShareFormatVerseHtml(t);
-      textEl.setAttribute('aria-label', t);
-    } else {
-      textEl.innerHTML = '';
-      textEl.removeAttribute('aria-label');
-    }
-    refEl.textContent = r;
+    var lab = '';
+    try {
+      lab = typeof mapHomeVerseShareLabel === 'function' ? String(mapHomeVerseShareLabel() || '').trim() : '';
+    } catch (_mk) {}
+    applyShareCardOpts(cap, {
+      type: 'verse',
+      title: lab || 'VERSE OF THE MOMENT',
+      contentPlain: t,
+      subtext: '',
+      reference: r,
+      icon: 'star',
+      domIds: VERSE_FS_SHARE_DOM_IDS
+    });
+    const textEl = cap.querySelector('[data-share="main"]');
+    if (t && textEl) textEl.setAttribute('aria-label', t);
+    else if (textEl) textEl.removeAttribute('aria-label');
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.classList.add('verse-fs-open');
@@ -16183,9 +16776,19 @@
     overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('verse-fs-open');
     verseFsState = null;
-    const textEl = document.getElementById('verseFsText');
+    const cap = document.getElementById('verseFsShareCapture');
+    if (cap && typeof applyShareCardOpts === 'function') {
+      applyShareCardOpts(cap, {
+        title: 'VERSE OF THE MOMENT',
+        contentPlain: '',
+        subtext: '',
+        reference: '',
+        icon: 'star'
+      });
+    }
+    const capEl = document.getElementById('verseFsShareCapture');
+    const textEl = capEl ? capEl.querySelector('[data-share="main"]') : null;
     if (textEl) {
-      textEl.innerHTML = '';
       textEl.removeAttribute('aria-label');
     }
   }
@@ -18343,6 +18946,11 @@
     if (saveEntry) {
       saveEntry.addEventListener('click', function () {
         if (!reflectPersistJournalEntryOnly()) return;
+        if (typeof trackEvent === 'function') {
+          try {
+            trackEvent('reflection_saved', { context: 'reflect_inline' });
+          } catch (eRf) {}
+        }
         const m = document.getElementById('reflectEntrySavedMsg');
         if (m) { m.classList.add('show'); setTimeout(function () { m.classList.remove('show'); }, 2000); }
         if (typeof markGroundedDay === 'function') markGroundedDay();
@@ -18353,6 +18961,11 @@
     if (saveReturn) {
       saveReturn.addEventListener('click', function () {
         if (!reflectPersistJournalEntryOnly()) return;
+        if (typeof trackEvent === 'function') {
+          try {
+            trackEvent('reflection_saved', { context: 'reflect_return_today' });
+          } catch (eRr) {}
+        }
         if (typeof markGroundedDay === 'function') markGroundedDay();
         switchTab('feed');
       });
@@ -19475,6 +20088,68 @@
     return vc != null ? String(vc).trim() : '';
   }
 
+  function mflowSentencesFromText(raw) {
+    const s = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!s) return [];
+    const out = [];
+    let buf = '';
+    for (let i = 0; i < s.length; i++) {
+      const ch = s.charAt(i);
+      buf += ch;
+      if ((ch === '.' || ch === '!' || ch === '?') && (i === s.length - 1 || /\s/.test(s.charAt(i + 1)))) {
+        const piece = buf.trim();
+        if (piece) out.push(piece);
+        buf = '';
+        while (i + 1 < s.length && /\s/.test(s.charAt(i + 1))) i++;
+      }
+    }
+    const last = buf.trim();
+    if (last) out.push(last);
+    return out;
+  }
+
+  function mflowArriveSubClamp(s, maxChars) {
+    const parts = mflowSentencesFromText(s);
+    if (!parts.length) return '';
+    const out = [];
+    let len = 0;
+    for (let i = 0; i < parts.length && out.length < 2; i++) {
+      const seg = parts[i];
+      if (len + seg.length + (out.length ? 1 : 0) > maxChars && out.length) break;
+      out.push(seg);
+      len += seg.length + 1;
+    }
+    return out.join(' ');
+  }
+
+  function mflowCloseReleaseText(raw) {
+    const t = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    const parts = mflowSentencesFromText(t);
+    const kept = parts.filter(function (p) {
+      return !/^tomorrow\b/i.test(p);
+    });
+    const useParts = kept.length ? kept : parts;
+    const out = [];
+    let len = 0;
+    for (let i = 0; i < useParts.length && out.length < 2; i++) {
+      const seg = useParts[i];
+      if (len + seg.length + (out.length ? 1 : 0) > 200 && out.length) break;
+      out.push(seg);
+      len += seg.length + 1;
+    }
+    if (!out.length) return t.length > 180 ? t.slice(0, 177).trim() + '\u2026' : t;
+    return out.join(' ');
+  }
+
+  function mflowRespondPrayerDisplay(s) {
+    const t = String(s || '').replace(/\s+/g, ' ').trim();
+    if (t.length <= 320) return t;
+    const parts = mflowSentencesFromText(t);
+    if (parts.length >= 2) return parts[0] + ' ' + parts[parts.length - 1];
+    return t.slice(0, 317).trim() + '\u2026';
+  }
+
   function mflowApplyWeeklyArriveCopy() {
     mflowSyncWeeklyContextFromDate();
     const titleEl = document.getElementById('mflowArriveTitle');
@@ -19487,20 +20162,19 @@
     }
     if (snap && snap.day) {
       const fw = snap.day.focus != null ? String(snap.day.focus).trim() : '';
-      const support = guidedMomentSupportFromDay(snap.day);
       if (fw && typeof focusWordToDisplayPhrase === 'function') {
         titleEl.textContent = focusWordToDisplayPhrase(fw);
         if (subEl) {
-          subEl.textContent = support ? support + '\n\n' + slowLine : slowLine;
+          subEl.textContent = slowLine;
           subEl.hidden = false;
           subEl.style.whiteSpace = 'pre-line';
         }
         return;
       }
-      if (!fw && support && snap.themeTitle) {
+      if (!fw && snap.themeTitle) {
         titleEl.textContent = String(snap.themeTitle).trim();
         if (subEl) {
-          subEl.textContent = support + '\n\n' + slowLine;
+          subEl.textContent = slowLine;
           subEl.hidden = false;
           subEl.style.whiteSpace = 'pre-line';
         }
@@ -19535,8 +20209,9 @@
     }
     titleEl.textContent = title;
     if (subEl) {
-      subEl.textContent = sub;
-      subEl.hidden = !sub;
+      const subUse = sub ? mflowArriveSubClamp(sub, 200) : '';
+      subEl.textContent = subUse;
+      subEl.hidden = !subUse;
     }
   }
 
@@ -19567,7 +20242,7 @@
     let out =
       text || 'God, meet me in this moment. Quiet my heart and help me trust you. Amen.';
     out = out.replace(/\bLet us\b/gi, "Let's");
-    prayerEl.textContent = out;
+    prayerEl.textContent = mflowRespondPrayerDisplay(out);
   }
 
   function mflowRerunStaggers(slab) {
@@ -19590,6 +20265,120 @@
     else orb.classList.add('mflow-breath-orb__inner--exhale');
   }
 
+  function mflowGetActiveStep() {
+    for (var s = 1; s <= 6; s++) {
+      var el = document.getElementById('mflowStep' + s);
+      if (el && el.classList.contains('mflow-slab--on')) return s;
+    }
+    return 1;
+  }
+
+  function mflowSyncPlanFlowNav() {
+    var card = document.getElementById('momentFlowCard');
+    if (!card) return;
+    var prev = card.querySelector('[data-action="plan-flow-prev"]');
+    var next = card.querySelector('[data-action="plan-flow-next"]');
+    if (!prev || !next) return;
+    var st = mflowGetActiveStep();
+    if (st <= 1) {
+      prev.setAttribute('hidden', '');
+      prev.setAttribute('aria-hidden', 'true');
+    } else {
+      prev.removeAttribute('hidden');
+      prev.setAttribute('aria-hidden', 'false');
+    }
+    if (st >= 6) {
+      next.setAttribute('hidden', '');
+      next.setAttribute('aria-hidden', 'true');
+    } else {
+      next.removeAttribute('hidden');
+      next.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function mflowPlanFlowPrev() {
+    var st = mflowGetActiveStep();
+    if (st <= 1) return;
+    if (st === 2) {
+      mfClearTimers();
+      __mfBreatheRunning = false;
+      mflowSetActiveStep(1);
+      mflowApplyWeeklyArriveCopy();
+      return;
+    }
+    if (st === 3) {
+      mfClearTimers();
+      __mfReceiveDone = false;
+      if (__mfReceiveClickBound) {
+        var c0 = document.getElementById('momentFlowCard');
+        if (c0) c0.removeEventListener('click', _mflowReceiveTap);
+        __mfReceiveClickBound = false;
+      }
+      var hint0 = document.getElementById('mflowReceiveHint');
+      if (hint0) hint0.hidden = true;
+      var prefQ = typeof getGroundedTimePref === 'function' ? getGroundedTimePref() : 'daily';
+      if (prefQ === 'quick') {
+        mflowSetActiveStep(1);
+        mflowApplyWeeklyArriveCopy();
+        mflowInitArrive();
+        return;
+      }
+      mflowRunBreathe();
+      return;
+    }
+    if (st === 4) {
+      mfClearTimers();
+      __mfReceiveDone = false;
+      mflowSetActiveStep(3);
+      mflowInitReceive();
+      return;
+    }
+    if (st === 5) {
+      mfClearTimers();
+      mflowSetActiveStep(4);
+      return;
+    }
+    if (st === 6) {
+      mfClearTimers();
+      mflowSetActiveStep(5);
+    }
+  }
+
+  function mflowPlanFlowNext() {
+    var st = mflowGetActiveStep();
+    if (st >= 6) return;
+    var pref = typeof getGroundedTimePref === 'function' ? getGroundedTimePref() : 'daily';
+    if (st === 1) {
+      mfClearTimers();
+      if (pref === 'quick') {
+        mflowSetActiveStep(3);
+        mflowInitReceive();
+      } else {
+        mflowRunBreathe();
+      }
+      return;
+    }
+    if (st === 2) {
+      mfClearTimers();
+      __mfBreatheRunning = false;
+      mflowSetActiveStep(3);
+      mflowInitReceive();
+      return;
+    }
+    if (st === 3) {
+      mflowGotoFromReceive();
+      return;
+    }
+    if (st === 4) {
+      mflowFillRespondStep();
+      mflowSetActiveStep(5);
+      return;
+    }
+    if (st === 5) {
+      mflowInitComplete();
+    }
+  }
+
   function mflowSetActiveStep(n) {
     for (let s = 1; s <= 6; s++) {
       const el = document.getElementById('mflowStep' + s);
@@ -19599,6 +20388,7 @@
       el.classList.toggle('mflow-slab--on', on);
       if (on) mflowRerunStaggers(el);
     }
+    mflowSyncPlanFlowNav();
   }
 
   function mflowOpen() {
@@ -19710,20 +20500,9 @@
           wre.textContent = wkVerse.ref || '';
           wre.hidden = !wkVerse.ref;
         }
-        const vctx = mflowWeeklyVerseContextFromSnap(__mflowWeeklySnap);
         if (vctxEl) {
-          if (vctx) {
-            let t = vctx;
-            if (t.length > 120) {
-              const dot = t.slice(0, 120).lastIndexOf('.');
-              t = dot > 36 ? t.slice(0, dot + 1).trim() : t.slice(0, 117).trim() + '\u2026';
-            }
-            vctxEl.textContent = t;
-            vctxEl.removeAttribute('hidden');
-          } else {
-            vctxEl.textContent = '';
-            vctxEl.setAttribute('hidden', '');
-          }
+          vctxEl.textContent = '';
+          vctxEl.setAttribute('hidden', '');
         }
       } else if (fv && fv.ref) {
         const ctxHtml = fv.context
@@ -19849,6 +20628,22 @@
     mflowClearReflectDeepParas();
     const pr = document.getElementById('mflowReflectPrompt');
     if (!pr || !pr.parentNode) return;
+    const m = meaning != null ? String(meaning).replace(/\s+/g, ' ').trim() : '';
+    const ins = insight != null ? String(insight).replace(/\s+/g, ' ').trim() : '';
+    const app = application != null ? String(application).replace(/\s+/g, ' ').trim() : '';
+    const paras = [];
+    if (ins && app) {
+      paras.push(ins, app);
+    } else if (ins && m && !app) {
+      paras.push(ins);
+    } else if (ins && m) {
+      paras.push(ins, m);
+    } else if (app && m) {
+      paras.push(app, m);
+    } else if (ins) paras.push(ins);
+    else if (app) paras.push(app);
+    else if (m) paras.push(m);
+    if (paras.length > 3) paras = paras.slice(0, 3);
     function addPara(txt) {
       const s = txt != null ? String(txt).replace(/\s+/g, ' ').trim() : '';
       if (!s) return;
@@ -19857,9 +20652,7 @@
       p.textContent = s;
       pr.parentNode.insertBefore(p, pr);
     }
-    addPara(meaning);
-    addPara(insight);
-    addPara(application);
+    for (let i = 0; i < paras.length; i++) addPara(paras[i]);
   }
 
   function mflowGotoFromReceive() {
@@ -20006,10 +20799,20 @@
     let raw = '';
     try { raw = sessionStorage.getItem(MOMENT_FLOW_KEY) || ''; } catch (e) {}
     if (!raw) return;
+    if (typeof trackEvent === 'function') {
+      try {
+        void trackEvent('moment_started', { source: 'after_prayer_mflow' });
+      } catch (eMf) {}
+    }
     mflowStart();
   }
 
   function mflowFinishToToday() {
+    if (typeof trackEvent === 'function') {
+      try {
+        trackEvent('moment_completed', {});
+      } catch (eMc) {}
+    }
     mflowClose();
     try { sessionStorage.removeItem(MOMENT_FLOW_KEY); } catch (e) {}
     if (typeof switchTab === 'function') switchTab('feed');
@@ -20034,9 +20837,10 @@
     if (cp) cp.textContent = closer;
     const reinf = document.getElementById('mflowCompleteReinforce');
     if (reinf) {
-      const dc =
+      const dcRaw =
         snapDone && snapDone.day && snapDone.day.close != null ? String(snapDone.day.close).trim() : '';
-      reinf.textContent = dc || 'That matters more than you think.';
+      const dc = mflowCloseReleaseText(dcRaw) || 'Let this settle before the next moment.';
+      reinf.textContent = dc;
     }
     const themeLineEl = document.getElementById('mflowCompleteThemeLine');
     if (themeLineEl) {
@@ -20056,6 +20860,11 @@
     const CIRC = 100;
     const DURATION = 700;
     mflowSetActiveStep(6);
+    const subComplete = document.getElementById('mflowCompleteSub');
+    if (subComplete) {
+      subComplete.style.whiteSpace = 'pre-line';
+      subComplete.textContent = 'Carry this with you:\nCome back tomorrow to continue.';
+    }
     if (lEl) {
       lEl.textContent = '';
       lEl.hidden = true;
@@ -20093,6 +20902,19 @@
   }
 
   (function initMomentFlowBindings() {
+    const cardNav = document.getElementById('momentFlowCard');
+    if (cardNav && !cardNav.dataset.mfNavBound) {
+      cardNav.dataset.mfNavBound = '1';
+      cardNav.addEventListener('click', function (e) {
+        var navBtn = e.target.closest('[data-action="plan-flow-prev"],[data-action="plan-flow-next"]');
+        if (!navBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var act = navBtn.getAttribute('data-action');
+        if (act === 'plan-flow-prev') mflowPlanFlowPrev();
+        else if (act === 'plan-flow-next') mflowPlanFlowNext();
+      });
+    }
     const b4 = document.getElementById('mflowBtnReflectCont');
     if (b4 && !b4.dataset.mfBound) {
       b4.dataset.mfBound = '1';
@@ -20618,10 +21440,15 @@
 
   function syncTruthsCardFromScreen() {
     const lines = getWalkTruthStrings();
-    const paras = document.querySelectorAll('#truths-card .truths-text p');
-    for (let i = 0; i < 3; i++) {
-      if (paras[i]) paras[i].textContent = lines[i] != null ? lines[i] : '';
-    }
+    const cap = document.getElementById('walkTruthsShareCapture');
+    if (!cap || typeof applyShareCardOpts !== 'function') return;
+    applyShareCardOpts(cap, {
+      type: 'truths',
+      label: 'WORDS TO SPEAK',
+      body: lines.slice(0, 3).join('\n'),
+      reference: "Today's declarations",
+      icon: 'star'
+    });
   }
 
   function persistGroundedSavedDeclarations(lines) {
@@ -20636,9 +21463,9 @@
   }
 
   function saveCard() {
-    const card = document.getElementById('truths-card');
+    const cap = document.getElementById('walkTruthsShareCapture');
     const btn = document.getElementById('walkTruthsSaveCardBtn');
-    if (!card) return;
+    if (!cap) return;
     const lines = getWalkTruthStrings();
     if (lines.length < 1) return;
     persistGroundedSavedDeclarations(lines);
@@ -20649,23 +21476,22 @@
     syncTruthsCardFromScreen();
     if (btn) btn.disabled = true;
     const run = function () {
-      html2canvas(card, {
-        scale: 1,
-        width: 1080,
-        height: 1920,
-        windowWidth: 1080,
-        windowHeight: 1920,
-        useCORS: true,
-        backgroundColor: null,
-        logging: false,
-        scrollX: 0,
-        scrollY: 0
-      })
-        .then(function (canvas) {
+      groundedShareCaptureElementToPng(cap)
+        .then(function (blob) {
+          if (!blob) {
+            console.warn('Daily truths card export failed');
+            return;
+          }
+          const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.download = 'daily-truths.png';
-          link.href = canvas.toDataURL('image/png');
+          link.href = url;
           link.click();
+          window.setTimeout(function () {
+            try {
+              URL.revokeObjectURL(url);
+            } catch (e0) {}
+          }, 2000);
         })
         .catch(function (err) {
           console.warn('Daily truths card export failed', err);
@@ -20871,6 +21697,11 @@
   
     journalEntries.push(entry);
     localStorage.setItem('grounded_journal_entries', JSON.stringify(journalEntries));
+    if (typeof trackEvent === 'function') {
+      try {
+        trackEvent('reflection_saved', { context: 'journal_tab' });
+      } catch (eJr) {}
+    }
   
     ta.value = '';
     setJournalPrompt('');
@@ -21118,7 +21949,16 @@
   }
   
   document.getElementById('flowModalClose').addEventListener('click', closeFlowModal);
-  flowOverlay.addEventListener('click', e => { if (e.target === flowOverlay) closeFlowModal(); });
+  const flowModalEl = document.getElementById('flowModal');
+  if (flowModalEl) {
+    flowModalEl.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
+  flowOverlay.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (e.target === flowOverlay) closeFlowModal();
+  });
   
   document.querySelectorAll('.flow-card[data-flow-type]').forEach((card) => {
     const t = card.getAttribute('data-flow-type');
@@ -21160,6 +22000,16 @@
   /* ═══════════════════════════════════════
      INIT
      ═══════════════════════════════════════ */
+  function trackAppOpenedOnce() {
+    try {
+      if (typeof trackEvent === 'function') void trackEvent('app_opened');
+    } catch (eAppOpen) {}
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', trackAppOpenedOnce, { once: true });
+  } else {
+    trackAppOpenedOnce();
+  }
   renderFeed();
   if (!isLegalPathname()) {
     runGroundedHomeContentBootstrap();
@@ -21735,18 +22585,9 @@
   }
   </script>
 
-  <!-- Shareable Daily Truths card (1080×1920); filled from #walkTruthsLines when user taps Save this -->
+  <!-- Shareable Daily Truths — same premium share card as verse (export 1080×1920 via html2canvas) -->
   <div id="truths-card" aria-hidden="true">
-    <div class="card-inner">
-      <div class="sparkle-top">&#x2727;</div>
-      <div class="truths-text">
-        <p></p>
-        <p></p>
-        <p></p>
-      </div>
-      <div class="sparkle-bottom">&#x2727;</div>
-      <div class="brand">Grounded</div>
-    </div>
+    <div class="grounded-share-capture share-screen" id="walkTruthsShareCapture"></div>
   </div>
 
   </body></html>
