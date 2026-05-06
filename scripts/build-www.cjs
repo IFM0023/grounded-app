@@ -8,6 +8,7 @@ const www = path.join(root, 'www');
 const files = [
   'index.html',
   'admin.html',
+  'grounded_marketing_center.html',
   'manifest.json',
   'sw.js',
   'widget.html',
