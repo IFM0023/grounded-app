@@ -264,6 +264,9 @@
       root.setAttribute('aria-hidden', 'true');
       root.classList.remove('is-visible', 'onboarding-root--closing');
       document.body.classList.remove('onboarding-active');
+      try {
+        if (typeof global.updateAppStoreCtaVisibility === 'function') global.updateAppStoreCtaVisibility();
+      } catch (_) {}
       return;
     }
 
@@ -272,6 +275,9 @@
       root.setAttribute('aria-hidden', 'true');
       root.classList.remove('is-visible', 'onboarding-root--closing');
       document.body.classList.remove('onboarding-active');
+      try {
+        if (typeof global.updateAppStoreCtaVisibility === 'function') global.updateAppStoreCtaVisibility();
+      } catch (_) {}
       return;
     }
 
@@ -295,6 +301,9 @@
     root.classList.remove('onboarding-root--closing');
     root.removeAttribute('hidden');
     root.setAttribute('aria-hidden', 'false');
+    try {
+      if (typeof global.updateAppStoreCtaVisibility === 'function') global.updateAppStoreCtaVisibility();
+    } catch (_) {}
     try {
       var activeTab = document.body.getAttribute('data-active-tab') || 'feed';
       if (activeTab !== 'feed' && typeof global.switchTab === 'function') {
@@ -555,6 +564,9 @@
           root.classList.remove('onboarding-root--closing');
           root.setAttribute('hidden', '');
           root.setAttribute('aria-hidden', 'true');
+          try {
+            if (typeof global.updateAppStoreCtaVisibility === 'function') global.updateAppStoreCtaVisibility();
+          } catch (_) {}
         }, 380);
 
         if (typeof startFirstMoment === 'function') {

@@ -583,12 +583,12 @@
   }
 
   var WEEKLY_CLOSE_LINES = [
-    'Let one sentence from today stay with you. You do not have to finish the whole theme—only let this day land where you actually live.',
-    'Carry what helped; release what did not. When you return tomorrow, you are allowed to be a slightly different version of honest.',
-    'Nothing about today had to be perfect to be real. Small faithfulness still counts—and it makes the next step easier to find.',
-    'You showed up with your real mind, not a polished one. That is the kind of presence God keeps meeting in the stories we love.',
-    'When the noise returns, you have language now. Use it gently with yourself—and come back when you want the next line of the journey.',
-    'Rest in one true thing you noticed today. Hunger for the next step is allowed; so is closing your eyes for a minute and receiving quiet.'
+    'Stay with this as you move forward.',
+    'You don\u2019t need to figure everything out right now.',
+    'Let this settle before the next moment.',
+    'Carry what helped; release the rest.',
+    'Nothing here required perfection\u2014only honesty.',
+    'Rest in one true thing you noticed today.'
   ];
 
   function weeklyDayCloseLine(themeTitle, foc, di) {
@@ -597,16 +597,18 @@
   }
 
   function weeklyDayRespondPrayer(themeTitle, foc, pr, verseRef) {
-    var f = foc ? String(foc).trim() : 'this day';
-    var p = pr ? String(pr).trim() : '';
+    var f = foc ? String(foc).trim() : 'today';
     var v = verseRef ? String(verseRef).trim() : '';
-    var mid = p
-      ? ' You know what I am circling when I ask: ' + p.slice(0, 120) + (p.length > 120 ? '…' : '')
-      : ' You know what I am carrying beneath my words.';
     var tail = v
-      ? ' Let what is true in ' + v + ' shape my next step with mercy, not pressure.'
-      : ' Shape my next step with mercy, not pressure.';
-    return 'God, meet me in ' + f + '.' + mid + tail + ' Amen.';
+      ? ' Let what is true in ' + v + ' shape one small step I take next\u2014with mercy, not pressure.'
+      : ' Shape one small step I take next\u2014with mercy, not pressure.';
+    return (
+      'God, meet me in ' +
+      f +
+      '. You already know what surfaced in me; give me courage to move forward in just one concrete way.' +
+      tail +
+      ' Amen.'
+    );
   }
 
   /**

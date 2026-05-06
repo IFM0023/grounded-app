@@ -1,6 +1,4 @@
-import { loadLocalEnv } from './load-local-env.js';
 import { readRequestJson } from './read-request-json.js';
-loadLocalEnv();
 
 const SYSTEM_PROMPT = `You are a careful Bible companion helping someone understand a whole biblical book.
 
@@ -61,22 +59,19 @@ function normalize(o, testament) {
   };
 }
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+function readBookTestament(req, body) {
+  if (req.method === 'GET') {
+    const q = req.query || {};
+    const book = String(q.book || '').trim().slice(0, 48);
+    const testament = String(q.testament || '').toLowerCase() === 'nt' ? 'nt' : 'ot';
+    return { book, testament };
   }
-  const apiKey = process.env.OPENAI_API_KEY || process.env.OPEN_AI_KEY || process.env.OPENAI_KEY;
-  if (!apiKey) {
-    return res.status(503).json({ error: 'AI not configured' });
-  }
-  const body = await readRequestJson(req);
   const book = String(body.book || '').trim().slice(0, 48);
   const testament = body.testament === 'nt' ? 'nt' : 'ot';
-  if (!book) {
-    return res.status(400).json({ error: 'Missing book' });
-  }
+  return { book, testament };
+}
 
+async function generateOverviewWithOpenAI(book, testament, apiKey) {
   const userMessage = `Book: ${book}\nTestament: ${testament}\n\nReturn the JSON object with all keys described in your instructions.`;
 
   const controller = new AbortController();
@@ -104,20 +99,66 @@ export default async function handler(req, res) {
 
     if (!upstream.ok) {
       const detail = await upstream.text().catch(() => '');
-      return res.status(502).json({ error: 'Upstream error', status: upstream.status, detail: detail.slice(0, 200) });
+      const err = new Error('Upstream error');
+      err.status = 502;
+      err.detail = detail.slice(0, 200);
+      throw err;
     }
     const data = await upstream.json();
     const raw = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || '').trim();
     const parsed = parseJson(raw);
     const out = normalize(parsed, testament);
     if (!out || (!out.author && !out.purpose)) {
-      return res.status(502).json({ error: 'Invalid AI response' });
+      const err = new Error('Invalid AI response');
+      err.status = 502;
+      throw err;
     }
-    return res.status(200).json(out);
-  } catch (e) {
-    const aborted = e && (e.name === 'AbortError' || /abort/i.test(String(e)));
-    return res.status(aborted ? 504 : 500).json({ error: aborted ? 'Timeout' : 'Generation failed' });
+    return out;
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+export default async function handler(req, res) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'GET, POST, OPTIONS');
+    return res.status(204).end();
+  }
+
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    res.setHeader('Allow', 'GET, POST, OPTIONS');
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  let body = {};
+  if (req.method === 'POST') {
+    body = await readRequestJson(req);
+  }
+
+  const { book, testament } = readBookTestament(req, body);
+  if (!book) {
+    return res.status(400).json({ error: 'Missing book' });
+  }
+
+  const apiKey = process.env.OPENAI_API_KEY || process.env.OPEN_AI_KEY || process.env.OPENAI_KEY;
+  if (!apiKey) {
+    return res.status(503).json({ error: 'AI not configured' });
+  }
+
+  try {
+    const overview = await generateOverviewWithOpenAI(book, testament, apiKey);
+    return res.status(200).json({ overview });
+  } catch (e) {
+    const aborted = e && (e.name === 'AbortError' || /abort/i.test(String(e)));
+    if (aborted) {
+      return res.status(504).json({ error: 'Timeout' });
+    }
+    const status = e && e.status ? e.status : 500;
+    if (status === 502 && e.detail) {
+      return res.status(502).json({ error: 'Upstream error', detail: e.detail });
+    }
+    return res.status(status >= 400 && status < 600 ? status : 500).json({
+      error: e && e.message ? String(e.message) : 'Generation failed'
+    });
   }
 }

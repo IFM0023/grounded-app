@@ -7,6 +7,7 @@ const root = process.cwd();
 const www = path.join(root, 'www');
 const files = [
   'index.html',
+  'admin.html',
   'manifest.json',
   'sw.js',
   'widget.html',

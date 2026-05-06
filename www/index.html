@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
+  <script defer src="/_vercel/insights/script.js"></script>
   <meta name="theme-color" content="#EADFD8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -218,7 +219,6 @@
   .page-title{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:500;text-align:center;margin:var(--sp-2) 0 var(--sp-2);letter-spacing:-0.25px;color:var(--text);line-height:1.2}
   .page-subtitle{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-style:italic;font-weight:400;text-align:center;opacity:0.7;color:var(--text-light);margin:0 auto var(--sp-4);max-width:22rem;line-height:1.6}
   .page-subtitle[hidden]{display:none !important;margin:0}
-  .app-version-badge{font-size:9px;font-weight:500;letter-spacing:0.35px;color:var(--text-light);opacity:0.62;user-select:none;font-family:inherit;line-height:1;max-width:72px;text-align:right}
   .header-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:transparent;color:var(--text-light)}
   .header-btn:active{transform:scale(0.92)}
   .header-btn svg{width:18px;height:18px}
@@ -332,10 +332,10 @@
   .verse-card .wv-label.body-font,.verse-card .reflect-verse-label.body-font{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;color:var(--accent-strong);margin:0 0 var(--sp-3)}
   .verse-card .wv-ref.body-font,.verse-card .sv-ref.body-font{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-style:normal;font-weight:500;color:var(--text);margin:0 0 var(--sp-3);letter-spacing:0.02em;text-transform:none}
   .verse-card .wv-text.display-font,.verse-card .sv-text.display-font{font-family:'Playfair Display',Georgia,serif;font-size:18px;line-height:1.7;font-style:italic;font-weight:400;color:var(--text)}
-  .reflection-card{position:relative;overflow:hidden;border-radius:var(--card-radius);margin-top:var(--sp-5);margin-bottom:var(--card-stack);padding:var(--card-padding);background:rgba(255,252,249,0.92);border:1px solid rgba(234,208,204,0.28);box-shadow:0 2px 14px rgba(90,74,66,0.04)}
+  .reflection-card{position:relative;overflow:visible;border-radius:var(--card-radius);margin-top:var(--sp-5);margin-bottom:var(--card-stack);padding:var(--card-padding);background:rgba(255,252,249,0.92);border:1px solid rgba(234,208,204,0.28);box-shadow:0 2px 14px rgba(90,74,66,0.04)}
   .reflection-card .word-reflect-title{display:block;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;margin:0 0 var(--sp-4);color:var(--text)}
   .verse-card.study-verse-card .sv-label.body-font{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;color:var(--accent-strong);margin:0 0 12px}
-  .verse-card.word-vod-card,.verse-card.scripture-vod-card{position:relative;overflow:hidden;padding:var(--card-padding);border-radius:var(--card-radius);background:#fff;background:var(--card);border:1px solid rgba(234,208,204,0.22);box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);margin-bottom:var(--card-stack)}
+  .verse-card.word-vod-card,.verse-card.scripture-vod-card{position:relative;overflow:visible;padding:var(--card-padding);border-radius:var(--card-radius);background:#fff;background:var(--card);border:1px solid rgba(234,208,204,0.22);box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);margin-bottom:var(--card-stack)}
   .verse-card.study-verse-card{position:relative;overflow:visible;padding:var(--card-padding);border-radius:var(--card-radius);margin-bottom:var(--sp-6);box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);border:1px solid rgba(234,208,204,0.22)}
   .verse-card.study-verse-card::before,.verse-card.study-verse-card::after{display:none}
   .reflection-card.word-reflect-card{margin-top:var(--sp-5);margin-bottom:var(--card-stack);padding:var(--card-padding);border-radius:var(--card-radius);background:rgba(255,252,249,0.92);border:1px solid rgba(234,208,204,0.28);box-shadow:0 2px 14px rgba(90,74,66,0.04)}
@@ -362,6 +362,10 @@
   .home-core-retry-btn:active{transform:scale(0.98)}
   .app-shell-screen,.detail-screen{padding-top:0}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  /* Study tab must not use transform on #screen-study: non-none transform creates a containing block and
+     breaks viewport-fixed verse overlays (guided reading verse modal can appear blank / clipped). */
+  #screen-study.screen.active{animation:groundedStudyScreenFade 0.35s cubic-bezier(0.4,0,0.2,1)}
+  @keyframes groundedStudyScreenFade{from{opacity:0}to{opacity:1}}
   
   /* ─── BACKGROUND DECOR ─── */
   .screen-decor{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
@@ -664,6 +668,7 @@
   }
   .gm-week-closing-hint{font-size:12px;line-height:1.5;color:var(--text-light);margin:0 auto 10px;max-width:22rem;padding:0 var(--sp-2)}
   .gm-week-close-week-link{display:block;margin:0 auto 4px}
+  #gmWeekCloseBtn[hidden],#gmWeekClosingHint[hidden]{display:none!important}
   .theme-week-complete-overlay{position:fixed;inset:0;z-index:1400;display:flex;align-items:center;justify-content:center;background:rgba(40,32,28,0.38);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:24px;box-sizing:border-box;opacity:0;pointer-events:none;transition:opacity 0.45s ease}
   .theme-week-complete-overlay.twc-open{opacity:1;pointer-events:all}
   .theme-week-complete-card{max-width:320px;width:100%;text-align:center;padding:36px 28px 34px;border-radius:22px;background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);border:1px solid rgba(234,208,204,0.28);box-shadow:0 20px 50px rgba(90,74,66,0.12)}
@@ -733,7 +738,7 @@
   .home-checkin .checkin-decor::before,.home-checkin .checkin-decor::after{content:'';width:24px;height:1px;background:var(--petal);opacity:0.5}
   .home-checkin .checkin-decor svg{width:14px;height:14px;color:var(--petal);opacity:0.35}
   .home-section .feelings-grid{margin-bottom:0}
-  .home-response{position:relative;background:linear-gradient(180deg,#fffdfb,#fff8f3);border:1px solid rgba(234,208,204,0.32);border-radius:var(--radius-lg);padding:38px 28px;box-shadow:0 14px 40px rgba(90,74,66,0.085),0 4px 14px rgba(90,74,66,0.04);overflow:hidden;cursor:pointer;transition:transform 0.35s cubic-bezier(.4,0,.2,1),box-shadow 0.35s cubic-bezier(.4,0,.2,1);transform:scale(1.015);transform-origin:center;will-change:transform}
+  .home-response{position:relative;background:linear-gradient(180deg,#fffdfb,#fff8f3);border:1px solid rgba(234,208,204,0.32);border-radius:var(--radius-lg);padding:38px 28px;box-shadow:0 14px 40px rgba(90,74,66,0.085),0 4px 14px rgba(90,74,66,0.04);overflow:visible;cursor:pointer;transition:transform 0.35s cubic-bezier(.4,0,.2,1),box-shadow 0.35s cubic-bezier(.4,0,.2,1);transform:scale(1.015);transform-origin:center;will-change:transform}
   /* VERSE FULLSCREEN (share / focus) */
   .verse-fs-overlay{position:fixed;inset:0;z-index:2500;background:linear-gradient(165deg,#fdf9f5 0%,#f7ebe4 48%,#faf6f2 100%);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.38s cubic-bezier(.4,0,.2,1);touch-action:pan-y}
   .verse-fs-overlay.open{opacity:1;pointer-events:all}
@@ -948,6 +953,49 @@
     flex-direction:column;
     align-items:center;
     gap:10px;
+  }
+  /* "Speak this today" fullscreen / export only — extra breathing room (does not touch other share cards). */
+  .verse-fs-share-capture .share-card.speak-card .share-main .verse-fs-text.share-verse,
+  .verse-fs-share-capture .share-card.speak-card .share-main .share-verse,
+  .grounded-share-capture .share-card.speak-card .share-main .verse-fs-text.share-verse,
+  .grounded-share-capture .share-card.speak-card .share-main .share-verse{
+    line-height:1.75;
+  }
+  .verse-fs-share-capture .share-card.speak-card .share-main .share-verse p,
+  .verse-fs-share-capture .share-card.speak-card .share-main .verse-fs-text p,
+  .grounded-share-capture .share-card.speak-card .share-main .share-verse p,
+  .grounded-share-capture .share-card.speak-card .share-main .verse-fs-text p{
+    margin-bottom:12px;
+  }
+  /* Multi-line declarations: padding avoids margin-collapse so gaps always show */
+  .verse-fs-share-capture .share-card.speak-card .share-main .share-verse .share-truth-line,
+  .verse-fs-share-capture .share-card.speak-card .share-main .verse-fs-text .share-truth-line,
+  .grounded-share-capture .share-card.speak-card .share-main .share-verse .share-truth-line,
+  .grounded-share-capture .share-card.speak-card .share-main .verse-fs-text .share-truth-line{
+    margin:0;
+    padding:0 2px 1.25em;
+    max-width:26rem;
+    box-sizing:border-box;
+  }
+  .verse-fs-share-capture .share-card.speak-card .share-main .share-verse .share-truth-line:last-child,
+  .verse-fs-share-capture .share-card.speak-card .share-main .verse-fs-text .share-truth-line:last-child,
+  .grounded-share-capture .share-card.speak-card .share-main .share-verse .share-truth-line:last-child,
+  .grounded-share-capture .share-card.speak-card .share-main .verse-fs-text .share-truth-line:last-child{
+    padding-bottom:0;
+  }
+  .verse-fs-share-capture .share-card.speak-card .share-ref-pill,
+  .grounded-share-capture .share-card.speak-card .share-ref-pill{
+    margin-top:18px;
+  }
+  .verse-fs-share-capture .share-card.speak-card .share-divider,
+  .verse-fs-share-capture .share-card.speak-card .share-divider--soft,
+  .grounded-share-capture .share-card.speak-card .share-divider,
+  .grounded-share-capture .share-card.speak-card .share-divider--soft{
+    margin:20px auto;
+  }
+  .verse-fs-share-capture .share-card.speak-card .share-footer,
+  .grounded-share-capture .share-card.speak-card .share-footer{
+    margin-top:16px;
   }
   .verse-fs-share-capture .share-wave, .grounded-share-capture .share-wave{
     position:relative;
@@ -1165,6 +1213,7 @@
   #prayerScreen .prayer-screen{position:relative;z-index:1}
   .bf-read-top.chapter-navigation{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;padding:12px 20px 14px;border-bottom:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.88);flex-shrink:0}
   .cr-read-book-sm{font-size:12px;font-weight:500;letter-spacing:0.2px;color:var(--text-light);text-align:center;margin:0;max-width:20rem}
+  .cr-topic-hint{font-size:12px;font-weight:500;letter-spacing:0.02em;color:var(--text-light);text-align:center;margin:0 auto 8px;max-width:22rem;padding:6px 12px;border-radius:8px;background:rgba(0,0,0,0.05);line-height:1.35}
   .bf-read-top.chapter-navigation .cr-read-book-sm{width:100%;text-align:center;margin:0 0 4px;order:-1}
   .bf-read-top .bf-chapter-stepper{padding:0;border:0;background:transparent;display:flex;align-items:center;justify-content:center;gap:12px;flex:0 1 auto}
   .cr-read-preamble{padding:0 2px 16px;max-width:32rem;margin:0 auto 4px}
@@ -1478,7 +1527,7 @@
   .cr-error-msg{font-size:14px;line-height:1.65;color:var(--text-light);margin-bottom:20px}
   .cr-error-btn{padding:12px 22px;border-radius:100px;background:var(--primary);border:1px solid rgba(234,208,204,0.45);font-size:13px;font-weight:500;color:var(--text);font-family:inherit}
   .home-verse-stack{display:flex;flex-direction:column;gap:0}
-  .home-response{position:relative;background:linear-gradient(180deg,#fffdfb,#fff8f3);border:1px solid rgba(234,208,204,0.32);border-radius:var(--radius-lg);padding:38px 28px;box-shadow:0 14px 40px rgba(90,74,66,0.085),0 4px 14px rgba(90,74,66,0.04);overflow:hidden;cursor:pointer;transition:transform 0.35s cubic-bezier(.4,0,.2,1),box-shadow 0.35s cubic-bezier(.4,0,.2,1);transform:scale(1.015);transform-origin:center;will-change:transform}
+  .home-response{position:relative;background:linear-gradient(180deg,#fffdfb,#fff8f3);border:1px solid rgba(234,208,204,0.32);border-radius:var(--radius-lg);padding:38px 28px;box-shadow:0 14px 40px rgba(90,74,66,0.085),0 4px 14px rgba(90,74,66,0.04);overflow:visible;cursor:pointer;transition:transform 0.35s cubic-bezier(.4,0,.2,1),box-shadow 0.35s cubic-bezier(.4,0,.2,1);transform:scale(1.015);transform-origin:center;will-change:transform}
   .home-response--minimal{padding:48px 34px 52px;border-radius:var(--radius-lg)}
   .home-response--minimal::before{content:'';position:absolute;top:-28px;right:-28px;width:100px;height:100px;border-radius:50%;background:var(--petal-light);pointer-events:none;opacity:0.85}
   .home-response--minimal::after{content:'';position:absolute;bottom:-18px;left:-12px;width:72px;height:72px;border-radius:50%;background:var(--blush);pointer-events:none;opacity:0.9}
@@ -1547,7 +1596,7 @@
   #screen-scriptureplus .spx-guided-plans-list{display:flex;flex-direction:column;gap:10px;margin:0 0 6px}
   #screen-scriptureplus .spx-plan-picker-card{min-height:168px;align-items:flex-start}
   #screen-scriptureplus .spx-plan-picker-card .spx-path-title{margin-bottom:var(--sp-2)}
-  #screen-scriptureplus .spx-plan-picker-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:auto!important;min-height:2.9em}
+  #screen-scriptureplus .spx-plan-picker-desc{display:block;line-clamp:unset;-webkit-line-clamp:unset;-webkit-box-orient:unset;overflow:visible;margin-bottom:auto!important;min-height:0}
   #screen-scriptureplus .spx-view-all-plans{display:block;width:100%;margin:4px auto 0;padding:10px 0;border:none;background:transparent;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--accent-strong);letter-spacing:0.02em;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(186,160,148,0.45)}
   #screen-scriptureplus .spx-header{display:flex;align-items:center;justify-content:space-between;margin:0 0 var(--sp-4);padding-top:2px}
   #screen-scriptureplus .spx-header-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin:0;letter-spacing:-0.02em;line-height:1.2}
@@ -1642,7 +1691,7 @@
   #screen-scriptureplus .spx-card-dayline,#screen-scriptureplus .spx-card-sub{font-size:13px;line-height:1.5;color:var(--text-light);margin:0;padding:8px 18px 0}
   #screen-scriptureplus .spx-card--plan .spx-card-kicker{color:var(--accent-strong);opacity:0.88;letter-spacing:0.12em;font-size:10.5px}
   #screen-scriptureplus .spx-card--plan .spx-card-dayline{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#9c9792;padding-top:12px}
-  #screen-scriptureplus #spxWeeklyDesc{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;max-height:1.55em}
+  #screen-scriptureplus #spxWeeklyDesc{display:block;-webkit-line-clamp:unset;line-clamp:unset;-webkit-box-orient:unset;overflow:visible;max-height:none}
   #screen-scriptureplus .spx-card-meta{font-size:12px;color:#9c9792;margin:0;padding:10px 18px 18px}
   #screen-scriptureplus .spx-progress{height:3px;background:rgba(234,208,204,0.35);margin:12px 18px 0;border-radius:100px;overflow:hidden}
   #screen-scriptureplus .spx-progress-fill{height:100%;background:rgba(186,160,148,0.55);border-radius:100px;transition:width 0.35s ease}
@@ -1657,8 +1706,8 @@
   #screen-scriptureplus .spx-xref-row{display:flex;flex-wrap:wrap;gap:8px}
   #screen-scriptureplus .spx-xref-pill{padding:8px 14px;border-radius:100px;font-size:12px;font-family:'Inter',system-ui,sans-serif;border:1px solid rgba(234,208,204,0.45);background:rgba(255,252,249,0.75);color:var(--text);cursor:pointer;transition:background 0.2s ease,border-color 0.2s ease}
   #screen-scriptureplus .spx-xref-pill:active{transform:scale(0.97)}
-  #screen-scriptureplus .spx-meaning{margin-bottom:var(--sp-4);border-radius:var(--card-radius);background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);border:1px solid rgba(234,208,204,0.22);overflow:hidden}
-  #screen-scriptureplus .spx-meaning.reflect-meaning--open .reflect-meaning__content{max-height:520px}
+  #screen-scriptureplus .spx-meaning{margin-bottom:var(--sp-4);border-radius:var(--card-radius);background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));box-shadow:0 4px 20px rgba(90,74,66,0.06),0 1px 4px rgba(90,74,66,0.04);border:1px solid rgba(234,208,204,0.22);overflow:visible}
+  #screen-scriptureplus .spx-meaning.reflect-meaning--open .reflect-meaning__content{max-height:none;overflow:visible}
   #screen-scriptureplus .spx-meaning .reflect-meaning__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px var(--card-padding) 12px;border:none;background:transparent;cursor:pointer;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:var(--text);text-align:left;-webkit-tap-highlight-color:transparent}
   #screen-scriptureplus .spx-meaning-label{flex:1}
   #screen-scriptureplus #spxMeaningBody.reflect-meaning__body.spx-meaning-reveal{animation:spxMeaningReveal 0.55s ease forwards}
@@ -1690,10 +1739,10 @@
   #screen-scriptureplus .spx-passage-backdrop{display:none!important}
   #screen-scriptureplus .spx-passage-sheet{position:relative;z-index:1;flex:1;min-height:0;width:100%;max-width:none;height:100%;max-height:none;background:var(--bg);border-radius:0;box-shadow:none;display:flex;flex-direction:column;overflow:hidden;transform:none !important;transition:none}
   #screen-scriptureplus .spx-passage-sheet-handle{display:none!important}
-  #screen-scriptureplus .spx-passage-scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:var(--sp-2) var(--sp-4) calc(88px + env(safe-area-inset-bottom,0px));width:100%;box-sizing:border-box}
+  #screen-scriptureplus .spx-passage-scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:calc(10px + env(safe-area-inset-top,0px)) var(--sp-4) calc(88px + env(safe-area-inset-bottom,0px));width:100%;box-sizing:border-box}
   #screen-scriptureplus .spx-pass-context{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;font-weight:500;letter-spacing:0.11em;text-transform:uppercase;text-align:center;color:#9c9792;margin:0 auto 8px;padding:0 20px;line-height:1.45;max-width:28rem;opacity:0.92}
   #screen-scriptureplus .spx-pass-context[hidden]{display:none !important}
-  #screen-scriptureplus .spx-pass-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+  #screen-scriptureplus .spx-pass-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;padding-top:2px}
   #screen-scriptureplus .spx-pass-back{flex-shrink:0;border:none;background:transparent;color:#9c9792;font-size:20px;line-height:1;padding:6px 8px;margin:-4px 0 0 -4px;cursor:pointer;-webkit-tap-highlight-color:transparent;font-weight:300;letter-spacing:0}
   #screen-scriptureplus .spx-pass-back:hover,#screen-scriptureplus .spx-pass-back:focus-visible{color:var(--accent-strong);outline:none}
   #screen-scriptureplus .spx-pass-ref{flex:1;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:500;color:var(--text);margin:4px 0 0;line-height:1.22;padding:0 4px}
@@ -1701,6 +1750,41 @@
   #screen-scriptureplus .spx-pass-verse{font-size:clamp(18px,4.2vw,24px);line-height:1.42;font-style:italic;font-weight:400;text-align:center;color:var(--text);margin:2px 0 6px;padding:8px 12px 10px;letter-spacing:0.015em}
   #screen-scriptureplus .spx-pass-verse.spx-pass-verse--lg{font-size:clamp(21px,4.9vw,28px);line-height:1.4}
   #screen-scriptureplus .spx-pass-verse.spx-pass-verse--soft{color:#6f6a65}
+  #screen-scriptureplus .spx-pass-verse.spx-pass-verse--skeleton{
+    min-height:132px;
+    border-radius:14px;
+    margin:4px 0 10px;
+    padding:12px 14px!important;
+    background:linear-gradient(100deg,rgba(234,208,204,0.18) 0%,rgba(244,234,228,0.42) 42%,rgba(234,208,204,0.18) 84%);
+    background-size:220% 100%;
+    animation:spxPassSkeletonShimmer 1.05s ease-in-out infinite;
+    color:transparent!important;
+    font-style:normal!important;
+    line-height:1.5!important;
+  }
+  @keyframes spxPassSkeletonShimmer{
+    0%{background-position:100% 0}
+    100%{background-position:-100% 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #screen-scriptureplus .spx-pass-verse.spx-pass-verse--skeleton{
+      animation:none;
+      background:rgba(234,208,204,0.22);
+    }
+  }
+  #screen-scriptureplus .spx-passage-layer--loading .spx-pass-moment,
+  #screen-scriptureplus .spx-passage-layer--loading .spx-pass-toolbar,
+  #screen-scriptureplus .spx-passage-layer--loading #spxMeaningRoot{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    max-height:0;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden;
+    border:none!important;
+    transition:opacity 0.22s ease;
+  }
   #screen-scriptureplus .spx-browse-picker{display:flex;flex-direction:column;gap:12px;padding-bottom:var(--sp-4)}
   #screen-scriptureplus .spx-browse-picker-row{width:100%;text-align:left;padding:16px 18px;border-radius:var(--card-radius);border:1px solid rgba(234,208,204,0.22);background:rgba(255,252,249,0.92);box-shadow:0 2px 14px rgba(90,74,66,0.04);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease}
   #screen-scriptureplus .spx-browse-picker-row:active{transform:scale(0.992)}
@@ -1972,6 +2056,8 @@
   }
   .legal-app-shell > .top-bar .back-button:active{opacity:0.6}
   .legal-app-shell > .top-bar .back-button:focus-visible{outline:2px solid rgba(122,111,102,0.35);outline-offset:3px;border-radius:4px}
+  /* Privacy/Terms/Contact: .legal-app-shell sets display:block, which otherwise beats .app-shell-screen{display:none} until showScreen() sets inline display. Hide by default so a JS parse failure does not stack legal pages under the home feed. */
+  .app-shell-screen.legal-app-shell{display:none}
   .legal-page{max-width:680px;margin:0 auto;padding:12px 24px max(32px,env(safe-area-inset-bottom)) 24px;box-sizing:border-box;opacity:1;transform:none;transition:opacity 0.45s ease,transform 0.45s cubic-bezier(.2,.7,.2,1)}
   .legal-page.legal-page--visible{opacity:1;transform:none}
   .legal-article{text-align:left}
@@ -2056,7 +2142,7 @@
     background:linear-gradient(180deg,rgba(255,252,249,0.98),rgba(248,240,236,0.92));
     box-shadow:0 8px 28px rgba(90,74,66,0.08);
     border:1px solid rgba(186,160,148,0.24);
-    overflow:hidden
+    overflow:visible
   }
   .ways-deeper--reflect .reflect-meaning__trigger{
     width:100%;
@@ -2093,9 +2179,10 @@
     padding:0 16px
   }
   .reflect-meaning--open .reflect-meaning__content{
-    max-height:400px;
+    max-height:none;
     opacity:1;
-    padding-bottom:18px
+    padding-bottom:18px;
+    overflow:visible
   }
   .reflect-meaning__body{
     font-size:15px;
@@ -2164,7 +2251,7 @@
   .guided-moment-screen .gm-modal-layer{position:fixed;inset:0;bottom:96px;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;width:100%;max-width:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;opacity:1;transform:scale(1);transform-origin:50% 45%;transition:opacity 0.26s ease,transform 0.26s ease}
   .guided-moment-screen .gm-modal-backdrop{position:absolute;inset:0;z-index:0;margin:0;padding:0;border:none;border-radius:0;background:rgba(48,38,34,0.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.2s ease}
   .guided-moment-screen .gm-modal-backdrop:hover,.guided-moment-screen .gm-modal-backdrop:focus-visible{background:rgba(48,38,34,0.34)}
-  .guided-moment-screen .gm-modal-panel{position:relative;z-index:1;flex:1 1 auto;min-height:0;width:100%;max-width:26rem;max-height:min(90vh,calc(100dvh - 96px - 40px));display:flex;flex-direction:column;background:var(--bg);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(45,36,32,0.14),0 2px 12px rgba(45,36,32,0.06);overflow:hidden;touch-action:pan-y;padding:4px 12px 10px;padding-bottom:max(10px,env(safe-area-inset-bottom));box-sizing:border-box}
+  .guided-moment-screen .gm-modal-panel{position:relative;z-index:1;flex:1 1 auto;min-height:0;width:100%;max-width:26rem;max-height:min(90vh,calc(100dvh - 96px - 40px));display:flex;flex-direction:column;background:var(--bg);border-radius:var(--radius-lg);box-shadow:0 20px 50px rgba(45,36,32,0.14),0 2px 12px rgba(45,36,32,0.06);overflow:visible;touch-action:pan-y;padding:4px 12px 10px;padding-bottom:max(10px,env(safe-area-inset-bottom));box-sizing:border-box}
   .guided-moment-screen .gm-modal-close{position:absolute;top:6px;right:6px;z-index:12;width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:transparent;color:rgba(90,74,66,0.45);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.2s ease,background 0.2s ease,opacity 0.2s ease;opacity:0.88}
   .guided-moment-screen .gm-modal-close:hover,.guided-moment-screen .gm-modal-close:focus-visible{color:rgba(140,110,98,0.92);background:rgba(244,234,228,0.45);opacity:1;outline:none}
   .guided-moment-screen .gm-modal-close:active{color:var(--accent-strong);opacity:1}
@@ -2246,13 +2333,13 @@
   .guided-moment-screen .moment-custom-wrap.open{display:block}
   .guided-moment-screen .moment-custom-wrap textarea{width:100%;min-height:72px;resize:none;padding:14px 16px;border-radius:var(--radius);border:1px solid rgba(234,208,204,0.4);background:rgba(255,252,249,0.9);font-size:14px;line-height:1.5;color:var(--text);font-family:inherit;box-sizing:border-box}
   .guided-moment-screen .moment-custom-go{width:100%;margin-top:10px;padding:12px 20px;border-radius:100px;border:1px solid rgba(212,181,173,0.5);background:linear-gradient(180deg,var(--primary) 0%,var(--secondary) 100%);font-size:13px;font-weight:500;font-family:inherit;color:var(--text);cursor:pointer;box-shadow:0 4px 14px rgba(186,160,148,0.12)}
-  .guided-moment-screen .moment-result-card{position:relative;text-align:left;width:100%;max-width:340px;margin:0 auto;padding:24px 22px 22px;border-radius:var(--radius-lg);border:1px solid rgba(234,208,204,0.35);background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);box-shadow:0 8px 24px rgba(90,74,66,0.06)}
+  .guided-moment-screen .moment-result-card{position:relative;text-align:left;width:100%;max-width:340px;margin:0 auto;padding:24px 22px 40px;border-radius:var(--radius-lg);border:1px solid rgba(234,208,204,0.35);background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);box-shadow:0 8px 24px rgba(90,74,66,0.06);overflow:visible}
   .guided-moment-screen .moment-result-card.loading .moment-body{opacity:0.55;font-style:italic}
   .guided-moment-screen .moment-body{font-family:'Playfair Display',Georgia,serif;font-size:16px;line-height:1.75;color:var(--text);white-space:pre-line;margin:0;font-weight:400;font-style:italic}
   .guided-moment-screen .moment-body::first-line{font-size:18px;font-weight:500;font-style:normal;letter-spacing:0.2px;color:var(--text)}
   .guided-moment-screen .moment-takeaway{margin-top:20px;padding-top:18px;border-top:1px solid rgba(234,208,204,0.28);text-align:center}
   .guided-moment-screen .moment-takeaway-label{font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:var(--accent-strong);margin:0 0 8px;font-weight:500;font-family:'Inter',system-ui,sans-serif}
-  .guided-moment-screen .moment-takeaway-text{font-size:13px;line-height:1.55;color:var(--text);font-family:'Inter',system-ui,sans-serif;margin:0;font-weight:500}
+  .guided-moment-screen .moment-takeaway-text{font-size:13px;line-height:1.55;color:var(--text);font-family:'Inter',system-ui,sans-serif;margin:0;font-weight:500;overflow-wrap:break-word;word-wrap:break-word;word-break:normal}
   .guided-moment-screen .moment-result-stack{width:100%;max-width:340px;margin:0 auto}
   .guided-moment-screen .moment-rest-hint{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-style:italic;color:var(--text-light);text-align:center;margin:20px 8px 0;line-height:1.55;opacity:0.88;transition:opacity 0.3s ease}
   .guided-moment-screen .moment-rest-hint--sat{opacity:0.95}
@@ -2371,7 +2458,7 @@
   .prayer-custom-wrap textarea{width:100%;min-height:72px;resize:none;padding:14px 16px;border-radius:var(--radius);border:1px solid var(--paper-border);background:var(--paper);font-size:14px;line-height:1.55;color:var(--text);font-family:inherit;box-sizing:border-box}
   .prayer-custom-wrap textarea::placeholder{color:var(--accent-strong);font-style:italic;opacity:0.75}
   .prayer-result{margin-top:28px;padding-bottom:8px}
-  .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:32px 26px 28px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(8px);transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1)}
+  .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:32px 26px 36px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(8px);transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1);overflow:visible}
   .prayer-result-card.visible{opacity:1;transform:translateY(0)}
   .prayer-result-card.loading .prayer-body{opacity:0.55;font-style:italic}
   .prayer-result-card.loading .prayer-body::first-line{font-size:inherit;font-weight:400;font-style:italic;color:var(--text-light)}
@@ -2381,7 +2468,7 @@
   .prayer-takeaway{position:relative;margin-top:30px;padding-top:26px;border-top:none;font-size:13.5px;line-height:1.65;color:var(--text);text-align:center}
   .prayer-takeaway::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:56%;height:1px;background:linear-gradient(to right,transparent,rgba(186,160,148,0.32),transparent)}
   .prayer-takeaway .pt-label{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--accent-strong);opacity:0.95;margin-bottom:10px;font-weight:500}
-  .prayer-takeaway .pt-text.body-font{font-style:normal;font-weight:500;color:var(--text)}
+  .prayer-takeaway .pt-text.body-font{font-style:normal;font-weight:500;color:var(--text);overflow-wrap:break-word;word-wrap:break-word}
   .prayer-actions{display:flex;justify-content:center;gap:12px;margin-top:26px;flex-wrap:wrap}
   .prayer-btn{padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:transform 0.2s ease,background 0.3s ease,box-shadow 0.3s ease,color 0.25s ease,border-color 0.25s ease,opacity 0.2s ease;border:none;-webkit-tap-highlight-color:transparent;letter-spacing:0.2px}
   .prayer-btn:active{transform:scale(0.97)}
@@ -2432,7 +2519,7 @@
   .scripture-pairing .scripture-explanation:empty::before{display:none}
   
   /* ─── STUDY ─── */
-  .study-verse-card{position:relative;background:var(--paper);background-image:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));border:1px solid var(--paper-border);border-radius:var(--radius-lg);padding:32px 26px;overflow:hidden;margin-bottom:28px;box-shadow:0 8px 24px rgba(0,0,0,0.04)}
+  .study-verse-card{position:relative;background:var(--paper);background-image:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));border:1px solid var(--paper-border);border-radius:var(--radius-lg);padding:32px 26px;overflow:visible;margin-bottom:28px;box-shadow:0 8px 24px rgba(0,0,0,0.04)}
   .study-verse-card .sv-sparkle{position:absolute;top:14px;right:18px;width:18px;height:18px;opacity:0.07;color:var(--petal);z-index:2;pointer-events:none}
   .study-verse-card::before{content:'';position:absolute;z-index:0;top:-22px;right:-20px;width:76px;height:76px;border-radius:50%;background:var(--petal-light);pointer-events:none;opacity:0.08}
   .study-verse-card::after{content:'';position:absolute;z-index:0;bottom:-14px;left:-10px;width:54px;height:54px;border-radius:50%;background:var(--blush);pointer-events:none;opacity:0.08}
@@ -2826,6 +2913,12 @@
   .study-guided-viewall-btn:active{opacity:0.8}
   .study-plans-all-title{margin:0 0 8px}
   .study-plans-all-sub{margin:0 0 18px}
+  #screen-study .study-plan-card-heading{margin:0 0 6px}
+  #screen-study .study-plan-premium-badge{
+    display:inline-block;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--accent-strong);border:1px solid rgba(234,208,204,0.48);border-radius:999px;
+    padding:4px 10px;margin:0 0 10px;
+  }
   .study-plans-all-list .study-app-card{margin-bottom:10px}
   .study-plans-all-list .study-app-card:last-child{margin-bottom:0}
   .study-plan-step{max-width:420px;margin:0 auto;padding:0 4px 28px}
@@ -2963,6 +3056,160 @@
   #screen-study .study-chapter-fold > summary .study-app-eyebrow.study-chapter-fold__title{margin:0;text-align:left;flex:1;min-width:0}
   #screen-study .study-chapter-fold__body .study-app-card{margin-bottom:10px}
   #screen-study .study-chapter-fold__body .study-app-card:last-child{margin-bottom:0}
+  /* Guided reading plans: scripture-first immersive reader (all catalog plans) */
+  #screen-study .study-app-scroll:has(.study-app-root--reading){
+    max-width:min(58rem,calc(100vw - 24px));
+    padding-left:clamp(14px,4.5vw,42px);
+    padding-right:clamp(14px,4.5vw,42px);
+  }
+  #screen-study .study-app-root--reading{min-height:min(100vh,920px)}
+  #screen-study .study-reading{display:flex;flex-direction:column;min-height:min(calc(100vh - 52px),880px);width:100%;max-width:100%;margin:0 auto;box-sizing:border-box;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+  #screen-study .study-reading-toolbar{position:sticky;top:0;z-index:2;background:linear-gradient(to bottom,var(--bg,#faf8f6) 52%,transparent);padding:6px 0 14px;margin:0 0 6px}
+  #screen-study .study-reading-toolbar .study-app-link{opacity:0.72;font-size:14px}
+  #screen-study .study-reading-scroll{flex:1;min-height:0;padding:0 0 var(--sp-6);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  #screen-study .study-reading-lede{max-width:46rem;margin:0 auto 26px;padding-top:4px}
+  #screen-study .study-reading-kicker{font-size:11px;letter-spacing:0.11em;text-transform:uppercase;color:var(--text-light);margin:0 0 14px;opacity:0.72}
+  #screen-study .study-reading-topic-match{font-size:13px;letter-spacing:0.01em;color:var(--text-light);margin:0 0 12px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.04);line-height:1.35}
+  #screen-study .study-reading-theme{font-size:clamp(1.18rem,2.85vw,1.52rem);font-weight:500;margin:0 0 16px;color:var(--text);line-height:1.32;letter-spacing:-0.022em;font-family:'Playfair Display',Georgia,serif}
+  #screen-study .study-reading-intro{font-size:clamp(14.5px,2.35vw,16.5px);line-height:1.62;color:var(--text-light);margin:0;font-weight:400;font-family:'Inter',system-ui,sans-serif}
+  #screen-study .study-reading-scripture-block{margin:30px 0 38px;padding:32px 0 36px;border-radius:0;background:transparent;border:none;border-top:1px solid rgba(120,100,92,0.11);border-bottom:1px solid rgba(120,100,92,0.07);box-shadow:none}
+  #screen-study .study-reading-ref-h{font-size:clamp(1.05rem,2.05vw,1.28rem);margin:0 auto 22px;max-width:46rem;padding:0 4px;color:var(--text);opacity:0.82;text-align:center;letter-spacing:-0.015em;line-height:1.3;font-family:'Playfair Display',Georgia,serif;font-weight:500}
+  #screen-study .study-reading-verses{font-family:'Playfair Display',Georgia,serif;font-size:clamp(0.94rem,1.55vw + 0.2rem,1.05rem);line-height:1.72;color:var(--text);letter-spacing:0.01em;max-width:46rem;margin:0 auto;padding:0 2px;font-weight:400}
+  #screen-study .study-reading-verse{margin:0 0 0.92em;padding-left:0}
+  #screen-study .study-reading-verse:last-child{margin-bottom:0}
+  #screen-study .study-reading-sn{font-size:8px;font-weight:400;margin-right:9px;vertical-align:0.28em;user-select:none;font-family:system-ui,-apple-system,sans-serif;letter-spacing:0.02em;color:rgba(90,74,66,0.38);opacity:1}
+  #screen-study .study-reading-vtxt{display:inline}
+  #screen-study .study-reading-verse--focus .study-reading-vtxt{background:linear-gradient(transparent 62%,rgba(212,181,173,0.26) 62%)}
+  #screen-study .study-reading-reflect{max-width:38rem;margin:0 auto;padding:10px 6px calc(var(--sp-6) + 4px)}
+  #screen-study .study-reading-reflect-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light);margin:0 0 10px;opacity:0.62}
+  #screen-study .study-reading-reflect-q{font-size:clamp(15px,2.4vw,16.5px);line-height:1.65;color:rgba(90,74,66,0.78);margin:0;font-weight:400;font-family:'Inter',system-ui,sans-serif}
+  #screen-study .study-reading-footer{margin-top:auto;padding:18px 4px calc(20px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(120,100,92,0.09);background:linear-gradient(to top,rgba(250,248,246,0.98) 0%,rgba(250,248,246,0.55) 50%,transparent);flex-shrink:0}
+  #screen-study .study-reading-done-hint{font-size:12px;color:rgba(120,100,92,0.65);margin:0 0 14px;text-align:center;letter-spacing:0.02em}
+  #screen-study .study-reading-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
+  #screen-study .study-reading-chip{min-height:38px;padding:8px 16px;border-radius:999px;border:1px solid rgba(186,160,148,0.28);background:rgba(255,252,249,0.5);color:rgba(90,74,66,0.9);font-size:13px;font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+  #screen-study .study-reading-chip:active{transform:scale(0.99)}
+  #screen-study .study-reading-footer .study-app-btn{display:block;width:100%;max-width:17.5rem;margin:10px auto 0;padding:13px 22px;font-size:15px;font-weight:500;box-shadow:none}
+  #screen-study .study-reading-preview .study-plan-step-kicker{text-transform:none;letter-spacing:normal;font-size:13px}
+  /* Reading plan completion (final Part) */
+  #screen-study .study-reading.study-reading--complete-layout{justify-content:center}
+  #screen-study .study-reading-complete{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(20px,5vw,40px) 16px calc(24px + env(safe-area-inset-bottom));max-width:26rem;margin:0 auto;width:100%;box-sizing:border-box;animation:studyReadingCompleteIn 0.48s ease-out}
+  @keyframes studyReadingCompleteIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  #screen-study .study-reading-complete-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light);margin:0 0 14px;opacity:0.66}
+  #screen-study .study-reading-complete-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.32rem,3.5vw,1.72rem);font-weight:500;margin:0 0 18px;color:var(--text);line-height:1.28;letter-spacing:-0.022em}
+  #screen-study .study-reading-complete-reflection{font-size:clamp(15px,2.5vw,17px);line-height:1.66;color:rgba(90,74,66,0.84);margin:0 0 12px;font-weight:400}
+  #screen-study .study-reading-complete-secondary{font-size:14px;line-height:1.55;color:var(--text-light);margin:0 0 26px;opacity:0.9;font-weight:400}
+  #screen-study .study-reading-complete-actions{display:flex;flex-direction:column;align-items:stretch;gap:11px;width:100%;max-width:17.5rem}
+  #screen-study .study-reading-complete-actions .study-app-btn{margin-top:0;width:100%;max-width:none;padding:13px 22px;font-size:15px;font-weight:500;box-shadow:none}
+  #screen-study .study-reading-complete-btn-secondary{width:100%;padding:11px 20px;border-radius:999px;border:1px solid rgba(186,160,148,0.34);background:rgba(255,252,249,0.5);color:rgba(90,74,66,0.88);font-size:14px;font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+  #screen-study .study-reading-complete-btn-secondary:active{transform:scale(0.99)}
+  #screen-study .study-reading-complete-link{margin-top:2px;padding:10px 8px 6px;font-size:13px;line-height:1.45;color:rgba(120,100,92,0.72);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(186,160,148,0.55);font-family:inherit;font-weight:400}
+  #screen-study .study-reading-complete-link:active{opacity:0.85}
+  @media (max-width:599px){
+    #screen-study .study-reading-complete{padding-left:12px;padding-right:12px}
+  }
+  /* Guided reading: tappable verses + centered verse modal (matches Scripture+ vb-overlay / vb-card) */
+  #screen-study .study-reading-verse-btn{display:block;width:100%;margin:0;padding:5px 6px;border:none;border-radius:10px;background:transparent;color:inherit;font:inherit;line-height:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.22s ease}
+  #screen-study .study-reading-verse-btn:hover{background:rgba(120,100,92,0.055)}
+  #screen-study .study-reading-verse-btn:focus-visible{outline:2px solid rgba(186,160,148,0.45);outline-offset:2px}
+  #screen-study .study-reading-verse-btn:active{background:rgba(120,100,92,0.07)}
+  #screen-study .study-reading-verse-btn:hover .study-reading-sn{color:rgba(90,74,66,0.48)}
+  #screen-study .study-reading-verse--focus .study-reading-verse-btn{background:rgba(212,181,173,0.08)}
+  #screen-study .study-reading-verse-modal.vb-overlay{
+    position:fixed;inset:0;z-index:2700;
+    display:flex;align-items:center;justify-content:center;
+    padding:max(16px,env(safe-area-inset-top)) 22px max(22px,env(safe-area-inset-bottom));
+    box-sizing:border-box;
+    opacity:0;pointer-events:none;
+    transition:opacity 0.28s ease;
+  }
+  #screen-study .study-reading-verse-modal.vb-overlay:not([hidden]){
+    opacity:1;pointer-events:auto;
+  }
+  #screen-study .study-reading-verse-modal.vb-overlay[hidden]{display:none !important}
+  #screen-study .study-reading-verse-modal button.vb-backdrop{
+    border:none;margin:0;padding:0;width:100%;height:100%;cursor:pointer;display:block;
+    -webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent;
+  }
+  #screen-study .study-reading-verse-modal-card.vb-card{
+    position:relative;z-index:1;width:100%;max-width:380px;
+    max-height:min(70vh,520px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+    margin:0;
+    animation:studyReadingVerseModalIn 0.32s ease-out;
+  }
+  @keyframes studyReadingVerseModalIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){
+    #screen-study .study-reading-verse-modal-card.vb-card{animation:none}
+  }
+  #screen-study .study-reading-verse-modal-inner{padding-bottom:max(4px,env(safe-area-inset-bottom))}
+  #screen-study .study-reading-verse-modal-card .vb-ref.verse-label{margin-bottom:8px;color:var(--accent-strong)}
+  #screen-study .study-reading-verse-modal-card .verse-text{
+    font-family:'Playfair Display',Georgia,serif;font-size:18px;line-height:1.7;letter-spacing:0.2px;
+    color:var(--text);margin:0 0 14px;font-style:normal;
+  }
+  /* Inline editorial sections (no accordion) */
+  #screen-study .study-reading-verse-modal-sections{margin:0;padding:0}
+  #screen-study .study-reading-vsec{
+    margin:0;padding:11px 0 12px;
+    border-top:1px solid rgba(234,208,204,0.26);
+  }
+  #screen-study .study-reading-vsec:first-child{
+    margin-top:10px;padding-top:14px;
+    border-top:1px solid rgba(234,208,204,0.32);
+  }
+  #screen-study .study-reading-vsec-lbl{
+    font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;
+    letter-spacing:1.25px;text-transform:uppercase;color:rgba(120,100,92,0.52);
+    margin:0 0 7px;
+  }
+  #screen-study .study-reading-verse-modal-sections .vb-explain-text{
+    margin:0;font-size:13.5px;line-height:1.64;color:var(--text-light);
+  }
+  #screen-study .study-reading-verse-modal-fallback{font-style:italic;opacity:0.92;color:rgba(90,74,66,0.78)}
+  #screen-study .study-reading-verse-modal-muted{font-style:italic;color:rgba(120,100,92,0.42);letter-spacing:0.02em}
+  /* Calm loading under verse: soft cross-fade, no skeleton */
+  #screen-study .study-reading-verse-modal-loading{
+    position:relative;margin:8px 0 2px;padding:18px 6px 20px;
+    min-height:3.2em;border-top:1px solid rgba(234,208,204,0.28);
+    box-sizing:border-box;
+    background:linear-gradient(180deg,transparent,rgba(212,181,173,0.035) 48%,transparent);
+  }
+  #screen-study .study-reading-verse-modal-load-line{
+    position:absolute;left:0;right:0;top:50%;margin:0;padding:0 4px;
+    transform:translateY(-50%);
+    font-family:'Inter',system-ui,sans-serif;font-size:13px;font-style:italic;font-weight:400;
+    line-height:1.45;text-align:center;color:rgba(90,74,66,0.42);
+    letter-spacing:0.01em;
+    will-change:opacity;
+  }
+  #screen-study .study-reading-verse-modal-load-line--one{
+    animation:studyReadingLoadCrossA 4.8s ease-in-out infinite;
+  }
+  #screen-study .study-reading-verse-modal-load-line--two{
+    animation:studyReadingLoadCrossB 4.8s ease-in-out infinite;
+  }
+  @keyframes studyReadingLoadCrossA{
+    0%,100%{opacity:0.26}
+    50%{opacity:0.78}
+  }
+  @keyframes studyReadingLoadCrossB{
+    0%,100%{opacity:0.78}
+    50%{opacity:0.26}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #screen-study .study-reading-verse-modal-load-line--one,
+    #screen-study .study-reading-verse-modal-load-line--two{animation:none;opacity:0.55}
+    #screen-study .study-reading-verse-modal-load-line--two{display:none}
+  }
+  @media (max-width:599px){
+    #screen-study .study-reading-verse-modal.vb-overlay{padding-left:16px;padding-right:16px}
+  }
+  @media (min-width:900px){
+    #screen-study .study-reading-verses,#screen-study .study-reading-ref-h{max-width:50rem}
+    #screen-study .study-app-scroll:has(.study-app-root--reading){max-width:min(60rem,calc(100vw - 48px))}
+  }
+  @media (max-width:599px){
+    #screen-study .study-reading-verses{font-size:clamp(0.93rem,3.2vw,1rem);line-height:1.7}
+  }
   .study-ow-chip{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.65);border:1px solid rgba(234,208,204,0.35)}
   .study-ow-main{display:block;font-size:13px;color:var(--text);margin-bottom:4px}
   .study-ow-lit{font-size:12px;color:var(--text-light)}
@@ -3050,7 +3297,7 @@
   /* ─── Quick prayer modal (short card; not the main Prayer tab) ─── */
   .prayer-overlay{position:fixed;inset:0;z-index:1200;background:rgba(40,30,25,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.32s ease;padding:32px}
   .prayer-overlay.open{opacity:1;pointer-events:all}
-  .prayer-card{position:relative;background:var(--paper);background-image:radial-gradient(ellipse at 80% 15%,var(--petal-light) 0%,transparent 45%),radial-gradient(ellipse at 15% 85%,var(--blush) 0%,transparent 40%);border:1px solid var(--paper-border);border-radius:var(--radius-lg);padding:44px 30px 36px;max-width:380px;width:100%;text-align:center;transform:scale(0.92);opacity:0;transition:transform 0.32s cubic-bezier(.4,0,.2,1),opacity 0.28s ease;overflow:hidden;will-change:transform,opacity}
+  .prayer-card{position:relative;background:var(--paper);background-image:radial-gradient(ellipse at 80% 15%,var(--petal-light) 0%,transparent 45%),radial-gradient(ellipse at 15% 85%,var(--blush) 0%,transparent 40%);border:1px solid var(--paper-border);border-radius:var(--radius-lg);padding:44px 30px 36px;max-width:380px;width:100%;text-align:center;transform:scale(0.92);opacity:0;transition:transform 0.32s cubic-bezier(.4,0,.2,1),opacity 0.28s ease;overflow:visible;will-change:transform,opacity}
   .prayer-overlay.open .prayer-card{transform:scale(1);opacity:1}
   .prayer-card::before{content:'';position:absolute;top:-25px;right:-25px;width:90px;height:90px;border-radius:50%;background:var(--petal-light);pointer-events:none}
   .prayer-card::after{content:'';position:absolute;bottom:-15px;left:-10px;width:65px;height:65px;border-radius:50%;background:var(--blush);pointer-events:none}
@@ -3245,7 +3492,7 @@
   .word-vod-card .wv-label.body-font,
   .word-vod-card .wv-ref.body-font{margin:0 0 12px}
   .word-vod-card .wv-ref.body-font{margin:0 0 10px}
-  .word-reflect-card{position:relative;overflow:hidden;border-radius:var(--radius-lg);isolation:isolate;background:linear-gradient(180deg,rgba(255,253,251,0.95),rgba(250,246,242,0.9)),radial-gradient(ellipse 90% 55% at 100% 0%,rgba(240,212,204,0.09) 0%,transparent 60%),radial-gradient(ellipse 70% 45% at 0% 100%,rgba(240,220,210,0.07) 0%,transparent 55%);border:1px solid rgba(234,208,204,0.32);padding:22px 18px 18px;margin-bottom:22px;box-shadow:0 6px 20px rgba(90,74,66,0.05)}
+  .word-reflect-card{position:relative;overflow:visible;border-radius:var(--radius-lg);isolation:isolate;background:linear-gradient(180deg,rgba(255,253,251,0.95),rgba(250,246,242,0.9)),radial-gradient(ellipse 90% 55% at 100% 0%,rgba(240,212,204,0.09) 0%,transparent 60%),radial-gradient(ellipse 70% 45% at 0% 100%,rgba(240,220,210,0.07) 0%,transparent 55%);border:1px solid rgba(234,208,204,0.32);padding:22px 18px 18px;margin-bottom:22px;box-shadow:0 6px 20px rgba(90,74,66,0.05)}
   .word-reflect-card .word-reflect-title,
   .word-reflect-card .word-details{position:relative;z-index:2}
   .word-reflect-card .word-details-body,
@@ -3528,21 +3775,27 @@
 
   /* ─── MOMENT FLOW (post-prayer guided, 6 steps) ─── */
   .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-  .moment-flow{position:fixed;inset:0;z-index:1200;min-height:100vh;min-height:100dvh;max-height:100dvh;background:rgba(48,36,32,0.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.5s ease-out,visibility 0s linear 0.5s}
+  .moment-flow{position:fixed;inset:0;z-index:1200;min-height:100vh;min-height:100dvh;max-height:100dvh;width:100%;max-width:100vw;box-sizing:border-box;background:rgba(48,36,32,0.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.5s ease-out,visibility 0s linear 0.5s}
   .moment-flow.moment-flow--open{opacity:1;visibility:visible;pointer-events:all;transition:opacity 0.55s ease-out,visibility 0s linear 0s}
   body.moment-flow-open{overflow:hidden}
   @keyframes mflowCardEnter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-  .moment-flow__card{position:relative;box-sizing:border-box;width:90%;max-width:440px;max-height:min(90vh,calc(100dvh - 40px));height:auto;overflow-x:visible;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:28px;border:1px solid rgba(234,208,204,0.3);background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);box-shadow:0 20px 60px rgba(0,0,0,0.08),0 8px 20px rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.85);padding:48px 32px;text-align:center;opacity:0.98;transform:translateY(6px);animation:mflowCardEnter 0.3s ease-out 0.04s both;flex-shrink:1;min-height:0}
-  .mflow-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:8;width:36px;height:36px;padding:0;margin:0;border-radius:50%;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;color:#6f5c55;cursor:pointer;transition:opacity 0.2s ease,transform 0.2s ease,background 0.2s ease;-webkit-tap-highlight-color:transparent;opacity:0.6;box-sizing:border-box;font-family:inherit}
-  .mflow-nav:hover{opacity:1;transform:translateY(-50%) scale(1.05)}
+  /* Stage keeps side nav outside the scrollable card so arrows stay visible and no horizontal scrollbar. */
+  .moment-flow__stage{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;width:100%;max-width:min(100vw - 8px, 520px);min-width:0;box-sizing:border-box;position:relative;overflow:visible;flex-shrink:0}
+  .moment-flow__card{position:relative;box-sizing:border-box;flex:1 1 auto;min-width:0;width:min(90vw, 440px);max-width:440px;max-height:min(90vh,calc(100dvh - 40px));height:auto;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:28px;border:1px solid rgba(234,208,204,0.3);background:linear-gradient(180deg,rgba(255,253,250,0.98) 0%,rgba(252,248,244,0.99) 100%);box-shadow:0 20px 60px rgba(0,0,0,0.08),0 8px 20px rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.85);padding:48px 32px;text-align:center;opacity:0.98;transform:translateY(6px);animation:mflowCardEnter 0.3s ease-out 0.04s both;overflow-wrap:break-word;word-break:break-word}
+  .moment-flow__card *{box-sizing:border-box}
+  .moment-flow__card .mflow-slab,
+  .moment-flow__card .mflow-receive-block,
+  .moment-flow__card .mflow-textarea,
+  .moment-flow__card .mflow-btn,
+  .moment-flow__card .mflow-go-deeper,
+  .moment-flow__card .mflow-title,
+  .moment-flow__card .mflow-reflect-prompt-text,
+  .moment-flow__card .mflow-respond-prayer,
+  .moment-flow__card .mflow-closing-prayer{max-width:100%}
+  .mflow-nav{position:relative;flex-shrink:0;z-index:10;top:auto;transform:none;width:36px;height:36px;padding:0;margin:0;border-radius:50%;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;color:#6f5c55;cursor:pointer;transition:opacity 0.2s ease,transform 0.2s ease,background 0.2s ease;-webkit-tap-highlight-color:transparent;opacity:0.6;box-sizing:border-box;font-family:inherit}
+  .mflow-nav:hover{opacity:1;transform:scale(1.06)}
   .mflow-nav:focus-visible{outline:2px solid rgba(186,160,148,0.45);outline-offset:2px}
   .mflow-nav[disabled],.mflow-nav[hidden]{display:none!important}
-  .mflow-prev{left:-50px}
-  .mflow-next{right:-50px}
-  @media (max-width:600px){
-    .mflow-prev{left:8px}
-    .mflow-next{right:8px}
-  }
   .mflow-week-track{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;font-weight:400;font-style:italic;color:var(--text-light);margin:-6px auto 12px;padding:0 6px;line-height:1.45;opacity:0.72;text-align:center;max-width:22rem;letter-spacing:0.02em}
   .mflow-slab{opacity:0;pointer-events:none;position:absolute;left:0;right:0;top:0;padding:0;box-sizing:border-box;min-height:0;transform:translateY(6px);transition:opacity 0.28s ease-out,transform 0.28s ease-out;will-change:opacity,transform}
   .mflow-slab--on{opacity:1;pointer-events:auto;position:relative;left:auto;right:auto;top:auto;transform:translateY(0)}
@@ -3572,7 +3825,7 @@
   .mflow-receive-text{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;line-height:1.55;color:var(--text);font-style:italic;margin:0}
   .mflow-receive-versectx{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:400;font-style:italic;color:var(--text-light);line-height:1.55;margin:10px 0 0;text-align:center;opacity:0.95;max-width:100%;overflow-wrap:break-word;white-space:normal}
   .mflow-tap-hint{font-size:12px;color:var(--text-light);margin-top:16px;opacity:0.75}
-  .mflow-textarea{width:100%;min-height:88px;max-height:200px;resize:vertical;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(186,160,148,0.25);background:rgba(255,251,247,0.9);font-family:Inter,system-ui,sans-serif;font-size:15px;color:var(--text);line-height:1.45;margin:16px 0 0;box-sizing:border-box;transition:opacity 0.3s ease-out,transform 0.3s ease-out}
+  .mflow-textarea{width:100%;min-height:88px;max-height:200px;resize:none;overflow-x:hidden;overflow-y:auto;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(186,160,148,0.25);background:rgba(255,251,247,0.9);font-family:Inter,system-ui,sans-serif;font-size:15px;color:var(--text);line-height:1.45;margin:16px 0 0;box-sizing:border-box;transition:opacity 0.3s ease-out,transform 0.3s ease-out}
   .mflow-textarea::placeholder{color:var(--text-light);opacity:0.6}
   .mflow-textarea:focus{outline:none;border-color:rgba(186,130,118,0.45);box-shadow:0 0 0 3px rgba(240,212,200,0.35)}
   .mflow-textarea.mflow-textarea--skipped{display:none!important}
@@ -3597,7 +3850,7 @@
   .mflow-num{font-family:'Playfair Display',Georgia,serif;font-size:clamp(26px,6vw,30px);font-weight:500;color:var(--text);line-height:1;white-space:nowrap}
   .mflow-days-lbl{font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:lowercase;color:var(--text-light);opacity:0.75}
   @media (prefers-reduced-motion:reduce){
-    .moment-flow,.moment-flow__card,.mflow-slab,.mflow-receive-block{animation:none;transition:opacity 0.2s ease,transform 0.2s ease}
+    .moment-flow,.moment-flow__card,.moment-flow__stage,.mflow-slab,.mflow-receive-block{animation:none;transition:opacity 0.2s ease,transform 0.2s ease}
     .mflow-breath-orb__inner--inhale,.mflow-breath-orb__inner--exhale{transition:transform 0.01s linear}
     .mflow-stagger{animation:none;opacity:1;transform:none}
   }
@@ -3761,6 +4014,53 @@
   .profile-rhythm-btn span{font-size:12.5px;color:var(--text);font-weight:500;letter-spacing:0.2px}
   .profile-rhythm-btn.selected{border-color:var(--accent-strong);background:var(--card);box-shadow:0 4px 14px rgba(90,74,66,0.07)}
   .profile-rhythm-btn.selected svg{color:var(--text)}
+  body[data-active-tab="profile"] #screen-profile{
+    background:linear-gradient(180deg,#faf7f4 0%,#f4ebe3 52%,#efe5db 100%);
+    padding:0 14px 20px;
+    box-sizing:border-box;
+  }
+  #screen-profile .profile-card{
+    border-radius:18px;
+    box-shadow:0 10px 40px rgba(61,46,40,0.07),0 2px 10px rgba(61,46,40,0.04);
+    border-color:rgba(218,198,188,0.48);
+  }
+  .profile-settings-hero{text-align:center;padding:2px 8px 26px;margin:0 0 4px}
+  .profile-settings-title{
+    margin:0 0 10px;
+    font-size:clamp(26px,6vw,30px);
+    font-weight:500;
+    color:var(--text);
+    letter-spacing:-0.03em;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:manipulation;
+  }
+  .profile-settings-subtitle{margin:0 auto;max-width:320px;font-size:14px;line-height:1.55;color:var(--text-light);opacity:0.82}
+  .profile-section--moment{margin-bottom:44px}
+  .profile-section--secondary{opacity:0.9}
+  .profile-section--secondary .profile-section-title h3{font-size:16px}
+  .profile-card--secondary-soft{background:rgba(255,252,249,0.72)}
+  .profile-secondary-stack{display:flex;flex-direction:column;gap:12px}
+  .profile-about-one-liner{font-size:14px;line-height:1.55;color:var(--text-light);margin:0 0 18px;text-align:center}
+  a.profile-about-primary-link.legal-spa-link{
+    display:flex;align-items:center;justify-content:center;
+    padding:14px 18px;margin-bottom:10px;border-radius:14px;
+    background:var(--primary);color:var(--text);font-size:15px;font-weight:500;
+    text-decoration:none;border:1px solid rgba(234,208,204,0.45);
+    transition:background 0.2s ease,transform 0.15s ease;
+  }
+  a.profile-about-primary-link.legal-spa-link:active{transform:scale(0.99)}
+  a.profile-about-secondary-link.legal-spa-link{
+    display:block;text-align:center;font-size:12.5px;color:var(--text-light);
+    margin:4px 0 12px;text-decoration:none;
+  }
+  .profile-about-details{margin-top:16px;border-top:1px solid rgba(234,208,204,0.38);padding-top:14px}
+  .profile-about-summary{cursor:pointer;color:var(--accent-strong);font-size:13px;text-align:center;list-style:none;font-weight:500}
+  .profile-about-details summary::-webkit-details-marker{display:none}
+  .profile-about-card--nested{margin-top:12px;padding-top:2px}
+  .profile-section--developer{margin-top:40px;padding-top:22px;border-top:1px dashed rgba(168,107,98,0.38)}
+  .profile-section--developer .profile-section-title h3{font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);font-family:system-ui,sans-serif}
+  .profile-dev-mode-note{text-align:center;font-size:12px;color:var(--accent-strong);margin:0 0 10px}
 
   /* Settings sticky save bar */
   .settings-save-bar{position:fixed;left:50%;bottom:108px;transform:translateX(-50%) translateY(14px);display:none;justify-content:center;width:100%;max-width:420px;padding:0 20px;z-index:50;pointer-events:none;opacity:0;transition:opacity 0.4s ease,transform 0.4s cubic-bezier(.4,0,.2,1)}
@@ -3870,6 +4170,17 @@
   .grounded-notif-prompt__later{background:var(--primary);color:var(--text);border:1px solid rgba(234,208,204,0.55)}
   .grounded-notif-prompt__yes{background:var(--text);color:var(--card)}
 
+  /* App Store review prompt (one-time, after warm use) */
+  .grounded-review-prompt{position:fixed;inset:0;z-index:10075;display:flex;align-items:center;justify-content:center;padding:max(20px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));box-sizing:border-box;background:rgba(40,32,28,0.38);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.32s ease,visibility 0s linear 0.32s}
+  .grounded-review-prompt.grounded-review-prompt--open{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
+  .grounded-review-prompt__card{width:100%;max-width:340px;background:#FFF8F6;border-radius:20px;box-shadow:0 20px 50px rgba(61,46,40,0.18),0 4px 14px rgba(61,46,40,0.08);padding:26px 22px 22px;box-sizing:border-box;text-align:center;border:1px solid rgba(168,107,98,0.22)}
+  .grounded-review-prompt__cross{font-size:22px;line-height:1;color:#A86B62;margin:0 0 10px;font-weight:400}
+  .grounded-review-prompt__title{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:600;color:#3D2E28;margin:0 0 10px;line-height:1.25;letter-spacing:-0.02em}
+  .grounded-review-prompt__sub{font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.5;color:#5A4A42;margin:0 0 22px}
+  .grounded-review-prompt__primary{display:block;width:100%;margin:0;padding:14px 18px;border-radius:14px;border:none;background:#3D2E28;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+  .grounded-review-prompt__primary:active{transform:scale(0.99);opacity:0.94}
+  .grounded-review-prompt__later{display:block;width:100%;margin:14px 0 0;padding:10px 12px;border:none;background:transparent;color:#A86B62;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;text-decoration:underline;text-decoration-color:rgba(168,107,98,0.45);text-underline-offset:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0.95}
+
   /* ─── REMINDER BANNER (in-app notification) ───
      Anchored above the bottom nav. Slides up softly on appearance.
      Visual tone matches the app: warm card, gentle shadow, no harsh edges. */
@@ -3902,11 +4213,74 @@
   .rb-btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(186,160,148,0.36)}
   .rb-btn-ghost{background:transparent;color:var(--text-light)}
   .rb-btn-ghost:hover{background:var(--primary);color:var(--text)}
+  /* App Store landing CTA — web only; single subtle row (native builds hide via JS) */
+  .app-store-cta{
+    text-align:center;
+    padding:10px 20px clamp(22px,4.5vw,40px);
+    margin:0 auto;
+    max-width:min(28rem,92vw);
+  }
+  .app-store-cta-text{
+    margin:0 auto 10px;
+    max-width:22rem;
+    font-size:clamp(14px,3.1vw,17px);
+    line-height:1.35;
+    font-weight:500;
+    letter-spacing:0.01em;
+    color:rgba(47,42,40,0.72);
+    font-family:'Playfair Display',Georgia,serif;
+  }
+  .app-store-cta-link{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0.92;
+    transition:opacity 0.2s ease;
+  }
+  .app-store-cta-link:hover{opacity:1}
+  .app-store-badge{
+    display:block;
+    width:min(118px,38vw);
+    height:auto;
+    margin:0 auto;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+  }
+  @media (max-width:480px){
+    .app-store-cta{padding:8px 16px clamp(18px,5vw,30px)}
+    .app-store-cta-text{font-size:14px;margin-bottom:8px}
+    .app-store-badge{width:108px;max-width:48vw}
+  }
+  /* Hidden until JS adds .is-visible (avoids flash before main script runs). */
+  #appStoreDownloadCta{display:none}
+  #appStoreDownloadCta.is-visible{display:block}
   </style>
   <link rel="stylesheet" href="css/onboarding.css">
+  <script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
+  api_host:'https://us.i.posthog.com',
+  defaults:'2026-01-30',
+  persistence:'localStorage+cookie',
+  persistence_name:'grounded_posthog',
+  advanced_disable_feature_flags:true,
+  disable_session_recording:true
+});
+  </script>
   </head>
   <body>
-  
+
+  <section id="appStoreDownloadCta" class="app-store-cta" aria-label="Download Grounded">
+    <p class="app-store-cta-text">Start your daily moment with God</p>
+    <a href="https://apps.apple.com/us/app/grounded-faith-reflection/id6765458923" target="_blank" rel="noopener noreferrer" class="app-store-cta-link">
+      <img
+        src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+        alt="Download on the App Store"
+        class="app-store-badge"
+      />
+    </a>
+  </section>
+
   <!-- ─── BACKGROUND DECOR ─── -->
   <div class="screen-decor" aria-hidden="true">
     <svg class="decor-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="5" y1="8" x2="19" y2="8"></line></svg>
@@ -3936,7 +4310,6 @@
         </div>
       </div>
       <div class="header-actions">
-        <span id="appVersionBadge" class="app-version-badge" title="App build"></span>
         <button type="button" class="header-profile-avatar" id="settingsBtn" aria-label="Settings">
           <span class="header-profile-initial" id="headerProfileInitial" hidden></span>
           <span class="header-profile-fallback" id="headerProfileIconWrap">
@@ -4690,6 +5063,7 @@
       </div>
       <div class="bf-panel bf-panel--read word-page bf-hidden" id="bfPanelRead">
         <div class="bf-read-top chapter-navigation" id="bfReadTop">
+          <p class="cr-topic-hint body-font" id="chapterReaderTopicHint" hidden></p>
           <p class="cr-read-book-sm" id="crReadBookSm" hidden></p>
           <div class="bf-chapter-stepper" role="group" aria-label="Chapter">
             <button type="button" class="bf-step-btn" id="bfPrevChapter" aria-label="Previous chapter">←</button>
@@ -5309,11 +5683,16 @@
     <div class="profile-settings-top-mark" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
     </div>
-    <!-- Profile -->
-    <div class="profile-section">
+    <div class="profile-settings-hero">
+      <h1 class="profile-settings-title serif display-font" id="profileSettingsTitle">Settings</h1>
+      <p class="profile-settings-subtitle body-font" id="profileSettingsSubtitle">Shape your experience. Draw closer to God.</p>
+    </div>
+
+    <!-- 1 Your Space -->
+    <div class="profile-section profile-section--moment">
       <div class="profile-section-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        <h3>You</h3>
+        <h3>Your Space</h3>
       </div>
       <div class="profile-card">
         <div class="profile-avatar-row">
@@ -5321,7 +5700,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           </div>
           <div class="profile-avatar-info">
-            <label for="profileNameInput">Your name</label>
+            <label for="profileNameInput">Name</label>
             <input type="text" class="profile-name-input" id="profileNameInput" placeholder="Enter your name" maxlength="24" autocomplete="off">
           </div>
         </div>
@@ -5336,97 +5715,68 @@
         </div>
       </div>
     </div>
-  
-    <!-- Your Reading Style -->
-    <div class="profile-section">
+
+    <!-- 2 Your Rhythm -->
+    <div class="profile-section profile-section--moment">
       <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-        <h3>Your Reading Style</h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg>
+        <h3>Your Rhythm</h3>
       </div>
+      <p class="profile-helper-text">When do you usually pause with God?</p>
       <div class="profile-card">
-        <label class="profile-field-label body-font">Bible version <span class="profile-field-hint">public domain</span></label>
-        <div class="profile-pills" id="bibleVersionPills">
-          <button type="button" class="profile-pill" data-version="kjv" aria-label="King James Version, Classic"><span class="pill-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="pill-ver-line">KJV <span class="pill-ver-tag">Classic</span></span></button>
-          <button type="button" class="profile-pill" data-version="web" aria-label="World English Bible, Modern"><span class="pill-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="pill-ver-line">WEB <span class="pill-ver-tag">Modern</span></span></button>
-          <button type="button" class="profile-pill" data-version="asv" aria-label="American Standard Version, Traditional"><span class="pill-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="pill-ver-line">ASV <span class="pill-ver-tag">Traditional</span></span></button>
-        </div>
-        <div class="profile-toggle-row" style="margin-top:16px">
-          <span class="profile-toggle-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-            Show verse references
-          </span>
-          <div class="profile-toggle on" id="toggleVerseRef" role="switch" aria-checked="true"></div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Experience Settings -->
-    <div class="profile-section">
-      <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        <h3>Your Experience</h3>
-      </div>
-      <div class="profile-card">
-        <label class="profile-field-label body-font">Theme</label>
-        <div class="profile-theme-grid" id="profileThemeGrid">
-          <button class="profile-theme-btn selected" data-ptheme="soft">
-            <div class="profile-theme-swatch sw-soft"></div>
-            <span class="profile-theme-name">Soft Light</span>
-            <span class="pt-tagline">Soft & minimal</span>
+        <div class="profile-rhythm-grid" id="rhythmGrid">
+          <button class="profile-rhythm-btn" data-rhythm="morning">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="4"></circle><path d="M12 4v2"></path><path d="M5.6 7.6l1.4 1.4"></path><path d="M3 14h2"></path><path d="M19 14h2"></path><path d="M17 9l1.4-1.4"></path><path d="M3 20h18"></path></svg>
+            <span>Morning</span>
           </button>
-          <button class="profile-theme-btn" data-ptheme="neutral">
-            <div class="profile-theme-swatch sw-neutral"></div>
-            <span class="profile-theme-name">Warm Glow</span>
-            <span class="pt-tagline">Warm & cozy</span>
+          <button class="profile-rhythm-btn" data-rhythm="midday">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M4.9 4.9l1.4 1.4"></path><path d="M17.7 17.7l1.4 1.4"></path><path d="M4.9 19.1l1.4-1.4"></path><path d="M17.7 6.3l1.4-1.4"></path></svg>
+            <span>Midday</span>
+          </button>
+          <button class="profile-rhythm-btn" data-rhythm="evening">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            <span>Evening</span>
           </button>
         </div>
-        <div class="profile-toggle-row" style="margin-top:18px">
-          <span class="profile-toggle-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
-            Match content to how you feel
+      </div>
+    </div>
+
+    <!-- 3 Gentle Reminders -->
+    <div class="profile-section profile-section--moment">
+      <div class="profile-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <h3>Gentle Reminders</h3>
+      </div>
+      <p class="profile-helper-text">We&rsquo;ll nudge you once, gently.</p>
+      <div class="profile-card">
+        <div class="reminder-row">
+          <span class="rr-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            Daily reminder
           </span>
-          <div class="profile-toggle on" id="toggleMoodAdjust" role="switch" aria-checked="true"></div>
+          <span class="rr-right">
+            <div class="profile-toggle on" id="toggleGroundedCapDailyReminder" role="switch" aria-checked="true" tabindex="0"></div>
+          </span>
+        </div>
+        <div class="reminder-row" id="profileDailyReminderTimeRow">
+          <span class="rr-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg>
+            Reminder time
+          </span>
+          <span class="rr-right">
+            <input type="time" class="reminder-time" id="groundedCapReminderTimeInput" value="08:00" aria-label="Daily reminder time">
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- Onboarding -->
-    <div class="profile-section">
-      <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
-        <h3>Getting started</h3>
-      </div>
-      <div class="profile-card">
-        <p class="profile-helper-text">Walk through name, goals, and rhythm again anytime.</p>
-        <button type="button" class="profile-secondary-btn body-font" id="redoOnboardingBtn">Redo onboarding</button>
-      </div>
-    </div>
-
-    <div class="profile-section">
-      <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        <h3>Home screen</h3>
-      </div>
-      <div class="profile-card">
-        <button type="button" class="reminder-row profile-pwa-install-row" id="profileAddHomeScreenBtn">
-          <span class="rr-left profile-pwa-install-label">
-            <span class="profile-pwa-install-title body-font">Add to Home Screen</span>
-            <span class="profile-pwa-install-sub body-font">Get today&rsquo;s verse on your home screen</span>
-          </span>
-          <span class="rr-right profile-pwa-install-chevron" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Spiritual Focus -->
-    <div class="profile-section">
+    <!-- 4 What You Need More Of -->
+    <div class="profile-section profile-section--moment">
       <div class="profile-section-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"></path><path d="M18 14l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"></path></svg>
-        <h3>What do you need more of right now?</h3>
+        <h3>What You Need More Of</h3>
       </div>
-      <p class="profile-helper-text">Shape what you see more of each day.</p>
+      <p class="profile-helper-text">Choose what resonates right now.</p>
       <div class="profile-card">
         <div class="profile-focus-pills" id="focusPills">
           <button class="profile-focus-pill" data-focus="peace">
@@ -5453,38 +5803,125 @@
       </div>
     </div>
 
-    <!-- Your Rhythm -->
-    <div class="profile-section">
+    <!-- 5 How You Read -->
+    <div class="profile-section profile-section--moment">
       <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg>
-        <h3>Your Rhythm</h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <h3>How You Read</h3>
       </div>
-      <p class="profile-helper-text">When do you usually pause with God?</p>
       <div class="profile-card">
-        <div class="profile-rhythm-grid" id="rhythmGrid">
-          <button class="profile-rhythm-btn" data-rhythm="morning">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="4"></circle><path d="M12 4v2"></path><path d="M5.6 7.6l1.4 1.4"></path><path d="M3 14h2"></path><path d="M19 14h2"></path><path d="M17 9l1.4-1.4"></path><path d="M3 20h18"></path></svg>
-            <span>Morning</span>
-          </button>
-          <button class="profile-rhythm-btn" data-rhythm="midday">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M4.9 4.9l1.4 1.4"></path><path d="M17.7 17.7l1.4 1.4"></path><path d="M4.9 19.1l1.4-1.4"></path><path d="M17.7 6.3l1.4-1.4"></path></svg>
-            <span>Midday</span>
-          </button>
-          <button class="profile-rhythm-btn" data-rhythm="evening">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
-            <span>Evening</span>
-          </button>
+        <label class="profile-field-label body-font">Bible version</label>
+        <div class="profile-pills" id="bibleVersionPills">
+          <button type="button" class="profile-pill" data-version="kjv" aria-label="King James Version"><span class="pill-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="pill-ver-line">KJV</span></button>
+          <button type="button" class="profile-pill" data-version="web" aria-label="World English Bible"><span class="pill-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="pill-ver-line">WEB</span></button>
+          <button type="button" class="profile-pill" data-version="asv" aria-label="American Standard Version"><span class="pill-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="pill-ver-line">ASV</span></button>
+        </div>
+        <div class="profile-toggle-row" style="margin-top:16px">
+          <span class="profile-toggle-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            Show verse references
+          </span>
+          <div class="profile-toggle on" id="toggleVerseRef" role="switch" aria-checked="true"></div>
         </div>
       </div>
     </div>
 
-    <!-- Advanced: legacy Scripture / Study tabs (hidden by default) -->
-    <div class="profile-section profile-section--advanced">
+    <!-- 6 Look & Feel -->
+    <div class="profile-section profile-section--moment">
+      <div class="profile-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <h3>Look & Feel</h3>
+      </div>
+      <div class="profile-card">
+        <label class="profile-field-label body-font">Theme</label>
+        <div class="profile-theme-grid" id="profileThemeGrid">
+          <button class="profile-theme-btn selected" data-ptheme="soft">
+            <div class="profile-theme-swatch sw-soft"></div>
+            <span class="profile-theme-name">Soft Light</span>
+            <span class="pt-tagline">Soft & minimal</span>
+          </button>
+          <button class="profile-theme-btn" data-ptheme="neutral">
+            <div class="profile-theme-swatch sw-neutral"></div>
+            <span class="profile-theme-name">Warm Glow</span>
+            <span class="pt-tagline">Warm & cozy</span>
+          </button>
+        </div>
+        <div class="profile-toggle-row" style="margin-top:18px">
+          <span class="profile-toggle-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+            Match content to mood
+          </span>
+          <div class="profile-toggle on" id="toggleMoodAdjust" role="switch" aria-checked="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 Secondary -->
+    <div class="profile-section profile-section--moment profile-section--secondary">
+      <div class="profile-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+        <h3>More</h3>
+      </div>
+      <div class="profile-card profile-card--secondary-soft">
+        <div class="profile-secondary-stack">
+          <div id="profileHomeScreenInstallSection">
+          <button type="button" class="reminder-row profile-pwa-install-row" id="profileAddHomeScreenBtn">
+            <span class="rr-left profile-pwa-install-label">
+              <span class="profile-pwa-install-title body-font">Add to Home Screen</span>
+              <span class="profile-pwa-install-sub body-font">Keep Grounded one tap away</span>
+            </span>
+            <span class="rr-right profile-pwa-install-chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </span>
+          </button>
+          </div>
+          <p class="profile-helper-text" style="margin:4px 0 8px">Return to your first steps anytime.</p>
+          <button type="button" class="profile-secondary-btn body-font" id="redoOnboardingBtn">Redo onboarding</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 About -->
+    <div class="profile-section profile-section--moment profile-section--about">
+      <div class="profile-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4l2.5 2.5"></path></svg>
+        <h3>About</h3>
+      </div>
+      <div class="profile-card">
+        <p class="profile-about-one-liner body-font">Grounded is a quiet space to grow closer to God &mdash; one moment at a time.</p>
+        <a href="#/privacy" class="profile-about-primary-link legal-spa-link" data-legal="privacy">Privacy Policy</a>
+        <a href="#/contact" class="profile-about-primary-link legal-spa-link" data-legal="contact">Support</a>
+        <a href="#/terms" class="profile-about-secondary-link legal-spa-link" data-legal="terms">Terms of Use</a>
+        <p class="app-version-foot" id="appVersionFoot" aria-label="App version"></p>
+        <details class="profile-about-details">
+          <summary class="profile-about-summary">More about Grounded</summary>
+          <div class="profile-about-card profile-about-card--nested">
+            <p class="profile-about-p body-font">Every day, Grounded gives you a verse, a guided reflection, and a place to write what&rsquo;s on your heart. No noise. No pressure. Just you, God, and a few still minutes to breathe and come back to what matters.</p>
+            <h4 class="profile-about-h">What you&rsquo;ll find inside</h4>
+            <ul class="profile-about-list body-font">
+              <li>A daily verse chosen for where you are</li>
+              <li>Guided reflection questions to go deeper</li>
+              <li>A personal journal to capture your thoughts</li>
+              <li>Prayer prompts to help you find the words</li>
+              <li>Weekly themes to keep you rooted and growing</li>
+            </ul>
+            <h4 class="profile-about-h">Reset &mdash; body, mind, and spirit</h4>
+            <p class="profile-about-p body-font">Grounded goes beyond the page. The Reset space connects your faith to your body through guided Pilates videos and meditations designed to help you release tension, slow your thoughts, and settle into stillness. Because spiritual growth isn&rsquo;t just mental &mdash; it lives in how you breathe, move, and rest too.</p>
+            <p class="profile-about-em body-font">Whether you&rsquo;ve walked with God for years or you&rsquo;re just beginning to explore faith, Grounded meets you exactly where you are &mdash; no theology degree required, no guilt if you miss a day.</p>
+            <p class="profile-about-close">Just show up. That&rsquo;s enough.</p>
+            <p class="profile-about-tagline">Grounded. Begin where you are.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Developer (hidden until dev mode) -->
+    <div class="profile-section profile-section--developer" id="profileDeveloperSection" hidden>
       <div class="profile-section-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"></path></svg>
-        <h3>Advanced</h3>
+        <h3>Developer Settings</h3>
       </div>
-      <p class="profile-helper-text profile-helper-text--subtle">Optional legacy tabs for testing or internal use. Scripture+ stays the default Bible experience.</p>
+      <p class="profile-helper-text profile-helper-text--subtle">Optional navigation and legacy reminder controls for testing.</p>
       <div class="profile-card">
         <div class="reminder-row">
           <span class="rr-left">Show <strong>Scripture</strong> tab</span>
@@ -5498,35 +5935,15 @@
             <div class="profile-toggle" id="toggleNavOptionalStudy" role="switch" aria-checked="false" tabindex="0" data-nav-optional="study"></div>
           </span>
         </div>
-      </div>
-    </div>
-
-    <!-- Optional: show Journal in the bottom bar (Reflect still includes journal) -->
-    <div class="profile-section">
-      <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="4" rx="1"></rect><rect x="14" y="10" width="7" height="7" rx="1"></rect><rect x="3" y="13" width="7" height="4" rx="1"></rect></svg>
-        <h3>Bottom navigation</h3>
-      </div>
-      <p class="profile-helper-text">Turn this on if you want a direct <strong>Journal</strong> shortcut (journal lives under Reflect too).</p>
-      <div class="profile-card">
-        <div class="reminder-row">
+        <div class="reminder-row" style="margin-top:12px;border-top:1px solid rgba(234,208,204,0.35);padding-top:12px">
           <span class="rr-left">Show <strong>Journal</strong> tab</span>
           <span class="rr-right">
             <div class="profile-toggle" id="toggleNavLegacyJournal" role="switch" aria-checked="false" tabindex="0" data-legacy="journal"></div>
           </span>
         </div>
       </div>
-    </div>
-
-    <!-- Daily Reminders -->
-    <div class="profile-section">
-      <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-        <h3>Daily Reminders</h3>
-      </div>
-      <p class="profile-helper-text">A gentle nudge to pause and reset.</p>
-      <div class="profile-card">
-        <!-- Morning Reminder toggle -->
+      <p class="profile-helper-text" style="margin-top:16px">In-app reminder banner (legacy)</p>
+      <div class="profile-card" style="margin-top:10px">
         <div class="reminder-row">
           <span class="rr-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="4"></circle><path d="M12 4v2"></path><path d="M5.6 7.6l1.4 1.4"></path><path d="M3 14h2"></path><path d="M19 14h2"></path><path d="M17 9l1.4-1.4"></path><path d="M3 20h18"></path></svg>
@@ -5536,7 +5953,6 @@
             <div class="profile-toggle on" id="toggleMorningReminder" role="switch" aria-checked="true" tabindex="0"></div>
           </span>
         </div>
-        <!-- Morning Time input -->
         <div class="reminder-row">
           <span class="rr-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg>
@@ -5546,7 +5962,6 @@
             <input type="time" class="reminder-time" id="morningTimeInput" value="07:00" aria-label="Morning reminder time">
           </span>
         </div>
-        <!-- Evening Reminder toggle -->
         <div class="reminder-row">
           <span class="rr-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
@@ -5556,7 +5971,6 @@
             <div class="profile-toggle on" id="toggleEveningReminder" role="switch" aria-checked="true" tabindex="0"></div>
           </span>
         </div>
-        <!-- Evening Time input -->
         <div class="reminder-row">
           <span class="rr-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg>
@@ -5564,16 +5978,6 @@
           </span>
           <span class="rr-right">
             <input type="time" class="reminder-time" id="eveningTimeInput" value="20:00" aria-label="Evening reminder time">
-          </span>
-        </div>
-        <div class="reminder-row">
-          <span class="rr-left">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-            Daily reminder
-          </span>
-          <span class="rr-right">
-            <input type="time" class="reminder-time" id="groundedCapReminderTimeInput" value="08:00" aria-label="Daily reminder time">
-            <div class="profile-toggle on" id="toggleGroundedCapDailyReminder" role="switch" aria-checked="true" tabindex="0"></div>
           </span>
         </div>
         <label class="profile-field-label body-font" style="margin-top:18px">Message style</label>
@@ -5584,43 +5988,13 @@
           <button type="button" class="reminder-style-pill" data-reminder-type="minimal" aria-pressed="false">Minimal</button>
         </div>
       </div>
-    </div>
-
-    <div class="profile-section">
-      <div class="profile-section-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4l2.5 2.5"></path></svg>
-        <h3>About Grounded</h3>
-      </div>
-      <div class="profile-card profile-about-card">
-        <p class="profile-about-lead">Grounded is a quiet space to grow closer to God &mdash; one moment at a time.</p>
-        <p class="profile-about-p body-font">Every day, Grounded gives you a verse, a guided reflection, and a place to write what&rsquo;s on your heart. No noise. No pressure. Just you, God, and a few still minutes to breathe and come back to what matters.</p>
-        <h4 class="profile-about-h">What you&rsquo;ll find inside</h4>
-        <ul class="profile-about-list body-font">
-          <li>A daily verse chosen for where you are</li>
-          <li>Guided reflection questions to go deeper</li>
-          <li>A personal journal to capture your thoughts</li>
-          <li>Prayer prompts to help you find the words</li>
-          <li>Weekly themes to keep you rooted and growing</li>
-        </ul>
-        <h4 class="profile-about-h">Reset &mdash; body, mind, and spirit</h4>
-        <p class="profile-about-p body-font">Grounded goes beyond the page. The Reset space connects your faith to your body through guided Pilates videos and meditations designed to help you release tension, slow your thoughts, and settle into stillness. Because spiritual growth isn&rsquo;t just mental &mdash; it lives in how you breathe, move, and rest too.</p>
-        <p class="profile-about-em body-font">Whether you&rsquo;ve walked with God for years or you&rsquo;re just beginning to explore faith, Grounded meets you exactly where you are &mdash; no theology degree required, no guilt if you miss a day.</p>
-        <p class="profile-about-close">Just show up. That&rsquo;s enough.</p>
-        <p class="profile-about-tagline">Grounded. Begin where you are.</p>
+      <div class="profile-dev-reset-wrap" style="margin-top:16px">
+        <button type="button" class="profile-dev-reset-btn body-font" id="profileDevResetOnboardingBtn" aria-label="Reset onboarding for development testing">Reset app (dev)</button>
       </div>
     </div>
 
-    <div class="profile-legal-links" role="navigation" aria-label="Legal">
-      <a href="#/privacy" class="legal-spa-link" data-legal="privacy">Privacy</a>
-      <span class="legal-links-sep" aria-hidden="true">·</span>
-      <a href="#/terms" class="legal-spa-link" data-legal="terms">Terms</a>
-      <span class="legal-links-sep" aria-hidden="true">·</span>
-      <a href="#/contact" class="legal-spa-link" data-legal="contact">Contact</a>
-    </div>
-    <p class="app-version-foot" id="appVersionFoot" aria-label="App version"></p>
-    <div class="profile-dev-reset-wrap">
-      <button type="button" class="profile-dev-reset-btn body-font" id="profileDevResetOnboardingBtn" aria-label="Reset onboarding for development testing">Reset app (dev)</button>
-    </div>
+    <p class="profile-dev-mode-note body-font" id="profileDevModeNote" hidden>Developer mode is on.</p>
+
     <div style="height:60px"></div>
   </div>
 
@@ -5898,9 +6272,9 @@
   <!-- ─── MOMENT FLOW (after "Continue your moment") ─── -->
   <div class="moment-flow" id="momentFlowOverlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="mflowA11yTitle">
     <span id="mflowA11yTitle" class="visually-hidden">Guided moment</span>
-    <div class="moment-flow__card" id="momentFlowCard">
+    <div class="moment-flow__stage">
       <button type="button" class="mflow-nav mflow-prev" data-action="plan-flow-prev" aria-label="Previous step" hidden>&#8249;</button>
-      <button type="button" class="mflow-nav mflow-next" data-action="plan-flow-next" aria-label="Next step" hidden>&#8250;</button>
+      <div class="moment-flow__card" id="momentFlowCard">
       <p class="mflow-week-track" id="mflowWeekTrackLabel" hidden></p>
       <div class="mflow-slab" data-mflow-step="1" id="mflowStep1" hidden>
         <p class="mflow-eyebrow mflow-stagger" style="--mflow-i:0" aria-hidden="true">Arrive</p>
@@ -5954,6 +6328,8 @@
         <p class="mflow-sub mflow-stagger" id="mflowCompleteSub" style="--mflow-i:5;margin-top:8px">Come back tomorrow to continue</p>
         <button type="button" class="mflow-btn mflow-btn--primary mflow-stagger" id="mflowBtnReturnToday" style="--mflow-i:6">Return to today</button>
       </div>
+      </div>
+      <button type="button" class="mflow-nav mflow-next" data-action="plan-flow-next" aria-label="Next step" hidden>&#8250;</button>
     </div>
   </div>
 
@@ -5977,13 +6353,24 @@
   <!-- ─── DAILY REMINDER BANNER (in-app notification) ─── -->
   <div id="groundedNotifPermissionPrompt" class="grounded-notif-prompt" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="groundedNotifPromptCopy">
     <div class="grounded-notif-prompt__panel">
-      <p id="groundedNotifPromptCopy" class="body-font">Can we remind you to show up each day? You can change this anytime in settings.</p>
+      <p id="groundedNotifPromptCopy" class="body-font">A quiet reminder to pause &mdash; you can change this anytime in Settings.</p>
       <div class="grounded-notif-prompt__actions">
         <button type="button" class="grounded-notif-prompt__later" id="groundedNotifPromptLater">Maybe later</button>
         <button type="button" class="grounded-notif-prompt__yes" id="groundedNotifPromptYes">Yes please</button>
       </div>
     </div>
   </div>
+
+  <div id="groundedReviewPrompt" class="grounded-review-prompt" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="groundedReviewPromptTitle">
+    <div class="grounded-review-prompt__card">
+      <div class="grounded-review-prompt__cross" aria-hidden="true">&#x271D;</div>
+      <h2 id="groundedReviewPromptTitle" class="grounded-review-prompt__title">Is Grounded helping you?</h2>
+      <p class="grounded-review-prompt__sub">Your review helps others find a quieter moment with God.</p>
+      <button type="button" class="grounded-review-prompt__primary" id="groundedReviewPromptLeave">Leave a review</button>
+      <button type="button" class="grounded-review-prompt__later" id="groundedReviewPromptLater">Maybe later</button>
+    </div>
+  </div>
+
   <div class="reminder-banner" id="reminderBanner" role="alert" aria-live="polite" aria-hidden="true">
     <button class="rb-close" id="reminderClose" type="button" aria-label="Dismiss reminder">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -6403,7 +6790,7 @@
   
   const TYPE_LABELS = { mind:"Read a verse", heart:"Say a prayer", body:"Reset your mind" };
   /** Shown in header + Profile footer. MUST match `sw.js` CACHE_VERSION (also used to bust SW registration URL). */
-  const APP_BUILD_VERSION = 'grounded-v187';
+  const APP_BUILD_VERSION = 'grounded-v217';
   const MC_ICONS = {
     mind:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>',
     heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 11V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v9"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 16"/></svg>',
@@ -6783,6 +7170,9 @@
     }
     window.scrollTo(0, 0);
     replaceStateCleanLegalUrl(which);
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaLegal) {}
   }
   function openAppLegalPage(which) {
     if (!LEGAL_ROUTE_MAP[which]) return;
@@ -6837,6 +7227,9 @@
       syncAppShellHeader(legalReturnTab || 'profile');
     }
     window.scrollTo(0, 0);
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaLegalClose) {}
   }
 
   function handleBack() {
@@ -6861,7 +7254,103 @@
       if (APP_SHELL_IDS.indexOf(el.id) === -1) el.style.display = 'none';
     });
     try { document.body.setAttribute('data-app-screen', screenId || ''); } catch (e) {}
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaScreen) {}
   }
+
+  function isStandaloneGroundedApp() {
+    try {
+      if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+    } catch (e) {}
+    try {
+      if (typeof navigator !== 'undefined' && navigator.standalone === true) return true;
+    } catch (e2) {}
+    return false;
+  }
+
+  /** Installed Capacitor shell (iOS/Android). Not `window.Capacitor` alone — that exists on mobile web too when capacitor.js loads. */
+  function groundedIsNativeGroundedApp() {
+    try {
+      if (document.body && document.body.classList.contains('native-app')) return true;
+    } catch (e) {}
+    try {
+      if (String(window.location.protocol || '').toLowerCase() === 'capacitor:') return true;
+    } catch (e2) {}
+    try {
+      var C = typeof Capacitor !== 'undefined' ? Capacitor : window.Capacitor;
+      if (C && typeof C.isNativePlatform === 'function' && C.isNativePlatform()) return true;
+    } catch (e3) {}
+    return false;
+  }
+  window.groundedIsNativeGroundedApp = groundedIsNativeGroundedApp;
+
+  function updateAppStoreCtaVisibility() {
+    var ctaTop = document.getElementById('appStoreDownloadCta');
+    function applyCta(el, show) {
+      if (!el) return;
+      try {
+        el.style.removeProperty('display');
+      } catch (eRm) {}
+      el.classList.toggle('is-visible', !!show);
+    }
+    if (!ctaTop) return;
+
+    /* PWA / “Add to Home Screen” opens like the native shell — never show store CTAs there. */
+    if (isStandaloneGroundedApp()) {
+      applyCta(ctaTop, false);
+      return;
+    }
+    /* Capacitor native app — never show App Store CTAs or redirects. */
+    if (groundedIsNativeGroundedApp()) {
+      applyCta(ctaTop, false);
+      return;
+    }
+
+    var legalLike = false;
+    try {
+      legalLike =
+        document.body.classList.contains('legal-page-open') ||
+        (typeof isLegalPathname === 'function' && isLegalPathname());
+    } catch (eLeg) {}
+
+    var show = false;
+    if (legalLike) {
+      show = true;
+    } else {
+      /* Normal browser (Safari, Chrome, etc.): show store CTA except while onboarding is open.
+         localStorage must not hide the banner here — returning mobile web users should still see it. */
+      var root = document.getElementById('onboardingRoot');
+      var onboardingOpen = !!(root && !root.hasAttribute('hidden'));
+      show = !onboardingOpen;
+    }
+
+    applyCta(ctaTop, show);
+  }
+  window.updateAppStoreCtaVisibility = updateAppStoreCtaVisibility;
+  try {
+    updateAppStoreCtaVisibility();
+  } catch (eCtaInit) {}
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      function groundedCtaDom() {
+        try {
+          updateAppStoreCtaVisibility();
+        } catch (eCtaDom) {}
+      },
+      { once: true }
+    );
+  } else {
+    try {
+      updateAppStoreCtaVisibility();
+    } catch (eCtaDom2) {}
+  }
+  window.addEventListener('load', function groundedCtaLoad() {
+    try {
+      updateAppStoreCtaVisibility();
+    } catch (eCtaLoad) {}
+  });
   function applyAppShellForTab(tab) {
     if (document.body.classList.contains('legal-page-open')) return;
     const map = {
@@ -7094,6 +7583,9 @@
             window.groundedNativeNotificationsOnOnboardingComplete();
           } catch (eSkipN) {}
         }
+        try {
+          if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+        } catch (eCtaObSkip) {}
         return;
       }
       let why = [];
@@ -7134,6 +7626,9 @@
         window.groundedNativeNotificationsOnOnboardingComplete();
       } catch (e2) {}
     }
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaObDone) {}
   };
 
   function clearStaleOnboardingFirstDayFlags() {
@@ -7316,12 +7811,16 @@
         if (shPrev) shPrev.removeEventListener('transitionend', layer._spxPassCloseOnEnd);
         layer._spxPassCloseOnEnd = null;
       }
+      layer.classList.remove('spx-passage-layer--loading');
+      layer.removeAttribute('aria-busy');
       layer.classList.remove('spx-passage-layer--open');
       layer.hidden = true;
       layer.setAttribute('aria-hidden', 'true');
       var shDone = layer.querySelector('.spx-passage-sheet');
       if (shDone) shDone.style.transform = '';
     }
+    var passVerseClose = document.getElementById('spxPassVerse');
+    if (passVerseClose) passVerseClose.classList.remove('spx-pass-verse--skeleton');
     if (screenEl) {
       screenEl.classList.remove('spx-passage-view-open');
       screenEl.classList.remove('spx-browse-view-open');
@@ -7880,8 +8379,27 @@
       var q = inp.value;
       if (typeof parseScripturePlusSearchQuery === 'function') {
         var p = parseScripturePlusSearchQuery(q);
+        if (p && p.kind === 'spx_reading_plan') {
+          closeSpxBrowseLayer();
+          try {
+            if (p.topicLabel && p.planId) {
+              sessionStorage.setItem(
+                'grounded_study_opened_from_topic',
+                JSON.stringify({ planId: p.planId, label: p.topicLabel })
+              );
+            }
+          } catch (eTopicPlan) {}
+          if (typeof switchTab === 'function') switchTab('study');
+          if (typeof GroundedStudyApp !== 'undefined' && typeof GroundedStudyApp.startPlan === 'function') {
+            GroundedStudyApp.startPlan(p.planId);
+          }
+          return;
+        }
         if (p) {
           closeSpxBrowseLayer();
+          try {
+            if (p.topicLabel) sessionStorage.setItem('grounded_reader_topic_hint', p.topicLabel);
+          } catch (eHint) {}
           if (typeof bibleOpenReadFromScripturePlusBrowse === 'function') {
             void bibleOpenReadFromScripturePlusBrowse(p.bookRaw, p.chapter, p.verseStart, p.verseEnd);
           }
@@ -7909,6 +8427,9 @@
     if (gl) {
       gl.addEventListener('click', function () {
         closeSpxBrowseLayer();
+        try {
+          sessionStorage.setItem('grounded_study_return_tab', 'scriptureplus');
+        } catch (eRtGl) {}
         if (typeof switchTab === 'function') switchTab('study');
         setTimeout(function () {
           if (window.GroundedStudyApp && typeof GroundedStudyApp.openPlansAllView === 'function')
@@ -8078,7 +8599,10 @@
     closeSpxMenu();
     if (typeof closeSpxBrowseLayer === 'function') closeSpxBrowseLayer();
     if (typeof closeSpxWeekView === 'function') closeSpxWeekView();
-    verseEl.textContent = 'Loading\u2026';
+    layer.classList.add('spx-passage-layer--loading');
+    layer.setAttribute('aria-busy', 'true');
+    verseEl.classList.add('spx-pass-verse--skeleton');
+    verseEl.textContent = '\u00a0';
     refEl.textContent = '';
     layer.hidden = false;
     layer.setAttribute('aria-hidden', 'false');
@@ -8104,6 +8628,7 @@
       var quote = lines.join('\n\n');
       var refLine = spxFormatRef(displayBook, ch, vs, ve);
       refEl.textContent = refLine;
+      verseEl.classList.remove('spx-pass-verse--skeleton');
       verseEl.textContent = quote || '\u2014';
       var vbKey =
         typeof verseHighlightStorageKey === 'function'
@@ -8150,6 +8675,7 @@
       }
       bindSpxMeaningAiOnce();
     } catch (e) {
+      verseEl.classList.remove('spx-pass-verse--skeleton');
       verseEl.textContent = 'We couldn\u2019t load this passage. Check your connection and try again.';
       refEl.textContent = '';
       spxPassState = {
@@ -8163,6 +8689,11 @@
         vbKey: '',
         navLabel: navLine || ''
       };
+    } finally {
+      if (layer) {
+        layer.classList.remove('spx-passage-layer--loading');
+        layer.removeAttribute('aria-busy');
+      }
     }
   }
 
@@ -8277,6 +8808,36 @@
     if (wkLayerOpen && wkLayerOpen.classList.contains('spx-week-layer--open')) {
       if (typeof renderScripturePlusWeekLayer === 'function') renderScripturePlusWeekLayer();
     }
+  }
+
+  /** Scripture+ “Not sure where to start?” chips → guided plans / Study / browse (not random verse passage). */
+  function spxOpenStudyPlanFromChip(planId) {
+    if (!planId || typeof switchTab !== 'function') return;
+    try {
+      sessionStorage.setItem('grounded_study_return_tab', 'scriptureplus');
+    } catch (eRt1) {}
+    switchTab('study');
+    window.setTimeout(function () {
+      if (window.GroundedStudyApp && typeof GroundedStudyApp.startPlan === 'function') {
+        GroundedStudyApp.startPlan(planId);
+      }
+    }, 0);
+  }
+  function spxOpenStudyLandingQueryFromChip(query) {
+    var q = String(query || '').trim();
+    if (!q || typeof switchTab !== 'function') return;
+    try {
+      sessionStorage.setItem('grounded_study_return_tab', 'scriptureplus');
+    } catch (eRt2) {}
+    try {
+      sessionStorage.setItem('grounded_study_landing_query', q);
+    } catch (eS) {}
+    switchTab('study');
+    window.setTimeout(function () {
+      if (window.GroundedStudyApp && typeof GroundedStudyApp.onTabShown === 'function') {
+        GroundedStudyApp.onTabShown();
+      }
+    }, 0);
   }
 
   function bindScripturePlusOnce() {
@@ -8416,6 +8977,9 @@
       }
       console.log('[Begin study] navigate to Study tab with query:', rawQ);
       try {
+        sessionStorage.setItem('grounded_study_return_tab', 'scriptureplus');
+      } catch (eRtSpx) {}
+      try {
         sessionStorage.setItem('grounded_study_landing_query', rawQ);
       } catch (eS) {}
       setStudyTabUrlWithQuery(rawQ);
@@ -8438,6 +9002,9 @@
     var viewAllPlans = document.getElementById('spxViewAllPlansBtn');
     if (viewAllPlans)
       viewAllPlans.addEventListener('click', function () {
+        try {
+          sessionStorage.setItem('grounded_study_return_tab', 'scriptureplus');
+        } catch (eRtVa) {}
         if (typeof switchTab === 'function') switchTab('study');
         setTimeout(function () {
           if (window.GroundedStudyApp && typeof GroundedStudyApp.openPlansAllView === 'function')
@@ -8451,6 +9018,9 @@
         if (!b || !planList.contains(b)) return;
         var pid = b.getAttribute('data-spx-plan-id');
         if (!pid) return;
+        try {
+          sessionStorage.setItem('grounded_study_return_tab', 'scriptureplus');
+        } catch (eRtPl) {}
         if (typeof switchTab === 'function') switchTab('study');
         setTimeout(function () {
           if (window.GroundedStudyApp && typeof GroundedStudyApp.startPlan === 'function')
@@ -8468,20 +9038,18 @@
         var b = e.target.closest('[data-spx-guided]');
         if (!b || !chips.contains(b)) return;
         var key = b.getAttribute('data-spx-guided');
-        var pool = typeof SCRIPTURE_GUIDED_DESTINATIONS !== 'undefined' ? SCRIPTURE_GUIDED_DESTINATIONS[key] : null;
-        if (!pool || !pool.length) return;
-        var pair =
-          typeof pickGuidedReadingDestination === 'function' ? pickGuidedReadingDestination(pool) : pool[0];
-        if (!pair || !pair[0]) return;
-        var chapter = Math.max(1, parseInt(String(pair[1]), 10) || 1);
-        var topicLabel = (b.textContent || '').replace(/\s+/g, ' ').trim();
-        void openScripturePlusPassage({
-          bookRaw: pair[0],
-          chapter: chapter,
-          verseStart: 1,
-          verseEnd: 1,
-          navContext: { kind: 'guided', topicLabel: topicLabel }
-        });
+        if (key === 'read') {
+          if (typeof openSpxBrowseEntry === 'function') openSpxBrowseEntry();
+          return;
+        }
+        if (key === 'direction') {
+          spxOpenStudyLandingQueryFromChip('Proverbs 3:5-6');
+          return;
+        }
+        if (key === 'anxious' || key === 'peace') {
+          spxOpenStudyPlanFromChip('anxiety-peace');
+          return;
+        }
       });
     }
     document.getElementById('spxPassBackBtn') &&
@@ -8935,6 +9503,19 @@
     if (prEl) prEl.textContent = closingPrayerText || '';
   }
 
+  /** Fri 17:00+ local, Sat, Sun — when the Close this week affordance may appear. */
+  function shouldShowCloseWeek() {
+    const now = new Date();
+    const day = now.getDay();
+    const hour = now.getHours();
+
+    return (
+      day === 6 || // Saturday
+      day === 0 || // Sunday
+      (day === 5 && hour >= 17) // Friday after 5 PM
+    );
+  }
+
   function syncHomeWeeklyClosingSection() {
     const wrap = document.getElementById('homeWeeklyClosingWrap');
     const closing = document.getElementById('gmWeekClosing');
@@ -8942,25 +9523,46 @@
     const weekHint = document.getElementById('gmWeekClosingHint');
     function hideClosingChrome() {
       if (wrap) wrap.style.display = 'none';
-      if (closing) closing.hidden = true;
-      if (closeBtn) closeBtn.hidden = true;
-      if (weekHint) weekHint.hidden = true;
+      if (closing) {
+        closing.hidden = true;
+        closing.setAttribute('hidden', '');
+      }
+      if (closeBtn) {
+        closeBtn.hidden = true;
+        closeBtn.setAttribute('hidden', '');
+      }
+      if (weekHint) {
+        weekHint.hidden = true;
+        weekHint.setAttribute('hidden', '');
+      }
       momentWeeklyClosingUiActive = false;
     }
-    if (!wrap || !closing) {
+    /* Always reset chrome first (closing card lives in wrap; link + hint are siblings — must hide even if wrap missing). */
+    hideClosingChrome();
+    if (!wrap || !closing || !closeBtn) {
       return;
     }
-    const day = new Date().getDay();
-    if (day !== 5 && day !== 6 && day !== 0) {
-      hideClosingChrome();
+    const now = new Date();
+    if (typeof shouldShowCloseWeek !== 'function' || !shouldShowCloseWeek()) {
+      return;
+    }
+    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(now) : null;
+    const dayNum = ctx && ctx.dayIndex != null ? Number(ctx.dayIndex) : NaN;
+    const dowLocal = now.getDay();
+    const hourLocal = now.getHours();
+    /* Day 5 of 5: Sat/Sun (ctx.isWeekend) or Friday after 5 PM local (theme engine still reports isWeekend false on Fri). */
+    const inWeeklyCloseSlot =
+      dayNum === 5 &&
+      ((ctx && ctx.isWeekend) || (dowLocal === 5 && hourLocal >= 17));
+    if (!ctx || !ctx.day || !inWeeklyCloseSlot) {
       return;
     }
     wrap.style.display = '';
     const themeObj = typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
+    const totalDays = themeObj && themeObj.days ? themeObj.days.length : 0;
     const anchor = themeObj ? getThemeAnchorVerse(themeObj) : null;
-    const ctx = typeof getMomentFlowWeeklyContext === 'function' ? getMomentFlowWeeklyContext(new Date()) : null;
     const janClosed = typeof isGroundedJan1ThemeWeekClosed === 'function' && isGroundedJan1ThemeWeekClosed();
-    if (!anchor || !ctx || !ctx.day || janClosed) {
+    if (!anchor || janClosed || totalDays !== 5) {
       hideClosingChrome();
       return;
     }
@@ -8968,11 +9570,31 @@
       (themeObj && themeObj.closingPrayer) ||
       'God, thank you for this week with you. Quiet my heart, bless what I carry forward, and release what needs to rest. Amen.';
     populateHomeWeeklyClosingLayout(ctx.themeTitle || '', anchor, prayer);
+    closing.removeAttribute('hidden');
     closing.hidden = false;
-    if (closeBtn) closeBtn.hidden = false;
-    if (weekHint) weekHint.hidden = false;
+    if (closeBtn) {
+      closeBtn.removeAttribute('hidden');
+      closeBtn.hidden = false;
+    }
+    if (weekHint) {
+      weekHint.removeAttribute('hidden');
+      weekHint.hidden = false;
+    }
     momentWeeklyClosingUiActive = true;
   }
+
+  /* Re-evaluate close-week visibility when the clock crosses days/hours (long-lived sessions + tab resume). */
+  (function initWeeklyClosingVisibilityClock() {
+    function tick() {
+      try {
+        if (typeof syncHomeWeeklyClosingSection === 'function') syncHomeWeeklyClosingSection();
+      } catch (eWc) {}
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') tick();
+    });
+    window.setInterval(tick, 60000);
+  })();
 
   function shouldShowHomeThemeIntroCard() {
     if (!WEEKLY_THEMES.length) return false;
@@ -9786,6 +10408,11 @@
     exitGuidedMomentFlow();
     const preserveHomeScroll = guidedMomentDismissPreserveHomeScroll && tab === 'feed';
     guidedMomentDismissPreserveHomeScroll = false;
+    if (tab !== 'study' && tab !== 'scriptureplus') {
+      try {
+        sessionStorage.removeItem('grounded_study_return_tab');
+      } catch (eRtClear) {}
+    }
     currentTab = tab;
     try { localStorage.setItem('activeTab', tab); } catch (e) {}
     document.body.setAttribute('data-active-tab', tab);
@@ -10289,6 +10916,10 @@
     }
   }
 
+  try {
+    if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+  } catch (eCtaBoot) {}
+
   window.addEventListener('popstate', function () {
     if (!isLegalPathname() && document.body.classList.contains('legal-page-open')) {
       document.body.classList.remove('legal-page-open');
@@ -10303,6 +10934,9 @@
         showLegalShellForRoute(ln2);
       }
     }
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaPop) {}
   });
   window.addEventListener('hashchange', function () {
     if (!isLegalPathname() && document.body.classList.contains('legal-page-open')) {
@@ -10318,6 +10952,9 @@
         showLegalShellForRoute(rh);
       }
     }
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaHash) {}
   });
 
   document.addEventListener('click', function (e) {
@@ -12429,6 +13066,13 @@
     eveningTime: 'grounded_reminder_evening_time',
     reminderType: 'grounded_reminder_type' /* mirror; canonical user key is "reminderType" */
   };
+  const GROUNDED_SETTINGS_DEV_MODE_KEY = 'grounded_settings_dev_mode';
+  function readSettingsDevMode() {
+    try { return localStorage.getItem(GROUNDED_SETTINGS_DEV_MODE_KEY) === '1'; } catch (e) { return false; }
+  }
+  function writeSettingsDevMode(on) {
+    try { localStorage.setItem(GROUNDED_SETTINGS_DEV_MODE_KEY, on ? '1' : '0'); } catch (e) {}
+  }
 
   function normalizeReminderTypeId(v) {
     const s = String(v == null ? '' : v).trim().toLowerCase();
@@ -12552,7 +13196,10 @@
     pendingSettings = cloneSettings(savedSettings);
 
     const verFoot = document.getElementById('appVersionFoot');
-    if (verFoot) verFoot.textContent = 'App version: ' + APP_BUILD_VERSION;
+    if (verFoot) {
+      const label = APP_BUILD_VERSION.replace(/^grounded-/, '');
+      verFoot.textContent = 'Version ' + label;
+    }
 
     document.getElementById('profileNameInput').value = pendingSettings.name;
     document.querySelectorAll('[data-version]').forEach(b => {
@@ -12571,8 +13218,12 @@
       b.classList.toggle('selected', b.dataset.rhythm === pendingSettings.rhythm);
     });
 
-    syncReminderControlsFromStorage();
     syncGroundedCapReminderControlsFromStorage();
+    syncLegacyReminderSlotsFromDailyCap();
+    syncReminderControlsFromStorage();
+    syncProfileDailyReminderTimeRowVisibility();
+    updateSettingsDevModeUI();
+    initSettingsDevModeGestures();
 
     if (typeof applyOptionalNavTabsFromStorage === 'function') applyOptionalNavTabsFromStorage();
     if (typeof bindOptionalNavTogglesOnce === 'function') bindOptionalNavTogglesOnce();
@@ -12710,6 +13361,7 @@
       document.querySelectorAll('[data-rhythm]').forEach(b => b.classList.toggle('selected', b.dataset.rhythm === next));
       renderProfilePreview();
       updateSaveBar();
+      applyReminderTimeForSelectedRhythm(next);
     });
   });
 
@@ -12744,6 +13396,88 @@
     if (mTime) { mTime.value = getReminderPref('morning', 'time'); mTime.disabled = !mOn; }
     if (eTime) { eTime.value = getReminderPref('evening', 'time'); eTime.disabled = !eOn; }
     syncReminderStylePillsFromStorage();
+  }
+  function syncLegacyReminderSlotsFromDailyCap() {
+    if (readSettingsDevMode()) return;
+    const tog = document.getElementById('toggleGroundedCapDailyReminder');
+    const timeEl = document.getElementById('groundedCapReminderTimeInput');
+    const isOn = tog && tog.classList.contains('on');
+    const t = (timeEl && timeEl.value) || '08:00';
+    setReminderPref('morning', 'on', isOn);
+    setReminderPref('morning', 'time', t);
+    setReminderPref('evening', 'on', false);
+    syncReminderControlsFromStorage();
+  }
+  function syncProfileDailyReminderTimeRowVisibility() {
+    const tog = document.getElementById('toggleGroundedCapDailyReminder');
+    const row = document.getElementById('profileDailyReminderTimeRow');
+    if (row && tog) row.hidden = !tog.classList.contains('on');
+  }
+  function applyReminderTimeForSelectedRhythm(rhythm) {
+    if (!rhythm) return;
+    const tog = document.getElementById('toggleGroundedCapDailyReminder');
+    if (!tog || !tog.classList.contains('on')) return;
+    const map = { morning: '07:00', midday: '12:30', evening: '21:00' };
+    const t = map[rhythm];
+    if (!t) return;
+    const timeEl = document.getElementById('groundedCapReminderTimeInput');
+    if (timeEl) timeEl.value = t;
+    try { localStorage.setItem('grounded_reminder_time', t); } catch (e) {}
+    syncLegacyReminderSlotsFromDailyCap();
+    if (typeof window.groundedNativeNotifSyncFromSettings === 'function') {
+      window.groundedNativeNotifSyncFromSettings();
+    }
+    syncProfileDailyReminderTimeRowVisibility();
+  }
+  let groundedSettingsTitlePressTimer = null;
+  function updateSettingsDevModeUI() {
+    const dev = readSettingsDevMode();
+    const sec = document.getElementById('profileDeveloperSection');
+    const note = document.getElementById('profileDevModeNote');
+    if (sec) sec.hidden = !dev;
+    if (note) note.hidden = !dev;
+  }
+  function enableSettingsDevMode() {
+    if (readSettingsDevMode()) return;
+    writeSettingsDevMode(true);
+    updateSettingsDevModeUI();
+  }
+  function initSettingsDevModeGestures() {
+    const title = document.getElementById('profileSettingsTitle');
+    if (title && !title.dataset.devPressInit) {
+      title.dataset.devPressInit = '1';
+      const clearPress = function () {
+        if (groundedSettingsTitlePressTimer) {
+          clearTimeout(groundedSettingsTitlePressTimer);
+          groundedSettingsTitlePressTimer = null;
+        }
+      };
+      title.addEventListener('pointerdown', function () {
+        clearPress();
+        groundedSettingsTitlePressTimer = setTimeout(function () {
+          groundedSettingsTitlePressTimer = null;
+          enableSettingsDevMode();
+        }, 5000);
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) {
+        title.addEventListener(ev, clearPress);
+      });
+    }
+    const ver = document.getElementById('appVersionFoot');
+    if (ver && !ver.dataset.devVerTapInit) {
+      ver.dataset.devVerTapInit = '1';
+      let vc = 0;
+      let vt = null;
+      ver.addEventListener('click', function () {
+        vc++;
+        if (vt) clearTimeout(vt);
+        vt = setTimeout(function () { vc = 0; }, 2200);
+        if (vc >= 5) {
+          vc = 0;
+          enableSettingsDevMode();
+        }
+      });
+    }
   }
   function syncReminderStylePillsFromStorage() {
     const t = getReminderTypeFromStorage();
@@ -12813,6 +13547,7 @@
       time.value = tstr;
       time.disabled = !on;
     }
+    syncProfileDailyReminderTimeRowVisibility();
   }
   function bindGroundedCapDailyReminderControls() {
     const tog = document.getElementById('toggleGroundedCapDailyReminder');
@@ -12834,6 +13569,8 @@
         if (typeof window.groundedNativeNotifSyncFromSettings === 'function') {
           window.groundedNativeNotifSyncFromSettings();
         }
+        syncLegacyReminderSlotsFromDailyCap();
+        syncProfileDailyReminderTimeRowVisibility();
       });
     }
     if (time && !time.dataset.groundedCapBound) {
@@ -12846,11 +13583,15 @@
         if (typeof window.groundedNativeNotifSyncFromSettings === 'function') {
           window.groundedNativeNotifSyncFromSettings();
         }
+        syncLegacyReminderSlotsFromDailyCap();
+        syncProfileDailyReminderTimeRowVisibility();
       });
     }
   }
   bindGroundedCapDailyReminderControls();
   syncGroundedCapReminderControlsFromStorage();
+  syncLegacyReminderSlotsFromDailyCap();
+  syncProfileDailyReminderTimeRowVisibility();
 
   document.getElementById('settingsSaveBtn').addEventListener('click', () => {
     if (!settingsAreDirty()) return;
@@ -13979,10 +14720,31 @@
       const chapter = parseInt(m[2], 10);
       if (bookRaw && chapter) return { bookRaw, chapter, verseStart: 1, verseEnd: 1 };
     }
-    const low = q.toLowerCase();
-    if (/peace|anx|calm|worry|stress/.test(low)) return { bookRaw: 'Philippians', chapter: 4, verseStart: 6, verseEnd: 7 };
-    if (/love|kind|patient/.test(low)) return { bookRaw: '1 Corinthians', chapter: 13, verseStart: 4, verseEnd: 7 };
-    if (/hope|strength|persever/.test(low)) return { bookRaw: 'Romans', chapter: 15, verseStart: 13, verseEnd: 13 };
+    if (typeof resolveGroundedStudyTopic === 'function') {
+      const tr = resolveGroundedStudyTopic(q);
+      if (tr && tr.kind === 'reading_plan') {
+        return { kind: 'spx_reading_plan', planId: tr.planId, topicLabel: tr.topicLabel };
+      }
+      if (tr && tr.kind === 'chapter') {
+        const bk = bfCanonicalBookName(tr.book) || tr.book;
+        const ch = tr.chapter;
+        if (bk && ch > 0 && bfChapterCount(bk) >= ch) {
+          let verseStart = 1;
+          let verseEnd = 1;
+          if (tr.verseHi && parseInt(tr.verseHi.start, 10) > 0) {
+            verseStart = parseInt(tr.verseHi.start, 10);
+            verseEnd = parseInt(tr.verseHi.end != null ? tr.verseHi.end : tr.verseHi.start, 10);
+          }
+          return {
+            bookRaw: bk,
+            chapter: ch,
+            verseStart,
+            verseEnd,
+            topicLabel: tr.topicLabel
+          };
+        }
+      }
+    }
     return null;
   }
 
@@ -14439,26 +15201,31 @@
   }
 
   async function trackEvent(eventName, meta) {
-    meta = meta || {};
-    var userId = '';
+    meta = meta && typeof meta === 'object' ? meta : {};
+    var uid = '';
     try {
-      userId = getGroundedAnalyticsUserId();
+      uid = getGroundedAnalyticsUserId();
     } catch (eU) {}
     try {
-      await fetch(groundedApiUrl('/api/track'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({
-          event: eventName,
-          meta: meta,
-          ts: Date.now(),
-          userId: userId
-        })
-      });
+      var ph = window.posthog;
+      if (!ph || typeof ph.capture !== 'function') return;
+      if (uid && !window.__groundedPosthogIdentifyOnce) {
+        window.__groundedPosthogIdentifyOnce = true;
+        try {
+          if (typeof ph.identify === 'function') ph.identify(uid);
+        } catch (eId) {}
+      }
+      var props = Object.assign({}, meta);
+      if (uid) props.grounded_user_id = uid;
+      var ev = String(eventName || 'event');
+      try {
+        ph.capture(ev, props, { send_instantly: true });
+      } catch (eInstant) {
+        ph.capture(ev, props);
+      }
     } catch (e) {
       try {
-        console.log('tracking failed', e);
+        console.warn('tracking failed', e);
       } catch (eLog) {}
     }
   }
@@ -14951,6 +15718,19 @@
     bfCurrentBook = bfCanonicalBookName(bookRaw);
     bfCurrentChapter = chapter;
     bfVerseHi = { start: hiStart || 0, end: hiEnd || 0 };
+    try {
+      const hiRaw = sessionStorage.getItem('grounded_reader_topic_verse_hi');
+      if (hiRaw && !(hiStart > 0 || hiEnd > 0)) {
+        const vh = JSON.parse(hiRaw);
+        sessionStorage.removeItem('grounded_reader_topic_verse_hi');
+        if (vh && parseInt(vh.start, 10) > 0) {
+          bfVerseHi = {
+            start: parseInt(vh.start, 10),
+            end: parseInt(vh.end != null ? vh.end : vh.start, 10)
+          };
+        }
+      }
+    } catch (eTopicHi) {}
     const panelNav = document.getElementById('bfPanelNav');
     const panelRead = document.getElementById('bfPanelRead');
     if (panelNav) panelNav.classList.add('bf-hidden');
@@ -14962,6 +15742,11 @@
     if (errWrap) errWrap.hidden = true;
     if (loadEl) loadEl.style.display = '';
     if (bodyEl) bodyEl.innerHTML = '';
+    const topicHintReset = document.getElementById('chapterReaderTopicHint');
+    if (topicHintReset) {
+      topicHintReset.textContent = '';
+      topicHintReset.hidden = true;
+    }
     hideScriptureHighlightToolbar();
     const explainPanel = document.getElementById('chapterReaderExplainPanel');
     if (explainPanel) explainPanel.hidden = true;
@@ -14976,6 +15761,23 @@
       const disp = result.displayBook || bfCurrentBook;
       renderChapterReaderVerses(result.verses, bfVerseHi.start, bfVerseHi.end, disp, chapter);
       saveBibleResume(bfCurrentBook, chapter);
+      try {
+        const hintEl = document.getElementById('chapterReaderTopicHint');
+        let hintText = '';
+        try {
+          hintText = sessionStorage.getItem('grounded_reader_topic_hint') || '';
+          if (hintText) sessionStorage.removeItem('grounded_reader_topic_hint');
+        } catch (eHint) {}
+        if (hintEl) {
+          if (hintText) {
+            hintEl.textContent = 'Related to \u201c' + hintText + '\u201d';
+            hintEl.hidden = false;
+          } else {
+            hintEl.textContent = '';
+            hintEl.hidden = true;
+          }
+        }
+      } catch (eHintDom) {}
       if (typeof renderScriptureTodayVerse === 'function') renderScriptureTodayVerse();
       updateWordBibleChrome();
       const exAct = document.getElementById('chapterExplainActions');
@@ -15804,8 +16606,16 @@
     if (refPick == null || String(refPick).trim() === '') {
       refPick = opts.ref;
     }
+    var titleForSpeak = titlePick != null ? String(titlePick) : '';
+    var typLower = String(opts.type || '').toLowerCase();
+    var speakCard =
+      !!opts.speakCard ||
+      typLower === 'truths' ||
+      /^speak\s+this\s+today$/i.test(String(opts.label != null ? opts.label : '').trim()) ||
+      /^speak\s+this\s+today$/i.test(String(opts.title != null ? opts.title : '').trim()) ||
+      /^speak\s+this\s+today$/i.test(titleForSpeak.trim());
     return {
-      title: titlePick != null ? String(titlePick) : '',
+      title: titleForSpeak,
       contentPlain: cp,
       contentHtml: opts.contentHtml != null ? opts.contentHtml : opts.bodyHtml,
       reference: refPick,
@@ -15815,7 +16625,8 @@
       type: opts.type,
       footerBrand: opts.footerBrand != null ? opts.footerBrand : opts.footer,
       footerTagline: opts.footerTagline,
-      domIds: opts.domIds
+      domIds: opts.domIds,
+      speakCard: speakCard
     };
   }
 
@@ -15833,6 +16644,7 @@
   function renderShareCard(opts) {
     opts = normalizeShareCardInput(opts || {});
     var d = opts.domIds || {};
+    var typLower = String(opts.type || '').toLowerCase();
     var title = shareCardEsc(String(opts.title || '').trim() || 'GROUNDED');
     var refText = String(opts.reference != null ? opts.reference : '').trim();
     var refInner = shareCardEsc(refText);
@@ -15840,14 +16652,22 @@
     var contentSrc = opts.contentPlain != null ? opts.contentPlain : opts.content;
     var contentPlain = String(contentSrc != null ? contentSrc : '').trim();
     var extra = opts.highlightWords && opts.highlightWords.length ? opts.highlightWords : null;
+    var useParagraphStack =
+      !!opts.speakCard ||
+      typLower === 'truths' ||
+      /^speak\s+this\s+today$/i.test(String(opts.label != null ? opts.label : '').trim()) ||
+      /^speak\s+this\s+today$/i.test(String(opts.title != null ? opts.title : '').trim());
     var bodyHtml = '';
     if (opts.contentHtml != null && String(opts.contentHtml).trim()) {
       bodyHtml = String(opts.contentHtml);
     } else if (contentPlain) {
-      bodyHtml = shareCardFormatMainHtml(contentPlain, extra);
+      bodyHtml = shareCardFormatMainHtml(
+        contentPlain,
+        extra,
+        useParagraphStack && contentPlain.indexOf('\n') !== -1 ? 'paragraphs' : null
+      );
     }
-    var typ = String(opts.type || '').toLowerCase();
-    var useCross = opts.icon === 'cross' || typ === 'prayer';
+    var useCross = opts.icon === 'cross' || typLower === 'prayer';
     var icon = useCross ? shareCardIconCrossHtml() : shareCardIconStarHtml();
     var iconWrapClass = 'share-icon-wrap' + (useCross ? ' share-icon-wrap--cross' : '');
     var subLeadBlock =
@@ -15866,8 +16686,11 @@
     var ftRaw = opts.footerTagline != null ? String(opts.footerTagline).trim() : '';
     var fbHtml = shareCardEsc(fbRaw || 'Grounded');
     var ftHtml = shareCardEsc(ftRaw || 'Be still. Grow deeper. Live rooted.');
+    var cardCls = 'share-card' + (opts.speakCard ? ' speak-card' : '');
     return (
-      '<div class="share-card">' +
+      '<div class="' +
+      cardCls +
+      '">' +
       '<div class="share-card__glow" aria-hidden="true"></div>' +
       '<div class="share-title">' +
       '<div class="share-title__meta">' +
@@ -15937,7 +16760,8 @@
       highlightWords: opts.highlightWords,
       footerBrand: opts.footerBrand,
       footerTagline: opts.footerTagline,
-      domIds: opts.domIds
+      domIds: opts.domIds,
+      speakCard: opts.speakCard
     });
     return wrap;
   }
@@ -15968,7 +16792,19 @@
         m.innerHTML = String(opts.contentHtml);
       } else {
         var plain = String(opts.contentPlain != null ? opts.contentPlain : '').trim();
-        m.innerHTML = plain ? shareCardFormatMainHtml(plain, opts.highlightWords) : '';
+        var typL = String(opts.type || '').toLowerCase();
+        var stackSpeak =
+          !!opts.speakCard ||
+          typL === 'truths' ||
+          /^speak\s+this\s+today$/i.test(String(opts.label != null ? opts.label : '').trim()) ||
+          /^speak\s+this\s+today$/i.test(String(opts.title != null ? opts.title : '').trim());
+        m.innerHTML = plain
+          ? shareCardFormatMainHtml(
+              plain,
+              opts.highlightWords,
+              stackSpeak && plain.indexOf('\n') !== -1 ? 'paragraphs' : null
+            )
+          : '';
       }
     }
     if (s) {
@@ -15989,8 +16825,8 @@
       var ft = opts.footerTagline != null ? String(opts.footerTagline).trim() : '';
       tag.textContent = ft || 'Be still. Grow deeper. Live rooted.';
     }
-    var typ = String(opts.type || '').toLowerCase();
-    var useCross = opts.icon === 'cross' || typ === 'prayer';
+    var typLApply = String(opts.type || '').toLowerCase();
+    var useCross = opts.icon === 'cross' || typLApply === 'prayer';
     if (ic) {
       ic.classList.toggle('share-icon-wrap--cross', useCross);
       ic.innerHTML = useCross ? shareCardIconCrossHtml() : shareCardIconStarHtml();
@@ -16001,6 +16837,8 @@
       var hasRef = r && String(r.textContent || '').trim();
       subWrap.style.display = hasSub || hasRef ? '' : 'none';
     }
+    var cardEl = captureRoot.querySelector('.share-card');
+    if (cardEl) cardEl.classList.toggle('speak-card', !!opts.speakCard);
   }
 
   /** Public facade: one ShareCard API for label/body/reference + render/create/apply. */
@@ -16025,19 +16863,9 @@
     window.groundedShareCaptureElementToPng = groundedShareCaptureElementToPng;
   } catch (eGlobShare) {}
 
-  /** Serif body + line breaks + soft rose accents (shared by verse, truths, CQF export). */
-  function shareCardFormatMainHtml(raw, highlightWords) {
-    var rawIn = String(raw == null ? '' : raw);
-    if (rawIn.indexOf('\n') !== -1) {
-      return rawIn
-        .split(/\n+/)
-        .map(function (ln) {
-          return shareCardFormatMainHtml(ln.trim(), highlightWords);
-        })
-        .filter(Boolean)
-        .join('<br>');
-    }
-    var s = rawIn
+  /** One serif block: escapes, verse-style breaks, rose phrase highlights (no newline split). */
+  function shareCardFormatMainHtmlSegment(raw, highlightWords) {
+    var s = String(raw == null ? '' : raw)
       .trim()
       .replace(/^[\u201c\u201d\u2018\u2019'"']+|[\u201c\u201d\u2018\u2019'"']+$/g, '');
     s = s.replace(/\s+/g, ' ');
@@ -16068,6 +16896,37 @@
       html = html.replace(re, '<em class="share-verse-em">$1</em>');
     });
     return html;
+  }
+
+  /**
+   * Serif body + line breaks + soft rose accents (shared by verse, truths, CQF export).
+   * @param {string|null|undefined} newlineMode Pass 'paragraphs' to stack newline-separated lines as spaced blocks (truths / speak-this).
+   */
+  function shareCardFormatMainHtml(raw, highlightWords, newlineMode) {
+    var rawIn = String(raw == null ? '' : raw)
+      .replace(/\u2028/g, '\n')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n');
+    if (rawIn.indexOf('\n') !== -1) {
+      var parts = rawIn
+        .split(/\n+/)
+        .map(function (ln) {
+          return String(ln || '').trim();
+        })
+        .filter(Boolean);
+      var inner = parts.map(function (ln) {
+        return shareCardFormatMainHtmlSegment(ln, highlightWords);
+      });
+      if (newlineMode === 'paragraphs') {
+        return inner
+          .map(function (html) {
+            return '<p class="share-truth-line">' + html + '</p>';
+          })
+          .join('');
+      }
+      return inner.join('<br>');
+    }
+    return shareCardFormatMainHtmlSegment(rawIn, highlightWords);
   }
 
   /** Rhythm + soft highlights for share card (HTML safe; copy still uses plain verseFsCopyPayload). */
@@ -16436,7 +17295,8 @@
       title: titleShare,
       contentPlain: cqfShareBodyDistilled(body),
       reference: refStr,
-      icon: icon
+      icon: icon,
+      speakCard: /^speak\s+this\s+today$/i.test(labRaw)
     });
     var plate = root.firstElementChild;
     if (!plate) return;
@@ -17197,10 +18057,27 @@
           const ch = parseInt(chOnly[2], 10);
           if (bk && ch > 0 && bfChapterCount(bk) >= ch) return { kind: 'chapter', book: bk, chapter: ch };
         }
+        if (typeof resolveGroundedStudyTopic === 'function') {
+          const tr = resolveGroundedStudyTopic(q);
+          if (tr && tr.kind === 'reading_plan') return tr;
+          if (tr && tr.kind === 'chapter') {
+            const bk = bfCanonicalBookName(tr.book) || tr.book;
+            const ch = tr.chapter;
+            if (bk && ch > 0 && bfChapterCount(bk) >= ch) return Object.assign({}, tr, { book: bk });
+          }
+        }
         return { kind: 'keyword', text: q };
       },
       openScriptureReader: function (book, chapter) {
         const ch = Math.max(1, parseInt(String(chapter), 10) || 1);
+        try {
+          if (sessionStorage.getItem('grounded_study_return_tab') === 'scriptureplus') {
+            if (typeof bibleOpenReadFromScripturePlusBrowse === 'function') {
+              void bibleOpenReadFromScripturePlusBrowse(book, ch);
+              return;
+            }
+          }
+        } catch (eSpRead) {}
         if (typeof openReader === 'function') void openReader(book, ch);
       },
       openScripturePlusReaderFromBookOverview: openScripturePlusReaderFromBookOverview,
@@ -17291,6 +18168,20 @@
         } catch (e4) {}
         showScreen('reflectScreen');
         switchTab('reflect');
+      },
+      /** Structured verse study (same payload as Go Deeper / verse-explain-structured). Used by the guided reading verse modal. */
+      fetchVerseStructuredExplain: function (reference, verseText, meta) {
+        return fetch(groundedApiUrl('/api/verse-explain-structured'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(buildVerseExplainPayload(reference, verseText, meta))
+        }).then(function (res) {
+          if (!res.ok) throw new Error('structured explain failed');
+          return res.json();
+        }).then(function (data) {
+          return normalizeVerseExplainData(data);
+        });
       },
       highlightVerse: function (book, ch, vn) {
         const key = verseHighlightStorageKey(bfCanonicalBookName(book) || book, ch, vn);
@@ -19874,15 +20765,21 @@
     } catch (_) { return 0; }
   }
 
+  function groundedIsCapacitorNativeApp() {
+    return groundedIsNativeGroundedApp();
+  }
+
   let groundedPwaDeferredInstallPrompt = null;
   if (typeof window !== 'undefined') {
     window.addEventListener('beforeinstallprompt', function (e) {
+      if (groundedIsCapacitorNativeApp()) return;
       e.preventDefault();
       groundedPwaDeferredInstallPrompt = e;
     });
   }
 
   function groundedTryAddToHomeScreen() {
+    if (groundedIsCapacitorNativeApp()) return;
     try {
       if (groundedPwaDeferredInstallPrompt) {
         groundedPwaDeferredInstallPrompt.prompt();
@@ -20274,10 +21171,10 @@
   }
 
   function mflowSyncPlanFlowNav() {
-    var card = document.getElementById('momentFlowCard');
-    if (!card) return;
-    var prev = card.querySelector('[data-action="plan-flow-prev"]');
-    var next = card.querySelector('[data-action="plan-flow-next"]');
+    var ov = document.getElementById('momentFlowOverlay');
+    if (!ov) return;
+    var prev = ov.querySelector('[data-action="plan-flow-prev"]');
+    var next = ov.querySelector('[data-action="plan-flow-next"]');
     if (!prev || !next) return;
     var st = mflowGetActiveStep();
     if (st <= 1) {
@@ -20902,10 +21799,10 @@
   }
 
   (function initMomentFlowBindings() {
-    const cardNav = document.getElementById('momentFlowCard');
-    if (cardNav && !cardNav.dataset.mfNavBound) {
-      cardNav.dataset.mfNavBound = '1';
-      cardNav.addEventListener('click', function (e) {
+    const flowNavHost = document.getElementById('momentFlowOverlay');
+    if (flowNavHost && !flowNavHost.dataset.mfNavBound) {
+      flowNavHost.dataset.mfNavBound = '1';
+      flowNavHost.addEventListener('click', function (e) {
         var navBtn = e.target.closest('[data-action="plan-flow-prev"],[data-action="plan-flow-next"]');
         if (!navBtn) return;
         e.preventDefault();
@@ -22000,10 +22897,226 @@
   /* ═══════════════════════════════════════
      INIT
      ═══════════════════════════════════════ */
+  function incrementGroundedOpenCount() {
+    try {
+      var raw = localStorage.getItem('grounded_open_count');
+      var n = parseInt(raw === null || raw === '' ? '0' : String(raw), 10);
+      if (isNaN(n) || n < 0) n = 0;
+      n += 1;
+      localStorage.setItem('grounded_open_count', String(n));
+    } catch (eInc) {}
+  }
+
+  function groundedReviewOnboardingComplete() {
+    try {
+      if (localStorage.getItem('grounded_onboarding_completed_day')) return true;
+      if (localStorage.getItem('onboardingCompleted') === 'true') return true;
+    } catch (eOb) {}
+    return false;
+  }
+
+  function groundedReviewAskedAlready() {
+    try {
+      return localStorage.getItem('grounded_review_asked') === 'true';
+    } catch (eA) {}
+    return false;
+  }
+
+  function groundedOpenCountValue() {
+    try {
+      var n = parseInt(localStorage.getItem('grounded_open_count') || '0', 10);
+      return isNaN(n) ? 0 : n;
+    } catch (eC) {}
+    return 0;
+  }
+
+  function groundedAnyBlockingModalForReview() {
+    try {
+      var ob = document.getElementById('onboardingRoot');
+      if (ob && !ob.hasAttribute('hidden')) return true;
+    } catch (e0) {}
+    try {
+      if (document.body.classList.contains('onboarding-active')) return true;
+    } catch (e0b) {}
+    try {
+      if (document.body.classList.contains('legal-page-open')) return true;
+    } catch (eLeg) {}
+    try {
+      if (typeof isLegalPathname === 'function' && isLegalPathname()) return true;
+    } catch (eLp) {}
+    if (document.querySelector('.theme-picker-overlay.theme-picker-overlay--open')) return true;
+    if (document.querySelector('#flowModalOverlay.open')) return true;
+    if (document.querySelector('#promptModalOverlay.open')) return true;
+    if (document.querySelector('#qrModalOverlay.open')) return true;
+    if (document.querySelector('#drModalOverlay.open')) return true;
+    if (document.querySelector('#bsModalOverlay.open')) return true;
+    if (document.querySelector('#verseFullscreenOverlay.open')) return true;
+    if (document.querySelector('.vb-overlay.open')) return true;
+    if (document.querySelector('.prayer-overlay.open')) return true;
+    if (document.querySelector('.scripture-modal-overlay.open')) return true;
+    if (document.querySelector('.checkin-overlay.open')) return true;
+    if (document.querySelector('.cqf-overlay.open')) return true;
+    var te = document.getElementById('themeEducationSheet');
+    if (te && te.classList.contains('theme-education-sheet--open')) return true;
+    function visibleNotHidden(id) {
+      var el = document.getElementById(id);
+      return el && !el.hasAttribute('hidden');
+    }
+    if (visibleNotHidden('progressPopupOverlay')) return true;
+    if (visibleNotHidden('themeWeekCompleteOverlay')) return true;
+    if (visibleNotHidden('momentFlowOverlay')) return true;
+    if (visibleNotHidden('postOnboardingWelcome')) return true;
+    var np = document.getElementById('groundedNotifPermissionPrompt');
+    if (np && np.classList.contains('open')) return true;
+    var gm = document.getElementById('screen-guided-moment');
+    if (gm && gm.classList.contains('active')) return true;
+    var remind = document.getElementById('reminderBanner');
+    if (remind && remind.classList.contains('visible')) return true;
+    return false;
+  }
+
+  function dismissGroundedReviewPrompt() {
+    var el = document.getElementById('groundedReviewPrompt');
+    if (!el) return;
+    el.classList.remove('grounded-review-prompt--open');
+    el.setAttribute('hidden', '');
+    el.setAttribute('aria-hidden', 'true');
+    try {
+      document.body.style.overflow = '';
+    } catch (eScroll) {}
+  }
+
+  function groundedReviewSnoozeEndDateKey() {
+    var d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 3);
+    return (
+      d.getFullYear() +
+      '-' +
+      String(d.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(d.getDate()).padStart(2, '0')
+    );
+  }
+
+  function groundedReviewSnoozeDateRaw() {
+    try {
+      return localStorage.getItem('grounded_review_snooze_date');
+    } catch (eSn) {
+      return null;
+    }
+  }
+
+  function groundedReviewSnoozeBlocksSecondPrompt() {
+    var sd = groundedReviewSnoozeDateRaw();
+    if (!sd || String(sd).trim() === '') return false;
+    if (groundedReviewShownCount() < 1) return false;
+    try {
+      if (typeof todayDateKey === 'function') return todayDateKey() < String(sd).trim();
+    } catch (eCmp) {}
+    return false;
+  }
+
+  function groundedReviewShownCount() {
+    try {
+      var n = parseInt(localStorage.getItem('grounded_review_shown_count') || '0', 10);
+      return isNaN(n) ? 0 : n;
+    } catch (eC) {
+      return 0;
+    }
+  }
+
+  function groundedReviewAskedCountValue() {
+    try {
+      var n = parseInt(localStorage.getItem('grounded_review_asked_count') || '0', 10);
+      return isNaN(n) ? 0 : n;
+    } catch (eA) {
+      return 0;
+    }
+  }
+
+  function incrementGroundedReviewShownCount() {
+    try {
+      var n = groundedReviewShownCount() + 1;
+      if (n > 2) n = 2;
+      localStorage.setItem('grounded_review_shown_count', String(n));
+    } catch (eI) {}
+  }
+
+  /** After ~20 App Store reviews, raise this to 5 so new users feel less nudged. */
+  var GROUNDED_REVIEW_PROMPT_MIN_OPENS = 2;
+
+  function showGroundedReviewPrompt() {
+    var el = document.getElementById('groundedReviewPrompt');
+    if (!el) return;
+    el.removeAttribute('hidden');
+    el.setAttribute('aria-hidden', 'false');
+    void el.offsetWidth;
+    el.classList.add('grounded-review-prompt--open');
+    try {
+      document.body.style.overflow = 'hidden';
+    } catch (e2) {}
+  }
+
+  function tryShowGroundedReviewPrompt() {
+    if (groundedReviewAskedAlready()) return false;
+    if (groundedReviewShownCount() >= 2) return false;
+    if (groundedOpenCountValue() < GROUNDED_REVIEW_PROMPT_MIN_OPENS) return false;
+    if (!groundedReviewOnboardingComplete()) return false;
+    if (groundedAnyBlockingModalForReview()) return false;
+    if (groundedReviewSnoozeBlocksSecondPrompt()) return false;
+    showGroundedReviewPrompt();
+    incrementGroundedReviewShownCount();
+    return true;
+  }
+
+  function scheduleGroundedReviewPromptAttempts() {
+    window.setTimeout(function () {
+      if (groundedReviewAskedAlready()) return;
+      tryShowGroundedReviewPrompt();
+    }, 60000);
+  }
+
+  function initGroundedReviewPromptOnce() {
+    var leave = document.getElementById('groundedReviewPromptLeave');
+    var later = document.getElementById('groundedReviewPromptLater');
+    var overlay = document.getElementById('groundedReviewPrompt');
+    if (!leave || !later || !overlay || overlay.dataset.reviewWired === '1') return;
+    overlay.dataset.reviewWired = '1';
+    leave.addEventListener('click', function () {
+      try {
+        localStorage.setItem('grounded_review_asked', 'true');
+      } catch (eL) {}
+      try {
+        if (typeof todayDateKey === 'function') {
+          localStorage.setItem('grounded_review_date', todayDateKey());
+        }
+      } catch (eD) {}
+      dismissGroundedReviewPrompt();
+      try {
+        window.location.href = 'itms-apps://itunes.apple.com/app/id6765458923?action=write-review';
+      } catch (eNav) {}
+    });
+    later.addEventListener('click', function () {
+      try {
+        var ac = groundedReviewAskedCountValue() + 1;
+        if (ac > 2) ac = 2;
+        localStorage.setItem('grounded_review_asked_count', String(ac));
+      } catch (eAc) {}
+      try {
+        localStorage.setItem('grounded_review_snooze_date', groundedReviewSnoozeEndDateKey());
+      } catch (eSnz) {}
+      dismissGroundedReviewPrompt();
+    });
+  }
+
   function trackAppOpenedOnce() {
+    incrementGroundedOpenCount();
     try {
       if (typeof trackEvent === 'function') void trackEvent('app_opened');
     } catch (eAppOpen) {}
+    initGroundedReviewPromptOnce();
+    scheduleGroundedReviewPromptAttempts();
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', trackAppOpenedOnce, { once: true });
@@ -22246,17 +23359,14 @@
   applyNavLegacyFromStorage();
   bindNavLegacyTogglesOnce();
   bindOptionalNavTogglesOnce();
+  if (typeof updateSettingsDevModeUI === 'function') updateSettingsDevModeUI();
+  if (typeof initSettingsDevModeGestures === 'function') initSettingsDevModeGestures();
 
   window.GroundedAppVersion = APP_BUILD_VERSION;
   (function () {
     const label = APP_BUILD_VERSION.replace(/^grounded-/, '');
     const foot = document.getElementById('appVersionFoot');
-    const badge = document.getElementById('appVersionBadge');
-    if (foot) foot.textContent = 'App version: ' + APP_BUILD_VERSION;
-    if (badge) {
-      badge.textContent = label;
-      badge.setAttribute('title', 'App build ' + APP_BUILD_VERSION);
-    }
+    if (foot) foot.textContent = 'Version ' + label;
   })();
 
   function syncThemeEducationDayDots() {
@@ -22521,7 +23631,18 @@
   if (typeof GroundedOnboarding !== 'undefined' && typeof GroundedOnboarding.init === 'function') {
     GroundedOnboarding.init({ startFirstMoment: startFirstMoment });
   }
+  try {
+    if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+  } catch (eCtaAfterOnb) {}
   (function initProfileAddHomeScreenOnce() {
+    var section = document.getElementById('profileHomeScreenInstallSection');
+    if (groundedIsCapacitorNativeApp()) {
+      if (section) {
+        section.setAttribute('hidden', '');
+        section.setAttribute('aria-hidden', 'true');
+      }
+      return;
+    }
     const b = document.getElementById('profileAddHomeScreenBtn');
     if (!b || b.dataset.bound === '1') return;
     b.dataset.bound = '1';
@@ -22551,6 +23672,9 @@
         history.replaceState(null, '', location.pathname + (location.search || ''));
       } catch (e) {}
     }
+    try {
+      if (typeof updateAppStoreCtaVisibility === 'function') updateAppStoreCtaVisibility();
+    } catch (eCtaReassertLegal) {}
   })();
   requestAnimationFrame(function () {
     if (typeof renderHomeVerse === 'function') renderHomeVerse(getDefaultVerse());
@@ -22589,6 +23713,124 @@
   <div id="truths-card" aria-hidden="true">
     <div class="grounded-share-capture share-screen" id="walkTruthsShareCapture"></div>
   </div>
+
+  <script>
+  (function () {
+    var appStoreUrl = 'https://apps.apple.com/us/app/grounded-faith-reflection/id6765458923';
+    var SS_KEY = 'grounded_app_store_redirected';
+
+    function isAppleMobileUA() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+    }
+
+    function isInternalOrLegalUrl() {
+      try {
+        var p = String(location.pathname || '/').replace(/\/$/, '') || '/';
+        var pl = p.toLowerCase();
+        if (pl === '/privacy' || pl === '/terms' || pl === '/contact') return true;
+        var segs = pl.split('/').filter(Boolean);
+        var last = segs.length ? segs[segs.length - 1] : '';
+        if (last === 'privacy' || last === 'terms' || last === 'contact') return true;
+        if (/#\/?(privacy|terms|contact)/i.test(String(location.hash || ''))) return true;
+      } catch (e) {}
+      return false;
+    }
+
+    function isPublicLandingPath() {
+      var path = location.pathname || '/';
+      if (path !== '/' && path !== '/index.html') return false;
+      if (isInternalOrLegalUrl()) return false;
+      return true;
+    }
+
+    function isOnboardingVisible() {
+      var root = document.getElementById('onboardingRoot');
+      return !!(root && !root.hasAttribute('hidden'));
+    }
+
+    function anyAppShellScreenVisible() {
+      var nodes = document.querySelectorAll('.app-shell-screen');
+      for (var i = 0; i < nodes.length; i++) {
+        try {
+          if (window.getComputedStyle(nodes[i]).display !== 'none') return true;
+        } catch (e) {}
+      }
+      return false;
+    }
+
+    function hasAppExperienceLocalStorage() {
+      var keysTruthy = [
+        'grounded_onboarding_completed_day',
+        'grounded_onboarding_completed',
+        'grounded_onboarding_state',
+        'grounded_user_id',
+        'grounded_time_pref',
+        'userName'
+      ];
+      var i;
+      for (i = 0; i < keysTruthy.length; i++) {
+        try {
+          var v = localStorage.getItem(keysTruthy[i]);
+          if (v != null && String(v).length > 0) return true;
+        } catch (e) {}
+      }
+      try {
+        if (localStorage.getItem('onboardingCompleted') === 'true') return true;
+      } catch (e2) {}
+      try {
+        if (localStorage.getItem('grounded_onboarding_skipped') === 'true') return true;
+      } catch (e3) {}
+      return false;
+    }
+
+    function isStandaloneDisplayMode() {
+      try {
+        if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+      } catch (e) {}
+      try {
+        if (typeof navigator !== 'undefined' && navigator.standalone === true) return true;
+      } catch (e2) {}
+      return false;
+    }
+
+    /** All gates except sessionStorage (so we can re-check after delay without blocking ourselves). */
+    function gatesAllowAppStoreAutoRedirect() {
+      try {
+        if (typeof window.groundedIsNativeGroundedApp === 'function' && window.groundedIsNativeGroundedApp()) return false;
+      } catch (eNat) {}
+      if (!isAppleMobileUA()) return false;
+      if (!isPublicLandingPath()) return false;
+      if (isStandaloneDisplayMode()) return false;
+      if (isOnboardingVisible()) return false;
+      if (anyAppShellScreenVisible()) return false;
+      if (hasAppExperienceLocalStorage()) return false;
+      return true;
+    }
+
+    function shouldScheduleAppStoreRedirect() {
+      try {
+        if (sessionStorage.getItem(SS_KEY) === 'true') return false;
+      } catch (e) {}
+      return gatesAllowAppStoreAutoRedirect();
+    }
+
+    window.addEventListener('load', function () {
+      if (!shouldScheduleAppStoreRedirect()) return;
+      window.setTimeout(function () {
+        if (!gatesAllowAppStoreAutoRedirect()) return;
+        try {
+          sessionStorage.setItem(SS_KEY, 'true');
+        } catch (e) {}
+        window.location.href = appStoreUrl;
+      }, 800);
+    });
+  })();
+  </script>
+
+<script type="module">
+  import { injectSpeedInsights } from 'https://esm.sh/@vercel/speed-insights';
+  injectSpeedInsights();
+</script>
 
   </body></html>
 

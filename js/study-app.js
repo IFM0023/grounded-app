@@ -33,6 +33,44 @@
     return global.GroundedStudyBridge || {};
   }
 
+  var STUDY_RETURN_TAB_KEY = 'grounded_study_return_tab';
+
+  function finishStudyFlowToScripturePlus() {
+    try {
+      sessionStorage.removeItem(STUDY_RETURN_TAB_KEY);
+    } catch (eCl) {}
+    state = {
+      view: 'home',
+      book: '',
+      chapter: 1,
+      verse: null,
+      planId: null,
+      list: null,
+      fromScripture: false
+    };
+    var sw = bridge().switchTab;
+    if (typeof sw === 'function') sw('scriptureplus');
+  }
+
+  /** Reading-plan back target: home (Study landing), plans-all, or scriptureplus (Scripture+ tab). */
+  function normalizePlanStepBack(raw) {
+    if (raw === 'plans-all') return 'plans-all';
+    if (raw === 'scriptureplus') return 'scriptureplus';
+    return 'home';
+  }
+
+  function returnTabHintIsScripturePlus() {
+    try {
+      return sessionStorage.getItem(STUDY_RETURN_TAB_KEY) === 'scriptureplus';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function planExitStepBackForExternalLaunch() {
+    return returnTabHintIsScripturePlus() ? 'scriptureplus' : 'home';
+  }
+
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;')
@@ -151,10 +189,8 @@
           '" data-act="plan-day" data-arg="' +
           esc(plan.id + '|' + i + backSeg) +
           '">' +
-          '<span class="study-plan-day-n">Day ' +
-          (i + 1) +
-          ' of ' +
-          totalDays +
+          '<span class="study-plan-day-n">' +
+          esc(planOrdinalLabel(plan, i, totalDays)) +
           '</span>' +
           '<span class="study-plan-day-txt">' +
           esc(p.book + ' ' + p.chapter) +
@@ -167,15 +203,24 @@
   }
 
   function planDetailCardAll(plan) {
-    var lines = planDaysRowsHtml(plan, 'plans-all');
+    var sbList = returnTabHintIsScripturePlus() ? 'scriptureplus' : 'plans-all';
+    var lines = planDaysRowsHtml(plan, sbList);
+    var pace = 'Take each part at your own pace.';
+    var toggleCollapsed = 'View all parts →';
+    var cta = 'Continue reading';
     return card(
-      '<p class="study-app-card-title display-font">' +
+      '<div class="study-plan-card-heading">' +
+        planPremiumBadgeHtml(plan) +
+        '<p class="study-app-card-title display-font">' +
         esc(plan.title) +
         '</p>' +
+        '</div>' +
         '<p class="study-app-note">' +
         esc(plan.description) +
         '</p>' +
-        '<p class="study-plan-pace-note body-font">One day at a time is enough.</p>' +
+        '<p class="study-plan-pace-note body-font">' +
+        esc(pace) +
+        '</p>' +
         '<div class="study-plan-block" data-plan-id="' +
         esc(plan.id) +
         '">' +
@@ -184,9 +229,11 @@
         '</div>' +
         '<button type="button" class="study-plan-days-toggle body-font" data-act="plan-days-toggle" data-arg="' +
         esc(plan.id) +
-        '" aria-expanded="false">View full journey →</button>' +
+        '" aria-expanded="false">' +
+        esc(toggleCollapsed) +
+        '</button>' +
         '</div>' +
-        btnPrimary('Continue plan', 'plan-continue', plan.id, 'data-plan-step-back="plans-all"'),
+        btnPrimary(cta, 'plan-continue', plan.id, 'data-plan-step-back="' + esc(sbList) + '"'),
       'study-app-card--plan'
     );
   }
@@ -209,10 +256,15 @@
     writeJson(OVERVIEW_CACHE, c);
   }
 
+  /** Optional per-plan fields (future premium / catalog): premiumOnly, locked, premiumBadge, completionBody, completionSecondary */
   var READING_PLANS = [
     {
       id: 'anxiety-peace',
       title: 'Anxiety and Peace',
+      premiumOnly: false,
+      locked: false,
+      completionBody:
+        'You walked Scripture’s steadying words—seven stops for when worry rises and you need God’s peace.',
       description: 'Seven short stops in Scripture when worry rises and you need God’s steadiness.',
       passages: [
         { book: 'Philippians', chapter: 4, line: 'Prayer instead of panic', verse: 6 },
@@ -227,6 +279,10 @@
     {
       id: 'who-jesus',
       title: 'Who is Jesus',
+      premiumOnly: false,
+      locked: false,
+      completionBody:
+        'You spent intentional time reading through moments that reveal the heart, words, and presence of Jesus.',
       description: 'Seven Gospel moments that introduce his heart, authority, and kindness.',
       passages: [
         { book: 'John', chapter: 1, line: 'The Word became flesh', verse: 14 },
@@ -241,6 +297,10 @@
     {
       id: 'life-hard',
       title: 'When life feels heavy',
+      premiumOnly: false,
+      locked: false,
+      completionBody:
+        'You spent intentional time in Scripture through an honest, gentle path for heavy seasons.',
       description: 'Seven passages for heavy seasons — honest words and God’s presence.',
       passages: [
         { book: 'Psalms', chapter: 34, line: 'The Lord is close to the brokenhearted', verse: 18 },
@@ -254,7 +314,7 @@
     }
   ];
 
-  /** Per-day copy: arrive, meaning, insight, application, reflectQ, close, optional prayer (Respond). Reflect step falls back to passage.reflection if meaning missing. */
+  /** Per-part enrichment (legacy multi-step copy retained for intros/reflection prompts where used). */
   var PLAN_DAY_ENRICH = {
     'anxiety-peace': [
       {
@@ -579,6 +639,76 @@
     ]
   };
 
+  /** Optional richer intros for “Who is Jesus?” (overrides arrive/reflect when present). */
+  var WHO_JESUS_PLAN_PART_INTROS = [
+    {
+      intro: 'Today’s reading centers on how God’s Word became human—and stayed near.',
+      reflectQ: 'What stands out about the way God draws near in this passage?'
+    },
+    {
+      intro: 'Today we hear Jesus announce good news in his hometown synagogue.',
+      reflectQ: 'What surprises you in how Jesus reads Isaiah’s promise?'
+    },
+    {
+      intro: 'Today we listen as Jesus blesses the humble and the hurting on the hillside.',
+      reflectQ: 'Which blessing touches something real in you—and why?'
+    },
+    {
+      intro: 'Today we watch Jesus meet thirst with patience at a well.',
+      reflectQ: 'What does Jesus’s invitation sound like to someone who feels unseen?'
+    },
+    {
+      intro: 'Today we cross the lake with Jesus—and face the storm together.',
+      reflectQ: 'What changes when Jesus speaks peace into chaos?'
+    },
+    {
+      intro: 'Today we hear mercy go searching for one wandering sheep.',
+      reflectQ: 'Where do you sense mercy searching rather than scolding?'
+    },
+    {
+      intro: 'Today we stand at the grave with Jesus, who claims life over death.',
+      reflectQ: 'What hope do Jesus’s words hold for grief you carry?'
+    }
+  ];
+
+  /** Scripture-first guided reader applies to every catalog plan in READING_PLANS (single unified architecture). */
+  function isGuidedReadingPlan(planId) {
+    return !!findPlanById(planId);
+  }
+
+  /** Optional badge markup when plan defines premiumBadge (paywall not enforced yet). */
+  function planPremiumBadgeHtml(plan) {
+    if (!plan || !plan.premiumBadge || !String(plan.premiumBadge).trim()) return '';
+    return (
+      '<span class="study-plan-premium-badge" aria-hidden="true">' + esc(String(plan.premiumBadge).trim()) + '</span>'
+    );
+  }
+
+  function getStudyPlanPartIntroReflect(plan, psg, dayIx) {
+    if (String(plan.id) === 'who-jesus') {
+      var wj = WHO_JESUS_PLAN_PART_INTROS[dayIx];
+      if (wj && String(wj.intro || '').trim()) {
+        return {
+          intro: String(wj.intro).trim(),
+          reflectQ:
+            String(wj.reflectQ || '').trim() || planReflectQuestionPlain(plan, psg, dayIx)
+        };
+      }
+    }
+    return {
+      intro: planArriveDisplayText(plan, psg, dayIx),
+      reflectQ: planReflectQuestionPlain(plan, psg, dayIx)
+    };
+  }
+
+  function studyPlanPartKickerLine(dayIx, total) {
+    return 'Part ' + (dayIx + 1) + ' of ' + total + ' · ' + planDotsForDayIndex(dayIx, total);
+  }
+
+  function planOrdinalLabel(plan, i, total) {
+    return 'Part ' + (i + 1) + ' of ' + total;
+  }
+
   function getPlanDayEnrich(planId, dayIx) {
     var row = PLAN_DAY_ENRICH[String(planId)] || [];
     return row[dayIx] || {};
@@ -592,10 +722,6 @@
     return s;
   }
 
-  function planKickerLine(planId, dayIx, total) {
-    return 'Day ' + (dayIx + 1) + ' of ' + total + ' \u00b7 ' + planDotsForDayIndex(dayIx, total);
-  }
-
   function planPassageArriveLine(plan, psg, dayIx) {
     var en = getPlanDayEnrich(plan.id, dayIx);
     if (en.arrive && String(en.arrive).trim()) return String(en.arrive).trim();
@@ -605,52 +731,99 @@
     return 'You do not have to arrive polished. Show up as you are.';
   }
 
+  /** Split on sentence boundaries (no ES2018 lookbehind). */
+  function planSentencesFromText(raw) {
+    var s = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!s) return [];
+    var out = [];
+    var buf = '';
+    var i;
+    for (i = 0; i < s.length; i++) {
+      var ch = s.charAt(i);
+      buf += ch;
+      if ((ch === '.' || ch === '!' || ch === '?') && (i === s.length - 1 || /\s/.test(s.charAt(i + 1)))) {
+        var piece = buf.trim();
+        if (piece) out.push(piece);
+        buf = '';
+        while (i + 1 < s.length && /\s/.test(s.charAt(i + 1))) i++;
+      }
+    }
+    buf = buf.trim();
+    if (buf) out.push(buf);
+    return out;
+  }
+
+  /** First 1–2 sentences, capped for Arrive (calm pacing only in the step UI). */
+  function planArriveDisplayText(plan, psg, dayIx) {
+    var raw = planPassageArriveLine(plan, psg, dayIx);
+    var t = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!t) return 'Show up as you are. One slow breath is enough.';
+    var parts = planSentencesFromText(t);
+    var out = [];
+    var i;
+    var len = 0;
+    for (i = 0; i < parts.length && out.length < 2; i++) {
+      var seg = String(parts[i]).trim();
+      if (!seg) continue;
+      if (len + seg.length + (out.length ? 1 : 0) > 220 && out.length) break;
+      out.push(seg);
+      len += seg.length + 1;
+    }
+    if (!out.length) return t.length > 200 ? t.slice(0, 197).trim() + '\u2026' : t;
+    return out.join(' ');
+  }
+
+  /** Close: release tone, max two short lines; drop preview lines that start with “Tomorrow”. */
+  function planCloseReleaseText(raw) {
+    var t = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    var parts = planSentencesFromText(t);
+    var kept = [];
+    var i;
+    for (i = 0; i < parts.length; i++) {
+      if (/^tomorrow\b/i.test(parts[i])) continue;
+      kept.push(parts[i]);
+    }
+    if (!kept.length) kept = parts;
+    var out = [];
+    var len = 0;
+    for (i = 0; i < kept.length && out.length < 2; i++) {
+      var seg = kept[i];
+      if (len + seg.length + (out.length ? 1 : 0) > 200 && out.length) break;
+      out.push(seg);
+      len += seg.length + 1;
+    }
+    if (!out.length) return t.length > 180 ? t.slice(0, 177).trim() + '\u2026' : t;
+    return out.join(' ');
+  }
+
   function planPassageCloseEncouragement(plan, psg, dayIx) {
     var en = getPlanDayEnrich(plan.id, dayIx);
-    if (en.close && String(en.close).trim()) return String(en.close).trim();
+    if (en.close && String(en.close).trim()) return planCloseReleaseText(String(en.close).trim());
     var line = String(psg.line || '').trim();
     return line
-      ? 'You gave this day a little room. Let one word from it travel with you—and pick it up again tomorrow.'
-      : 'Small steps add up. Rest in that—and return when you are ready for the next day.';
+      ? 'Stay with this as you move forward.'
+      : 'Let this settle before the next moment.';
   }
 
   function planReflectQuestionPlain(plan, psg, dayIx) {
     var en = getPlanDayEnrich(plan.id, dayIx);
     if (en.reflectQ && String(en.reflectQ).trim()) return String(en.reflectQ).trim();
-    if (psg.reflection && String(psg.reflection).trim()) return String(psg.reflection).trim();
     var line = String(psg.line || '').trim();
     if (line) {
-      var lc = line.charAt(0).toLowerCase() + line.slice(1);
-      return 'What is God inviting you to notice about ' + lc + ' in your real life today?';
+      return 'Where does this actually show up in your life right now—not in theory, but in your calendar or relationships?';
     }
-    return 'What is one honest sentence you want to remember from this passage?';
+    return 'What is one tension or detail you almost skipped—and what would honesty sound like there?';
   }
 
-  /** Reflect step: meaning, insight, application (reuse study-app-note), then question (study-plan-step-prompt). */
-  function planReflectBodyHtml(plan, psg, dayIx) {
-    var en = getPlanDayEnrich(plan.id, dayIx);
-    function paraNote(txt) {
-      var s = txt != null ? String(txt).trim() : '';
-      if (!s) return '';
-      return (
-        '<p class="study-app-note body-font">' + esc(s).replace(/\n/g, '<br>') + '</p>'
-      );
-    }
-    var meaning = en.meaning != null && String(en.meaning).trim() ? String(en.meaning).trim() : '';
-    var insight = en.insight != null && String(en.insight).trim() ? String(en.insight).trim() : '';
-    var application = en.application != null && String(en.application).trim() ? String(en.application).trim() : '';
-    if (!meaning && psg.reflection && String(psg.reflection).trim()) {
-      meaning = String(psg.reflection).trim();
-    }
-    var rq = planReflectQuestionPlain(plan, psg, dayIx);
-    return (
-      paraNote(meaning) +
-      paraNote(insight) +
-      paraNote(application) +
-      '<p class="study-plan-step-prompt body-font">' +
-      esc(rq).replace(/\n/g, '<br>') +
-      '</p>'
-    );
+  /** Respond: shorter forward prayer; avoid echoing the full Reflect block. */
+  function planPrayerRespondDisplay(raw) {
+    var t = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    if (t.length <= 300) return t;
+    var parts = planSentencesFromText(t);
+    if (parts.length >= 2) return parts[0] + ' ' + parts[parts.length - 1];
+    return t.slice(0, 297).trim() + '\u2026';
   }
 
   function planDescriptionShort(plan) {
@@ -683,6 +856,94 @@
         return data;
       });
     });
+  }
+
+  function getFallbackOverview(book) {
+    var fallbacks = {
+      Proverbs:
+        'A collection of wisdom focused on how to live with clarity, discipline, and alignment. It speaks to everyday decisions, relationships, and inner character.',
+      Psalms:
+        'A deeply emotional and honest expression of faith — covering joy, fear, trust, and surrender through prayer and worship.',
+      Genesis:
+        "The beginning — creation, identity, and the early story of humanity and God's relationship with it."
+    };
+    var b = String(book || '').trim();
+    if (fallbacks[b]) return fallbacks[b];
+    var bl = b.toLowerCase();
+    for (var k in fallbacks) {
+      if (Object.prototype.hasOwnProperty.call(fallbacks, k) && k.toLowerCase() === bl) return fallbacks[k];
+    }
+    return (
+      'This section is still loading. Take a moment to read and reflect — deeper insight will be available shortly.'
+    );
+  }
+
+  function fallbackOverviewData(book) {
+    var text = getFallbackOverview(book);
+    return {
+      author: '',
+      audience: '',
+      period: '',
+      purpose: '',
+      whyReadIt: text,
+      fitsInStory: '',
+      themes: [],
+      pointsToJesus: ''
+    };
+  }
+
+  function loadBookOverview(book) {
+    var meta = bookMeta(book);
+    var testament = meta && meta.testament === 'nt' ? 'nt' : 'ot';
+    var b = bridge();
+    var path =
+      '/api/book-overview?book=' +
+      encodeURIComponent(book) +
+      '&testament=' +
+      encodeURIComponent(testament);
+    var url = typeof b.apiUrl === 'function' ? b.apiUrl(path) : path;
+    return fetch(url, {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok) throw new Error((data && data.error) || 'API failed');
+          return data;
+        });
+      })
+      .then(function (data) {
+        var ov = data && data.overview;
+        if (ov && typeof ov === 'object') {
+          if (
+            (ov.author && String(ov.author).trim()) ||
+            (ov.purpose && String(ov.purpose).trim()) ||
+            (ov.whyReadIt && String(ov.whyReadIt).trim()) ||
+            (ov.themes && ov.themes.length)
+          ) {
+            return ov;
+          }
+        }
+        if (typeof ov === 'string' && ov.trim()) {
+          return {
+            author: '',
+            audience: '',
+            period: '',
+            purpose: '',
+            whyReadIt: ov.trim(),
+            fitsInStory: '',
+            themes: [],
+            pointsToJesus: ''
+          };
+        }
+        throw new Error('bad overview');
+      })
+      .catch(function (err) {
+        try {
+          console.error('Overview failed:', err);
+        } catch (eLog) {}
+        return fallbackOverviewData(book);
+      });
   }
 
   function labelRow(label, text) {
@@ -1135,7 +1396,32 @@
       return;
     }
     hideStudySearchPanel(root);
+    if (res.kind === 'reading_plan') {
+      try {
+        if (res.topicLabel && res.planId) {
+          sessionStorage.setItem(
+            'grounded_study_opened_from_topic',
+            JSON.stringify({ planId: res.planId, label: res.topicLabel })
+          );
+        }
+      } catch (eTp) {}
+      if (global.GroundedStudyApp && typeof global.GroundedStudyApp.startPlan === 'function')
+        global.GroundedStudyApp.startPlan(res.planId);
+      return;
+    }
     if (res.kind === 'chapter') {
+      try {
+        if (res.topicLabel) sessionStorage.setItem('grounded_reader_topic_hint', res.topicLabel);
+        if (res.verseHi && parseInt(res.verseHi.start, 10) > 0) {
+          sessionStorage.setItem(
+            'grounded_reader_topic_verse_hi',
+            JSON.stringify({
+              start: parseInt(res.verseHi.start, 10),
+              end: parseInt(res.verseHi.end != null ? res.verseHi.end : res.verseHi.start, 10)
+            })
+          );
+        }
+      } catch (eCh) {}
       if (brid.openScriptureReader) brid.openScriptureReader(res.book, res.chapter);
       return;
     }
@@ -1177,8 +1463,10 @@
       var dayIx = getPlanDay(active.id);
       var total = active.passages.length;
       var psg = active.passages[dayIx] || active.passages[0];
-      var dayProminent = 'Day ' + (dayIx + 1) + ' of ' + total;
+      var dayProminent = planOrdinalLabel(active, dayIx, total);
+      var continueLabel = getPlanCompletedThrough(active.id) >= 0 ? 'Resume study' : 'Continue reading';
       var dayLine = psg.book + ' ' + psg.chapter + ' — ' + psg.line;
+      var paceLine = 'Take each part at your own pace.';
       activeHtml =
         '<div class="study-guided-active">' +
         card(
@@ -1192,10 +1480,12 @@
             '<p class="study-app-note study-guided-active-day">' +
             esc(dayLine) +
             '</p>' +
-            '<p class="study-guided-active-pace body-font">Take today\'s step at your own pace.</p>' +
+            '<p class="study-guided-active-pace body-font">' + esc(paceLine) + '</p>' +
             '<button type="button" class="study-guided-cta" data-act="plan-continue" data-arg="' +
             esc(active.id) +
-            '">Continue plan</button>',
+            '">' +
+            esc(continueLabel) +
+            '</button>',
           'study-app-card--guided-active'
         ) +
         '</div>';
@@ -1207,6 +1497,7 @@
       'study-guided-featured' + (featured.length > 1 ? ' study-guided-featured--grid' : '');
     var featHtml = featured
       .map(function (plan) {
+        var startLabel = 'Start reading';
         return card(
           '<p class="study-app-card-title display-font">' +
             esc(plan.title) +
@@ -1216,7 +1507,9 @@
             '</p>' +
             '<button type="button" class="study-guided-cta" data-act="plan-start" data-arg="' +
             esc(plan.id) +
-            '" data-plan-step-back="home">Start plan</button>',
+            '" data-plan-step-back="home">' +
+            esc(startLabel) +
+            '</button>',
           'study-app-card--guided-feature'
         );
       })
@@ -1237,7 +1530,7 @@
   }
 
   function renderPlansAll(root) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var blocks = READING_PLANS.map(function (plan) {
       return planDetailCardAll(plan);
     }).join('');
@@ -1247,7 +1540,7 @@
       btnGhost('← Back', 'home', '') +
       '</div>' +
       '<h2 class="study-app-h2 display-font study-plans-all-title">All reading plans</h2>' +
-      '<p class="study-app-note study-plans-all-sub">Each plan is built for one day at a time. You can always open any day when you expand the journey.</p>' +
+      '<p class="study-app-note study-plans-all-sub">Each plan is scripture-first reading, one part at a time. Expand any journey to open a specific part.</p>' +
       '<div class="study-plans-all-list">' +
       blocks +
       '</div></div>';
@@ -1266,7 +1559,7 @@
 
   /** Landing Mode — default when opening the Study tab (no Scripture handoff). */
   function renderLanding(root) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     root.innerHTML =
       '<div class="study-landing">' +
       '<header class="study-landing-header study-landing-header--tagline-only">' +
@@ -1281,7 +1574,7 @@
   }
 
   function renderBookList(root, testament) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var list = BOOKS.filter(function (b) {
       return b.testament === testament;
     });
@@ -1312,7 +1605,7 @@
   }
 
   function renderBookOverview(root, book, data) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var m = bookMeta(book) || { name: book, chapters: 1, genre: '' };
     var themes = (data.themes || []).map(chip).join('');
     var jesus =
@@ -1360,6 +1653,188 @@
     return null;
   }
 
+  /** Normalized emotional/topic phrases → guided plans or anchor chapters (Study + Scripture+ browse). */
+  var STUDY_TOPIC_MAP = {
+    anxiety: {
+      displayLabel: 'Anxiety & peace',
+      synonyms: ['anxious', 'worry', 'worried', 'stress', 'stressed', 'panic', 'nervous', 'overthinking', 'overthink', 'restless', 'uneasy'],
+      planId: 'anxiety-peace'
+    },
+    fear: {
+      displayLabel: 'Fear & peace',
+      synonyms: ['afraid', 'scared', 'frightened', 'terrified', 'fears'],
+      planId: 'anxiety-peace'
+    },
+    peace: {
+      displayLabel: 'Peace',
+      synonyms: ['calm', 'stillness', 'rest', 'quiet', 'still'],
+      planId: 'anxiety-peace'
+    },
+    lonely: {
+      displayLabel: "God's presence when you feel alone",
+      synonyms: ['loneliness', 'alone', 'lonely', 'isolated', 'isolation', 'abandoned'],
+      chapter: { book: 'Psalms', chapter: 23, verseHi: { start: 1, end: 6 } }
+    },
+    purpose: {
+      displayLabel: 'Purpose & calling',
+      synonyms: ['calling', 'meaning', 'destiny', 'direction'],
+      chapter: { book: 'Romans', chapter: 12 }
+    },
+    identity: {
+      displayLabel: 'Identity in Christ',
+      synonyms: ['worth', 'value', 'belonging', 'insecurity', 'insecure'],
+      chapter: { book: 'Ephesians', chapter: 2 }
+    },
+    healing: {
+      displayLabel: 'Healing & hope',
+      synonyms: ['hurt', 'wounds', 'broken', 'brokenness', 'recovery'],
+      chapter: { book: 'Psalms', chapter: 147, verseHi: { start: 1, end: 6 } }
+    },
+    grief: {
+      displayLabel: 'Grief & comfort',
+      synonyms: ['grieving', 'mourning', 'loss', 'sad', 'sadness'],
+      planId: 'life-hard'
+    },
+    hope: {
+      displayLabel: 'Hope',
+      synonyms: ['hopeless', 'despair', 'discouraged', 'discouragement'],
+      chapter: { book: 'Romans', chapter: 15, verseHi: { start: 13, end: 13 } }
+    },
+    forgiveness: {
+      displayLabel: 'Forgiveness',
+      synonyms: ['forgive', 'resentment', 'bitter', 'bitterness', 'reconcile'],
+      chapter: { book: 'Matthew', chapter: 6, verseHi: { start: 9, end: 15 } }
+    },
+    heavy: {
+      displayLabel: 'When life feels heavy',
+      synonyms: ['depression', 'depressed', 'tired', 'exhausted', 'weary', 'overwhelmed', 'burden', 'burdened', 'hard', 'suffering', 'suffer', 'pain', 'hurting'],
+      planId: 'life-hard'
+    },
+    jesus: {
+      displayLabel: 'Who Jesus is',
+      synonyms: ['christ', 'savior', 'saviour', 'messiah'],
+      planId: 'who-jesus'
+    },
+    love: {
+      displayLabel: 'Love',
+      synonyms: ['kind', 'kindness', 'patient', 'patience', 'charity'],
+      chapter: { book: '1 Corinthians', chapter: 13, verseHi: { start: 4, end: 7 } }
+    },
+    faith: {
+      displayLabel: 'Faith & trust',
+      synonyms: ['trust', 'believe', 'doubt', 'doubting', 'unbelief'],
+      chapter: { book: 'Hebrews', chapter: 11, verseHi: { start: 1, end: 3 } }
+    },
+    anger: {
+      displayLabel: 'Anger & gentleness',
+      synonyms: ['angry', 'mad', 'rage', 'frustrated', 'frustration', 'irritable'],
+      chapter: { book: 'Ephesians', chapter: 4, verseHi: { start: 26, end: 32 } }
+    },
+    wisdom: {
+      displayLabel: 'Wisdom',
+      synonyms: ['decisions', 'decision', 'guidance', 'discernment'],
+      chapter: { book: 'James', chapter: 1, verseHi: { start: 5, end: 8 } }
+    },
+    guilt: {
+      displayLabel: 'Guilt & grace',
+      synonyms: ['shame', 'ashamed', 'condemned'],
+      chapter: { book: 'Romans', chapter: 8, verseHi: { start: 1, end: 4 } }
+    },
+    joy: {
+      displayLabel: 'Joy',
+      synonyms: ['rejoice', 'happy', 'happiness'],
+      chapter: { book: 'Psalms', chapter: 16 }
+    },
+    prayer: {
+      displayLabel: 'Prayer',
+      synonyms: ['pray', 'praying'],
+      chapter: { book: 'Philippians', chapter: 4, verseHi: { start: 6, end: 7 } }
+    },
+    patience: {
+      displayLabel: 'Patience',
+      synonyms: ['waiting', 'wait', 'endurance'],
+      chapter: { book: 'James', chapter: 1, verseHi: { start: 2, end: 4 } }
+    }
+  };
+
+  function canonicalStudyBook(raw) {
+    var b = String(raw || '').trim();
+    if (!b) return '';
+    if (typeof global.bfCanonicalBookName === 'function') return global.bfCanonicalBookName(b) || b;
+    return b;
+  }
+
+  function buildTopicSearchResult(entry) {
+    if (!entry) return null;
+    var label = entry.displayLabel ? String(entry.displayLabel).trim() : '';
+    if (entry.planId) {
+      var pl = findPlanById(entry.planId);
+      if (pl) {
+        return {
+          kind: 'reading_plan',
+          planId: entry.planId,
+          topicLabel: label || String(pl.title || '').trim()
+        };
+      }
+    }
+    var ch = entry.chapter;
+    if (ch && ch.book && ch.chapter) {
+      var bk = canonicalStudyBook(ch.book);
+      var chNum = parseInt(ch.chapter, 10);
+      if (!bk || !(chNum > 0)) return null;
+      var out = { kind: 'chapter', book: bk, chapter: chNum, topicLabel: label };
+      var vh = entry.verseHi || ch.verseHi;
+      if (vh && parseInt(vh.start, 10) > 0) {
+        out.verseHi = {
+          start: parseInt(vh.start, 10),
+          end: parseInt(vh.end != null ? vh.end : vh.start, 10)
+        };
+      }
+      return out;
+    }
+    return null;
+  }
+
+  function normalizeTopicQuery(q) {
+    return String(q || '')
+      .trim()
+      .toLowerCase()
+      .replace(/\u2019/g, "'")
+      .replace(/[^a-z0-9\s'-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function resolveGroundedStudyTopic(raw) {
+    var q = normalizeTopicQuery(raw);
+    if (!q || q.length < 2) return null;
+
+    var ids = Object.keys(STUDY_TOPIC_MAP);
+
+    function phraseMatches(ph) {
+      if (!ph) return false;
+      if (q === ph) return true;
+      if (ph.indexOf(' ') >= 0) return q.indexOf(ph) >= 0;
+      if (ph.length < 3 && q !== ph) return false;
+      var parts = q.split(/\s+/).filter(Boolean);
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i] === ph) return true;
+      }
+      return false;
+    }
+
+    for (var j = 0; j < ids.length; j++) {
+      var entry = STUDY_TOPIC_MAP[ids[j]];
+      var phrases = [ids[j]].concat(entry.synonyms || []).map(normalizeTopicQuery).filter(Boolean);
+      for (var p = 0; p < phrases.length; p++) {
+        if (phraseMatches(phrases[p])) return buildTopicSearchResult(entry);
+      }
+    }
+    return null;
+  }
+
+  global.resolveGroundedStudyTopic = resolveGroundedStudyTopic;
+
   function planPassageVerse(psg) {
     var v = psg.verse;
     if (v != null && parseInt(v, 10) > 0) return parseInt(v, 10) | 0;
@@ -1369,21 +1844,17 @@
   function planPassagePrayerText(plan, psg, dayIx) {
     var ix = typeof dayIx === 'number' ? dayIx : 0;
     var en = getPlanDayEnrich(plan.id, ix);
-    if (en.prayer && String(en.prayer).trim()) return String(en.prayer).trim();
+    if (en.prayer && String(en.prayer).trim()) return planPrayerRespondDisplay(String(en.prayer).trim());
     var p = psg.prayer && String(psg.prayer).trim();
-    if (p) return p;
+    if (p) return planPrayerRespondDisplay(p);
     var line = String(psg.line || '').trim();
-    var t = String(plan.title || '').trim();
-    var arc = t || 'this journey with you';
     var mid = line
-      ? 'what you want me to notice in \u201c' + line + '\u201d'
-      : 'what you want me to notice here';
+      ? 'what you showed me in \u201c' + line + '\u201d'
+      : 'what you are stirring in me';
     return (
-      'God, I\u2019m walking through \u201c' +
-      arc +
-      '.\u201d Meet me in ' +
+      'God, give me courage to show up differently in just one small way today—' +
       mid +
-      ', and help one honest word from your Word stay with me today. Amen.'
+      '. I want the next step, not a rerun of the same loop. Amen.'
     );
   }
 
@@ -1395,7 +1866,7 @@
     state = {
       view: 'plan-preview',
       planPreviewId: planId,
-      planPreviewStepBack: planPreviewStepBack === 'plans-all' ? 'plans-all' : 'home',
+      planPreviewStepBack: normalizePlanStepBack(planPreviewStepBack || 'home'),
       book: '',
       chapter: 1,
       verse: null,
@@ -1407,21 +1878,21 @@
     wire(root);
   }
 
-  function renderPlanPreview(root, plan, stepBack) {
-    root.classList.remove('study-app-root--study-ctx');
+  function renderPlanPreviewReading(root, plan, stepBack) {
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--reading', 'study-app-root--reading-complete');
     root.classList.add('study-app-root--plan-step');
     var total = plan.passages.length;
-    var daysList = plan.passages
+    var partsList = plan.passages
       .map(function (p, i) {
         return (
           '<p class="study-app-note body-font">' +
-          esc('Day ' + (i + 1) + ': ' + String(p.line || '').trim()) +
+          esc(planOrdinalLabel(plan, i, total) + ': ' + String(p.line || '').trim()) +
           '</p>'
         );
       })
       .join('');
     root.innerHTML =
-      '<div class="study-plan-step">' +
+      '<div class="study-plan-step study-reading-preview">' +
       '<div class="study-app-toolbar">' +
       btnGhost('← Back', 'plan-preview-back', stepBack) +
       '</div>' +
@@ -1433,35 +1904,36 @@
       esc(planDescriptionShort(plan)) +
       '</p>' +
       '<p class="study-plan-step-kicker body-font">' +
-      esc(String(total) + ' days total') +
+      esc(String(total) + ' parts · Scripture-first reading') +
       '</p>' +
       '</header>' +
-      daysList +
+      partsList +
       '<div class="study-plan-step-actions">' +
-      btnPrimary('Start Day 1 →', 'plan-preview-start', plan.id, 'data-plan-step-back="' + esc(stepBack) + '"') +
+      btnPrimary(
+        'Continue reading',
+        'plan-preview-continue',
+        plan.id,
+        'data-plan-step-back="' + esc(stepBack) + '"'
+      ) +
       '</div></div>';
+  }
+
+  function renderPlanPreview(root, plan, stepBack) {
+    renderPlanPreviewReading(root, plan, stepBack);
   }
 
   function openPlanStep(root, planId, dayIx, planStepBack, opts) {
     opts = opts || {};
     var fromPreview = !!opts.fromPreview;
-    var preserveFlowStep = !!opts.preserveFlowStep;
+    var planStart = !!opts.planStart;
     var plan = findPlanById(planId);
     if (!plan || !plan.passages[dayIx]) return;
     setActivePlanId(planId);
-    var back = planStepBack === 'plans-all' ? 'plans-all' : 'home';
+    var back = normalizePlanStepBack(planStepBack);
     var psg = plan.passages[dayIx];
     var vn = planPassageVerse(psg);
-    var prevFlow = 1;
     var prevFromPreview = false;
-    if (
-      (preserveFlowStep || (state.view === 'plan-step' && state.planId === planId && state.planStepDay === dayIx)) &&
-      state.view === 'plan-step' &&
-      state.planId === planId &&
-      state.planStepDay === dayIx
-    ) {
-      var pf = state.planFlowStep | 0;
-      if (pf >= 1 && pf <= 5) prevFlow = pf;
+    if (state.view === 'plan-step' && state.planId === planId && state.planStepDay === dayIx) {
       prevFromPreview = !!state.planFromPreview;
     }
     try {
@@ -1476,7 +1948,6 @@
       planId: planId,
       planStepDay: dayIx,
       planStepBack: back,
-      planFlowStep: prevFlow,
       planFromPreview: fromPreview || prevFromPreview,
       book: psg.book,
       chapter: psg.chapter,
@@ -1494,135 +1965,471 @@
       if (ne) ne.textContent = 'Reader unavailable.';
       return;
     }
-    b.loadChapterVerses(psg.book, psg.chapter)
-      .then(function (pack) {
-        var verses = pack && pack.verses ? pack.verses : [];
-        var text = verses[vn - 1] != null ? String(verses[vn - 1]) : '';
-        var ref = psg.book + ' ' + psg.chapter + ':' + vn;
-        state.verseText = text;
-        state.verseRef = ref;
-        renderPlanDayFlow(root, plan, dayIx, back, psg, text, ref);
-        wire(root);
-      })
-      .catch(function () {
+    b.loadChapterVerses(psg.book, psg.chapter).then(
+      function onPlanVersesOk(pack) {
+        try {
+          var verses = pack && pack.verses ? pack.verses : [];
+          var text = verses[vn - 1] != null ? String(verses[vn - 1]) : '';
+          var ref = psg.book + ' ' + psg.chapter + ':' + vn;
+          state.verseText = text;
+          state.verseRef = ref;
+          try {
+            renderStudyPlanReading(root, plan, dayIx, back, pack);
+            if (
+              (dayIx | 0) === 0 &&
+              (fromPreview || planStart) &&
+              typeof window.trackEvent === 'function'
+            ) {
+              try {
+                window.trackEvent('plan_started', { planId: String(planId) });
+              } catch (ePs) {}
+            }
+            wire(root);
+          } catch (eRender) {
+            try {
+              renderStudyPlanReading(root, plan, dayIx, back, pack);
+              wire(root);
+            } catch (eFlow) {
+              root.innerHTML =
+                '<div class="study-plan-step">' +
+                '<div class="study-app-toolbar">' +
+                btnGhost('← Back', 'plan-step-back', back) +
+                '</div>' +
+                '<p class="study-app-note">' +
+                esc(ref) +
+                '</p>' +
+                '<p class="study-plan-step-verse display-font"><em>' +
+                esc(text) +
+                '</em></p>' +
+                '</div>';
+              wire(root);
+            }
+          }
+        } catch (ePack) {
+          root.innerHTML =
+            '<div class="study-plan-step">' +
+            '<div class="study-app-toolbar">' +
+            btnGhost('← Back', 'plan-step-back', back) +
+            '</div>' +
+            '<p class="study-app-note study-plan-step-error">Could not load this passage. Try again.</p>' +
+            '</div>';
+          wire(root);
+        }
+      },
+      function onPlanVersesFail() {
         root.innerHTML =
           '<div class="study-app-toolbar">' +
           btnGhost('← Back', 'plan-step-back', back) +
           '</div><p class="study-app-note study-plan-step-error">Could not load this passage. Try again.</p>';
         wire(root);
-      });
+      }
+    );
   }
 
   function renderPlanStepLoading(root, plan, dayIx, back, psg) {
-    root.classList.remove('study-app-root--study-ctx');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--reading', 'study-app-root--reading-complete');
     root.classList.add('study-app-root--plan-step');
     root.innerHTML =
       '<div class="study-plan-step">' +
       '<div class="study-app-toolbar">' +
       btnGhost('← Back', 'plan-step-back', back) +
       '</div>' +
-      '<p class="study-app-note study-plan-step-loading-note">Opening today’s step…</p>' +
+      '<p class="study-app-note study-plan-step-loading-note">' +
+      esc('Opening reading…') +
+      '</p>' +
       '</div>';
   }
 
-  function renderPlanDayFlow(root, plan, dayIx, back, psg, verseText, ref) {
-    root.classList.remove('study-app-root--study-ctx');
-    root.classList.add('study-app-root--plan-step');
+  var STUDY_VERSE_EXPLAIN_CACHE = Object.create(null);
+  var studyVerseExplainReqGen = 0;
+  var studyVerseSheetOpenRoot = null;
+
+  function ensureStudyVerseSheetEscape() {
+    if (ensureStudyVerseSheetEscape.done) return;
+    ensureStudyVerseSheetEscape.done = true;
+    global.addEventListener('keydown', function (ev) {
+      if (ev.key !== 'Escape') return;
+      var r = studyVerseSheetOpenRoot;
+      if (!r) return;
+      var modal = r.querySelector('.study-reading-verse-modal');
+      if (!modal || modal.hasAttribute('hidden')) return;
+      ev.preventDefault();
+      closeStudyVerseSheet(r);
+    });
+  }
+
+  function studyVerseExplainCacheKey(book, ch, vn) {
+    return String(book || '') + '|' + String(ch | 0) + '|' + String(vn | 0);
+  }
+
+  function escBr(s) {
+    return String(s || '')
+      .split(/\n/)
+      .map(function (ln) {
+        return esc(ln);
+      })
+      .join('<br>');
+  }
+
+  /** Split prose into sentences without relying on RegExp lookbehind (older WebViews). */
+  function studyVerseSplitSentences(t) {
+    var s = String(t || '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!s) return [];
+    var acc = [];
+    var cur = '';
+    var i;
+    for (i = 0; i < s.length; i++) {
+      var c = s.charAt(i);
+      cur += c;
+      if ((c === '.' || c === '!' || c === '?') && (i === s.length - 1 || /\s/.test(s.charAt(i + 1)))) {
+        var piece = cur.trim();
+        if (piece) acc.push(piece);
+        cur = '';
+        while (i + 1 < s.length && /\s/.test(s.charAt(i + 1))) {
+          i++;
+        }
+      }
+    }
+    cur = cur.trim();
+    if (cur) acc.push(cur);
+    return acc.length ? acc : [s];
+  }
+
+  function studyVerseTakeSentences(sentences, maxN, maxChars) {
+    var out = [];
+    var len = 0;
+    var i;
+    for (i = 0; i < sentences.length && i < maxN; i++) {
+      var next = sentences[i];
+      if (maxChars && out.length > 0 && len + next.length + 1 > maxChars) break;
+      out.push(next);
+      len += next.length;
+    }
+    return out.join(' ').trim();
+  }
+
+  /** Client-side trim for calmer sheet display; cache still stores full API shape. */
+  function studyVerseTrimForSheet(norm) {
+    norm = norm || {};
+    var meaning = String(norm.meaning || '').trim();
+    var anchor = String(norm.anchor || '').trim();
+    var reflection = String(norm.reflection || '').trim();
+    return {
+      meaning: studyVerseTakeSentences(studyVerseSplitSentences(meaning), 3, 380),
+      anchor: studyVerseTakeSentences(studyVerseSplitSentences(anchor), 2, 300),
+      reflection: studyVerseTakeSentences(studyVerseSplitSentences(reflection), 4, 420)
+    };
+  }
+
+  function closeStudyVerseSheet(root) {
+    var modal = root.querySelector('.study-reading-verse-modal');
+    if (modal) {
+      modal.setAttribute('hidden', '');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+    studyVerseExplainReqGen++;
+    if (studyVerseSheetOpenRoot === root) studyVerseSheetOpenRoot = null;
+    root._studyVerseSheetCtx = null;
+  }
+
+  /** Verse + calm loading copy while AI is fetched (no skeleton blocks). */
+  function renderStudyVerseSheetLoading(innerEl, refLine, verseBody) {
+    innerEl.innerHTML =
+      '<p class="vb-ref verse-label study-reading-verse-modal-ref" id="study-reading-verse-modal-ref">' +
+      esc(refLine) +
+      '</p>' +
+      '<p class="vb-quote verse-text study-reading-verse-modal-verse">' +
+      esc(verseBody) +
+      '</p>' +
+      '<div class="study-reading-verse-modal-loading" aria-live="polite" aria-busy="true">' +
+      '<p class="study-reading-verse-modal-load-line study-reading-verse-modal-load-line--one">Preparing explanation…</p>' +
+      '<p class="study-reading-verse-modal-load-line study-reading-verse-modal-load-line--two">Reading context…</p>' +
+      '</div>' +
+      '<div class="vb-dual-row study-reading-verse-modal-dual">' +
+      '<button type="button" class="vb-pill vb-pill--reflect" data-act="study-plan-verse-sheet-pray">Pray with this</button>' +
+      '<button type="button" class="vb-pill vb-pill--study" data-act="study-plan-verse-sheet-reflect">Reflect on this</button>' +
+      '</div>';
+    var card = innerEl.closest('.vb-card');
+    if (card) card.scrollTop = 0;
+  }
+
+  function renderStudyVerseSheetFilled(innerEl, norm, refLine, verseBody) {
+    norm = norm || {};
+    var rawHas =
+      String(norm.meaning || '').trim() ||
+      String(norm.anchor || '').trim() ||
+      String(norm.reflection || '').trim();
+    var t = studyVerseTrimForSheet(norm);
+    var parts = [];
+    parts.push(
+      '<p class="vb-ref verse-label study-reading-verse-modal-ref" id="study-reading-verse-modal-ref">' +
+        esc(refLine) +
+        '</p>' +
+        '<p class="vb-quote verse-text study-reading-verse-modal-verse">' +
+        esc(verseBody) +
+        '</p>'
+    );
+    parts.push('<div class="study-reading-verse-modal-sections verse-explanation">');
+    var explainBody;
+    if (String(t.meaning || '').trim()) {
+      explainBody = '<p class="vb-explain-text">' + escBr(t.meaning) + '</p>';
+    } else if (!rawHas) {
+      explainBody =
+        '<p class="vb-explain-text study-reading-verse-modal-fallback">Read this verse slowly. What stands out to you?</p>';
+    } else {
+      explainBody = '<p class="vb-explain-text study-reading-verse-modal-muted">\u2014</p>';
+    }
+    parts.push(
+      '<section class="study-reading-vsec">' +
+        '<p class="study-reading-vsec-lbl">Explain</p>' +
+        explainBody +
+        '</section>'
+    );
+    var ctxBody = String(t.anchor || '').trim()
+      ? '<p class="vb-explain-text">' + escBr(t.anchor) + '</p>'
+      : '<p class="vb-explain-text study-reading-verse-modal-muted">\u2014</p>';
+    parts.push(
+      '<section class="study-reading-vsec">' +
+        '<p class="study-reading-vsec-lbl">Context</p>' +
+        ctxBody +
+        '</section>'
+    );
+    var forBody = String(t.reflection || '').trim()
+      ? '<p class="vb-explain-text">' + escBr(t.reflection) + '</p>'
+      : '<p class="vb-explain-text study-reading-verse-modal-muted">\u2014</p>';
+    parts.push(
+      '<section class="study-reading-vsec">' +
+        '<p class="study-reading-vsec-lbl">For you</p>' +
+        forBody +
+        '</section>'
+    );
+    parts.push(
+      '<section class="study-reading-vsec study-reading-vsec--prayer">' +
+        '<p class="study-reading-vsec-lbl">Prayer</p>' +
+        '<p class="vb-explain-text">A quiet moment with God and these words.</p>' +
+        '</section>'
+    );
+    parts.push('</div>');
+    parts.push(
+      '<div class="vb-dual-row study-reading-verse-modal-dual">' +
+        '<button type="button" class="vb-pill vb-pill--reflect" data-act="study-plan-verse-sheet-pray">Pray with this</button>' +
+        '<button type="button" class="vb-pill vb-pill--study" data-act="study-plan-verse-sheet-reflect">Reflect on this</button>' +
+        '</div>'
+    );
+    innerEl.innerHTML = parts.join('');
+    var card = innerEl.closest('.vb-card');
+    if (card) card.scrollTop = 0;
+  }
+
+  function openStudyVerseSheet(root, opts) {
+    opts = opts || {};
+    ensureStudyVerseSheetEscape();
+    var book = opts.book;
+    var chapter = opts.chapter | 0;
+    var vn = opts.verseNum | 0;
+    var text = String(opts.verseText || '').trim();
+    var refLine = String(opts.refLine || '').trim();
+    var meta = { book: book, chapter: chapter, verseNumber: vn };
+    root._studyVerseSheetCtx = {
+      book: book,
+      chapter: chapter,
+      verseNum: vn,
+      verseText: text,
+      refLine: refLine
+    };
+    var ck = studyVerseExplainCacheKey(book, chapter, vn);
+    var modal = root.querySelector('.study-reading-verse-modal');
+    var innerEl = root.querySelector('.study-reading-verse-modal-inner');
+    if (!modal || !innerEl) return;
+    modal.removeAttribute('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    studyVerseSheetOpenRoot = root;
+    var myGen = ++studyVerseExplainReqGen;
+    try {
+      var clsBtn = modal.querySelector('.vb-close');
+      if (clsBtn) clsBtn.focus();
+    } catch (eFc) {}
+    var cached = STUDY_VERSE_EXPLAIN_CACHE[ck];
+    if (cached) {
+      renderStudyVerseSheetFilled(innerEl, cached, refLine, text);
+      return;
+    }
+    var b = bridge();
+    if (!b.fetchVerseStructuredExplain) {
+      renderStudyVerseSheetFilled(innerEl, { anchor: '', meaning: '', reflection: '' }, refLine, text);
+      return;
+    }
+    renderStudyVerseSheetLoading(innerEl, refLine, text);
+    b.fetchVerseStructuredExplain(refLine, text, meta).then(
+      function (norm) {
+        if (myGen !== studyVerseExplainReqGen) return;
+        STUDY_VERSE_EXPLAIN_CACHE[ck] = norm;
+        renderStudyVerseSheetFilled(innerEl, norm, refLine, text);
+      },
+      function () {
+        if (myGen !== studyVerseExplainReqGen) return;
+        renderStudyVerseSheetFilled(innerEl, { anchor: '', meaning: '', reflection: '' }, refLine, text);
+      }
+    );
+  }
+
+  function renderStudyPlanReading(root, plan, dayIx, back, pack) {
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--reading-complete');
+    root.classList.add('study-app-root--plan-step', 'study-app-root--reading');
+    var psg = plan.passages[dayIx];
+    var vn = planPassageVerse(psg);
+    var verses = pack && pack.verses ? pack.verses : [];
     var total = plan.passages.length;
     var lastIx = total - 1;
-    var flowStep = state.planFlowStep | 0;
-    if (flowStep < 1 || flowStep > 5) flowStep = 1;
-    state.planFlowStep = flowStep;
-    var kicker = planKickerLine(plan.id, dayIx, total);
+    var refLine = psg.book + ' ' + psg.chapter;
+    var ir = getStudyPlanPartIntroReflect(plan, psg, dayIx);
+    var intro = ir.intro;
+    var reflectQ = ir.reflectQ;
     var reflectArg = psg.book + '|' + String(psg.chapter);
     var prayArg = reflectArg;
-    var themeLine = String(psg.line || '').trim();
-    var arriveOnly = planPassageArriveLine(plan, psg, dayIx);
-    var prayerTxt = planPassagePrayerText(plan, psg, dayIx);
-    var closeEnc = planPassageCloseEncouragement(plan, psg, dayIx);
-    var head =
-      '<header class="study-plan-step-head">' +
-      '<p class="study-plan-step-kicker body-font">' +
-      esc(kicker) +
-      '</p>' +
-      '<h1 class="study-plan-step-plan display-font">' +
-      esc(plan.title) +
-      '</h1>' +
-      '<p class="study-plan-step-theme body-font">' +
-      esc(themeLine) +
-      '</p>' +
-      '</header>';
-    var body = '';
-    var actions = '';
-    if (flowStep === 1) {
-      body =
-        '<p class="study-plan-step-support body-font">' +
-        esc(arriveOnly) +
-        '</p>' +
-        '<p class="study-plan-step-support body-font">Let\u2019s take a moment to slow down.</p>';
-      actions =
-        '<div class="study-plan-step-actions">' + btnPrimary('Continue \u2192', 'plan-flow-next', '') + '</div>';
-    } else if (flowStep === 2) {
-      body =
-        '<p class="study-app-note body-font">Read this slowly.</p>' +
-        '<p class="study-verse-quote study-plan-step-verse display-font"><em>' +
-        esc(verseText) +
-        '</em></p>' +
-        '<p class="study-key-ref study-plan-step-ref">' +
-        esc(ref) +
-        '</p>';
-      actions =
-        '<div class="study-plan-step-actions">' + btnPrimary('Continue \u2192', 'plan-flow-next', '') + '</div>';
-    } else if (flowStep === 3) {
-      body = planReflectBodyHtml(plan, psg, dayIx);
-      actions =
-        '<div class="study-plan-step-actions">' +
-        btnPrimary('Continue \u2192', 'plan-flow-next', '') +
-        '<div class="study-plan-step-secondary">' +
-        '<button type="button" class="study-plan-step-secondary-btn body-font" data-act="reflect-ch" data-arg="' +
-        esc(reflectArg) +
-        '">Reflect on this</button>' +
-        '<button type="button" class="study-plan-step-secondary-btn body-font" data-act="pray-ch" data-arg="' +
-        esc(prayArg) +
-        '">Pray with this</button>' +
-        '</div></div>';
-    } else if (flowStep === 4) {
-      body = prayerTxt ? '<p class="study-plan-step-prayer body-font">' + esc(prayerTxt) + '</p>' : '';
-      actions =
-        '<div class="study-plan-step-actions">' + btnPrimary('Continue \u2192', 'plan-flow-next', '') + '</div>';
-    } else {
-      body = '<p class="study-plan-step-support body-font">' + esc(closeEnc) + '</p>';
-      var paceHint =
-        dayIx < lastIx ? '<p class="study-plan-step-pace-hint body-font">Come back tomorrow</p>' : '';
-      var primaryNext =
-        dayIx < lastIx
-          ? btnPrimary('Continue to Day ' + (dayIx + 2) + ' \u2192', 'plan-step-next', '')
-          : btnPrimary('Return to today \u2192', 'plan-close-home', '');
-      var returnLink =
-        dayIx < lastIx
-          ? '<button type="button" class="study-plan-step-deeper word-continue-link study-app-link" data-act="plan-close-home">Return to today \u2192</button>'
-          : '';
-      actions =
-        '<div class="study-plan-step-actions">' +
-        primaryNext +
-        paceHint +
-        returnLink +
-        '<button type="button" class="study-plan-step-deeper word-continue-link study-app-link" data-act="plan-step-deeper">Study this deeper \u2192</button>' +
-        '</div>';
+    var topicSearchBanner = '';
+    try {
+      var rawTs = sessionStorage.getItem('grounded_study_opened_from_topic');
+      if (rawTs) {
+        var oTs = JSON.parse(rawTs);
+        if (oTs && String(oTs.planId) === String(plan.id) && oTs.label) {
+          topicSearchBanner =
+            '<p class="study-reading-topic-match body-font" aria-live="polite">Related to \u201c' +
+            esc(String(oTs.label)) +
+            '\u201d</p>';
+          sessionStorage.removeItem('grounded_study_opened_from_topic');
+        }
+      }
+    } catch (eTs) {}
+    var versesHtml = '';
+    var vi;
+    for (vi = 0; vi < verses.length; vi++) {
+      var num = vi + 1;
+      var vcls = 'study-reading-verse';
+      if (num === vn) vcls += ' study-reading-verse--focus';
+      versesHtml +=
+        '<div class="' +
+        vcls +
+        '"><button type="button" class="study-reading-verse-btn body-font" data-act="study-plan-verse-open" data-vn="' +
+        num +
+        '" aria-label="Study verse ' +
+        num +
+        '"><sup class="study-reading-sn">' +
+        num +
+        '</sup><span class="study-reading-vtxt">' +
+        esc(String(verses[vi] != null ? verses[vi] : '')) +
+        '</span></button></div>';
     }
+    var primaryLabel = dayIx < lastIx ? 'Continue reading' : 'Complete study';
+    var doneThrough = getPlanCompletedThrough(plan.id);
+    var completedMark =
+      doneThrough >= dayIx
+        ? '<p class="study-reading-done-hint body-font" aria-live="polite">Completed</p>'
+        : '';
     root.innerHTML =
-      '<div class="study-plan-step">' +
-      '<div class="study-app-toolbar">' +
+      '<div class="study-reading">' +
+      '<div class="study-app-toolbar study-reading-toolbar">' +
       btnGhost('← Back', 'plan-step-back', back) +
       '</div>' +
-      head +
-      body +
-      actions +
+      '<div class="study-reading-scroll">' +
+      '<div class="study-reading-lede">' +
+      topicSearchBanner +
+      '<p class="study-reading-kicker body-font">' +
+      esc(studyPlanPartKickerLine(dayIx, total)) +
+      '</p>' +
+      '<p class="study-reading-theme display-font">' +
+      esc(String(psg.line || '').trim()) +
+      '</p>' +
+      '<p class="study-reading-intro body-font">' +
+      esc(intro) +
+      '</p>' +
+      '</div>' +
+      '<div class="study-reading-scripture-block" role="region" aria-label="Scripture reading">' +
+      '<p class="study-reading-ref-h display-font">' +
+      esc(refLine) +
+      '</p>' +
+      '<div class="study-reading-verses serif">' +
+      versesHtml +
+      '</div>' +
+      '</div>' +
+      '<div class="study-reading-reflect">' +
+      '<p class="study-reading-reflect-label body-font">Reflect</p>' +
+      '<p class="study-reading-reflect-q body-font">' +
+      esc(reflectQ) +
+      '</p>' +
+      '</div>' +
+      '</div>' +
+      '<div class="study-reading-footer">' +
+      completedMark +
+      '<div class="study-reading-actions">' +
+      '<button type="button" class="study-reading-chip body-font" data-act="reflect-ch" data-arg="' +
+      esc(reflectArg) +
+      '">Journal</button>' +
+      '<button type="button" class="study-reading-chip body-font" data-act="pray-ch" data-arg="' +
+      esc(prayArg) +
+      '">Pray</button>' +
+      '</div>' +
+      btnPrimary(primaryLabel, 'plan-step-next', '') +
+      '</div>' +
+      '<div class="study-reading-verse-modal vb-overlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Verse study">' +
+      '<button type="button" class="vb-backdrop study-reading-verse-modal-dismiss" data-act="study-plan-verse-sheet-close" aria-label="Close verse study"></button>' +
+      '<div class="vb-card study-reading-verse-modal-card">' +
+      '<button type="button" class="vb-close" data-act="study-plan-verse-sheet-close" aria-label="Close">\u00d7</button>' +
+      '<div class="study-reading-verse-modal-inner"></div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+  }
+
+  /** Unified completion screen after final part of any guided reading plan. */
+  function renderStudyPlanComplete(root, plan, planStepBack) {
+    root.classList.remove('study-app-root--study-ctx');
+    root.classList.add('study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
+    var back = normalizePlanStepBack(planStepBack);
+    var titleFb = String(plan.title || '').trim();
+    var mainTitle =
+      String(plan.id) === 'who-jesus'
+        ? 'You completed Who Is Jesus?'
+        : titleFb
+          ? 'You completed \u201c' + esc(titleFb) + '\u201d'
+          : 'You completed this study.';
+    var bodyPara =
+      plan.completionBody && String(plan.completionBody).trim()
+        ? String(plan.completionBody).trim()
+        : 'You spent intentional time in Scripture with this guided study.';
+    var secondaryPara =
+      plan.completionSecondary && String(plan.completionSecondary).trim()
+        ? String(plan.completionSecondary).trim()
+        : 'Come back anytime to revisit these passages.';
+    root.innerHTML =
+      '<div class="study-reading study-reading--complete-layout">' +
+      '<div class="study-app-toolbar study-reading-toolbar">' +
+      btnGhost('\u2190 Back', 'plan-step-back', back) +
+      '</div>' +
+      '<div class="study-reading-complete" role="status" aria-live="polite">' +
+      '<p class="study-reading-complete-label body-font">Completed</p>' +
+      '<h2 class="study-reading-complete-title display-font">' +
+      esc(mainTitle) +
+      '</h2>' +
+      '<p class="study-reading-complete-reflection body-font">' +
+      esc(bodyPara) +
+      '</p>' +
+      '<p class="study-reading-complete-secondary body-font">' +
+      esc(secondaryPara) +
+      '</p>' +
+      '<div class="study-reading-complete-actions">' +
+      btnPrimary('Return to Studies', 'study-plan-complete-return', '') +
+      '<button type="button" class="study-reading-complete-btn-secondary body-font" data-act="study-plan-complete-read-again">Read again</button>' +
+      '<button type="button" class="study-reading-complete-link body-font" data-act="study-plan-complete-scripture">Continue exploring Scripture</button>' +
+      '</div>' +
+      '</div>' +
       '</div>';
   }
 
   function renderChapterLoading(root, book, chapter, chBack) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     root.innerHTML =
       '<div class="study-app-toolbar">' +
       btnGhost('← Back', 'ch-back', chBack || 'home') +
@@ -1656,7 +2463,7 @@
   }
 
   function renderVerse(root, book, chapter, verseNum, ref, text, d) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var ow = d.originalWords && d.originalWords.length ? d.originalWords : [];
     var chips = ow
       .map(function (w) {
@@ -1709,7 +2516,7 @@
   }
 
   function renderJournalAll(root) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var entries = journalEntries();
     var rows = entries
       .map(function (e) {
@@ -1742,6 +2549,10 @@
       var act = t.getAttribute('data-act');
       var arg = t.getAttribute('data-arg') || '';
       if (act === 'home') {
+        if (returnTabHintIsScripturePlus()) {
+          finishStudyFlowToScripturePlus();
+          return;
+        }
         state = {
           view: 'home',
           book: '',
@@ -1764,8 +2575,13 @@
         if (rctx && bridge().openScriptureReader) bridge().openScriptureReader(rctx.book, rctx.chapter);
       } else if (act === 'ctx-back') {
         if (state.fromScripture) {
+          var goSp = false;
+          try {
+            goSp = sessionStorage.getItem(STUDY_RETURN_TAB_KEY) === 'scriptureplus';
+            if (goSp) sessionStorage.removeItem(STUDY_RETURN_TAB_KEY);
+          } catch (eCtxT) {}
           var swb = bridge().switchTab;
-          if (typeof swb === 'function') swb('word');
+          if (typeof swb === 'function') swb(goSp ? 'scriptureplus' : 'word');
         } else if (state.view === 'verse') {
           openChapter(root, state.book, state.chapter);
         } else if (state.view === 'chapter') {
@@ -1818,7 +2634,7 @@
               cctx = rawCtx ? JSON.parse(rawCtx) : null;
             } catch (eCx2) {}
             if (cctx && cctx.planId != null && cctx.dayIx != null) {
-              openPlanStep(root, String(cctx.planId), parseInt(cctx.dayIx, 10) || 0, cctx.back === 'plans-all' ? 'plans-all' : 'home');
+              openPlanStep(root, String(cctx.planId), parseInt(cctx.dayIx, 10) || 0, normalizePlanStepBack(cctx.back || 'home'));
             } else {
               state = {
                 view: 'home',
@@ -1893,13 +2709,21 @@
         var pbtn = block.querySelector('.study-plan-days-toggle');
         if (pbtn) {
           pbtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-          pbtn.textContent = expanded ? 'Focus on today' : 'View full journey →';
+          var wjt = isGuidedReadingPlan(arg);
+          pbtn.textContent = expanded
+            ? wjt
+              ? 'Focus on current part'
+              : 'Focus on today'
+            : wjt
+              ? 'View all parts →'
+              : 'View full journey →';
         }
       } else if (act === 'plan-day') {
         var pd = arg.split('|');
         var pid = pd[0];
         var dayIx = parseInt(pd[1], 10) || 0;
-        var stepBack = pd[2] === 'plans-all' ? 'plans-all' : 'home';
+        var stepBack =
+          pd[2] === 'plans-all' ? 'plans-all' : pd[2] === 'scriptureplus' ? 'scriptureplus' : 'home';
         var pl = findPlanById(pid);
         if (pl && pl.passages[dayIx]) {
           setActivePlanId(pid);
@@ -1919,7 +2743,12 @@
         var stepBackS = t.getAttribute('data-plan-step-back') || 'home';
         openPlanPreview(root, pls.id, stepBackS);
       } else if (act === 'plan-preview-back') {
-        var destPb = arg === 'plans-all' ? 'plans-all' : 'home';
+        var destPb =
+          arg === 'plans-all' ? 'plans-all' : arg === 'scriptureplus' ? 'scriptureplus' : 'home';
+        if (destPb === 'scriptureplus') {
+          finishStudyFlowToScripturePlus();
+          return;
+        }
         state = {
           view: destPb === 'plans-all' ? 'plans-all' : 'home',
           book: '',
@@ -1939,27 +2768,19 @@
         setPlanDay(plz.id, 0);
         var stepBackZ = t.getAttribute('data-plan-step-back') || 'home';
         openPlanStep(root, plz.id, 0, stepBackZ, { fromPreview: true });
-      } else if (act === 'plan-flow-next') {
-        if (state.view !== 'plan-step' || !state.planId) return;
-        var plF = findPlanById(state.planId);
-        if (!plF || !plF.passages[state.planStepDay]) return;
-        var st = state.planFlowStep | 0;
-        if (st < 5) {
-          state.planFlowStep = st + 1;
-          var psgF = plF.passages[state.planStepDay];
-          renderPlanDayFlow(
-            root,
-            plF,
-            state.planStepDay,
-            state.planStepBack || 'home',
-            psgF,
-            state.verseText || '',
-            state.verseRef || ''
-          );
-          wire(root);
-        }
+      } else if (act === 'plan-preview-continue') {
+        var plW = findPlanById(arg);
+        if (!plW || !plW.passages[0]) return;
+        setActivePlanId(plW.id);
+        var stepBackW = t.getAttribute('data-plan-step-back') || 'home';
+        var dayW = getPlanDay(plW.id);
+        openPlanStep(root, plW.id, dayW, stepBackW, { fromPreview: true });
       } else if (act === 'plan-close-home') {
-        var pbH = state.planStepBack === 'plans-all' ? 'plans-all' : 'home';
+        var pbH = normalizePlanStepBack(state.planStepBack || 'home');
+        if (pbH === 'scriptureplus') {
+          finishStudyFlowToScripturePlus();
+          return;
+        }
         state = {
           view: pbH === 'plans-all' ? 'plans-all' : 'home',
           book: '',
@@ -1973,32 +2794,14 @@
         else renderLanding(root);
         wire(root);
       } else if (act === 'plan-step-back') {
-        var pb = arg === 'plans-all' ? 'plans-all' : 'home';
-        if (
-          state.view === 'plan-step' &&
-          (state.planFlowStep | 0) > 1 &&
-          state.planId &&
-          findPlanById(state.planId)
-        ) {
-          state.planFlowStep = (state.planFlowStep | 0) - 1;
-          var plB = findPlanById(state.planId);
-          var psgB = plB && plB.passages[state.planStepDay];
-          if (plB && psgB) {
-            renderPlanDayFlow(
-              root,
-              plB,
-              state.planStepDay,
-              state.planStepBack || 'home',
-              psgB,
-              state.verseText || '',
-              state.verseRef || ''
-            );
-            wire(root);
-            return;
-          }
-        }
-        if (state.view === 'plan-step' && (state.planFlowStep | 0) <= 1 && state.planFromPreview && state.planId) {
+        var pb =
+          arg === 'plans-all' ? 'plans-all' : arg === 'scriptureplus' ? 'scriptureplus' : 'home';
+        if (state.view === 'plan-step' && state.planFromPreview && state.planId) {
           openPlanPreview(root, state.planId, state.planStepBack || 'home');
+          return;
+        }
+        if (pb === 'scriptureplus') {
+          finishStudyFlowToScripturePlus();
           return;
         }
         if (pb === 'plans-all') {
@@ -2031,6 +2834,14 @@
         var ix = state.planStepDay;
         var lastIx = planN.passages.length - 1;
         markPlanDayCompleted(state.planId, ix);
+        if (typeof window.trackEvent === 'function') {
+          try {
+            window.trackEvent('plan_day_completed', {
+              planId: String(state.planId),
+              dayIndex: ix
+            });
+          } catch (ePd) {}
+        }
         if (ix < lastIx) {
           var nextIx = ix + 1;
           var curStored = getPlanDay(state.planId);
@@ -2039,20 +2850,45 @@
           }
           openPlanStep(root, state.planId, nextIx, state.planStepBack || 'home');
         } else {
-          var pb2 = state.planStepBack === 'plans-all' ? 'plans-all' : 'home';
-          state = {
-            view: pb2 === 'plans-all' ? 'plans-all' : 'home',
-            book: '',
-            chapter: 1,
-            verse: null,
-            planId: null,
-            list: null,
-            fromScripture: false
-          };
-          if (pb2 === 'plans-all') renderPlansAll(root);
-          else renderLanding(root);
+          renderStudyPlanComplete(root, planN, state.planStepBack || 'home');
           wire(root);
+          return;
         }
+      } else if (act === 'study-plan-complete-return') {
+        var pbWj = normalizePlanStepBack(state.planStepBack || 'home');
+        if (pbWj === 'scriptureplus') {
+          finishStudyFlowToScripturePlus();
+          return;
+        }
+        state = {
+          view: pbWj === 'plans-all' ? 'plans-all' : 'home',
+          book: '',
+          chapter: 1,
+          verse: null,
+          planId: null,
+          list: null,
+          fromScripture: false
+        };
+        if (pbWj === 'plans-all') renderPlansAll(root);
+        else renderLanding(root);
+        wire(root);
+      } else if (act === 'study-plan-complete-read-again') {
+        if (state.view !== 'plan-step' || !state.planId) return;
+        if (!isGuidedReadingPlan(state.planId)) return;
+        var backWj = normalizePlanStepBack(state.planStepBack || 'home');
+        openPlanStep(root, String(state.planId), 0, backWj, { fromPreview: !!state.planFromPreview });
+      } else if (act === 'study-plan-complete-scripture') {
+        state = {
+          view: 'list',
+          book: '',
+          chapter: 1,
+          verse: null,
+          planId: null,
+          list: 'nt',
+          fromScripture: false
+        };
+        renderBookList(root);
+        wire(root);
       } else if (act === 'plan-step-deeper') {
         if (!state.verseText || !state.verseRef || state.view !== 'plan-step') return;
         openVerse(root, state.book, state.chapter, state.verse, state.verseRef, state.verseText, {
@@ -2068,7 +2904,7 @@
           c = rawPs ? JSON.parse(rawPs) : null;
         } catch (eJson) {}
         if (c && c.planId != null && c.dayIx != null) {
-          openPlanStep(root, String(c.planId), parseInt(c.dayIx, 10) || 0, c.back === 'plans-all' ? 'plans-all' : 'home');
+          openPlanStep(root, String(c.planId), parseInt(c.dayIx, 10) || 0, normalizePlanStepBack(c.back || 'home'));
         } else {
           state = {
             view: 'home',
@@ -2099,6 +2935,10 @@
         openChapter(root, gd[0], parseInt(gd[1], 10) || 1);
       } else if (act === 'ch-back') {
         if (arg === 'home') {
+          if (returnTabHintIsScripturePlus()) {
+            finishStudyFlowToScripturePlus();
+            return;
+          }
           state = {
           view: 'home',
           book: '',
@@ -2147,7 +2987,7 @@
             cch = rawCh ? JSON.parse(rawCh) : null;
           } catch (eCh2) {}
           if (cch && cch.planId != null && cch.dayIx != null) {
-            openPlanStep(root, String(cch.planId), parseInt(cch.dayIx, 10) || 0, cch.back === 'plans-all' ? 'plans-all' : 'home');
+            openPlanStep(root, String(cch.planId), parseInt(cch.dayIx, 10) || 0, normalizePlanStepBack(cch.back || 'home'));
           } else {
             state = {
               view: 'home',
@@ -2196,6 +3036,44 @@
         } else if (bridge().openPrayerWithPassage) {
           bridge().openPrayerWithPassage(pc[0], parseInt(pc[1], 10) || 1);
         }
+      } else if (act === 'study-plan-verse-open') {
+        if (state.view !== 'plan-step' || !state.book || !isGuidedReadingPlan(state.planId)) return;
+        var vnO = parseInt(t.getAttribute('data-vn') || '0', 10) || 0;
+        var txtN = t.querySelector('.study-reading-vtxt');
+        var vtext = txtN ? String(txtN.textContent || '').trim() : '';
+        var refFull =
+          String(state.book || '').trim() +
+          ' ' +
+          String(state.chapter | 0) +
+          ':' +
+          vnO;
+        openStudyVerseSheet(root, {
+          book: state.book,
+          chapter: state.chapter | 0,
+          verseNum: vnO,
+          verseText: vtext,
+          refLine: refFull
+        });
+      } else if (act === 'study-plan-verse-sheet-close') {
+        closeStudyVerseSheet(root);
+      } else if (act === 'study-plan-verse-sheet-pray') {
+        var cxp = root._studyVerseSheetCtx;
+        if (!cxp || !bridge().openPrayerWithVerse) return;
+        var pBk = cxp.book;
+        var pCh = cxp.chapter | 0;
+        var pVn = cxp.verseNum | 0;
+        var pTx = cxp.verseText || '';
+        closeStudyVerseSheet(root);
+        bridge().openPrayerWithVerse(pBk, pCh, pVn, pTx);
+      } else if (act === 'study-plan-verse-sheet-reflect') {
+        var cxr = root._studyVerseSheetCtx;
+        if (!cxr || !bridge().openReflectWithVerse) return;
+        var rBk = cxr.book;
+        var rCh = cxr.chapter | 0;
+        var rVn = cxr.verseNum | 0;
+        var rTx = cxr.verseText || '';
+        closeStudyVerseSheet(root);
+        bridge().openReflectWithVerse(rBk, rCh, rVn, rTx);
       } else if (act === 'back-verse') {
         var bv = arg.split('|');
         openChapter(root, bv[0], parseInt(bv[1], 10) || 1);
@@ -2269,7 +3147,7 @@
       renderPlansAll(root);
       wire(root);
     } else if (state.view === 'plan-step' && state.planId != null && state.planStepDay != null) {
-      openPlanStep(root, state.planId, state.planStepDay, state.planStepBack || 'home', { preserveFlowStep: true });
+      openPlanStep(root, state.planId, state.planStepDay, state.planStepBack || 'home');
     } else if (state.view === 'plan-preview' && state.planPreviewId) {
       var prPl = findPlanById(state.planPreviewId);
       if (prPl) {
@@ -2339,26 +3217,205 @@
       btnGhost('← Back', 'list', state.list || 'ot') +
       '</div><p class="study-app-note">Loading overview…</p>';
     wire(root);
-    var meta = bookMeta(book);
-    var testament = meta && meta.testament === 'nt' ? 'nt' : 'ot';
-    api('/api/book-overview', { book: book, testament: testament })
-      .then(function (data) {
-        overviewCacheSet(book, data);
-        renderBookOverview(root, book, data);
+    loadBookOverview(book).then(function (data) {
+      overviewCacheSet(book, data);
+      renderBookOverview(root, book, data);
+      wire(root);
+    });
+  }
+
+  /** When chapter AI is unavailable, still ship a useful “For you” prompt (rotates by ref). */
+  function chapterReflectionFallbackPrompt(book, chapter) {
+    var ch = parseInt(chapter, 10) || 1;
+    var prompts = [
+      'What stands out to you in this passage?',
+      'What do you notice about how Jesus speaks here?'
+    ];
+    var ix = (String(book || '').length + ch) % prompts.length;
+    return prompts[ix];
+  }
+
+  /**
+   * Minimal shape for renderChapterFull / renderStudyContextChapter when
+   * POST /api/chapter-explain-structured is missing or fails (local static dev, timeouts, etc.).
+   */
+  function chapterStructuredExplainFallback(book, chapter) {
+    return {
+      writtenBy: '',
+      date: '',
+      setting: '',
+      theme: '',
+      purpose: '',
+      message: '',
+      anchor: '',
+      reflection: chapterReflectionFallbackPrompt(book, chapter),
+      keyVerse: null,
+      people: [],
+      difficultPassage: '',
+      crossReferences: [],
+      honestQuestion: null,
+      then: '',
+      now: '',
+      whereFits: ''
+    };
+  }
+
+  /**
+   * Primary chapter layout; falls back to minimal scripture + reflection if full renderer throws.
+   */
+  function safePaintChapterReading(root, book, chapter, verses, data, fromScripture, chBack) {
+    try {
+      if (fromScripture) {
+        renderStudyContextChapter(root, book, chapter, data, verses || []);
         wire(root);
-      })
-      .catch(function () {
-        root.innerHTML =
-          '<div class="study-app-toolbar">' +
-          btnGhost('← Back', 'list', state.list || 'ot') +
-          '</div><p class="study-app-note">Could not load overview. Try again later.</p>';
-        wire(root);
-      });
+      } else {
+        renderChapterFull(root, book, chapter, data, verses || []);
+      }
+    } catch (eFull) {
+      try {
+        renderChapterMinimalReading(root, book, chapter, verses || [], data, fromScripture, chBack);
+      } catch (eMin) {
+        renderChapterBareReading(root, book, chapter, verses || [], fromScripture, chBack);
+      }
+    }
+  }
+
+  /**
+   * Lightweight scripture + reflection when renderChapterFull / renderStudyContextChapter fail on edge-case payloads.
+   */
+  function renderChapterMinimalReading(root, book, chapter, verses, data, fromScripture, chBack) {
+    root.classList.remove('study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
+    var payload =
+      data && typeof data === 'object' ? data : chapterStructuredExplainFallback(book, chapter);
+    var refl =
+      payload.reflection != null && String(payload.reflection).trim()
+        ? String(payload.reflection).trim()
+        : chapterReflectionFallbackPrompt(book, chapter);
+    state.chapterPayload = payload;
+    state.chapterVerses = verses || [];
+    var vArr = verses || [];
+    var excerpt = chapterExcerpt(vArr, 560);
+    var bodyHtml = '';
+    var bi;
+    for (bi = 0; bi < vArr.length; bi++) {
+      bodyHtml +=
+        '<p class="study-app-note" style="margin-bottom:10px;line-height:1.55">' +
+        esc(String(bi + 1) + '. ' + String(vArr[bi] || '')) +
+        '</p>';
+    }
+    if (!bodyHtml) {
+      bodyHtml =
+        '<p class="study-app-note">We couldn\u2019t load verse text for this chapter. Try another translation or check your connection.</p>';
+    }
+    if (fromScripture) {
+      root.classList.add('study-app-root--mode-context', 'study-app-root--study-ctx');
+      root.innerHTML =
+        '<div class="study-ctx-screen">' +
+        '<div class="study-app-toolbar study-ctx-toolbar">' +
+        btnGhost('← Back', 'ctx-back', '') +
+        '</div>' +
+        '<header class="study-ctx-header">' +
+        '<p class="study-ctx-kicker">STUDY</p>' +
+        '<h1 class="study-ctx-title display-font">' +
+        esc(book + ' ' + chapter) +
+        '</h1>' +
+        '</header>' +
+        '<section class="study-ctx-passage-card">' +
+        '<p class="study-ctx-passage-label">PASSAGE</p>' +
+        '<div class="study-ctx-passage-text study-ctx-passage-text--chapter body-font">' +
+        esc(excerpt).replace(/\n/g, '<br>') +
+        '</div>' +
+        '<div class="study-ctx-passage-actions">' +
+        '<button type="button" class="study-ctx-pill study-ctx-pill--rose" data-act="reflect-ch" data-arg="' +
+        esc(book + '|' + chapter) +
+        '">Reflect on this →</button>' +
+        '</div></section>' +
+        '<article class="study-ctx-card study-ctx-card--insight">' +
+        '<p class="study-ctx-card-label">Reflect</p>' +
+        '<p class="study-ctx-body">' +
+        esc(refl) +
+        '</p></article>' +
+        '</div>';
+      wire(root);
+    } else {
+      root.classList.remove('study-app-root--study-ctx');
+      root.innerHTML =
+        '<div class="study-app-toolbar">' +
+        btnGhost('← Back', 'ch-back', chBack || 'home') +
+        '</div>' +
+        '<p class="study-app-eyebrow">Chapter</p>' +
+        '<h2 class="study-app-h2 display-font">' +
+        esc(book + ' ' + chapter) +
+        '</h2>' +
+        bodyHtml +
+        '<p class="study-app-note" style="margin-top:16px">' +
+        esc(refl) +
+        '</p>';
+      wire(root);
+    }
+  }
+
+  /** Last-resort plain text if minimal layout throws. */
+  function renderChapterBareReading(root, book, chapter, verses, fromScripture, chBack) {
+    root.classList.remove('study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
+    var fb = chapterStructuredExplainFallback(book, chapter);
+    state.chapterPayload = fb;
+    state.chapterVerses = verses || [];
+    var lines = (verses || []).map(function (t, i) {
+      return String(i + 1) + '. ' + String(t || '');
+    });
+    var raw = lines.join('\n\n');
+    if (fromScripture) {
+      root.classList.add('study-app-root--study-ctx', 'study-app-root--mode-context');
+      root.innerHTML =
+        '<div class="study-ctx-screen">' +
+        '<div class="study-app-toolbar study-ctx-toolbar">' +
+        btnGhost('← Back', 'ctx-back', '') +
+        '</div>' +
+        '<h2 class="study-app-h2 display-font">' +
+        esc(book + ' ' + chapter) +
+        '</h2>' +
+        '<p class="study-app-note">' +
+        esc(fb.reflection) +
+        '</p>' +
+        '<div class="study-app-note" style="white-space:pre-wrap;line-height:1.55">' +
+        esc(raw) +
+        '</div></div>';
+      wire(root);
+    } else {
+      root.innerHTML =
+        '<div class="study-app-toolbar">' +
+        btnGhost('← Back', 'ch-back', chBack || 'home') +
+        '</div>' +
+        '<h2 class="study-app-h2 display-font">' +
+        esc(book + ' ' + chapter) +
+        '</h2>' +
+        '<p class="study-app-note">' +
+        esc(fb.reflection) +
+        '</p>' +
+        '<div class="study-app-note" style="white-space:pre-wrap;line-height:1.55">' +
+        esc(raw) +
+        '</div>';
+      wire(root);
+    }
+  }
+
+  /** Full-screen failure only when bridge.loadChapterVerses rejects (no scripture text). */
+  function renderChapterFetchFailed(root, fromScripture, chBack) {
+    root.innerHTML =
+      '<div class="study-app-toolbar">' +
+      btnGhost(
+        '← Back',
+        fromScripture ? 'ctx-back' : 'ch-back',
+        fromScripture ? '' : chBack || 'home'
+      ) +
+      '</div><p class="study-app-note">Could not load this chapter. Try again.</p>';
+    wire(root);
   }
 
   function openChapter(root, book, chapter, options) {
     options = options || {};
-    if (root && root.classList) root.classList.remove('study-app-root--plan-step');
+    if (root && root.classList) root.classList.remove('study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var fromScripture = !!options.fromScripture;
     if (!fromScripture) {
       try {
@@ -2416,41 +3473,85 @@
       if (noteEl) noteEl.textContent = 'Reader unavailable.';
       return;
     }
-    b
-      .loadChapterVerses(book, chapter)
-      .then(function (pack) {
-        var verses = pack && pack.verses ? pack.verses : [];
-        var versesText = verses.map(function (t, i) {
-          return String(i + 1) + ' ' + String(t || '').trim();
-        }).join('\n');
-        return api('/api/chapter-explain-structured', {
-          book: book,
-          chapter: chapter,
-          versesText: versesText
-        }).then(function (data) {
-          state.chapterPayload = data;
-          state.chapterVerses = verses;
-          if (fromScripture) {
-            renderStudyContextChapter(root, book, chapter, data, verses);
+    b.loadChapterVerses(book, chapter).then(
+      function onChapterVersesOk(pack) {
+        try {
+          var verses = pack && pack.verses ? pack.verses : [];
+          var versesText = verses
+            .map(function (t, i) {
+              return String(i + 1) + ' ' + String(t || '').trim();
+            })
+            .join('\n');
+
+          function paintChapterPayload(data) {
+            state.chapterPayload = data;
+            state.chapterVerses = verses;
+            safePaintChapterReading(root, book, chapter, verses, data, fromScripture, chBack);
+          }
+
+          try {
+            paintChapterPayload(chapterStructuredExplainFallback(book, chapter));
+          } catch (eFirst) {
+            try {
+              renderChapterMinimalReading(
+                root,
+                book,
+                chapter,
+                verses,
+                chapterStructuredExplainFallback(book, chapter),
+                fromScripture,
+                chBack
+              );
+            } catch (eMin) {
+              renderChapterBareReading(root, book, chapter, verses, fromScripture, chBack);
+            }
+          }
+
+          return api('/api/chapter-explain-structured', {
+            book: book,
+            chapter: chapter,
+            versesText: versesText
+          })
+            .then(function (data) {
+              if (data && typeof data === 'object') {
+                try {
+                  paintChapterPayload(data);
+                } catch (eAiPaint) {
+                  try {
+                    renderChapterMinimalReading(root, book, chapter, verses, data, fromScripture, chBack);
+                  } catch (eAiMin) {
+                    renderChapterBareReading(root, book, chapter, verses, fromScripture, chBack);
+                  }
+                }
+              }
+            })
+            .catch(function () {});
+        } catch (eOuter) {
+          try {
+            var vx = pack && pack.verses ? pack.verses : [];
+            renderChapterBareReading(root, book, chapter, vx, fromScripture, chBack);
+          } catch (eBr) {
+            root.innerHTML =
+              '<div class="study-app-toolbar">' +
+              btnGhost(
+                '← Back',
+                fromScripture ? 'ctx-back' : 'ch-back',
+                fromScripture ? '' : chBack || 'home'
+              ) +
+              '</div><p class="study-app-note">Unable to show this chapter. Try going back and opening it again.</p>';
             wire(root);
-          } else renderChapterFull(root, book, chapter, data, verses);
-        });
-      })
-      .catch(function () {
-        root.innerHTML =
-          '<div class="study-app-toolbar">' +
-          btnGhost(
-            '← Back',
-            fromScripture ? 'ctx-back' : 'ch-back',
-            fromScripture ? '' : chBack || 'home'
-          ) +
-          '</div><p class="study-app-note">Could not load this chapter. Try again.</p>';
-        wire(root);
-      });
+          }
+          return Promise.resolve();
+        }
+      },
+      function onChapterVersesFail() {
+        renderChapterFetchFailed(root, fromScripture, chBack);
+      }
+    );
   }
 
   function renderChapterFull(root, book, chapter, d, verses) {
-    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step');
+    root.classList.remove('study-app-root--study-ctx', 'study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var written = [d.writtenBy, d.date].filter(Boolean).join(' · ');
     var keyInner =
       d.keyVerse && (d.keyVerse.text || d.keyVerse.reference)
@@ -2616,7 +3717,7 @@
 
   function openVerse(root, book, chapter, verseNum, ref, text, opts) {
     opts = opts || {};
-    if (root && root.classList) root.classList.remove('study-app-root--plan-step');
+    if (root && root.classList) root.classList.remove('study-app-root--plan-step', 'study-app-root--reading', 'study-app-root--reading-complete');
     var fromScripture = !!opts.fromScripture;
     var keepList = state.list;
     var navBack = opts.navBack || null;
@@ -2855,7 +3956,7 @@
     if (!pls || !pls.passages[0]) return;
     setActivePlanId(pls.id);
     setPlanDay(pls.id, 0);
-    openPlanStep(root, pls.id, 0, 'home');
+    openPlanStep(root, pls.id, 0, planExitStepBackForExternalLaunch(), { planStart: true });
     wire(root);
   }
 

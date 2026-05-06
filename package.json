@@ -7,7 +7,7 @@
     "build": "node scripts/build-www.cjs",
     "dev": "live-server . --port=5500 --open=/index.html --watch=index.html,widget.html,sw.js,bibleData.js,manifest.json",
     "dev:onboarding": "live-server . --port=5500 --open=/index.html?onboarding=1 --watch=index.html,sw.js,bibleData.js,manifest.json,js/app-themes.js,js/onboarding.js",
-    "dev:api": "vercel dev",
+    "dev:api": "cd .. && vercel dev",
     "cap:sync": "cap sync",
     "cap:open:ios": "cap open ios"
   },
@@ -21,6 +21,8 @@
   "dependencies": {
     "@capacitor/assets": "^3.0.5",
     "@capacitor/local-notifications": "^6.1.3",
-    "@capacitor/push-notifications": "^6.0.5"
+    "@capacitor/push-notifications": "^6.0.5",
+    "@vercel/speed-insights": "^2.0.0",
+    "posthog-node": "^5.33.2"
   }
 }

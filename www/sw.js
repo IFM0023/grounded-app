@@ -10,7 +10,7 @@
  * Bump CACHE_VERSION whenever you ship changes you want users to pick up
  * immediately. Old caches will be deleted on the next page load.
  */
-const CACHE_VERSION = 'grounded-v187';
+const CACHE_VERSION = 'grounded-v217';
 /* Resolve shell URLs from this script’s folder so the app works in a subpath. */
 const SW_DIR = new URL('./', self.location.href);
 function shellUrl(path) {
