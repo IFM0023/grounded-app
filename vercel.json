@@ -5,6 +5,13 @@
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin/", "destination": "/admin.html" }
   ],
+  "redirects": [
+    {
+      "source": "/app",
+      "destination": "https://apps.apple.com/app/grounded-faith-reflection/id6765458923",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/index.html",
