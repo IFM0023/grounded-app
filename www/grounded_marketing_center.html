@@ -515,6 +515,112 @@ body::after {
   height: 1px;
   background: var(--card-border);
 }
+
+/* Mission Control checklist */
+.mission-progress-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--rose);
+  font-weight: 500;
+}
+.mission-progress-track {
+  height: 8px;
+  background: rgba(255,248,246,0.06);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  margin-top: 10px;
+}
+.mission-progress-fill {
+  height: 100%;
+  background: var(--rose);
+  border-radius: 8px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+.mission-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--cream);
+  margin: 24px 0 12px;
+  font-weight: 400;
+}
+.card > .mission-section:first-of-type .mission-section-title {
+  margin-top: 16px;
+}
+.mission-task {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+}
+.mission-task:hover {
+  background: rgba(255,248,246,0.03);
+}
+.mission-task input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+}
+.mission-cb {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: rgba(255,248,246,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.mission-task input:checked + .mission-cb {
+  background: rgba(168,107,98,0.22);
+  border-color: var(--rose);
+}
+.mission-task input:checked + .mission-cb::after {
+  content: '✓';
+  color: var(--rose);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+.mission-task-text {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.5;
+  flex: 1;
+  transition: opacity 0.2s;
+}
+.mission-task input:checked ~ .mission-task-text {
+  opacity: 0.5;
+}
+.mission-reset {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--light);
+  opacity: 0.65;
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.mission-reset:hover {
+  opacity: 0.9;
+  color: var(--cream);
+}
 </style>
 <script src="js/grounded-home-weekly-themes-data.js"></script>
 </head>
@@ -542,6 +648,9 @@ body::after {
     </div>
     <div class="nav-item" onclick="showTab('brief')">
       <span class="nav-icon">◉</span> Weekly Brief
+    </div>
+    <div class="nav-item" onclick="showTab('mission')">
+      <span class="nav-icon">✧</span> Mission Control
     </div>
   </nav>
 
@@ -891,6 +1000,104 @@ body::after {
       </div>
     </div>
 
+    <!-- ═══ MISSION CONTROL ═══ -->
+    <div class="tab-panel" id="tab-mission">
+      <div class="page-header">
+        <div class="page-eyebrow">Tab 05</div>
+        <div class="page-title">Mission Control</div>
+        <div class="page-sub">Founder checklist — launch tasks and goals, saved on this device</div>
+      </div>
+
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-label">Progress</div>
+        <div id="missionProgressLabel" class="mission-progress-label">0 of 47 tasks complete</div>
+        <div class="mission-progress-track">
+          <div class="mission-progress-fill" id="missionProgressFill"></div>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">🌱 Launch Week (Right Now)</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m01" /><span class="mission-cb"></span><span class="mission-task-text">Get to 15 App Store reviews (currently at ~5 — text 10 more people personally)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m02" /><span class="mission-cb"></span><span class="mission-task-text">Order Grounded business cards from Walgreens (design is done in Canva)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m03" /><span class="mission-cb"></span><span class="mission-task-text">Post first TikTok/Reel (video is built in Canva — download and post)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m04" /><span class="mission-cb"></span><span class="mission-task-text">Post first Pinterest pin (design is done — upload and post)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m05" /><span class="mission-cb"></span><span class="mission-task-text">Post first Instagram post (Psalm 5:3 verse card — screenshot from app and post)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m06" /><span class="mission-cb"></span><span class="mission-task-text">Set up Pinterest business account and link to Instagram</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m07" /><span class="mission-cb"></span><span class="mission-task-text">Add App Store link to all social media bios</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">📱 Social Media Goals</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m08" /><span class="mission-cb"></span><span class="mission-task-text">Reach 500 TikTok followers (currently at 130)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m09" /><span class="mission-cb"></span><span class="mission-task-text">Reach 200 Instagram followers (currently at 5)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m10" /><span class="mission-cb"></span><span class="mission-task-text">Reach 1,000 Pinterest monthly views</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m11" /><span class="mission-cb"></span><span class="mission-task-text">Post 5x per week for 30 days straight</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m12" /><span class="mission-cb"></span><span class="mission-task-text">Get first TikTok video to 1,000 views</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m13" /><span class="mission-cb"></span><span class="mission-task-text">Get first Reel saved 50+ times</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">💰 Ads</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m14" /><span class="mission-cb"></span><span class="mission-task-text">Confirm 15 App Store reviews (required before starting Meta ads)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m15" /><span class="mission-cb"></span><span class="mission-task-text">Set up Facebook Business Manager account</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m16" /><span class="mission-cb"></span><span class="mission-task-text">Create first Meta ad campaign ($15/day — faith women 22-45, US)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m17" /><span class="mission-cb"></span><span class="mission-task-text">Set up Facebook Pixel on getgroundedapp.com</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m18" /><span class="mission-cb"></span><span class="mission-task-text">Review Apple Search Ads performance (currently running at $10/day)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m19" /><span class="mission-cb"></span><span class="mission-task-text">Increase Apple Search Ads to $20/day once reviews hit 15</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">🤝 Outreach</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m20" /><span class="mission-cb"></span><span class="mission-task-text">Identify 10 micro influencers (5K-50K followers, faith/wellness niche)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m21" /><span class="mission-cb"></span><span class="mission-task-text">Send first 5 influencer DMs using dashboard Influencer Outreach tab</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m22" /><span class="mission-cb"></span><span class="mission-task-text">Follow up with influencers who didn't respond after 5 days</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m23" /><span class="mission-cb"></span><span class="mission-task-text">Submit Grounded to Crosswalk app directory</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m24" /><span class="mission-cb"></span><span class="mission-task-text">Submit to Relevant Magazine app roundup</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m25" /><span class="mission-cb"></span><span class="mission-task-text">Submit to 5 Christian app directories (list in notes below)</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">📦 Physical Marketing</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m26" /><span class="mission-cb"></span><span class="mission-task-text">Pick up Walgreens test print of business cards</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m27" /><span class="mission-cb"></span><span class="mission-task-text">Review card quality — order proper print run if good (Moo.com, 250 cards)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m28" /><span class="mission-cb"></span><span class="mission-task-text">Identify 5 local spots to leave cards (coffee shops, yoga studios, churches)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m29" /><span class="mission-cb"></span><span class="mission-task-text">Drop cards at first location</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">📈 Monthly Goals</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m30" /><span class="mission-cb"></span><span class="mission-task-text">Hit 100 total downloads (Month 1)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m31" /><span class="mission-cb"></span><span class="mission-task-text">Hit 15 App Store reviews</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m32" /><span class="mission-cb"></span><span class="mission-task-text">Hit 500 TikTok followers</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m33" /><span class="mission-cb"></span><span class="mission-task-text">Launch Premium features at Month 3 ($4.99/month or $34.99/year)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m34" /><span class="mission-cb"></span><span class="mission-task-text">Start Android build (Google Play account already set up)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m35" /><span class="mission-cb"></span><span class="mission-task-text">Hit 1,000 total downloads (Month 2)</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">🤖 Android Launch</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m36" /><span class="mission-cb"></span><span class="mission-task-text">Set up Android build in Codemagic for Google Play submission</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m37" /><span class="mission-cb"></span><span class="mission-task-text">Test Android version on emulator or test device</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m38" /><span class="mission-cb"></span><span class="mission-task-text">Create Google Play store listing (screenshots, description, icon)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m39" /><span class="mission-cb"></span><span class="mission-task-text">Submit Grounded to Google Play for review</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m40" /><span class="mission-cb"></span><span class="mission-task-text">Launch Android version — announce to existing users</span></label>
+        </div>
+
+        <div class="mission-section">
+          <div class="mission-section-title">📱 New Features Pipeline</div>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m41" /><span class="mission-cb"></span><span class="mission-task-text">Design and build iOS home screen widget (daily verse)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m42" /><span class="mission-cb"></span><span class="mission-task-text">Design and build iOS home screen widget (daily focus word)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m43" /><span class="mission-cb"></span><span class="mission-task-text">Submit widget update to App Store</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m44" /><span class="mission-cb"></span><span class="mission-task-text">Design and build Android widget (after Android launch)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m45" /><span class="mission-cb"></span><span class="mission-task-text">Plan Premium features for Month 3 ($4.99/month or $34.99/year)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m46" /><span class="mission-cb"></span><span class="mission-task-text">Add prayer history feature (Premium)</span></label>
+          <label class="mission-task"><input type="checkbox" class="mission-task-checkbox" data-mission-id="m47" /><span class="mission-cb"></span><span class="mission-task-text">Add Hebrew/Greek word study feature (Premium)</span></label>
+        </div>
+
+        <button type="button" class="mission-reset" onclick="resetMissionChecklist()">Reset all</button>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -1023,9 +1230,63 @@ function loadCurrentWeek() {
   }
 }
 
+const MISSION_CHECKLIST_KEY = 'grounded_mission_checklist';
+
+function getMissionChecklistState() {
+  try {
+    const raw = localStorage.getItem(MISSION_CHECKLIST_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveMissionChecklistState(state) {
+  localStorage.setItem(MISSION_CHECKLIST_KEY, JSON.stringify(state));
+}
+
+function updateMissionProgress() {
+  const boxes = document.querySelectorAll('.mission-task-checkbox');
+  let done = 0;
+  const total = boxes.length;
+  boxes.forEach(function (cb) {
+    if (cb.checked) done++;
+  });
+  const label = document.getElementById('missionProgressLabel');
+  const fill = document.getElementById('missionProgressFill');
+  if (label) label.textContent = done + ' of ' + total + ' tasks complete';
+  if (fill) fill.style.width = total ? (done / total) * 100 + '%' : '0%';
+}
+
+function initMissionChecklist() {
+  const state = getMissionChecklistState();
+  document.querySelectorAll('.mission-task-checkbox').forEach(function (cb) {
+    const id = cb.getAttribute('data-mission-id');
+    if (!id) return;
+    cb.checked = !!state[id];
+    cb.addEventListener('change', function () {
+      const s = getMissionChecklistState();
+      if (cb.checked) s[id] = true;
+      else delete s[id];
+      saveMissionChecklistState(s);
+      updateMissionProgress();
+    });
+  });
+  updateMissionProgress();
+}
+
+function resetMissionChecklist() {
+  localStorage.removeItem(MISSION_CHECKLIST_KEY);
+  document.querySelectorAll('.mission-task-checkbox').forEach(function (cb) {
+    cb.checked = false;
+  });
+  updateMissionProgress();
+}
+
 window.addEventListener('load', () => {
   renderTracker();
   loadCurrentWeek();
+  initMissionChecklist();
 });
 
 // ── Navigation ──
