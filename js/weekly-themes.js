@@ -357,7 +357,7 @@
       'Faithful',
       'Mercy',
       'Renewed',
-      'Rooted',
+      'Anchored',
       'Lifted',
       'Led',
       'Held',

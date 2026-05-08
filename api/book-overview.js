@@ -1,20 +1,16 @@
 import { readRequestJson } from './read-request-json.js';
+import {
+  drainOpenAiSseToText,
+  openAiChatCompletionStartStream,
+  readOpenAiChatCompletionNonStream
+} from './openai-stream-shared.js';
 
-const SYSTEM_PROMPT = `You are a careful Bible companion helping someone understand a whole biblical book.
+/** ~72 words (was ~120): book snapshot JSON + tone. */
+const SYSTEM_PROMPT = `You help readers grasp a whole biblical book. Reply with one JSON object only (no markdown).
 
-Respond with ONE JSON object only (no markdown, no code fences).
+Fields (strings except themes): author — who wrote it and rough when, short phrase; audience; period — setting in plain words; purpose — one sentence on why it exists; whyReadIt — one sentence, personal relevance today; fitsInStory — one sentence in the wider biblical narrative; themes — array of 4–6 short labels (e.g. "Covenant"); pointsToJesus — for Old Testament only, 1–2 sentences on how it points toward Christ; for New Testament use "".
 
-Keys (all strings except themes; themes is array of 4-6 short single-word or two-word strings):
-- "author": who wrote it (traditional attribution is fine) + rough date range, one short phrase
-- "audience": who it was written for, one phrase
-- "period": historical setting, one phrase
-- "purpose": why it was written, ONE sentence
-- "whyReadIt": personal relevance for a modern reader, ONE sentence
-- "fitsInStory": how it connects to the larger biblical narrative, ONE sentence
-- "themes": array of 4-6 short theme labels (e.g. "Covenant", "Faith")
-- "pointsToJesus": for Old Testament books only: 1-2 sentences on how the book points forward to Christ. For New Testament gospels/epistles use empty string "".
-
-Tone: warm, honest, non-technical. No preaching at the reader.`;
+Tone: warm, plain, non-technical; no preaching.`;
 
 function stripFences(s) {
   return String(s || '')
@@ -71,52 +67,29 @@ function readBookTestament(req, body) {
   return { book, testament };
 }
 
-async function generateOverviewWithOpenAI(book, testament, apiKey) {
+function buildOverviewRequest(book, testament) {
   const userMessage = `Book: ${book}\nTestament: ${testament}\n\nReturn the JSON object with all keys described in your instructions.`;
+  return {
+    model: 'gpt-4o-mini',
+    temperature: 0.45,
+    max_tokens: 900,
+    response_format: { type: 'json_object' },
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: userMessage }
+    ]
+  };
+}
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 55000);
-
-  try {
-    const upstream = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        temperature: 0.45,
-        max_tokens: 900,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: userMessage }
-        ]
-      }),
-      signal: controller.signal
-    });
-
-    if (!upstream.ok) {
-      const detail = await upstream.text().catch(() => '');
-      const err = new Error('Upstream error');
-      err.status = 502;
-      err.detail = detail.slice(0, 200);
-      throw err;
-    }
-    const data = await upstream.json();
-    const raw = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || '').trim();
-    const parsed = parseJson(raw);
-    const out = normalize(parsed, testament);
-    if (!out || (!out.author && !out.purpose)) {
-      const err = new Error('Invalid AI response');
-      err.status = 502;
-      throw err;
-    }
-    return out;
-  } finally {
-    clearTimeout(timeout);
+async function finalizeOverview(raw, testament) {
+  const parsed = parseJson(raw);
+  const out = normalize(parsed, testament);
+  if (!out || (!out.author && !out.purpose)) {
+    const err = new Error('Invalid AI response');
+    err.status = 502;
+    throw err;
   }
+  return out;
 }
 
 export default async function handler(req, res) {
@@ -140,13 +113,75 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing book' });
   }
 
+  const q = req.query || {};
+  const wantsStream =
+    String(q.stream || '') === '1' ||
+    String(q.stream || '') === 'true' ||
+    body.stream === true ||
+    body.stream === 'true';
+
   const apiKey = process.env.OPENAI_API_KEY || process.env.OPEN_AI_KEY || process.env.OPENAI_KEY;
   if (!apiKey) {
     return res.status(503).json({ error: 'AI not configured' });
   }
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 55000);
+  const payload = buildOverviewRequest(book, testament);
+
   try {
-    const overview = await generateOverviewWithOpenAI(book, testament, apiKey);
+    if (wantsStream) {
+      let raw = '';
+      try {
+        const upstream = await openAiChatCompletionStartStream({
+          apiKey,
+          requestBody: payload,
+          signal: controller.signal
+        });
+        if (!upstream.ok) {
+          const detail = await upstream.text().catch(() => '');
+          return res.status(502).json({
+            error: 'Upstream error',
+            detail: detail.slice(0, 200)
+          });
+        }
+        res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-store');
+        raw = await drainOpenAiSseToText(upstream.body, (d) => {
+          res.write(JSON.stringify({ d }) + '\n');
+        });
+      } catch (eStream) {
+        raw = await readOpenAiChatCompletionNonStream({
+          apiKey,
+          requestBody: payload,
+          signal: controller.signal
+        });
+        if (!res.headersSent) {
+          res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-store');
+        }
+      }
+
+      try {
+        const overview = await finalizeOverview(raw, testament);
+        res.write(JSON.stringify({ done: true, data: { overview } }) + '\n');
+        res.end();
+      } catch (eFin) {
+        if (!res.headersSent) {
+          return res.status(502).json({ error: 'Invalid AI response' });
+        }
+        res.write(JSON.stringify({ error: 'Invalid AI response' }) + '\n');
+        res.end();
+      }
+      return;
+    }
+
+    const raw = await readOpenAiChatCompletionNonStream({
+      apiKey,
+      requestBody: payload,
+      signal: controller.signal
+    });
+    const overview = await finalizeOverview(raw, testament);
     return res.status(200).json({ overview });
   } catch (e) {
     const aborted = e && (e.name === 'AbortError' || /abort/i.test(String(e)));
@@ -160,5 +195,7 @@ export default async function handler(req, res) {
     return res.status(status >= 400 && status < 600 ? status : 500).json({
       error: e && e.message ? String(e.message) : 'Generation failed'
     });
+  } finally {
+    clearTimeout(timeout);
   }
 }

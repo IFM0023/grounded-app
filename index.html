@@ -429,6 +429,37 @@
   body[data-active-tab]:not([data-active-tab="feed"]) .screen > .tab-top-media:first-child,
   #screen-feed > .tab-top-media,
   .pil-reset-hero > .tab-top-media:first-child{margin-top:0}
+  /* Today tab — subtle spacing & typography polish */
+  body[data-active-tab="feed"] .header.app-header .ah-top-bar.top-bar{padding:6px var(--sp-4) 5px}
+  body[data-active-tab="feed"] .greeting h1.display-font,
+  body[data-active-tab="feed"] .greeting h1.serif{font-size:24px;margin:0 0 10px;line-height:1.22}
+  #screen-feed > .tab-top-media{margin-bottom:12px}
+  #screen-feed > .home-section.home-daily-invite{margin-bottom:26px;padding:2px var(--sp-2) 0}
+  #screen-feed .home-invite-title{margin:0 0 4px;line-height:1.26}
+  #screen-feed .home-invite-sub.display-font{margin:0 auto 24px;opacity:0.93;line-height:1.58}
+  #screen-feed .home-weekly-theme-block{padding:30px 20px 26px;margin-top:22px}
+  #screen-feed > .home-section:not(.home-daily-invite){margin-bottom:22px}
+  #screen-feed .home-section#homeResponse{margin:14px 0 22px}
+  #screen-feed .home-section#homeResponse::before{margin-bottom:10px}
+  #screen-feed .home-section.walk-with-god{margin-top:10px;margin-bottom:28px}
+  #screen-feed{padding-bottom:36px}
+  #screen-feed .home-daily-invite .home-start-moment-btn{margin-top:10px}
+  /* Today — middle stack: check-in chips, verse card, truths */
+  #screen-feed .home-checkin .feeling-pill{background:rgba(255,251,247,0.78);border:1px solid rgba(234,208,204,0.19);box-shadow:0 1px 6px rgba(90,74,66,0.026);opacity:0.9}
+  #screen-feed .home-checkin .feeling-pill.selected{border-color:rgba(186,160,148,0.36);box-shadow:0 3px 11px rgba(90,74,66,0.05),0 0 0 2px rgba(244,234,228,0.88)}
+  #screen-feed #homeTodayVerseCard.verse-card.word-vod-card{padding:34px 26px 30px;border:1px solid rgba(234,208,204,0.16);box-shadow:0 5px 20px rgba(90,74,66,0.044),0 1px 3px rgba(90,74,66,0.028)}
+  #screen-feed #homeTodayVerseCard .wv-label.body-font{opacity:0.74;letter-spacing:1.65px;font-weight:500;margin-bottom:14px}
+  #screen-feed #homeTodayVerseCard .wv-text.display-font{margin-bottom:2px}
+  #screen-feed #homeTodayVerseCard .wv-ref.body-font{margin-top:18px;margin-bottom:10px;opacity:0.86}
+  #screen-feed #walkWithGod.walk-with-god{border:1px solid rgba(234,208,204,0.11);box-shadow:0 6px 26px rgba(90,74,66,0.032)}
+  #screen-feed #walkWithGod .walk-truths-lines{gap:22px}
+  #screen-feed #walkWithGod .walk-truths-actions{margin-top:22px;gap:18px}
+  #screen-feed #walkWithGod .walk-truths-refresh,
+  #screen-feed #walkWithGod .walk-truths-save{padding:10px 16px;font-size:11px;letter-spacing:0.09em;color:rgba(116,108,102,0.78);text-underline-offset:4px;opacity:0.94}
+  #screen-feed #walkWithGod .walk-truths-refresh:hover,
+  #screen-feed #walkWithGod .walk-truths-save:hover{color:rgba(96,90,85,0.92)}
+  #screen-feed #walkWithGod .walk-truths-refresh:active,
+  #screen-feed #walkWithGod .walk-truths-save:active{color:rgba(86,80,76,0.95)}
   .home-daily-invite{text-align:center;padding:var(--sp-1) var(--sp-2) 0;margin-bottom:var(--sp-4)}
   .home-invite-title{font-size:22px;font-weight:500;letter-spacing:-0.35px;color:var(--text);margin:0 0 var(--sp-2);line-height:1.28}
   .home-invite-sub.display-font{font-size:13px;font-style:italic;font-weight:400;color:var(--text-light);line-height:1.6;margin:0 auto var(--sp-4);max-width:19rem;opacity:0.88;letter-spacing:0.04em}
@@ -2458,16 +2489,19 @@
   .prayer-custom-wrap textarea{width:100%;min-height:72px;resize:none;padding:14px 16px;border-radius:var(--radius);border:1px solid var(--paper-border);background:var(--paper);font-size:14px;line-height:1.55;color:var(--text);font-family:inherit;box-sizing:border-box}
   .prayer-custom-wrap textarea::placeholder{color:var(--accent-strong);font-style:italic;opacity:0.75}
   .prayer-result{margin-top:28px;padding-bottom:8px}
-  .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:32px 26px 36px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(8px);transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1);overflow:visible}
+  .prayer-result-card{position:relative;background:linear-gradient(165deg,#fffdfb 0%,#faf6f2 100%);border:1px solid rgba(234,208,204,0.35);border-radius:var(--radius-lg);padding:32px 26px 36px;box-shadow:0 10px 32px rgba(90,74,66,0.06);opacity:0;transform:translateY(5px);transition:opacity 0.28s cubic-bezier(.33,.11,.25,1),transform 0.28s cubic-bezier(.33,.11,.25,1);overflow:visible}
   .prayer-result-card.visible{opacity:1;transform:translateY(0)}
+  @media(prefers-reduced-motion:reduce){
+    .prayer-result-card{transition:none}
+  }
   .prayer-result-card.loading .prayer-body{opacity:0.55;font-style:italic}
   .prayer-result-card.loading .prayer-body::first-line{font-size:inherit;font-weight:400;font-style:italic;color:var(--text-light)}
   .prayer-btn[disabled],.prayer-pill[disabled]{opacity:0.5;cursor:not-allowed;pointer-events:none}
-  .prayer-result-card .prayer-body.display-font{font-size:16.5px;line-height:2;color:var(--text);white-space:pre-line;margin:0;font-style:italic;letter-spacing:0.1px}
+  .prayer-result-card .prayer-body.display-font{font-size:16.5px;line-height:2.14;color:var(--text);white-space:pre-line;margin:0;font-style:italic;letter-spacing:0.1px}
   .prayer-result-card .prayer-body::first-line{font-size:19px;font-weight:500;font-style:normal;letter-spacing:0.2px;color:var(--text)}
-  .prayer-takeaway{position:relative;margin-top:30px;padding-top:26px;border-top:none;font-size:13.5px;line-height:1.65;color:var(--text);text-align:center}
+  .prayer-takeaway{position:relative;margin-top:38px;padding-top:26px;border-top:none;font-size:13.5px;line-height:1.65;color:var(--text);text-align:center}
   .prayer-takeaway::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:56%;height:1px;background:linear-gradient(to right,transparent,rgba(186,160,148,0.32),transparent)}
-  .prayer-takeaway .pt-label{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--accent-strong);opacity:0.95;margin-bottom:10px;font-weight:500}
+  .prayer-takeaway .pt-label{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--text-light);opacity:0.74;margin-bottom:10px;font-weight:500}
   .prayer-takeaway .pt-text.body-font{font-style:normal;font-weight:500;color:var(--text);overflow-wrap:break-word;word-wrap:break-word}
   .prayer-actions{display:flex;justify-content:center;gap:12px;margin-top:26px;flex-wrap:wrap}
   .prayer-btn{padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:transform 0.2s ease,background 0.3s ease,box-shadow 0.3s ease,color 0.25s ease,border-color 0.25s ease,opacity 0.2s ease;border:none;-webkit-tap-highlight-color:transparent;letter-spacing:0.2px}
@@ -2477,20 +2511,22 @@
   .prayer-btn-primary{background:linear-gradient(180deg,var(--primary) 0%,var(--secondary) 100%);color:var(--text);box-shadow:0 2px 10px rgba(186,160,148,0.22),inset 0 1px 0 rgba(255,255,255,0.55)}
   .prayer-btn-primary:hover{box-shadow:0 4px 14px rgba(186,160,148,0.3),inset 0 1px 0 rgba(255,255,255,0.6);transform:translateY(-1px)}
   .prayer-btn-primary:active{transform:scale(0.97);box-shadow:0 1px 6px rgba(186,160,148,0.2),inset 0 1px 0 rgba(255,255,255,0.4)}
+  .prayer-btn-dive-deeper{background:transparent;color:var(--text-light);border:1px solid rgba(186,160,148,0.2);font-weight:400;box-shadow:none}
+  .prayer-btn-dive-deeper:hover{color:var(--text);background:rgba(244,234,228,0.26);border-color:rgba(186,160,148,0.32);box-shadow:none}
+  .prayer-btn-dive-deeper:active{transform:scale(0.97);box-shadow:none}
   .prayer-save-msg{font-family:'Caveat',cursive;font-size:15px;color:var(--accent-strong);text-align:center;margin-top:14px;opacity:0;transition:opacity 0.35s ease}
   .prayer-save-msg.show{opacity:1}
   .prayer-result-stack{max-width:26rem;margin:0 auto}
-  .prayer-rest-hint{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;font-style:italic;color:var(--text-light);text-align:center;margin:22px 12px 0;line-height:1.55;opacity:0.88}
-  .prayer-completion-actions{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:18px;padding:0 4px}
+  .prayer-completion-actions{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin-top:12px;padding:0 4px}
   .prayer-completion-actions .prayer-btn{width:100%;max-width:280px;margin:0 auto}
-  .prayer-completion-links{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;flex-wrap:wrap}
-  .prayer-text-link{font-family:'Inter',system-ui,sans-serif;font-size:12.5px;font-weight:400;color:var(--text-light);background:none;border:none;cursor:pointer;padding:6px 4px;text-decoration:underline;text-decoration-color:rgba(186,160,148,0.35);text-underline-offset:3px}
-  .prayer-text-link:hover{color:var(--text)}
+  .prayer-completion-links{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:2px;flex-wrap:wrap;line-height:1.2}
+  .prayer-text-link{font-family:'Inter',system-ui,sans-serif;font-size:12.5px;font-weight:400;color:var(--text-light);background:none;border:none;cursor:pointer;padding:4px 4px 5px;text-decoration:underline;text-decoration-color:rgba(186,160,148,0.26);text-underline-offset:3px;opacity:0.8}
+  .prayer-text-link:hover{color:var(--text);opacity:1;text-decoration-color:rgba(186,160,148,0.38)}
   .prayer-text-link[disabled]{opacity:0.45;pointer-events:none}
-  .prayer-link-dot{color:var(--text-light);opacity:0.45;user-select:none;font-size:12px}
-  .prayer-tertiary-row{display:flex;justify-content:center;margin-top:18px}
-  .prayer-tertiary-save{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:400;color:var(--accent-strong);background:none;border:none;cursor:pointer;padding:8px 12px;opacity:0.85;text-decoration:underline;text-decoration-color:rgba(186,160,148,0.35);text-underline-offset:3px}
-  .prayer-tertiary-save:hover{opacity:1;color:var(--text)}
+  .prayer-link-dot{color:var(--text-light);opacity:0.32;user-select:none;font-size:12px;line-height:1}
+  .prayer-tertiary-row{display:flex;justify-content:center;margin-top:10px}
+  .prayer-tertiary-save{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:400;color:var(--accent-strong);background:none;border:none;cursor:pointer;padding:6px 12px 7px;opacity:0.72;text-decoration:underline;text-decoration-color:rgba(186,160,148,0.28);text-underline-offset:3px}
+  .prayer-tertiary-save:hover{opacity:0.95;color:var(--text);text-decoration-color:rgba(186,160,148,0.36)}
   .prayer-tertiary-save[disabled]{opacity:0.45;pointer-events:none}
   .prayer-dive-panel{position:relative;max-width:26rem;margin:0 auto;padding:8px 8px 28px;text-align:center;animation:prayerDiveIn 0.45s cubic-bezier(.4,0,.2,1) both}
   @keyframes prayerDiveIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -3736,10 +3772,6 @@
   .bs-fade-target{opacity:0;pointer-events:none;transition:opacity 1.2s ease}
   .bs-fade-target.shown{opacity:1;pointer-events:auto}
 
-  /* ─── GREETING CROSS (Today only) ─── */
-  .greeting-cross{display:none}
-  body[data-active-tab="feed"] .greeting-cross{display:block;margin-top:8px;font-size:13px;line-height:1;color:var(--text-light);opacity:0.5;font-weight:400;letter-spacing:0;user-select:none}
-
   /* ─── GRACE WELCOME BANNER ─── */
   .welcome-back-banner{position:relative;margin:0 0 18px;padding:14px 18px;background:linear-gradient(180deg,rgba(244,234,228,0.55),rgba(244,234,228,0.25));border:1px solid rgba(186,160,148,0.18);border-radius:var(--radius-md);text-align:center;cursor:pointer;opacity:0;transform:translateY(-4px);transition:opacity 0.9s ease,transform 0.9s ease,max-height 0.6s ease,margin 0.6s ease,padding 0.6s ease;max-height:140px;overflow:hidden;-webkit-tap-highlight-color:transparent}
   .welcome-back-banner.shown{opacity:1;transform:translateY(0)}
@@ -4089,6 +4121,8 @@
     .feeling-pill:hover::before{opacity:0.6;transform:scale(0.85)}
     .home-checkin .feeling-pill:hover{background:rgba(255,248,243,0.92);border-color:rgba(234,208,204,0.42);opacity:0.94;transform:translateY(-1px);box-shadow:0 2px 10px rgba(90,74,66,0.05)}
     .home-checkin .feeling-pill.selected:hover{background:var(--secondary);border-color:var(--petal);opacity:1;box-shadow:0 4px 14px rgba(90,74,66,0.08),0 0 0 3px var(--petal-light)}
+    #screen-feed .home-checkin .feeling-pill:hover{background:rgba(255,249,245,0.88);border-color:rgba(234,208,204,0.3);opacity:0.95;transform:translateY(-1px);box-shadow:0 2px 9px rgba(90,74,66,0.038)}
+    #screen-feed .home-checkin .feeling-pill.selected:hover{border-color:rgba(186,160,148,0.42);box-shadow:0 4px 12px rgba(90,74,66,0.052),0 0 0 2px rgba(244,234,228,0.92)}
     .aes-block:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
     .journal-choose:hover{background:var(--secondary);transform:translateY(-2px);box-shadow:0 4px 14px rgba(90,74,66,0.06)}
     .journal-save:hover{background:var(--secondary);transform:translateY(-2px);box-shadow:0 4px 14px rgba(90,74,66,0.06)}
@@ -4270,7 +4304,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   </head>
   <body>
 
-  <section id="appStoreDownloadCta" class="app-store-cta" aria-label="Download Grounded">
+  <section id="appStoreDownloadCta" class="app-store-cta" aria-label="Download Grounded: Faith & Reflection from the App Store">
     <p class="app-store-cta-text">Start your daily moment with God</p>
     <a href="https://apps.apple.com/us/app/grounded-faith-reflection/id6765458923" target="_blank" rel="noopener noreferrer" class="app-store-cta-link">
       <img
@@ -4305,7 +4339,6 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
           <div class="greeting">
             <h1 class="serif display-font" id="greetingText">Good evening</h1>
             <p class="grounded-days body-font" id="groundedDaysLabel" hidden></p>
-            <span class="greeting-cross" aria-hidden="true">&#x271D;</span>
           </div>
         </div>
       </div>
@@ -5644,10 +5677,8 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
               <p class="pt-text body-font" id="prayerTakeawayText"></p>
             </div>
           </div>
-          <p class="prayer-rest-hint" id="prayerRestHint" hidden>Stay here for a moment.</p>
           <div class="prayer-completion-actions" id="prayerCompletionActions" hidden>
-            <button type="button" class="prayer-btn prayer-btn-primary" id="prayerTakeHomeBtn">Continue your moment</button>
-            <button type="button" class="prayer-btn prayer-btn-secondary" id="prayerDiveDeeperBtn">Dive deeper</button>
+            <button type="button" class="prayer-btn prayer-btn-dive-deeper" id="prayerDiveDeeperBtn">Dive deeper</button>
             <div class="prayer-completion-links">
               <button type="button" class="prayer-text-link" id="prayerTryAnotherLink">Try another</button>
               <span class="prayer-link-dot" aria-hidden="true">·</span>
@@ -5903,13 +5934,13 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
               <li>Guided reflection questions to go deeper</li>
               <li>A personal journal to capture your thoughts</li>
               <li>Prayer prompts to help you find the words</li>
-              <li>Weekly themes to keep you rooted and growing</li>
+              <li>Weekly themes shaped around faith, reflection, and reset</li>
             </ul>
             <h4 class="profile-about-h">Reset &mdash; body, mind, and spirit</h4>
             <p class="profile-about-p body-font">Grounded goes beyond the page. The Reset space connects your faith to your body through guided Pilates videos and meditations designed to help you release tension, slow your thoughts, and settle into stillness. Because spiritual growth isn&rsquo;t just mental &mdash; it lives in how you breathe, move, and rest too.</p>
             <p class="profile-about-em body-font">Whether you&rsquo;ve walked with God for years or you&rsquo;re just beginning to explore faith, Grounded meets you exactly where you are &mdash; no theology degree required, no guilt if you miss a day.</p>
             <p class="profile-about-close">Just show up. That&rsquo;s enough.</p>
-            <p class="profile-about-tagline">Grounded. Begin where you are.</p>
+            <p class="profile-about-tagline">Faith &#8226; Reflection &#8226; Reset</p>
           </div>
         </details>
       </div>
@@ -6524,11 +6555,13 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     <div class="theme-education-sheet__panel">
       <div class="theme-education-sheet__top-accent" aria-hidden="true"></div>
       <h2 class="theme-education-sheet__title" id="themeEduTitle">How Grounded works</h2>
-      <p class="theme-education-sheet__body" id="themeEduBody">Each week you&#8217;ll explore one theme &mdash; a specific area of inner work, faith, or growth. Every day builds on the last. Your verse, guided moment, and reflection all connect to where you are in the week.</p>
+      <p class="theme-education-sheet__body" id="themeEduBody">Each week centers around one meaningful theme &mdash; like peace, healing, trust, or rest.</p>
+      <p class="theme-education-sheet__body">Every day, you&#8217;ll receive a guided moment with Scripture, reflection, and space to slow down with God.</p>
+      <p class="theme-education-sheet__body">As the week unfolds, each moment builds on the last &mdash; helping you reconnect, reflect, and grow a little deeper each day.</p>
       <p class="theme-education-sheet__theme-line" id="themeEduThemeLine"></p>
       <div class="theme-education-sheet__dots" id="themeEduDots" aria-hidden="true"></div>
       <p class="theme-education-sheet__dots-caption" id="themeEduDotsCaption">5 days &#183; one theme</p>
-      <button type="button" class="theme-education-sheet__btn" id="themeEduDismissBtn">Got it &mdash; let&#8217;s begin</button>
+      <button type="button" class="theme-education-sheet__btn" id="themeEduDismissBtn">Begin today&#8217;s moment</button>
     </div>
   </div>
 
@@ -11934,7 +11967,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         card.classList.add('visible');
         window.setTimeout(function () {
           showPrayerCompletionUi();
-        }, 320);
+        }, 300);
       });
     });
   }
@@ -11957,14 +11990,14 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   }
 
   function showPrayerCompletionUi() {
-    ['prayerRestHint', 'prayerCompletionActions', 'prayerTertiaryRow'].forEach(function (id) {
+    ['prayerCompletionActions', 'prayerTertiaryRow'].forEach(function (id) {
       const el = document.getElementById(id);
       if (el) el.hidden = false;
     });
   }
 
   function hidePrayerCompletionUi() {
-    ['prayerRestHint', 'prayerCompletionActions', 'prayerTertiaryRow'].forEach(function (id) {
+    ['prayerCompletionActions', 'prayerTertiaryRow'].forEach(function (id) {
       const el = document.getElementById(id);
       if (el) el.hidden = true;
     });
@@ -12074,7 +12107,6 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       'prayerSaveBtn',
       'prayerHelpWordsBtn',
       'prayerDiveDeeperBtn',
-      'prayerTakeHomeBtn',
       'prayerTryAnotherLink',
       'prayerChangeFocusLink',
       'prayerDiveBackBtn',
@@ -12857,11 +12889,6 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
           openPrayerDivePanel();
         }
       });
-    }
-    const takeHomeBtn = document.getElementById('prayerTakeHomeBtn');
-    if (takeHomeBtn && !takeHomeBtn.dataset.bound) {
-      takeHomeBtn.dataset.bound = '1';
-      takeHomeBtn.addEventListener('click', () => exitPrayerCalmAndGoReset());
     }
     const tryAnotherLink = document.getElementById('prayerTryAnotherLink');
     if (tryAnotherLink && !tryAnotherLink.dataset.bound) {
@@ -15185,6 +15212,70 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     }
   }
 
+  /** NDJSON from Study AI routes: lines { "d": token }, final { "done": true, "data": ... }. */
+  function groundedConsumeStudyAiNdjson(res, opts) {
+    opts = opts || {};
+    var onDelta = opts.onDelta;
+    var ct = (res.headers.get('content-type') || '').toLowerCase();
+    if (ct.indexOf('application/x-ndjson') === -1) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error((data && data.error) || 'Request failed');
+        return data;
+      });
+    }
+    if (!res.ok) {
+      return res.json().then(function (data) {
+        throw new Error((data && data.error) || 'Request failed');
+      });
+    }
+    if (!res.body || typeof res.body.getReader !== 'function') {
+      throw new Error('No stream body');
+    }
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder();
+    var buf = '';
+    var donePayload = null;
+    var streamErr = null;
+    function pump() {
+      return reader.read().then(function (chunk) {
+        if (chunk.value) buf += decoder.decode(chunk.value, { stream: true });
+        var lines = buf.split('\n');
+        buf = chunk.done ? '' : lines.pop() || '';
+        var li;
+        for (li = 0; li < lines.length; li++) {
+          var line = lines[li].trim();
+          if (!line) continue;
+          try {
+            var obj = JSON.parse(line);
+            if (obj.d != null && String(obj.d) !== '' && onDelta) onDelta(String(obj.d));
+            if (obj.done === true && obj.data !== undefined) donePayload = obj.data;
+            if (obj.error) streamErr = new Error(String(obj.error));
+          } catch (eParse) {
+            if (!(eParse instanceof SyntaxError)) streamErr = eParse;
+          }
+        }
+        if (streamErr) throw streamErr;
+        if (donePayload !== null) return donePayload;
+        if (chunk.done) {
+          var tail = buf.trim();
+          if (tail) {
+            try {
+              var obj2 = JSON.parse(tail);
+              if (obj2.d != null && String(obj2.d) !== '' && onDelta) onDelta(String(obj2.d));
+              if (obj2.done === true && obj2.data !== undefined) donePayload = obj2.data;
+              if (obj2.error) streamErr = new Error(String(obj2.error));
+            } catch (eTail) {}
+          }
+          if (streamErr) throw streamErr;
+          if (donePayload === null) throw new Error('Stream incomplete');
+          return donePayload;
+        }
+        return pump();
+      });
+    }
+    return pump();
+  }
+
   function getGroundedAnalyticsUserId() {
     try {
       if (!localStorage.getItem('grounded_user_id')) {
@@ -15235,32 +15326,55 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     loadEl.style.display = '';
     loadEl.textContent = 'Explaining…';
     bodyEl.innerHTML = '';
-    return fetch(groundedApiUrl('/api/verse-explain-structured'), {
+    bodyEl.textContent = '';
+    try {
+      delete bodyEl._vsAccum;
+    } catch (eClr) {}
+    var url = groundedApiUrl('/api/verse-explain-structured');
+    var payloadStream = Object.assign({}, buildVerseExplainPayload(reference, verseText, meta), {
+      stream: true
+    });
+    function handleBadVerseRes(res) {
+      return res.text().then(function (rawV) {
+        var errDetail = '';
+        try {
+          errDetail = apiErrorDetailFromResponseJson(JSON.parse(rawV));
+        } catch (eParse) {
+          errDetail = rawV.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
+        }
+        loadEl.style.display = 'none';
+        loadEl.textContent = 'Reflecting…';
+        bodyEl.innerHTML = vbExplainFallbackWithHint(res.status, errDetail);
+        animateVbExplainContent(bodyEl);
+        return null;
+      });
+    }
+    return fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify(buildVerseExplainPayload(reference, verseText, meta))
+      body: JSON.stringify(payloadStream)
     })
-      .then(async function (res) {
-        if (!res.ok) {
-          var errDetail = '';
-          try {
-            var rawV = await res.text();
-            try {
-              errDetail = apiErrorDetailFromResponseJson(JSON.parse(rawV));
-            } catch (eParse) {
-              errDetail = rawV.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
-            }
-          } catch (e1) {
-            errDetail = '';
-          }
-          loadEl.style.display = 'none';
-          loadEl.textContent = 'Reflecting…';
-          bodyEl.innerHTML = vbExplainFallbackWithHint(res.status, errDetail);
-          animateVbExplainContent(bodyEl);
-          return null;
+      .then(function (res) {
+        var ct = (res.headers.get('content-type') || '').toLowerCase();
+        if (!res.ok && ct.indexOf('application/x-ndjson') === -1) {
+          return handleBadVerseRes(res);
         }
-        return res.json();
+        return groundedConsumeStudyAiNdjson(res, {
+          onDelta: function (d) {
+            bodyEl.textContent = (bodyEl._vsAccum = (bodyEl._vsAccum || '') + d).slice(-5000);
+          }
+        }).catch(function () {
+          return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify(buildVerseExplainPayload(reference, verseText, meta))
+          }).then(function (res2) {
+            if (!res2.ok) return handleBadVerseRes(res2);
+            return res2.json();
+          });
+        });
       })
       .then(function (data) {
         if (data === null) return;
@@ -15287,15 +15401,36 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   function fetchVerseBreakdownIntoBody(reference, verseText, bodyEl, loadEl, meta) {
     loadEl.style.display = '';
     bodyEl.innerHTML = '';
-    return fetch(groundedApiUrl('/api/verse-explain-structured'), {
+    bodyEl.textContent = '';
+    try {
+      delete bodyEl._vsAccum;
+    } catch (eClr2) {}
+    var url = groundedApiUrl('/api/verse-explain-structured');
+    var payloadStream = Object.assign({}, buildVerseExplainPayload(reference, verseText, meta), {
+      stream: true
+    });
+    return fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify(buildVerseExplainPayload(reference, verseText, meta))
+      body: JSON.stringify(payloadStream)
     })
-      .then((res) => {
-        if (!res.ok) throw new Error('fail');
-        return res.json();
+      .then(function (res) {
+        return groundedConsumeStudyAiNdjson(res, {
+          onDelta: function (d) {
+            bodyEl.textContent = (bodyEl._vsAccum = (bodyEl._vsAccum || '') + d).slice(-5000);
+          }
+        }).catch(function () {
+          return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify(buildVerseExplainPayload(reference, verseText, meta))
+          }).then((res2) => {
+            if (!res2.ok) throw new Error('fail');
+            return res2.json();
+          });
+        });
       })
       .then((data) => {
         loadEl.style.display = 'none';
@@ -16032,33 +16167,44 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     container.innerHTML = '<p class="explanation-loading">Understanding this chapter\u2026</p>';
 
     try {
-      const payload = { book: currentBook, chapter: currentChapter };
+      const payload = { book: currentBook, chapter: currentChapter, stream: true };
       if (bfLastChapterVerses && bfLastChapterVerses.length) {
         payload.versesText = bfLastChapterVerses.map((t, i) => String(i + 1) + ' ' + t).join('\n');
       }
-      const res = await fetch(groundedApiUrl('/api/chapter-explain-structured'), {
+      const url = groundedApiUrl('/api/chapter-explain-structured');
+      let res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
         body: JSON.stringify(payload)
       });
       if (myId !== chapterExplainClientId) return;
-      if (!res.ok) {
+      let data;
+      try {
+        var accumCh = '';
+        data = await groundedConsumeStudyAiNdjson(res, {
+          onDelta: function (d) {
+            accumCh += d;
+            var el = container.querySelector('.explanation-loading');
+            if (el) el.textContent = 'Understanding this chapter…\n' + accumCh.slice(-4500);
+          }
+        });
+      } catch (eStream) {
         try {
-          await res.text();
-        } catch (e2) {}
-        container.innerHTML =
-          '<div class="cr-ch-explain-wrap">' + chapterExplainStructuredFallbackInner() + '</div>';
-        const wrapErr = container.querySelector('.cr-ch-explain-wrap');
-        if (wrapErr) {
-          void wrapErr.offsetWidth;
-          requestAnimationFrame(function () {
-            wrapErr.classList.add('cr-ch-explain-wrap--in');
+          delete payload.stream;
+          res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify(payload)
           });
+          if (myId !== chapterExplainClientId) return;
+          if (!res.ok) throw new Error('fail');
+          data = await res.json();
+        } catch (e2) {
+          throw e2;
         }
-        return;
       }
-      const data = await res.json();
       if (myId !== chapterExplainClientId) return;
       const an = data && data.anchor ? String(data.anchor).trim() : '';
       const refl = data && data.reflection ? String(data.reflection).trim() : '';
@@ -16116,26 +16262,49 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     panel.hidden = false;
 
     try {
-      const res = await fetch(groundedApiUrl('/api/chapter-explain-structured'), {
+      const url = groundedApiUrl('/api/chapter-explain-structured');
+      var payloadCh = {
+        book: bfCurrentBook,
+        chapter: bfCurrentChapter,
+        versesText: versesText,
+        stream: true
+      };
+      let res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({
-          book: bfCurrentBook,
-          chapter: bfCurrentChapter,
-          versesText: versesText
-        })
+        body: JSON.stringify(payloadCh)
       });
       if (myId !== bfExplainFetchId) return;
-      if (!res.ok) {
-        try {
-          await res.text();
-        } catch (e2) {}
-        inner.innerHTML = '<div class="cr-ch-explain-wrap">' + chapterExplainStructuredFallbackInner() + '</div>';
-        animateChapterExplainInner(inner);
-        return;
+      let data;
+      try {
+        var accumPan = '';
+        data = await groundedConsumeStudyAiNdjson(res, {
+          onDelta: function (d) {
+            accumPan += d;
+            var fe = inner.querySelector('.cr-explain-fallback');
+            if (fe) fe.textContent = 'Understanding this chapter…\n' + accumPan.slice(-4500);
+          }
+        });
+      } catch (eSt) {
+        delete payloadCh.stream;
+        res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(payloadCh)
+        });
+        if (myId !== bfExplainFetchId) return;
+        if (!res.ok) {
+          try {
+            await res.text();
+          } catch (e2) {}
+          inner.innerHTML = '<div class="cr-ch-explain-wrap">' + chapterExplainStructuredFallbackInner() + '</div>';
+          animateChapterExplainInner(inner);
+          return;
+        }
+        data = await res.json();
       }
-      const data = await res.json();
       if (myId !== bfExplainFetchId) return;
       const an = data && data.anchor ? String(data.anchor).trim() : '';
       const refl = data && data.reflection ? String(data.reflection).trim() : '';
@@ -16685,7 +16854,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     var fbRaw = opts.footerBrand != null ? String(opts.footerBrand).trim() : '';
     var ftRaw = opts.footerTagline != null ? String(opts.footerTagline).trim() : '';
     var fbHtml = shareCardEsc(fbRaw || 'Grounded');
-    var ftHtml = shareCardEsc(ftRaw || 'Be still. Grow deeper. Live rooted.');
+    var ftHtml = shareCardEsc(ftRaw || 'Faith \u2022 Reflection \u2022 Reset');
     var cardCls = 'share-card' + (opts.speakCard ? ' speak-card' : '');
     return (
       '<div class="' +
@@ -16823,7 +16992,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     }
     if (tag) {
       var ft = opts.footerTagline != null ? String(opts.footerTagline).trim() : '';
-      tag.textContent = ft || 'Be still. Grow deeper. Live rooted.';
+      tag.textContent = ft || 'Faith \u2022 Reflection \u2022 Reset';
     }
     var typLApply = String(opts.type || '').toLowerCase();
     var useCross = opts.icon === 'cross' || typLApply === 'prayer';
@@ -18171,17 +18340,44 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       },
       /** Structured verse study (same payload as Go Deeper / verse-explain-structured). Used by the guided reading verse modal. */
       fetchVerseStructuredExplain: function (reference, verseText, meta) {
-        return fetch(groundedApiUrl('/api/verse-explain-structured'), {
+        var url = groundedApiUrl('/api/verse-explain-structured');
+        var basePayload = buildVerseExplainPayload(reference, verseText, meta);
+        return fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
-          body: JSON.stringify(buildVerseExplainPayload(reference, verseText, meta))
-        }).then(function (res) {
-          if (!res.ok) throw new Error('structured explain failed');
-          return res.json();
-        }).then(function (data) {
-          return normalizeVerseExplainData(data);
-        });
+          body: JSON.stringify(Object.assign({}, basePayload, { stream: true }))
+        })
+          .then(function (res) {
+            return groundedConsumeStudyAiNdjson(res, {
+              onDelta: function (d) {
+                var rootEl = document.getElementById('studyAppRoot');
+                var innerModal =
+                  rootEl && rootEl.querySelector
+                    ? rootEl.querySelector('.study-reading-verse-modal-inner')
+                    : null;
+                var line =
+                  innerModal && innerModal.querySelector
+                    ? innerModal.querySelector('.study-reading-verse-modal-load-line--two')
+                    : null;
+                if (line)
+                  line.textContent = (line._gAcc = (line._gAcc || '') + d).slice(-1400);
+              }
+            }).catch(function () {
+              return fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify(basePayload)
+              }).then(function (res2) {
+                if (!res2.ok) throw new Error('structured explain failed');
+                return res2.json();
+              });
+            });
+          })
+          .then(function (data) {
+            return normalizeVerseExplainData(data);
+          });
       },
       highlightVerse: function (book, ch, vn) {
         const key = verseHighlightStorageKey(bfCanonicalBookName(book) || book, ch, vn);
@@ -21837,7 +22033,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     if (!el) return;
     const n = getGroundedDaysCount();
     if (n <= 0) { el.hidden = true; el.textContent = ''; return; }
-    el.textContent = n + (n === 1 ? ' grounded day \u{1F33F}' : ' grounded days \u{1F33F}');
+    el.textContent = n + (n === 1 ? ' grounded day' : ' grounded days');
     el.hidden = false;
     if (opts && opts.bumped) {
       el.classList.remove('bumped');
@@ -21910,6 +22106,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const msgEl = document.getElementById('progressPopupMessage');
     const btn = document.getElementById('progressPopupContinue');
     if (!overlay || !countEl || !msgEl || !btn) return;
+    if (progressPopupFlowBlockersActive()) return;
     const today = todayDateKey();
     try {
       localStorage.setItem(LAST_PROGRESS_POPUP_KEY, today);
@@ -21942,21 +22139,87 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     }, 120);
   }
 
+  /** True while post-onboarding theme education is scheduled (800ms) or open — keeps streak popup from stacking. */
+  function progressPopupFlowBlockersActive() {
+    try {
+      if (window.__groundedThemeEduQueued === true) return true;
+    } catch (_) {}
+    try {
+      if (typeof themeEduSheetOpen !== 'undefined' && themeEduSheetOpen) return true;
+    } catch (_) {}
+    try {
+      const te = document.getElementById('themeEducationSheet');
+      if (te && te.classList.contains('theme-education-sheet--open')) return true;
+    } catch (_) {}
+    try {
+      if (document.body.classList.contains('onboarding-active')) return true;
+    } catch (_) {}
+    try {
+      const ob = document.getElementById('onboardingRoot');
+      if (ob && !ob.hasAttribute('hidden')) return true;
+    } catch (_) {}
+    try {
+      const welcome = document.getElementById('postOnboardingWelcome');
+      if (welcome && !welcome.hasAttribute('hidden')) return true;
+    } catch (_) {}
+    return false;
+  }
+
+  const PROGRESS_POPUP_BOOT_DELAY_MS = 520;
+  const PROGRESS_POPUP_POST_FLOW_SETTLE_MS = 420;
+  const PROGRESS_POPUP_BLOCKER_POLL_MS = 130;
+  const PROGRESS_POPUP_BLOCKER_POLL_MAX = 500;
+
   function maybeShowDailyProgressPopup() {
     let today;
-    try { today = todayDateKey(); }
-    catch (_) { return; }
+    try {
+      today = todayDateKey();
+    } catch (_) {
+      return;
+    }
     let last = '';
-    try { last = localStorage.getItem(LAST_PROGRESS_POPUP_KEY) || ''; }
-    catch (_) { return; }
+    try {
+      last = localStorage.getItem(LAST_PROGRESS_POPUP_KEY) || '';
+    } catch (_) {
+      return;
+    }
     if (last === today) return;
-    openProgressPopup();
+
+    let sawBlocker = false;
+    let polls = 0;
+
+    function finalizeOpen() {
+      let lastCheck = '';
+      try {
+        lastCheck = localStorage.getItem(LAST_PROGRESS_POPUP_KEY) || '';
+      } catch (_) {}
+      if (lastCheck === today) return;
+      if (progressPopupFlowBlockersActive()) {
+        sawBlocker = true;
+        pollUntilClear();
+        return;
+      }
+      openProgressPopup();
+    }
+
+    function pollUntilClear() {
+      if (progressPopupFlowBlockersActive()) {
+        sawBlocker = true;
+        if (polls++ >= PROGRESS_POPUP_BLOCKER_POLL_MAX) return;
+        window.setTimeout(pollUntilClear, PROGRESS_POPUP_BLOCKER_POLL_MS);
+        return;
+      }
+      const settleMs = sawBlocker ? PROGRESS_POPUP_POST_FLOW_SETTLE_MS : 0;
+      window.setTimeout(finalizeOpen, settleMs);
+    }
+
+    pollUntilClear();
   }
 
   (function initDailyProgressPopup() {
     const btn = document.getElementById('progressPopupContinue');
     if (btn) btn.addEventListener('click', closeProgressPopup);
-    window.setTimeout(maybeShowDailyProgressPopup, 520);
+    window.setTimeout(maybeShowDailyProgressPopup, PROGRESS_POPUP_BOOT_DELAY_MS);
   })();
 
   function dismissDailyCheckIn() {
@@ -23390,10 +23653,22 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     } catch (e) {}
     sheet.classList.remove('theme-education-sheet--open');
     themeEduSheetOpen = false;
+    clearGroundedThemeEduQueuedFlag();
     window.setTimeout(function () {
       sheet.setAttribute('hidden', '');
       sheet.setAttribute('aria-hidden', 'true');
+      window.setTimeout(function () {
+        try {
+          maybeShowDailyProgressPopup();
+        } catch (_) {}
+      }, PROGRESS_POPUP_POST_FLOW_SETTLE_MS);
     }, 380);
+  }
+
+  function clearGroundedThemeEduQueuedFlag() {
+    try {
+      window.__groundedThemeEduQueued = false;
+    } catch (_) {}
   }
 
   function maybeShowThemeEducationSheet() {
@@ -23401,31 +23676,42 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     try {
       explained = localStorage.getItem('grounded_theme_explained') === 'true';
     } catch (e) {}
-    if (explained) return;
+    if (explained) {
+      clearGroundedThemeEduQueuedFlag();
+      return;
+    }
     let completedDay = '';
     try {
       completedDay = localStorage.getItem('grounded_onboarding_completed_day');
     } catch (e2) {}
-    if (completedDay == null || String(completedDay).trim() === '') return;
-    if (themeEduSheetOpen) return;
-    const sheet = document.getElementById('themeEducationSheet');
-    if (!sheet) return;
-    const line = document.getElementById('themeEduThemeLine');
-    let tname = '';
-    try {
-      const wk = typeof getWeeklyThemeObjectForSlot === 'function' ? getWeeklyThemeObjectForSlot() : null;
-      if (wk && wk.title) tname = String(wk.title).trim();
-    } catch (e3) {}
-    if (!tname) {
-      const tel = document.getElementById('homeWeeklyThemeTitle');
-      if (tel) tname = String(tel.textContent || '').trim();
+    if (completedDay == null || String(completedDay).trim() === '') {
+      clearGroundedThemeEduQueuedFlag();
+      return;
     }
+    if (themeEduSheetOpen) {
+      clearGroundedThemeEduQueuedFlag();
+      return;
+    }
+    const sheet = document.getElementById('themeEducationSheet');
+    if (!sheet) {
+      clearGroundedThemeEduQueuedFlag();
+      return;
+    }
+    const line = document.getElementById('themeEduThemeLine');
     if (line) {
-      line.textContent = tname ? 'This week you\u2019re exploring ' + tname + '.' : '';
-      line.hidden = !tname;
+      let themeTitle = '';
+      const ht = document.getElementById('homeWeeklyThemeTitle');
+      if (ht) themeTitle = String(ht.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!themeTitle && typeof getWeeklyThemeObjectForSlot === 'function') {
+        const wk = getWeeklyThemeObjectForSlot();
+        if (wk && wk.title) themeTitle = String(wk.title).trim();
+      }
+      line.textContent = themeTitle ? 'This week\u2019s theme: ' + themeTitle : 'This week\u2019s theme';
+      line.hidden = false;
     }
     syncThemeEducationDayDots();
     themeEduSheetOpen = true;
+    clearGroundedThemeEduQueuedFlag();
     sheet.removeAttribute('hidden');
     sheet.setAttribute('aria-hidden', 'false');
     void sheet.offsetWidth;
@@ -23508,6 +23794,15 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   /** After onboarding welcome dismisses: delay so Today can paint before theme sheet. */
   function schedulePostOnboardingThemeEducationSheet() {
     if (typeof maybeShowThemeEducationSheet !== 'function') return;
+    let themeEduLikely = true;
+    try {
+      if (localStorage.getItem('grounded_theme_explained') === 'true') themeEduLikely = false;
+    } catch (_) {}
+    if (themeEduLikely) {
+      try {
+        window.__groundedThemeEduQueued = true;
+      } catch (_) {}
+    }
     window.setTimeout(function () {
       maybeShowThemeEducationSheet();
     }, 800);
@@ -23716,6 +24011,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
 
   <script>
   (function () {
+    /* App Store Connect listing title: Grounded: Faith & Reflection */
     var appStoreUrl = 'https://apps.apple.com/us/app/grounded-faith-reflection/id6765458923';
     var SS_KEY = 'grounded_app_store_redirected';
 

@@ -858,6 +858,104 @@
     });
   }
 
+  /** NDJSON stream from Study AI routes ({ d }, then { done, data }); falls back to JSON body. */
+  function consumeStudyAiNdjsonResponse(res, opts) {
+    opts = opts || {};
+    var onDelta = opts.onDelta;
+    var ct = (res.headers.get('content-type') || '').toLowerCase();
+    if (ct.indexOf('application/x-ndjson') === -1) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error((data && data.error) || 'Request failed');
+        return data;
+      });
+    }
+    if (!res.ok) {
+      return res.json().then(function (data) {
+        throw new Error((data && data.error) || 'Request failed');
+      });
+    }
+    if (!res.body || typeof res.body.getReader !== 'function') {
+      throw new Error('No stream body');
+    }
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder();
+    var buf = '';
+    var donePayload = null;
+    var streamErr = null;
+    function pump() {
+      return reader.read().then(function (chunk) {
+        if (chunk.value) buf += decoder.decode(chunk.value, { stream: true });
+        var lines = buf.split('\n');
+        buf = chunk.done ? '' : lines.pop() || '';
+        var li;
+        for (li = 0; li < lines.length; li++) {
+          var line = lines[li].trim();
+          if (!line) continue;
+          try {
+            var obj = JSON.parse(line);
+            if (obj.d != null && String(obj.d) !== '' && onDelta) onDelta(String(obj.d));
+            if (obj.done === true && obj.data !== undefined) donePayload = obj.data;
+            if (obj.error) streamErr = new Error(String(obj.error));
+          } catch (eParse) {
+            if (!(eParse instanceof SyntaxError)) streamErr = eParse;
+          }
+        }
+        if (streamErr) throw streamErr;
+        if (donePayload !== null) return donePayload;
+        if (chunk.done) {
+          var tail = buf.trim();
+          if (tail) {
+            try {
+              var obj2 = JSON.parse(tail);
+              if (obj2.d != null && String(obj2.d) !== '' && onDelta) onDelta(String(obj2.d));
+              if (obj2.done === true && obj2.data !== undefined) donePayload = obj2.data;
+              if (obj2.error) streamErr = new Error(String(obj2.error));
+            } catch (eTail) {
+              /* ignore trailing garbage */
+            }
+          }
+          if (streamErr) throw streamErr;
+          if (donePayload === null) throw new Error('Stream incomplete');
+          return donePayload;
+        }
+        return pump();
+      });
+    }
+    return pump();
+  }
+
+  function apiStreamingStudy(path, body, opts) {
+    var b = bridge();
+    var url = typeof b.apiUrl === 'function' ? b.apiUrl(path) : path;
+    var payload = {};
+    var k;
+    for (k in body || {}) {
+      if (Object.prototype.hasOwnProperty.call(body, k)) payload[k] = body[k];
+    }
+    payload.stream = true;
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return consumeStudyAiNdjsonResponse(res, opts).catch(function () {
+        delete payload.stream;
+        return fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(payload)
+        }).then(function (res2) {
+          return res2.json().then(function (data) {
+            if (!res2.ok) throw new Error((data && data.error) || 'Request failed');
+            return data;
+          });
+        });
+      });
+    });
+  }
+
   function getFallbackOverview(book) {
     var fallbacks = {
       Proverbs:
@@ -892,51 +990,73 @@
     };
   }
 
-  function loadBookOverview(book) {
+  function loadBookOverview(book, streamRoot) {
     var meta = bookMeta(book);
     var testament = meta && meta.testament === 'nt' ? 'nt' : 'ot';
     var b = bridge();
-    var path =
+    var pathBase =
       '/api/book-overview?book=' +
       encodeURIComponent(book) +
       '&testament=' +
       encodeURIComponent(testament);
-    var url = typeof b.apiUrl === 'function' ? b.apiUrl(path) : path;
-    return fetch(url, {
+    var pathStream = pathBase + '&stream=1';
+    var urlStream = typeof b.apiUrl === 'function' ? b.apiUrl(pathStream) : pathStream;
+    var urlBase = typeof b.apiUrl === 'function' ? b.apiUrl(pathBase) : pathBase;
+    var noteEl =
+      streamRoot && streamRoot.querySelector ? streamRoot.querySelector('.study-app-note') : null;
+    var preview = '';
+    function normalizeOverviewPayload(data) {
+      var ov = data && data.overview;
+      if (ov && typeof ov === 'object') {
+        if (
+          (ov.author && String(ov.author).trim()) ||
+          (ov.purpose && String(ov.purpose).trim()) ||
+          (ov.whyReadIt && String(ov.whyReadIt).trim()) ||
+          (ov.themes && ov.themes.length)
+        ) {
+          return ov;
+        }
+      }
+      if (typeof ov === 'string' && ov.trim()) {
+        return {
+          author: '',
+          audience: '',
+          period: '',
+          purpose: '',
+          whyReadIt: ov.trim(),
+          fitsInStory: '',
+          themes: [],
+          pointsToJesus: ''
+        };
+      }
+      throw new Error('bad overview');
+    }
+    return fetch(urlStream, {
       method: 'GET',
       credentials: 'same-origin'
     })
       .then(function (res) {
-        return res.json().then(function (data) {
-          if (!res.ok) throw new Error((data && data.error) || 'API failed');
-          return data;
+        return consumeStudyAiNdjsonResponse(res, {
+          onDelta: function (d) {
+            preview += d;
+            if (noteEl) {
+              var tail = preview.length > 1400 ? preview.slice(-1400) : preview;
+              noteEl.textContent = 'Loading overview…\n' + tail;
+            }
+          }
         });
       })
-      .then(function (data) {
-        var ov = data && data.overview;
-        if (ov && typeof ov === 'object') {
-          if (
-            (ov.author && String(ov.author).trim()) ||
-            (ov.purpose && String(ov.purpose).trim()) ||
-            (ov.whyReadIt && String(ov.whyReadIt).trim()) ||
-            (ov.themes && ov.themes.length)
-          ) {
-            return ov;
-          }
-        }
-        if (typeof ov === 'string' && ov.trim()) {
-          return {
-            author: '',
-            audience: '',
-            period: '',
-            purpose: '',
-            whyReadIt: ov.trim(),
-            fitsInStory: '',
-            themes: [],
-            pointsToJesus: ''
-          };
-        }
-        throw new Error('bad overview');
+      .then(normalizeOverviewPayload)
+      .catch(function () {
+        return fetch(urlBase, {
+          method: 'GET',
+          credentials: 'same-origin'
+        }).then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) throw new Error((data && data.error) || 'API failed');
+            return normalizeOverviewPayload(data);
+          });
+        });
       })
       .catch(function (err) {
         try {
@@ -3217,7 +3337,7 @@
       btnGhost('← Back', 'list', state.list || 'ot') +
       '</div><p class="study-app-note">Loading overview…</p>';
     wire(root);
-    loadBookOverview(book).then(function (data) {
+    loadBookOverview(book, root).then(function (data) {
       overviewCacheSet(book, data);
       renderBookOverview(root, book, data);
       wire(root);
@@ -3507,11 +3627,23 @@
             }
           }
 
-          return api('/api/chapter-explain-structured', {
-            book: book,
-            chapter: chapter,
-            versesText: versesText
-          })
+          var chBuf = '';
+          return apiStreamingStudy(
+            '/api/chapter-explain-structured',
+            {
+              book: book,
+              chapter: chapter,
+              versesText: versesText
+            },
+            {
+              onDelta: function (d) {
+                chBuf += d;
+                var note =
+                  root.querySelector('.study-app-note') || root.querySelector('.study-ctx-loading-note');
+                if (note) note.textContent = 'Gathering insight…\n' + chBuf.slice(-900);
+              }
+            }
+          )
             .then(function (data) {
               if (data && typeof data === 'object') {
                 try {
@@ -3758,13 +3890,25 @@
         '</div><p class="study-app-note">Opening verse…</p>';
     }
     wire(root);
-    api('/api/verse-explain-structured', {
-      verse: text,
-      reference: ref,
-      book: book,
-      chapter: String(chapter),
-      verseNumber: String(verseNum)
-    })
+    var vBuf = '';
+    apiStreamingStudy(
+      '/api/verse-explain-structured',
+      {
+        verse: text,
+        reference: ref,
+        book: book,
+        chapter: String(chapter),
+        verseNumber: String(verseNum)
+      },
+      {
+        onDelta: function (d) {
+          vBuf += d;
+          var note =
+            root.querySelector('.study-ctx-loading-note') || root.querySelector('.study-app-note');
+          if (note) note.textContent = 'Gathering insight…\n' + vBuf.slice(-900);
+        }
+      }
+    )
       .then(function (data) {
         state.versePayload = data;
         if (fromScripture) renderStudyContextVerse(root, book, chapter, verseNum, ref, text, data);
