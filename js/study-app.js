@@ -990,7 +990,7 @@
     };
   }
 
-  function loadBookOverview(book, streamRoot) {
+  function loadBookOverview(book) {
     var meta = bookMeta(book);
     var testament = meta && meta.testament === 'nt' ? 'nt' : 'ot';
     var b = bridge();
@@ -1002,9 +1002,6 @@
     var pathStream = pathBase + '&stream=1';
     var urlStream = typeof b.apiUrl === 'function' ? b.apiUrl(pathStream) : pathStream;
     var urlBase = typeof b.apiUrl === 'function' ? b.apiUrl(pathBase) : pathBase;
-    var noteEl =
-      streamRoot && streamRoot.querySelector ? streamRoot.querySelector('.study-app-note') : null;
-    var preview = '';
     function normalizeOverviewPayload(data) {
       var ov = data && data.overview;
       if (ov && typeof ov === 'object') {
@@ -1036,15 +1033,7 @@
       credentials: 'same-origin'
     })
       .then(function (res) {
-        return consumeStudyAiNdjsonResponse(res, {
-          onDelta: function (d) {
-            preview += d;
-            if (noteEl) {
-              var tail = preview.length > 1400 ? preview.slice(-1400) : preview;
-              noteEl.textContent = 'Loading overview…\n' + tail;
-            }
-          }
-        });
+        return consumeStudyAiNdjsonResponse(res, {});
       })
       .then(normalizeOverviewPayload)
       .catch(function () {
@@ -1062,7 +1051,7 @@
         try {
           console.error('Overview failed:', err);
         } catch (eLog) {}
-        return fallbackOverviewData(book);
+        throw err;
       });
   }
 
@@ -2558,7 +2547,7 @@
       '<h2 class="study-app-h2 display-font">' +
       esc(book + ' ' + chapter) +
       '</h2>' +
-      '<p class="study-app-note">Gathering context…</p>';
+      '<p class="study-app-note study-ai-stream-loading">Gathering context…</p>';
   }
 
   function sermonMatch(book, chapter) {
@@ -3335,11 +3324,17 @@
     root.innerHTML =
       '<div class="study-app-toolbar">' +
       btnGhost('← Back', 'list', state.list || 'ot') +
-      '</div><p class="study-app-note">Loading overview…</p>';
+      '</div><p class="study-app-note study-ai-stream-loading" role="status" aria-live="polite">Loading overview...</p>';
     wire(root);
-    loadBookOverview(book, root).then(function (data) {
+    loadBookOverview(book).then(function (data) {
       overviewCacheSet(book, data);
       renderBookOverview(root, book, data);
+      wire(root);
+    }).catch(function () {
+      root.innerHTML =
+        '<div class="study-app-toolbar">' +
+        btnGhost('← Back', 'list', state.list || 'ot') +
+        '</div><p class="study-app-note">Something went wrong loading this overview. Please try again.</p>';
       wire(root);
     });
   }
@@ -3581,7 +3576,7 @@
         '</h1>' +
         '<p class="study-ctx-subtitle body-font">Go deeper into the meaning, context, and application.</p>' +
         '</header>' +
-        '<p class="study-ctx-loading-note">Gathering insight for this chapter…</p>' +
+        '<p class="study-ctx-loading-note study-ai-stream-loading">Gathering insight for this chapter…</p>' +
         '</div>';
     } else {
       renderChapterLoading(root, book, chapter, chBack);
@@ -3627,7 +3622,6 @@
             }
           }
 
-          var chBuf = '';
           return apiStreamingStudy(
             '/api/chapter-explain-structured',
             {
@@ -3635,14 +3629,7 @@
               chapter: chapter,
               versesText: versesText
             },
-            {
-              onDelta: function (d) {
-                chBuf += d;
-                var note =
-                  root.querySelector('.study-app-note') || root.querySelector('.study-ctx-loading-note');
-                if (note) note.textContent = 'Gathering insight…\n' + chBuf.slice(-900);
-              }
-            }
+            {}
           )
             .then(function (data) {
               if (data && typeof data === 'object') {
@@ -3881,7 +3868,7 @@
         '</h1>' +
         '<p class="study-ctx-subtitle body-font">Go deeper into the meaning, context, and application.</p>' +
         '</header>' +
-        '<p class="study-ctx-loading-note">Gathering insight for this verse…</p>' +
+        '<p class="study-ctx-loading-note study-ai-stream-loading">Gathering insight for this verse…</p>' +
         '</div>';
     } else {
       root.innerHTML =
@@ -3890,7 +3877,6 @@
         '</div><p class="study-app-note">Opening verse…</p>';
     }
     wire(root);
-    var vBuf = '';
     apiStreamingStudy(
       '/api/verse-explain-structured',
       {
@@ -3900,14 +3886,7 @@
         chapter: String(chapter),
         verseNumber: String(verseNum)
       },
-      {
-        onDelta: function (d) {
-          vBuf += d;
-          var note =
-            root.querySelector('.study-ctx-loading-note') || root.querySelector('.study-app-note');
-          if (note) note.textContent = 'Gathering insight…\n' + vBuf.slice(-900);
-        }
-      }
+      {}
     )
       .then(function (data) {
         state.versePayload = data;

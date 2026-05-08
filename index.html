@@ -67,6 +67,7 @@
     --input-bg:#FFF2EF;
     --border:rgba(234,208,204,0.45);
     --rose-btn:#A86B62;
+    --rose-light:#EAD0CC;
   }
   /* ─── THEME: MINIMAL NEUTRAL ─── */
   [data-theme="neutral"]{
@@ -85,6 +86,7 @@
     --input-bg:#F7F7F7;
     --border:rgba(0,0,0,0.1);
     --rose-btn:#6B5B55;
+    --rose-light:#D6CCC7;
   }
   
   /* ─── TRANSITIONS ─── */
@@ -1314,6 +1316,7 @@
     opacity:0.6;
   }
   #verseBreakdownModal .vb-loading.verse-label{margin-bottom:8px;font-style:normal;color:var(--text-light)}
+  #verseBreakdownModal .vb-loading.study-ai-stream-loading{color:var(--rose-light)}
   #verseBreakdownModal .verse-explanation .vb-explain-label{
     font-family:'Inter',system-ui,sans-serif;
     font-size:11px;
@@ -1499,6 +1502,7 @@
     color:var(--text-light);
     opacity:0.88;
   }
+  .chapter-explain .cr-explain-fallback.study-ai-stream-loading{color:var(--rose-light)}
   .chapter-explain .bf-themes{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
   .chapter-explain .bf-theme-tag{font-size:12px;padding:6px 12px;border-radius:999px;background:rgba(212,181,173,0.15);border:1px solid rgba(234,208,204,0.4);color:var(--text)}
   .cr-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:max(6px,env(safe-area-inset-top)) 14px 14px;padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));flex-shrink:0;border-bottom:1px solid rgba(234,208,204,0.35);background:rgba(255,252,249,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -1525,6 +1529,7 @@
   .explain-btn:disabled{opacity:0.55;cursor:wait;pointer-events:none}
   #explanationContainer.explanation-container{margin:0 20px 20px;padding:0;max-width:40rem;width:calc(100% - 40px);box-sizing:border-box;margin-left:auto;margin-right:auto;background:transparent;border:none;box-shadow:none}
   #explanationContainer .explanation-loading{font-size:15px;color:var(--text-light);font-style:italic;margin:0;padding:20px 16px;text-align:center;animation:crFadeIn 0.35s ease}
+  #explanationContainer .explanation-loading.study-ai-stream-loading{color:var(--rose-light)}
   #explanationContainer .explanation-card,.chapter-explain .explanation-card{border-radius:18px;padding:18px 20px 20px;background:rgba(255,252,249,0.92);border:1px solid rgba(234,208,204,0.38);box-shadow:0 4px 22px rgba(90,74,66,0.07);box-sizing:border-box}
   #explanationContainer .explanation-card .anchor,.chapter-explain .explanation-card .anchor{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.65;font-style:italic;color:var(--text-light);margin:0 0 14px;opacity:0.95}
   #explanationContainer .explanation-card .reflection,.chapter-explain .explanation-card .reflection{font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.65;color:var(--text);margin:0;font-style:normal}
@@ -2868,6 +2873,15 @@
   .study-app-card:last-child{margin-bottom:0}
   .study-app-card-title{font-size:1.15rem;line-height:1.28;margin:0 0 8px;color:var(--text)}
   .study-app-note{font-size:13px;line-height:1.55;color:var(--text-light);margin:0 0 12px}
+  @keyframes study-ai-stream-pulse{
+    0%,100%{opacity:0.58}
+    50%{opacity:1}
+  }
+  .study-ai-stream-loading{
+    animation:study-ai-stream-pulse 1.25s ease-in-out infinite;
+    color:var(--rose-light);
+  }
+  .study-ctx-loading-note.study-ai-stream-loading{color:var(--rose-light)}
   .study-app-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent-strong);margin:0 0 8px;font-weight:600}
   .study-app-btn{margin-top:4px;width:100%;box-sizing:border-box}
   .study-plan-block{margin-top:2px}
@@ -15324,12 +15338,9 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
 
   function fetchVerseStructuredExplainIntoBody(reference, verseText, bodyEl, loadEl, meta) {
     loadEl.style.display = '';
-    loadEl.textContent = 'Explaining…';
+    loadEl.textContent = 'Explaining...';
+    loadEl.classList.add('study-ai-stream-loading');
     bodyEl.innerHTML = '';
-    bodyEl.textContent = '';
-    try {
-      delete bodyEl._vsAccum;
-    } catch (eClr) {}
     var url = groundedApiUrl('/api/verse-explain-structured');
     var payloadStream = Object.assign({}, buildVerseExplainPayload(reference, verseText, meta), {
       stream: true
@@ -15342,6 +15353,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         } catch (eParse) {
           errDetail = rawV.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
         }
+        loadEl.classList.remove('study-ai-stream-loading');
         loadEl.style.display = 'none';
         loadEl.textContent = 'Reflecting…';
         bodyEl.innerHTML = vbExplainFallbackWithHint(res.status, errDetail);
@@ -15360,11 +15372,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         if (!res.ok && ct.indexOf('application/x-ndjson') === -1) {
           return handleBadVerseRes(res);
         }
-        return groundedConsumeStudyAiNdjson(res, {
-          onDelta: function (d) {
-            bodyEl.textContent = (bodyEl._vsAccum = (bodyEl._vsAccum || '') + d).slice(-5000);
-          }
-        }).catch(function () {
+        return groundedConsumeStudyAiNdjson(res, {}).catch(function () {
           return fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -15378,6 +15386,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       })
       .then(function (data) {
         if (data === null) return;
+        loadEl.classList.remove('study-ai-stream-loading');
         loadEl.style.display = 'none';
         loadEl.textContent = 'Reflecting…';
         const norm = normalizeVerseExplainData(data);
@@ -15390,6 +15399,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         }
       })
       .catch(function () {
+        loadEl.classList.remove('study-ai-stream-loading');
         loadEl.style.display = 'none';
         loadEl.textContent = 'Reflecting…';
         bodyEl.innerHTML = vbExplainFallbackWithHint(0, '');
@@ -15400,11 +15410,9 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   /** Initial verse modal body — Go Deeper: anchor (verse-specific) + meaning + reflection. */
   function fetchVerseBreakdownIntoBody(reference, verseText, bodyEl, loadEl, meta) {
     loadEl.style.display = '';
+    loadEl.textContent = 'Explaining...';
+    loadEl.classList.add('study-ai-stream-loading');
     bodyEl.innerHTML = '';
-    bodyEl.textContent = '';
-    try {
-      delete bodyEl._vsAccum;
-    } catch (eClr2) {}
     var url = groundedApiUrl('/api/verse-explain-structured');
     var payloadStream = Object.assign({}, buildVerseExplainPayload(reference, verseText, meta), {
       stream: true
@@ -15416,11 +15424,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       body: JSON.stringify(payloadStream)
     })
       .then(function (res) {
-        return groundedConsumeStudyAiNdjson(res, {
-          onDelta: function (d) {
-            bodyEl.textContent = (bodyEl._vsAccum = (bodyEl._vsAccum || '') + d).slice(-5000);
-          }
-        }).catch(function () {
+        return groundedConsumeStudyAiNdjson(res, {}).catch(function () {
           return fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -15433,6 +15437,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         });
       })
       .then((data) => {
+        loadEl.classList.remove('study-ai-stream-loading');
         loadEl.style.display = 'none';
         loadEl.textContent = 'Reflecting…';
         const norm = normalizeVerseExplainData(data);
@@ -15445,6 +15450,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         }
       })
       .catch(() => {
+        loadEl.classList.remove('study-ai-stream-loading');
         loadEl.style.display = 'none';
         loadEl.textContent = 'Reflecting…';
         bodyEl.innerHTML = vbExplainFallbackHtml();
@@ -16164,7 +16170,8 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const myId = chapterExplainClientId;
     if (btn) btn.disabled = true;
     container.style.display = 'block';
-    container.innerHTML = '<p class="explanation-loading">Understanding this chapter\u2026</p>';
+    container.innerHTML =
+      '<p class="explanation-loading study-ai-stream-loading">Understanding this chapter...</p>';
 
     try {
       const payload = { book: currentBook, chapter: currentChapter, stream: true };
@@ -16181,14 +16188,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       if (myId !== chapterExplainClientId) return;
       let data;
       try {
-        var accumCh = '';
-        data = await groundedConsumeStudyAiNdjson(res, {
-          onDelta: function (d) {
-            accumCh += d;
-            var el = container.querySelector('.explanation-loading');
-            if (el) el.textContent = 'Understanding this chapter…\n' + accumCh.slice(-4500);
-          }
-        });
+        data = await groundedConsumeStudyAiNdjson(res, {});
       } catch (eStream) {
         try {
           delete payload.stream;
@@ -16258,7 +16258,8 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const versesText = bfLastChapterVerses
       .map((t, i) => String(i + 1) + ' ' + t)
       .join('\n');
-    inner.innerHTML = '<p class="cr-explain-fallback">Understanding this chapter\u2026</p>';
+    inner.innerHTML =
+      '<p class="cr-explain-fallback study-ai-stream-loading">Understanding this chapter...</p>';
     panel.hidden = false;
 
     try {
@@ -16278,14 +16279,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       if (myId !== bfExplainFetchId) return;
       let data;
       try {
-        var accumPan = '';
-        data = await groundedConsumeStudyAiNdjson(res, {
-          onDelta: function (d) {
-            accumPan += d;
-            var fe = inner.querySelector('.cr-explain-fallback');
-            if (fe) fe.textContent = 'Understanding this chapter…\n' + accumPan.slice(-4500);
-          }
-        });
+        data = await groundedConsumeStudyAiNdjson(res, {});
       } catch (eSt) {
         delete payloadCh.stream;
         res = await fetch(url, {
@@ -18349,21 +18343,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
           body: JSON.stringify(Object.assign({}, basePayload, { stream: true }))
         })
           .then(function (res) {
-            return groundedConsumeStudyAiNdjson(res, {
-              onDelta: function (d) {
-                var rootEl = document.getElementById('studyAppRoot');
-                var innerModal =
-                  rootEl && rootEl.querySelector
-                    ? rootEl.querySelector('.study-reading-verse-modal-inner')
-                    : null;
-                var line =
-                  innerModal && innerModal.querySelector
-                    ? innerModal.querySelector('.study-reading-verse-modal-load-line--two')
-                    : null;
-                if (line)
-                  line.textContent = (line._gAcc = (line._gAcc || '') + d).slice(-1400);
-              }
-            }).catch(function () {
+            return groundedConsumeStudyAiNdjson(res, {}).catch(function () {
               return fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
