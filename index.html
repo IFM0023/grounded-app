@@ -10437,6 +10437,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     }
     if (currentTab === 'reflect' && tab !== 'reflect') {
       try { sessionStorage.removeItem('grounded_reflect_override'); } catch (e) {}
+      try { window.GROUNDED_REFLECT_CONTEXT = null; } catch (eRc) {}
     }
     if (typeof hideWordBibleShell === 'function') hideWordBibleShell();
     const prayerScreenEl = document.getElementById('screen-prayer');
@@ -14883,6 +14884,17 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     return { verses: remote, source: 'api', displayBook: bookRaw, version: ver };
   }
 
+  var GROUNDED_REFLECT_CHAPTER_PROMPTS = [
+    'What verse or phrase stood out to you most \u2014 and why do you think it caught your attention?',
+    'What does this passage reveal about God\u2019s character or intentions?',
+    'What is one thing from this chapter you could carry into your day?'
+  ];
+  var GROUNDED_REFLECT_VERSE_PROMPTS = [
+    'Read this verse slowly one more time. What word or phrase lands differently on a second read?',
+    'What does this verse ask of you \u2014 belief, action, surrender, or something else?',
+    'If you took this verse seriously for the next 24 hours, what might change?'
+  ];
+
   function goReflectChapterFromReader() {
     const book = bfCurrentBook;
     const ch = bfCurrentChapter;
@@ -14890,29 +14902,22 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const v0 = bfLastChapterVerses && bfLastChapterVerses[0] ? String(bfLastChapterVerses[0]).trim() : '';
     const bookDisp = bfCanonicalBookName(book) || book;
     const ref = bookDisp + ' ' + ch + ':1';
-    const explain =
-      'You\u2019ve been reading ' + book + ' ' + ch + '. Let what you notice settle, and let God meet you in the quiet.';
-    const context =
-      v0
-        ? 'This chapter of ' + book + ' begins: \u201c' + v0 + '\u201d'
-        : 'You were reading ' + book + ' chapter ' + ch + '.';
+    try {
+      window.GROUNDED_REFLECT_CONTEXT = {
+        mode: 'chapter',
+        book: bookDisp,
+        chapter: ch,
+        ref: ref,
+        verseText: v0,
+        prompts: GROUNDED_REFLECT_CHAPTER_PROMPTS
+      };
+    } catch (eCtx) {}
     try {
       try {
         localStorage.removeItem('selectedBook');
       } catch (e) {}
-      sessionStorage.setItem(
-        'grounded_reflect_override',
-        JSON.stringify({
-          ref: ref,
-          text: v0 || book + ' ' + ch,
-          source: 'read',
-          explain: explain,
-          context: context,
-          realLife: null,
-          prompts: null
-        })
-      );
-    } catch (e) {}
+      sessionStorage.removeItem('grounded_reflect_override');
+    } catch (e2) {}
     hideWordBibleShell();
     showScreen('reflectScreen');
     switchTab('reflect');
@@ -15503,23 +15508,14 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     if (!vbModalContext) return;
     const ref = vbModalContext.reference;
     const text = String(vbModalContext.verseText || '').trim();
-    const explain =
-      'Let this verse be your starting place. You don\u2019t need a perfect answer\u2014just an honest moment with God.';
-    const context = 'You opened this passage from your reading.';
     try {
-      sessionStorage.setItem(
-        'grounded_reflect_override',
-        JSON.stringify({
-          ref: ref,
-          text: text,
-          source: 'verse-modal',
-          explain: explain,
-          context: context,
-          realLife: ['When you want Scripture to anchor your day', 'When you need a gentle prompt to journal or pray'],
-          prompts: ['What word or phrase stands out here?', 'How might this verse meet you where you are today?'],
-          moodTag: null
-        })
-      );
+      window.GROUNDED_REFLECT_CONTEXT = {
+        mode: 'verse',
+        ref: ref,
+        verseText: text,
+        prompts: GROUNDED_REFLECT_VERSE_PROMPTS
+      };
+      sessionStorage.removeItem('grounded_reflect_override');
     } catch (e2) {}
     closeVerseBreakdownModal();
     hideWordBibleShell();
@@ -18254,24 +18250,42 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       },
       openReflectWithPassage: function (book, ch) {
         const bookDisp = bfCanonicalBookName(book) || book;
-        const ref = bookDisp + ' ' + ch + ':1';
-        const text = bookDisp + ' \u2014 chapter ' + ch;
-        try {
-          sessionStorage.setItem(
-            'grounded_reflect_override',
-            JSON.stringify({
-              ref: ref,
-              text: text,
-              source: 'study',
-              explain: 'Sit with what you read. Let one line from this chapter stay with you today.',
-              context: 'You were studying ' + bookDisp + ' ' + ch + ' in Study.',
-              realLife: null,
-              prompts: null
-            })
-          );
-        } catch (e) {}
-        showScreen('reflectScreen');
-        switchTab('reflect');
+        const chNum = Math.max(1, parseInt(String(ch), 10) || 1);
+        const bookRaw = book;
+        loadChapterVerses(bookRaw, chNum)
+          .then(function (pack) {
+            var verses = pack && pack.verses ? pack.verses : [];
+            var firstTxt = verses.length ? String(verses[0]).trim() : '';
+            var refLine = bookDisp + ' ' + chNum + ':1';
+            try {
+              window.GROUNDED_REFLECT_CONTEXT = {
+                mode: 'chapter',
+                book: bookDisp,
+                chapter: chNum,
+                ref: refLine,
+                verseText: firstTxt,
+                prompts: GROUNDED_REFLECT_CHAPTER_PROMPTS
+              };
+              sessionStorage.removeItem('grounded_reflect_override');
+            } catch (eSet) {}
+            showScreen('reflectScreen');
+            switchTab('reflect');
+          })
+          .catch(function () {
+            try {
+              window.GROUNDED_REFLECT_CONTEXT = {
+                mode: 'chapter',
+                book: bookDisp,
+                chapter: chNum,
+                ref: bookDisp + ' ' + chNum + ':1',
+                verseText: '',
+                prompts: GROUNDED_REFLECT_CHAPTER_PROMPTS
+              };
+              sessionStorage.removeItem('grounded_reflect_override');
+            } catch (eCatch) {}
+            showScreen('reflectScreen');
+            switchTab('reflect');
+          });
       },
       openPrayerWithPassage: function (book, ch) {
         const bookDisp = bfCanonicalBookName(book) || book;
@@ -18312,22 +18326,14 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         const bookDisp = bfCanonicalBookName(book) || book;
         const ref = bookDisp + ' ' + ch + ':' + vn;
         const text = String(verseText || '').trim();
-        const explain =
-          'Let this verse be your starting place. You don\u2019t need a perfect answer\u2014just an honest moment with God.';
         try {
-          sessionStorage.setItem(
-            'grounded_reflect_override',
-            JSON.stringify({
-              ref: ref,
-              text: text,
-              source: 'study-verse',
-              explain: explain,
-              context: 'You opened this verse from Study.',
-              realLife: ['When you want Scripture to anchor your day', 'When you need a prompt to journal or pray'],
-              prompts: ['What word or phrase stands out here?', 'How might this verse meet you today?'],
-              moodTag: null
-            })
-          );
+          window.GROUNDED_REFLECT_CONTEXT = {
+            mode: 'verse',
+            ref: ref,
+            verseText: text,
+            prompts: GROUNDED_REFLECT_VERSE_PROMPTS
+          };
+          sessionStorage.removeItem('grounded_reflect_override');
         } catch (e4) {}
         showScreen('reflectScreen');
         switchTab('reflect');
@@ -18808,6 +18814,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
 
   function openReflectFromRead() {
     try { sessionStorage.removeItem('grounded_reflect_override'); } catch (e) {}
+    try { window.GROUNDED_REFLECT_CONTEXT = null; } catch (e2) {}
     switchTab('reflect');
   }
 
@@ -19848,15 +19855,68 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     try {
       delete container.dataset.reflectYjBound;
     } catch (e) {}
-    const weeklyJourneyHtml = buildReflectWeeklyJourneySectionHtml();
-    const themeContextHtml = buildReflectThemeContextLineHtml();
+    let sc = null;
+    try {
+      sc = window.GROUNDED_REFLECT_CONTEXT;
+    } catch (eSc) {
+      sc = null;
+    }
+    const scriptureMode = !!(sc && (sc.mode === 'chapter' || sc.mode === 'verse'));
+
+    let weeklyJourneyHtml = buildReflectWeeklyJourneySectionHtml();
+    let themeContextHtml = buildReflectThemeContextLineHtml();
+    if (scriptureMode) {
+      weeklyJourneyHtml = '';
+      themeContextHtml = '';
+    }
     const reflectThisWeekSavedHtml = buildReflectThisWeekSavedSectionHtml();
     const weeklyClosingHtml = buildReflectWeeklyClosingHtml();
     const reflectYourJourneyHtml = buildReflectYourJourneySectionHtml();
-    const v = buildReflectViewModel();
-    const label = v.source === 'read' ? 'From your reading' : 'Today\u2019s Scripture';
-    const subLabel = (v.source === 'home' && v.moodTag) ? escReflectHtml(String(v.moodTag).charAt(0).toUpperCase() + String(v.moodTag).slice(1)) : '';
-    const pLines = getReflectSessionPrompts();
+
+    let v;
+    let label;
+    let subLabel;
+    let pLines;
+
+    if (scriptureMode) {
+      const refLine = String(sc.ref || '').trim();
+      const verseBody = String(sc.verseText || '').trim();
+      const hdr =
+        sc.mode === 'chapter' && sc.book != null && sc.chapter != null
+          ? 'Reflecting on ' + String(sc.book).trim() + ' ' + String(sc.chapter)
+          : 'Reflecting on ' + refLine;
+      label = hdr;
+      subLabel = '';
+      v = {
+        ref: refLine,
+        text: verseBody,
+        source: sc.mode === 'chapter' ? 'scripture-chapter' : 'scripture-verse',
+        explain:
+          sc.mode === 'chapter'
+            ? 'Sit with what you read. Let one line from this chapter stay with you today.'
+            : 'Let this verse be your starting place. You don\u2019t need a perfect answer\u2014just an honest moment with God.',
+        context: '',
+        realLife: ['When you want Scripture to anchor your day', 'When you need a prompt to journal or pray'],
+        prompts: [],
+        action: '',
+        moodTag: null
+      };
+      pLines =
+        Array.isArray(sc.prompts) && sc.prompts.length >= 3
+          ? sc.prompts.slice(0, 3)
+          : sc.mode === 'chapter'
+            ? GROUNDED_REFLECT_CHAPTER_PROMPTS
+            : GROUNDED_REFLECT_VERSE_PROMPTS;
+    } else {
+      v = buildReflectViewModel();
+      label = v.source === 'read' ? 'From your reading' : 'Today\u2019s Scripture';
+      subLabel =
+        v.source === 'home' && v.moodTag
+          ? escReflectHtml(String(v.moodTag).charAt(0).toUpperCase() + String(v.moodTag).slice(1))
+          : '';
+      pLines = getReflectSessionPrompts();
+    }
+
     const promptsHtml = pLines
       .map(
         (p) =>
@@ -19865,7 +19925,14 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       .join('');
 
     const prefR = typeof getGroundedTimePref === 'function' ? getGroundedTimePref() : 'daily';
-    const momentSourceReflect = v.source === 'flow' || v.source === 'moment';
+    const momentSourceReflect = !scriptureMode && (v.source === 'flow' || v.source === 'moment');
+
+    const reflectLeadHtml = scriptureMode
+      ? ''
+      : '<p class="reflect-lead display-font" role="text">' + buildReflectLeadParagraphHtml() + '</p>';
+    const topReflectLabelHtml = scriptureMode
+      ? '<p class="reflect-moment-label display-font">' + escReflectHtml(label) + '</p>'
+      : '<p class="reflect-moment-label body-font">' + label + '</p>';
     const reflectQuickHideSit = prefR === 'quick' && momentSourceReflect;
     const journalBlockHtml =
       reflectQuickHideSit
@@ -19914,12 +19981,12 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     container.innerHTML = (
       weeklyJourneyHtml +
       themeContextHtml +
-      '<p class="reflect-moment-label body-font">' + label + '</p>' +
+      topReflectLabelHtml +
       '<div class="study-verse-card quote-card-tappable" tabindex="0">' +
       (subLabel ? ('<span class="sv-mood-tag">' + subLabel + '</span>') : '') +
       '<p class="sv-ref sv-ref--reflect body-font">' + escReflectHtml(v.ref || '') + '</p>' +
       '<p class="sv-text display-font">\u201C' + escReflectHtml(v.text || '') + '\u201D</p></div>' +
-      '<p class="reflect-lead display-font" role="text">' + buildReflectLeadParagraphHtml() + '</p>' +
+      reflectLeadHtml +
       '<div class="reflect-moment-block">' +
       '<p class="reflect-moment-title">Reflection</p>' +
       '<div class="study-prompts reflect-prompts-wrap reflect-prompts-wrap--focus">' +
@@ -19954,6 +20021,11 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       weeklyClosingHtml +
       reflectYourJourneyHtml
     );
+
+    if (scriptureMode && sc) {
+      const pb = document.getElementById('reflectPrayWithThisBtn');
+      if (pb) pb.textContent = sc.mode === 'chapter' ? 'Pray with this chapter' : 'Pray with this verse';
+    }
 
     reflectYourJourneyBind(container);
     reflectThisWeekPastOverlaysWireOnce();
@@ -20040,6 +20112,32 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const prayWith = document.getElementById('reflectPrayWithThisBtn');
     if (prayWith) {
       prayWith.addEventListener('click', function () {
+        if (scriptureMode && sc) {
+          try {
+            var prayRef = String(v.ref || '').trim();
+            var prayBody = String(v.text || '').trim();
+            var prayLine =
+              sc.mode === 'chapter'
+                ? 'God, meet me in ' +
+                  String(sc.book || '').trim() +
+                  ' ' +
+                  String(sc.chapter || '') +
+                  ' \u2014 let your Word shape what I bring to you in prayer.'
+                : prayBody;
+            sessionStorage.setItem(
+              'grounded_prayer_verse_context',
+              JSON.stringify({
+                text: prayLine || prayBody,
+                ref: prayRef,
+                theme:
+                  typeof inferPrayerThemeFromVerse === 'function'
+                    ? inferPrayerThemeFromVerse(prayLine || prayBody, prayRef, String(v.explain || ''))
+                    : '',
+                ts: Date.now()
+              })
+            );
+          } catch (epr) {}
+        }
         switchTab('prayer');
       });
     }
