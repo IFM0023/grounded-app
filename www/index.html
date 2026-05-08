@@ -3705,6 +3705,37 @@
   .qr-finish:hover{opacity:0.9;transform:translateY(-1px)}
   .qr-fade-target{opacity:0;pointer-events:none;transition:opacity 1.6s ease}
   .qr-fade-target.shown{opacity:1;pointer-events:auto}
+  /* Quick Reset: breath stage → closing moment (same modal; ~0.6s gentle fade) */
+  .qr-reset-switch-wrap{position:relative;width:100%;min-height:200px;display:flex;flex-direction:column;align-items:center}
+  .qr-breath-stage{display:flex;flex-direction:column;align-items:center;width:100%;transition:opacity 0.6s ease}
+  .qr-breath-stage.qr-breath-stage--out{opacity:0;pointer-events:none}
+  .qr-reset-switch-wrap .reset-hint{transition:opacity 0.6s ease}
+  .qr-reset-switch-wrap .reset-hint.qr-reset-hint--out{opacity:0}
+  .qr-closing-moment{
+    --dark:var(--text);
+    --mid:var(--text-light);
+    --rose:var(--rose-btn);
+    position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
+    padding:8px 12px 0;box-sizing:border-box;
+    opacity:0;transition:opacity 0.6s ease;pointer-events:none;text-align:center
+  }
+  .qr-closing-moment.qr-closing-moment--in{opacity:1;pointer-events:auto}
+  .qr-closing-affirm{
+    font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:18px;font-weight:400;
+    color:var(--dark);line-height:1.5;margin:0 auto 14px;max-width:300px
+  }
+  .qr-closing-verse{
+    font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;font-weight:400;
+    color:var(--mid);line-height:1.55;margin:0 auto;max-width:300px
+  }
+  .qr-closing-return{
+    display:inline-flex;align-items:center;justify-content:center;margin-top:22px;
+    padding:12px 26px;border-radius:100px;border:1px solid var(--rose);background:transparent;
+    color:var(--rose);font-family:inherit;font-size:14px;font-weight:500;letter-spacing:0.2px;
+    cursor:pointer;transition:opacity 0.25s ease,transform 0.2s ease;-webkit-tap-highlight-color:transparent
+  }
+  .qr-closing-return:active{transform:scale(0.97)}
+  .qr-closing-return:hover{opacity:0.88}
   .qr-progress{width:140px;height:3px;background:var(--secondary);border-radius:2px;margin:14px auto 0;overflow:hidden;opacity:0.55}
   .qr-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--petal-light),var(--petal));border-radius:2px;will-change:width}
   @keyframes qrAura{0%,100%{box-shadow:0 4px 18px rgba(186,160,148,0.18)}50%{box-shadow:0 8px 28px rgba(186,160,148,0.32)}}
@@ -6208,11 +6239,19 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       <h2 class="qr-title" id="qrTitle">Quick Reset</h2>
       <p class="qr-subtext">Pause and breathe.</p>
 
-      <div class="qr-breath-circle" id="qrBreathCircle">
-        <p class="qr-breath-text" id="qrBreathText">Breathe</p>
+      <div class="qr-reset-switch-wrap">
+        <div class="qr-breath-stage" id="qrBreathStage">
+          <div class="qr-breath-circle" id="qrBreathCircle">
+            <p class="qr-breath-text" id="qrBreathText">Breathe</p>
+          </div>
+          <p class="reset-hint" id="qrResetHint">Stay as long as you'd like.</p>
+        </div>
+        <div class="qr-closing-moment" id="qrClosingMoment" hidden aria-hidden="true">
+          <p class="qr-closing-affirm" id="qrClosingAffirm"></p>
+          <p class="qr-closing-verse" id="qrClosingVerse"></p>
+          <button type="button" class="qr-closing-return" id="qrClosingReturnBtn">Return to your day</button>
+        </div>
       </div>
-
-      <p class="reset-hint">Stay as long as you'd like.</p>
     </div>
   </div>
 
@@ -19933,6 +19972,9 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const topReflectLabelHtml = scriptureMode
       ? '<p class="reflect-moment-label display-font">' + escReflectHtml(label) + '</p>'
       : '<p class="reflect-moment-label body-font">' + label + '</p>';
+    const reflectScriptureBackHtml = scriptureMode
+      ? '<button type="button" class="reflect-journey-detail-back" id="reflectScriptureModeBackBtn" aria-label="Back to Scripture+">← Back</button>'
+      : '';
     const reflectQuickHideSit = prefR === 'quick' && momentSourceReflect;
     const journalBlockHtml =
       reflectQuickHideSit
@@ -19979,6 +20021,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     }
 
     container.innerHTML = (
+      reflectScriptureBackHtml +
       weeklyJourneyHtml +
       themeContextHtml +
       topReflectLabelHtml +
@@ -20025,6 +20068,18 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     if (scriptureMode && sc) {
       const pb = document.getElementById('reflectPrayWithThisBtn');
       if (pb) pb.textContent = sc.mode === 'chapter' ? 'Pray with this chapter' : 'Pray with this verse';
+    }
+
+    if (scriptureMode) {
+      const rsBack = document.getElementById('reflectScriptureModeBackBtn');
+      if (rsBack) {
+        rsBack.addEventListener('click', function () {
+          try {
+            window.GROUNDED_REFLECT_CONTEXT = null;
+          } catch (eRb) {}
+          if (typeof switchTab === 'function') switchTab('scriptureplus');
+        });
+      }
     }
 
     reflectYourJourneyBind(container);
@@ -20269,18 +20324,102 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   const resetBreathTimers = { quick: null, meditation: null };
   const resetStepTimers   = { body: [], meditation: [] };
 
-  function startResetBreath(slot, circleId, textId) {
+  const QUICK_RESET_LS_KEY = 'grounded_quick_reset_index';
+  const QUICK_RESET_AFFIRMATIONS = [
+    'You paused. That matters.',
+    'Stillness is not wasted time.',
+    'You showed up for yourself.',
+    'This moment was not nothing.',
+    'Even one breath changes something.'
+  ];
+  const QUICK_RESET_VERSES = [
+    'Be still, and know that I am God. \u2014 Psalm 46:10',
+    'In quietness and trust is your strength. \u2014 Isaiah 30:15',
+    'The Lord your God is with you. \u2014 Zephaniah 3:17',
+    'Cast all your anxiety on him because he cares for you. \u2014 1 Peter 5:7',
+    'He gives strength to the weary. \u2014 Isaiah 40:29'
+  ];
+
+  function resetQuickResetModalUiForOpen() {
+    const stage = document.getElementById('qrBreathStage');
+    const hint = document.getElementById('qrResetHint');
+    const closing = document.getElementById('qrClosingMoment');
+    const ta = document.getElementById('qrBreathText');
+    if (stage) stage.classList.remove('qr-breath-stage--out');
+    if (hint) hint.classList.remove('qr-reset-hint--out');
+    if (closing) {
+      closing.hidden = true;
+      closing.setAttribute('aria-hidden', 'true');
+      closing.classList.remove('qr-closing-moment--in');
+    }
+    if (ta) ta.textContent = 'Breathe';
+  }
+
+  function showQuickResetClosingMoment() {
+    const stage = document.getElementById('qrBreathStage');
+    const hint = document.getElementById('qrResetHint');
+    const closing = document.getElementById('qrClosingMoment');
+    const affirmEl = document.getElementById('qrClosingAffirm');
+    const verseEl = document.getElementById('qrClosingVerse');
+    if (!stage || !closing || !affirmEl || !verseEl) return;
+
+    if (resetBreathTimers.quick) {
+      clearTimeout(resetBreathTimers.quick);
+      resetBreathTimers.quick = null;
+    }
+
+    let idx = 0;
+    try {
+      idx = parseInt(localStorage.getItem(QUICK_RESET_LS_KEY) || '0', 10);
+      if (isNaN(idx)) idx = 0;
+    } catch (eI) {
+      idx = 0;
+    }
+    idx = ((idx % 5) + 5) % 5;
+    affirmEl.textContent = QUICK_RESET_AFFIRMATIONS[idx];
+    verseEl.textContent = QUICK_RESET_VERSES[idx];
+    try {
+      localStorage.setItem(QUICK_RESET_LS_KEY, String((idx + 1) % 5));
+    } catch (eS) {}
+
+    closing.hidden = false;
+    closing.setAttribute('aria-hidden', 'false');
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        stage.classList.add('qr-breath-stage--out');
+        if (hint) hint.classList.add('qr-reset-hint--out');
+        closing.classList.add('qr-closing-moment--in');
+      });
+    });
+  }
+
+  function startResetBreath(slot, circleId, textId, cycleOpts) {
     const circle = document.getElementById(circleId);
     const text   = textId ? document.getElementById(textId) : null;
     const phases = RESET_BREATH_PHASES[slot];
     if (!circle || !phases) return;
     let i = 0;
+    let completedCycles = 0;
     function step() {
       const p = phases[i];
       if (text && p.label !== undefined) text.textContent = p.label;
       circle.style.transition = `transform ${p.count}s cubic-bezier(.4,0,.2,1)`;
       circle.style.transform  = `scale(${p.scale})`;
+      const finishedPhase = i;
       i = (i + 1) % phases.length;
+      if (slot === 'quick' && cycleOpts && cycleOpts.maxCycles) {
+        if (finishedPhase === phases.length - 1) {
+          completedCycles++;
+          if (completedCycles >= cycleOpts.maxCycles) {
+            resetBreathTimers[slot] = setTimeout(function () {
+              resetBreathTimers[slot] = null;
+              if (typeof cycleOpts.onCyclesComplete === 'function') cycleOpts.onCyclesComplete();
+            }, p.count * 1000);
+            return;
+          }
+        }
+      }
       resetBreathTimers[slot] = setTimeout(step, p.count * 1000);
     }
     step();
@@ -20932,7 +21071,15 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         document.body.style.overflow = 'hidden';
         document.body.classList.remove('pil-reset-modal-bridge');
         if (mode === 'breath') {
-          startResetBreath(slot, circleId, textId);
+          if (slot === 'quick') {
+            resetQuickResetModalUiForOpen();
+            startResetBreath(slot, circleId, textId, {
+              maxCycles: 3,
+              onCyclesComplete: showQuickResetClosingMoment
+            });
+          } else {
+            startResetBreath(slot, circleId, textId);
+          }
         } else if (mode === 'guided') {
           startGuidedSteps(slot, stepsTextId);
         } else if (mode === 'meditation') {
@@ -20947,6 +21094,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       document.body.style.overflow = '';
       if (mode === 'breath') {
         stopResetBreath(slot, circleId);
+        if (slot === 'quick') resetQuickResetModalUiForOpen();
       } else if (mode === 'guided') {
         stopGuidedSteps(slot, stepsTextId);
       } else if (mode === 'meditation') {
@@ -20973,6 +21121,16 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   bindResetModal({ slot:'quick',      mode:'breath',     cardId:'quickResetCard', overlayId:'qrModalOverlay', closeId:'qrModalClose', circleId:'qrBreathCircle', textId:'qrBreathText' });
   bindResetModal({ slot:'body',       mode:'guided',     cardId:'deepResetCard',  overlayId:'drModalOverlay', closeId:'drModalClose', stepsTextId:'drStepText' });
   bindResetModal({ slot:'meditation', mode:'meditation', cardId:'breatheCard',    overlayId:'bsModalOverlay', closeId:'bsModalClose', circleId:'bsBreathCircle', stepsTextId:'bsStepText' });
+
+  (function bindQuickResetClosingReturnBtn() {
+    const ret = document.getElementById('qrClosingReturnBtn');
+    const closeBtn = document.getElementById('qrModalClose');
+    if (!ret || ret.dataset.qrClosingReturnBound === '1') return;
+    ret.dataset.qrClosingReturnBound = '1';
+    ret.addEventListener('click', function () {
+      if (closeBtn) closeBtn.click();
+    });
+  })();
 
   /* ═══════════════════════════════════════
      DAILY CHECK-IN MOMENT
