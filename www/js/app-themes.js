@@ -24,16 +24,13 @@
   }
 
   var ONBOARDING_GOAL_KEYS = {
-    grow_closer: 1,
-    quiet_moment: 1,
     anxious_peace: 1,
     overwhelmed: 1,
     guidance_now: 1,
-    daily_habit: 1,
     disconnected: 1,
+    miss_close_god: 1,
     difficult_season: 1,
-    consistent: 1,
-    feel_better_today: 1
+    consistent: 1
   };
 
   function normalizeOnboardingGoals(arr, legacyIntent) {
@@ -45,8 +42,8 @@
       }
     }
     if (out.length === 0 && legacyIntent && typeof legacyIntent === 'string') {
-      if (legacyIntent === 'closer') out.push('grow_closer');
-      else if (legacyIntent === 'quiet') out.push('quiet_moment');
+      if (legacyIntent === 'closer') out.push('miss_close_god');
+      else if (legacyIntent === 'quiet') out.push('anxious_peace');
     }
     return out;
   }

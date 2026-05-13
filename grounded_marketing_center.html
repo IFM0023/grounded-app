@@ -57,7 +57,99 @@ body::after {
 }
 
 /* Main layout */
-#app { display: block; min-height: 100vh; position: relative; z-index: 1; }
+#app {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Analytics — App Store sync (full width above inputs) */
+.analytics-sync-banner {
+  margin-bottom: 24px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  background: linear-gradient(145deg, rgba(168, 107, 98, 0.35) 0%, rgba(90, 74, 66, 0.55) 45%, rgba(46, 31, 26, 0.65) 100%);
+  border: 1px solid rgba(234, 208, 204, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(255, 248, 246, 0.06) inset,
+    0 12px 36px rgba(0, 0, 0, 0.35);
+}
+.analytics-sync-banner-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.analytics-sync-banner-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+.analytics-sync-banner-sub {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255, 248, 246, 0.82);
+  max-width: 40rem;
+}
+.analytics-sync-hint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(234, 208, 204, 0.75);
+}
+.analytics-sync-hint code {
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--cream);
+}
+.btn-appstore-sync {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 248, 246, 0.35);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #2e1f1a;
+  background: linear-gradient(180deg, #fff4f0 0%, #ead0cc 45%, #d4b5ae 100%);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-appstore-sync:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+.btn-appstore-sync:active {
+  transform: translateY(0);
+}
+.btn-appstore-sync:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-appstore-sync .btn-appstore-sync-icon {
+  font-size: 18px;
+  line-height: 1;
+}
 
 /* Sidebar */
 .sidebar {
@@ -621,6 +713,727 @@ body::after {
   opacity: 0.9;
   color: var(--cream);
 }
+
+/* ── Content Studio rich output (scoped to #contentOutput only) ── */
+#contentOutput.cs-rich-output {
+  white-space: normal;
+  padding-top: 44px;
+}
+#contentOutput.cs-rich-output .cs-render {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+#contentOutput.cs-rich-output .cs-platform-block {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+}
+#contentOutput.cs-rich-output .cs-platform-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--rose);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+#contentOutput.cs-rich-output .cs-md {
+  color: var(--cream);
+  font-size: 13px;
+  line-height: 1.75;
+}
+#contentOutput.cs-rich-output .cs-md h3,
+#contentOutput.cs-rich-output .cs-md h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--rose);
+  font-weight: 500;
+  margin: 16px 0 8px;
+  font-size: 15px;
+}
+#contentOutput.cs-rich-output .cs-md h4 { font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+#contentOutput.cs-rich-output .cs-md p { margin: 0 0 12px; color: var(--cream); }
+#contentOutput.cs-rich-output .cs-md ul,
+#contentOutput.cs-rich-output .cs-md ol {
+  margin: 0 0 12px;
+  padding-left: 1.25rem;
+  color: var(--cream);
+}
+#contentOutput.cs-rich-output .cs-md li { margin-bottom: 6px; }
+#contentOutput.cs-rich-output .cs-md strong { color: var(--cream); font-weight: 600; }
+#contentOutput.cs-rich-output .cs-md em { color: var(--light); font-style: italic; }
+#contentOutput.cs-rich-output .cs-md code {
+  font-size: 12px;
+  background: rgba(255,248,246,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--rose-light);
+}
+#contentOutput.cs-rich-output .cs-muted {
+  font-size: 12px;
+  color: var(--light);
+  line-height: 1.55;
+}
+#contentOutput.cs-rich-output .cs-storyboard-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: rgba(255,248,246,0.02);
+  margin-bottom: 20px;
+}
+#contentOutput.cs-rich-output .cs-storyboard {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+#contentOutput.cs-rich-output .cs-storyboard th {
+  text-align: left;
+  padding: 12px 14px;
+  background: rgba(168,107,98,0.12);
+  color: var(--rose);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-bottom: 1px solid var(--card-border);
+}
+#contentOutput.cs-rich-output .cs-storyboard td {
+  padding: 12px 14px;
+  color: var(--cream);
+  vertical-align: top;
+  border-bottom: 1px solid rgba(234,208,204,0.08);
+  line-height: 1.55;
+}
+#contentOutput.cs-rich-output .cs-storyboard tr:nth-child(even) td {
+  background: rgba(255,248,246,0.03);
+}
+#contentOutput.cs-rich-output .cs-storyboard tr:last-child td {
+  border-bottom: none;
+}
+#contentOutput.cs-rich-output .cs-meta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+#contentOutput.cs-rich-output .cs-copy-card {
+  background: rgba(255,248,246,0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+#contentOutput.cs-rich-output .cs-copy-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+#contentOutput.cs-rich-output .cs-copy-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--rose-mid);
+  font-weight: 600;
+}
+#contentOutput.cs-rich-output .cs-copy-body {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+#contentOutput.cs-rich-output .cs-slide-card {
+  background: rgba(255,248,246,0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+#contentOutput.cs-rich-output .cs-slide-num {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--rose);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+#contentOutput.cs-rich-output .cs-slide-main {
+  font-size: 14px;
+  color: var(--cream);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+#contentOutput.cs-rich-output .cs-section-copy {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  font-size: 11px;
+  border-radius: 8px;
+}
+#contentOutput.cs-rich-output .cs-fb-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Content Calendar (Tab 06) */
+.calendar-week-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.calendar-week-dates {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.5;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.calendar-day-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+}
+.calendar-day-card.is-loading {
+  animation: rosePulse 1.25s ease-in-out infinite;
+}
+@keyframes rosePulse {
+  0%, 100% {
+    border-color: rgba(168, 107, 98, 0.35);
+    box-shadow: 0 0 0 0 rgba(168, 107, 98, 0.12);
+  }
+  50% {
+    border-color: rgba(234, 208, 204, 0.45);
+    box-shadow: 0 0 14px 2px rgba(168, 107, 98, 0.18);
+  }
+}
+.calendar-day-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.calendar-day-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--cream);
+  margin: 0;
+  line-height: 1.25;
+}
+.calendar-day-meta {
+  font-size: 11px;
+  color: var(--light);
+  margin-top: 4px;
+}
+.calendar-platform-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--cream);
+}
+.cal-status-pill {
+  display: inline-block;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.cal-status-not {
+  background: rgba(196, 147, 122, 0.12);
+  color: var(--light);
+  border: 1px solid var(--card-border);
+}
+.cal-status-ready {
+  background: rgba(168, 107, 98, 0.2);
+  color: var(--rose-light);
+  border: 1px solid rgba(168, 107, 98, 0.35);
+}
+.cal-status-posted {
+  background: rgba(107, 158, 120, 0.18);
+  color: #8fcc9c;
+  border: 1px solid rgba(107, 158, 120, 0.35);
+}
+.calendar-preview {
+  font-size: 12px;
+  color: var(--light);
+  line-height: 1.5;
+  min-height: 3em;
+}
+.calendar-day-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.content-learnings-indicator {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--rose);
+  margin-top: 10px;
+  letter-spacing: 0.3px;
+}
+
+.pattern-analysis-output .pattern-section {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.pattern-analysis-output .pattern-section h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin: 0 0 10px;
+}
+.pattern-analysis-output .pattern-section-body {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.visual-prompt-block {
+  background: rgba(168, 107, 98, 0.08);
+  border: 1px solid rgba(168, 107, 98, 0.22);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.visual-prompt-block .visual-prompt-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.visual-prompt-block .visual-prompt-label {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 600;
+}
+.visual-prompt-block .visual-prompt-text {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.55;
+}
+.platform-tag--visual {
+  border-style: dashed;
+}
+
+/* ── Mobile (≤767px): hamburger + drawer, full-width main, larger type ── */
+.mobile-top-bar,
+.mobile-nav-scrim {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  #app {
+    overflow-x: hidden;
+  }
+
+  body.mc-nav-open {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .mobile-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 230;
+    min-height: 52px;
+    padding: 6px 10px 6px 6px;
+    padding-left: max(6px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-top: max(6px, env(safe-area-inset-top));
+    background: rgba(22, 16, 14, 0.97);
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .mobile-menu-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 248, 246, 0.06);
+    color: var(--cream);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-menu-btn:active {
+    background: rgba(255, 248, 246, 0.1);
+  }
+  .mobile-menu-icon {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor;
+  }
+
+  .mobile-top-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 210;
+    background: rgba(10, 6, 5, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body.mc-nav-open .mobile-nav-scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Drawer only when open — no sidebar strip visible on the canvas */
+  .sidebar {
+    width: min(300px, 100%);
+    max-width: 100vw;
+    transform: translateX(-100%);
+    transition:
+      transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0.28s step-end;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.35);
+    padding-top: max(28px, env(safe-area-inset-top));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    visibility: hidden;
+    pointer-events: none;
+  }
+  body.mc-nav-open .sidebar {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0s step-start;
+  }
+
+  .sidebar .nav-item {
+    font-size: 15px;
+    padding: 14px 22px;
+    min-height: 48px;
+  }
+  .sidebar .nav-icon {
+    font-size: 18px;
+    width: 24px;
+  }
+  .sidebar-logo-name {
+    font-size: 20px;
+  }
+  .sidebar-logo-sub {
+    font-size: 11px;
+  }
+
+  .main {
+    margin-left: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 68px max(16px, env(safe-area-inset-left)) 88px max(16px, env(safe-area-inset-right));
+    box-sizing: border-box;
+  }
+
+  .tab-panel.active {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .analytics-sync-banner {
+    padding: 18px 16px;
+    margin-bottom: 20px;
+  }
+  .analytics-sync-banner-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-appstore-sync {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+
+  .page-eyebrow {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+  .page-title {
+    font-size: clamp(26px, 7vw, 34px);
+  }
+  .page-sub {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .card {
+    padding: 20px 18px;
+    border-radius: 14px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .card-label {
+    font-size: 11px;
+  }
+  .card-title {
+    font-size: 18px;
+  }
+
+  .form-label {
+    font-size: 12px;
+  }
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 14px 20px;
+  }
+  .btn-sm {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .output-area {
+    font-size: 15px;
+    padding: 18px 16px;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+  }
+  .output-placeholder {
+    font-size: 14px;
+  }
+
+  .platform-tag {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .stat-number {
+    font-size: 36px;
+  }
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .inf-name {
+    font-size: 15px;
+  }
+  .inf-meta {
+    font-size: 13px;
+  }
+
+  /* Week / day picker + theme strip: full width, no narrow column squeeze */
+  .mc-picker-card {
+    padding: 16px !important;
+    border-radius: 14px !important;
+  }
+  .mc-picker-card > div:first-child {
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+  }
+  .mc-picker-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  .mc-picker-row .form-select {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .theme-banner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    padding: 20px 18px;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .theme-banner .theme-icon {
+    font-size: 32px;
+    align-self: flex-start;
+  }
+  .theme-banner .theme-banner-body {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  .theme-name {
+    font-size: 22px;
+    line-height: 1.25;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  .theme-detail {
+    font-size: 15px;
+    line-height: 1.45;
+    margin-top: 6px;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  #currentVerseDisplay {
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+    margin-top: 10px !important;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .week-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .day-card {
+    text-align: left;
+    padding: 16px 18px;
+  }
+  .day-name {
+    font-size: 11px;
+  }
+  .day-content {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .inner-tab {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+
+  .calendar-week-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .calendar-week-dates {
+    font-size: 15px;
+    width: 100%;
+  }
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+  .calendar-day-card {
+    padding: 18px 16px;
+    min-height: 0;
+  }
+  .calendar-day-title {
+    font-size: 18px;
+  }
+  .calendar-day-meta {
+    font-size: 13px;
+  }
+
+  .mission-section-title {
+    font-size: 17px;
+  }
+  .mission-task-text {
+    font-size: 15px;
+  }
+  .mission-progress-label {
+    font-size: 15px;
+  }
+
+  #contentOutput.cs-rich-output .cs-platform-title {
+    font-size: 20px;
+  }
+  #contentOutput.cs-rich-output .cs-slide-main {
+    font-size: 15px;
+  }
+
+  #toast {
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 16px;
+    right: 16px;
+    transform: translateY(100px);
+    max-width: none;
+    width: auto;
+    text-align: center;
+    font-size: 15px;
+  }
+  #toast.show {
+    transform: translateY(0);
+  }
+
+  .copy-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-top-bar,
+  .mobile-nav-scrim {
+    display: none !important;
+  }
+}
 </style>
 <script src="js/grounded-home-weekly-themes-data.js"></script>
 </head>
@@ -631,27 +1444,49 @@ body::after {
 
 <!-- Main App -->
 <div id="app">
+  <header class="mobile-top-bar" aria-label="Mobile header">
+    <button
+      type="button"
+      class="mobile-menu-btn"
+      id="mobileMenuBtn"
+      aria-controls="sidebarNav"
+      aria-expanded="false"
+      onclick="toggleMobileNav()"
+      aria-label="Open navigation menu"
+    >
+      <span class="mobile-menu-icon" aria-hidden="true"></span>
+    </button>
+    <span class="mobile-top-title">Grounded · Marketing</span>
+  </header>
+  <div
+    class="mobile-nav-scrim"
+    id="mobileNavScrim"
+    onclick="closeMobileNav()"
+    aria-hidden="true"
+  ></div>
+
   <!-- Sidebar -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebarNav" aria-label="Main navigation">
     <div class="sidebar-logo">
       <div class="sidebar-logo-name">Grounded</div>
       <div class="sidebar-logo-sub">Marketing Center</div>
     </div>
-    <div class="nav-item active" onclick="showTab('content')">
+    <div class="nav-item active" data-nav-tab="content" onclick="showTab('content', this)">
       <span class="nav-icon">✦</span> Content Studio
     </div>
-    <div class="nav-item" onclick="showTab('outreach')">
+    <div class="nav-item" data-nav-tab="outreach" onclick="showTab('outreach', this)">
       <span class="nav-icon">✉</span> Influencer Outreach
     </div>
-    <div class="nav-item" onclick="showTab('analytics')">
+    <div class="nav-item" data-nav-tab="analytics" onclick="showTab('analytics', this)">
       <span class="nav-icon">◈</span> Analytics
     </div>
-    <div class="nav-item" onclick="showTab('brief')">
+    <div class="nav-item" data-nav-tab="brief" onclick="showTab('brief', this)">
       <span class="nav-icon">◉</span> Weekly Brief
     </div>
-    <div class="nav-item" onclick="showTab('mission')">
+    <div class="nav-item" data-nav-tab="mission" onclick="showTab('mission', this)">
       <span class="nav-icon">✧</span> Mission Control
     </div>
+    <div class="nav-item" data-nav-tab="calendar" onclick="showTab('calendar')"><span class="nav-icon">◷</span> Content Calendar</div>
   </nav>
 
   <!-- Main Content -->
@@ -665,9 +1500,9 @@ body::after {
         <div class="page-sub">Generate ready-to-post content for every platform in Grounded's voice</div>
       </div>
 
-      <div style="background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:12px;margin-bottom:12px;">
+      <div class="mc-picker-card" style="background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:12px;margin-bottom:12px;">
         <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:var(--light);margin-bottom:8px;"><span style="text-transform:uppercase;letter-spacing:1.5px;">Adjust week / day</span> <span style="letter-spacing:0.5px;">(optional)</span></div>
-        <div style="display:flex;gap:12px;">
+        <div class="mc-picker-row" style="display:flex;gap:12px;">
           <select id="weekPicker" class="form-select" style="flex:1;" onchange="applyPickerSelection()"></select>
           <select id="dayPicker" class="form-select" style="flex:1;" onchange="applyPickerSelection()"></select>
         </div>
@@ -676,7 +1511,7 @@ body::after {
       <!-- Theme Banner -->
       <div class="theme-banner">
         <div class="theme-icon">🕊️</div>
-        <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+        <div class="theme-banner-body" style="flex:1;display:flex;flex-direction:column;min-width:0;">
           <div class="theme-info">
             <div class="theme-name" id="currentThemeName">Enter your current weekly theme below</div>
             <div class="theme-detail" id="currentThemeDetail">Content will be tailored to this theme and today's verse</div>
@@ -706,10 +1541,12 @@ body::after {
         <label class="form-label">Generate for</label>
         <div class="platform-grid">
           <button class="platform-tag selected" data-platform="tiktok" onclick="togglePlatform(this)">🎵 TikTok</button>
+          <button class="platform-tag" data-platform="reels" onclick="togglePlatform(this)">▶ Reels</button>
           <button class="platform-tag selected" data-platform="instagram" onclick="togglePlatform(this)">📸 Instagram</button>
           <button class="platform-tag selected" data-platform="facebook" onclick="togglePlatform(this)">👥 Facebook</button>
           <button class="platform-tag selected" data-platform="pinterest" onclick="togglePlatform(this)">📌 Pinterest</button>
           <button class="platform-tag" data-platform="ads" onclick="togglePlatform(this)">📣 Ad Copy</button>
+          <button type="button" class="platform-tag platform-tag--visual" onclick="generateVisualPrompts()">🎨 Visual Prompt</button>
         </div>
       </div>
 
@@ -717,6 +1554,7 @@ body::after {
         <label class="form-label">Content Type</label>
         <select class="form-select" id="contentType">
           <option value="daily">Daily post (single)</option>
+          <option value="carousel">Instagram carousel (multi-slide)</option>
           <option value="week">Full week of content (7 days)</option>
           <option value="launch">App launch / awareness</option>
           <option value="feature">Feature highlight</option>
@@ -734,6 +1572,7 @@ body::after {
       <button class="btn btn-primary" onclick="generateContent()" id="generateBtn" style="width:100%;justify-content:center;padding:16px;">
         ✦ Generate Content
       </button>
+      <div id="contentLearningsIndicator" class="content-learnings-indicator" style="display:none;">● Learnings applied</div>
 
       <div class="divider"></div>
 
@@ -874,11 +1713,29 @@ body::after {
         </div>
       </div>
 
+      <div class="analytics-sync-banner" aria-label="App Store Connect sync">
+        <div class="analytics-sync-banner-inner">
+          <div>
+            <p class="analytics-sync-banner-title">Pull live App Store metrics</p>
+            <p class="analytics-sync-banner-sub">
+              Fills downloads, new-this-week, review count, and average rating below. Requires server keys and (for units) vendor number.
+            </p>
+          </div>
+          <button type="button" class="btn-appstore-sync" id="syncAppStoreBtn" onclick="syncFromAppStore()">
+            <span class="btn-appstore-sync-icon" aria-hidden="true">◆</span>
+            Sync from App Store
+          </button>
+        </div>
+        <p class="analytics-sync-hint">
+          Downloads need <code>APPLE_VENDOR_NUMBER</code> on the server; ratings use Apple’s public + Connect data.
+        </p>
+      </div>
+
       <div class="grid-2">
         <!-- Input form -->
         <div class="card">
-          <div class="card-label">Enter This Week's Numbers</div>
-          <div class="report-grid">
+        <div class="card-label">Enter This Week's Numbers</div>
+        <div class="report-grid">
             <div class="form-group">
               <label class="form-label">Total Downloads</label>
               <input type="number" class="form-input" id="inputDownloads" placeholder="0" />
@@ -937,6 +1794,21 @@ body::after {
           </div>
           <button class="copy-btn" onclick="copyOutput('analyticsOutput')" style="display:none;position:relative;top:0;right:0;margin-top:10px;" id="copyAnalyticsBtn">Copy Report</button>
         </div>
+      </div>
+
+      <div class="card" style="margin-top:24px;">
+        <div class="card-label">CONTENT PATTERN ANALYSIS</div>
+        <div class="form-group">
+          <label class="form-label">Paste your last 3 weeks of top posts (format: [post type] — [saves] saves, [shares] shares, [views] views)</label>
+          <textarea class="form-textarea" id="patternPerfInput" placeholder="e.g. Carousel — 120 saves, 8 shares, 4.2k views" style="min-height:120px;"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="runContentPatternAnalysis()" id="patternFindBtn" style="width:100%;justify-content:center;margin-bottom:16px;">
+          ✦ Find Patterns
+        </button>
+        <div id="patternAnalysisOutput" class="pattern-analysis-output" style="display:none;"></div>
+        <button type="button" class="btn btn-secondary" onclick="applyContentLearnings()" id="patternApplyBtn" style="display:none;width:100%;justify-content:center;margin-top:12px;">
+          ✦ Apply to Next Week's Content
+        </button>
       </div>
     </div>
 
@@ -1098,6 +1970,26 @@ body::after {
       </div>
     </div>
 
+    <!-- ═══ CONTENT CALENDAR ═══ -->
+    <div class="tab-panel" id="tab-calendar">
+      <div class="page-header">
+        <div class="page-eyebrow">Tab 06</div>
+        <div class="page-title">Content Calendar</div>
+        <div class="page-sub">Your full week of content — generated and organized</div>
+      </div>
+
+      <div class="card">
+        <div class="calendar-week-bar">
+          <div class="calendar-week-dates" id="calendarWeekRange"></div>
+          <button type="button" class="btn btn-primary" id="calendarGenerateBtn" onclick="generateCalendarFullWeek()">✦ Generate Full Week</button>
+        </div>
+        <p style="font-size:12px;color:var(--light);line-height:1.5;margin:0 0 16px;">
+          Uses the weekly theme and verse from <strong style="color:var(--cream);">Content Studio</strong> (week / day pickers). Content is saved on this device for the current week only.
+        </p>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -1106,6 +1998,58 @@ let CURRENT_WEEK = null;
 let CURRENT_DAY = null;
 let pickerWeekIndex = null;
 let trackerData = JSON.parse(localStorage.getItem('grounded_tracker') || '[]');
+
+const CALENDAR_STORAGE_KEY = 'grounded_calendar_week';
+const CONTENT_LEARNINGS_KEY = 'grounded_content_learnings';
+
+const CALENDAR_SLOT_DEFS = [
+  { key: 'mon', name: 'Monday', platform: 'Instagram', icon: '📸', brief: 'Instagram reflection post' },
+  {
+    key: 'tue',
+    name: 'Tuesday',
+    platform: 'TikTok',
+    icon: '🎵',
+    brief: 'TikTok storyboard (faceless b-roll + text overlays)'
+  },
+  {
+    key: 'wed',
+    name: 'Wednesday',
+    platform: 'Pinterest',
+    icon: '📌',
+    brief: 'Pinterest static pin (verse on cream, keyword-rich)'
+  },
+  {
+    key: 'thu',
+    name: 'Thursday',
+    platform: 'Facebook',
+    icon: '👥',
+    brief: 'Facebook group post (longer, ends with question)'
+  },
+  {
+    key: 'fri',
+    name: 'Friday',
+    platform: 'Instagram',
+    icon: '📸',
+    brief: 'Instagram carousel (verse breakdown 5-6 slides)'
+  },
+  {
+    key: 'sat',
+    name: 'Saturday',
+    platform: 'TikTok',
+    icon: '🎵',
+    brief: 'TikTok app screen recording script'
+  },
+  {
+    key: 'sun',
+    name: 'Sunday',
+    platform: 'Instagram',
+    icon: '📸',
+    brief: 'Instagram church/reflection post'
+  }
+];
+
+let calendarState = null;
+let lastPatternAnalysisRaw = '';
 
 function populateWeekPicker(themes) {
   const sel = document.getElementById('weekPicker');
@@ -1287,14 +2231,506 @@ window.addEventListener('load', () => {
   renderTracker();
   loadCurrentWeek();
   initMissionChecklist();
+  initContentStudioOutputUi();
+  updateLearningsIndicator();
+  renderCalendarGrid();
+});
+
+function getMondayOfWeek(refDate) {
+  const d = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+
+function formatISODateLocal(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return y + '-' + m + '-' + day;
+}
+
+function getCalendarWeekMeta() {
+  const monday = getMondayOfWeek(new Date());
+  const sun = new Date(monday);
+  sun.setDate(sun.getDate() + 6);
+  const weekKey = formatISODateLocal(monday);
+  const label =
+    monday.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) +
+    ' – ' +
+    sun.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const x = new Date(monday);
+    x.setDate(x.getDate() + i);
+    dates.push(x);
+  }
+  return { monday, weekKey, label, dates };
+}
+
+function loadCalendarStorage() {
+  try {
+    const raw = localStorage.getItem(CALENDAR_STORAGE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    return data && typeof data === 'object' ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveCalendarStorage(state) {
+  localStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(state));
+}
+
+function buildEmptyCalendarDays(meta) {
+  return CALENDAR_SLOT_DEFS.map(function (def, i) {
+    return {
+      key: def.key,
+      dayName: def.name,
+      dateISO: formatISODateLocal(meta.dates[i]),
+      dateDisplay: meta.dates[i].toLocaleDateString(undefined, {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      }),
+      platform: def.platform,
+      platformIcon: def.icon,
+      slotBrief: def.brief,
+      content: '',
+      posted: false,
+      loading: false
+    };
+  });
+}
+
+function hydrateCalendarState(meta) {
+  const saved = loadCalendarStorage();
+  const empty = buildEmptyCalendarDays(meta);
+  if (saved && saved.weekKey === meta.weekKey && Array.isArray(saved.days) && saved.days.length === 7) {
+    return {
+      weekKey: meta.weekKey,
+      days: empty.map(function (slot, i) {
+        const s = saved.days[i] || {};
+        return Object.assign({}, slot, {
+          content: typeof s.content === 'string' ? s.content : '',
+          posted: !!s.posted,
+          loading: false
+        });
+      })
+    };
+  }
+  return { weekKey: meta.weekKey, days: empty };
+}
+
+function getWeekContextForCalendarGeneration() {
+  const themes = window.GROUNDED_HOME_WEEKLY_THEMES_52;
+  const wi = parseInt(document.getElementById('weekPicker').value, 10);
+  if (themes && !Number.isNaN(wi) && themes[wi]) {
+    const w = themes[wi];
+    return { title: w.title, subtitle: w.subtitle || '', days: w.days };
+  }
+  const manual = document.getElementById('weeklyTheme').value.trim();
+  if (!manual) return null;
+  const tv = document.getElementById('todayVerse').value.trim();
+  const syn = {
+    focus: document.getElementById('dayFocus').value.trim() || 'Weekly theme',
+    verse: { text: tv || manual, reference: '' },
+    reflection: ''
+  };
+  return {
+    title: manual,
+    subtitle: document.getElementById('currentThemeDetail').textContent || '',
+    days: [syn, syn, syn, syn, syn]
+  };
+}
+
+function getThemeDayForCalendarSlot(week, slotIndex) {
+  if (!week.days || !week.days.length) {
+    const tv = document.getElementById('todayVerse').value.trim();
+    return {
+      focus: document.getElementById('dayFocus').value.trim() || 'Theme reflection',
+      verse: { text: tv || week.title, reference: '' },
+      reflection: ''
+    };
+  }
+  const di = Math.min(slotIndex, week.days.length - 1);
+  return week.days[di];
+}
+
+function buildCalendarSlotPrompt(slotIndex, week, slotRow) {
+  const day = getThemeDayForCalendarSlot(week, slotIndex);
+  const verseLine =
+    'Verse for this calendar day (aligned with weekly theme day ' +
+    String(slotIndex + 1) +
+    '): "' +
+    day.verse.text +
+    '"' +
+    (day.verse.reference ? ' — ' + day.verse.reference : '');
+  const focusLine = 'Day focus: ' + day.focus;
+  const refl = day.reflection ? 'Reflection tone: ' + day.reflection : '';
+  return (
+    'Generate ONE complete, ready-to-post piece for Grounded\'s content calendar.\n\n' +
+    'CURRENT WEEKLY THEME: ' +
+    week.title +
+    '\nTheme context: ' +
+    (week.subtitle || '') +
+    '\n' +
+    focusLine +
+    '\n' +
+    verseLine +
+    '\n' +
+    refl +
+    '\n\nCalendar slot: ' +
+    slotRow.dayName +
+    ' (' +
+    slotRow.dateDisplay +
+    ')\nPlatform: ' +
+    slotRow.platform +
+    '\nFormat: ' +
+    slotRow.slotBrief +
+    "\n\nFollow Grounded voice. Deliver finished captions, scripts, overlays, hashtags, and visual notes as appropriate for this platform — no placeholders, no suggestion framing."
+  );
+}
+
+function calendarStatusForDay(day) {
+  if (day.loading) return 'loading';
+  if (day.posted) return 'posted';
+  if (day.content && day.content.trim()) return 'ready';
+  return 'not';
+}
+
+function renderCalendarGrid() {
+  const meta = getCalendarWeekMeta();
+  const rangeEl = document.getElementById('calendarWeekRange');
+  if (rangeEl) rangeEl.textContent = meta.label;
+  if (!calendarState || calendarState.weekKey !== meta.weekKey) {
+    calendarState = hydrateCalendarState(meta);
+  }
+  const grid = document.getElementById('calendarGrid');
+  if (!grid) return;
+  grid.innerHTML = calendarState.days
+    .map(function (day, i) {
+      const st = calendarStatusForDay(day);
+      let pillClass =
+        st === 'posted' ? 'cal-status-posted' : st === 'ready' ? 'cal-status-ready' : 'cal-status-not';
+      let pillText =
+        st === 'posted' ? 'Posted' : st === 'ready' ? 'Ready' : 'Not generated';
+      if (day.loading) {
+        pillClass = 'cal-status-ready';
+        pillText = 'Generating…';
+      }
+      const trimmed = day.content ? day.content.trim() : '';
+      const preview =
+        trimmed.length > 0
+          ? trimmed.slice(0, 100) + (trimmed.length > 100 ? '…' : '')
+          : '—';
+      const loadingClass = day.loading ? ' is-loading' : '';
+      const hasContent = trimmed.length > 0;
+      return (
+        '<div class="calendar-day-card' +
+        loadingClass +
+        '" data-cal-idx="' +
+        i +
+        '">' +
+        '<div class="calendar-day-head">' +
+        '<div>' +
+        '<h3 class="calendar-day-title">' +
+        escapeHtml(day.dayName) +
+        '</h3>' +
+        '<div class="calendar-day-meta">' +
+        escapeHtml(day.dateDisplay) +
+        '</div>' +
+        '</div>' +
+        '<span class="cal-status-pill ' +
+        pillClass +
+        '">' +
+        pillText +
+        '</span>' +
+        '</div>' +
+        '<div class="calendar-platform-row">' +
+        day.platformIcon +
+        ' ' +
+        escapeHtml(day.platform) +
+        '</div>' +
+        '<div class="calendar-preview">' +
+        escapeHtml(preview) +
+        '</div>' +
+        '<div class="calendar-day-actions">' +
+        '<button type="button" class="btn btn-secondary btn-sm" onclick="toggleCalendarPosted(' +
+        i +
+        ')" ' +
+        (hasContent ? '' : 'disabled') +
+        '>Mark as Posted</button>' +
+        '<button type="button" class="btn btn-secondary btn-sm" onclick="copyCalendarDay(' +
+        i +
+        ')" ' +
+        (hasContent ? '' : 'disabled') +
+        '>Copy</button>' +
+        '</div>' +
+        '</div>'
+      );
+    })
+    .join('');
+}
+
+function toggleCalendarPosted(index) {
+  if (!calendarState || !calendarState.days[index]) return;
+  const d = calendarState.days[index];
+  if (!d.content || !d.content.trim()) return;
+  d.posted = !d.posted;
+  saveCalendarStorage(calendarState);
+  renderCalendarGrid();
+}
+
+function copyCalendarDay(index) {
+  if (!calendarState || !calendarState.days[index]) return;
+  const c = calendarState.days[index].content;
+  if (!c || !c.trim()) return;
+  navigator.clipboard.writeText(c).then(function () {
+    showToast('Copied');
+  });
+}
+
+async function generateCalendarFullWeek() {
+  const meta = getCalendarWeekMeta();
+  if (!calendarState || calendarState.weekKey !== meta.weekKey) {
+    calendarState = hydrateCalendarState(meta);
+  }
+  const weekCtx = getWeekContextForCalendarGeneration();
+  if (!weekCtx || !weekCtx.title) {
+    showToast('Pick a week or enter a weekly theme in Content Studio first');
+    return;
+  }
+  const btn = document.getElementById('calendarGenerateBtn');
+  if (btn) btn.disabled = true;
+
+  for (let i = 0; i < 7; i++) {
+    calendarState.days[i].loading = true;
+    renderCalendarGrid();
+    try {
+      const prompt = buildCalendarSlotPrompt(i, weekCtx, calendarState.days[i]);
+      const text = await callClaude(prompt, GROUNDED_SYSTEM);
+      calendarState.days[i].content = text;
+      calendarState.days[i].posted = false;
+    } catch (e) {
+      calendarState.days[i].content = 'Error: ' + e.message;
+      calendarState.days[i].posted = false;
+    }
+    calendarState.days[i].loading = false;
+    saveCalendarStorage(calendarState);
+    renderCalendarGrid();
+  }
+
+  if (btn) btn.disabled = false;
+  showToast('Week generated');
+}
+
+function splitPatternAnalysisSections(text) {
+  const t = String(text || '').trim();
+  const headers = [
+    ["WHAT'S WORKING", "WHAT'S WORKING"],
+    ["WHAT'S NOT", "WHAT'S NOT"],
+    ["NEXT WEEK'S STRATEGY", "NEXT WEEK'S STRATEGY"]
+  ];
+  const pos = [];
+  for (let h = 0; h < headers.length; h++) {
+    const needle = headers[h][0];
+    const idx = t.indexOf(needle);
+    if (idx >= 0) pos.push({ idx: idx, title: headers[h][1], needle: needle });
+  }
+  pos.sort(function (a, b) {
+    return a.idx - b.idx;
+  });
+  if (!pos.length) return [{ title: 'Analysis', body: t }];
+  const out = [];
+  for (let k = 0; k < pos.length; k++) {
+    const start = pos[k].idx + pos[k].needle.length;
+    const end = k + 1 < pos.length ? pos[k + 1].idx : t.length;
+    let body = t
+      .slice(start, end)
+      .replace(/^\s*[:\-–]*\s*/, '')
+      .trim();
+    out.push({ title: pos[k].title, body: body });
+  }
+  return out;
+}
+
+function renderPatternAnalysisHtml(text) {
+  const parts = splitPatternAnalysisSections(text);
+  let html = '';
+  for (let p = 0; p < parts.length; p++) {
+    html +=
+      '<div class="pattern-section"><h4>' +
+      escapeHtml(parts[p].title) +
+      '</h4><div class="pattern-section-body">' +
+      escapeHtml(parts[p].body) +
+      '</div></div>';
+  }
+  return html;
+}
+
+async function runContentPatternAnalysis() {
+  const data = document.getElementById('patternPerfInput').value.trim();
+  if (!data) {
+    showToast('Paste your performance data first');
+    return;
+  }
+  const out = document.getElementById('patternAnalysisOutput');
+  const applyBtn = document.getElementById('patternApplyBtn');
+  const findBtn = document.getElementById('patternFindBtn');
+  if (applyBtn) applyBtn.style.display = 'none';
+  out.style.display = 'block';
+  out.innerHTML = '<span class="output-placeholder">Finding patterns...</span>';
+  if (findBtn) {
+    findBtn.disabled = true;
+    findBtn.innerHTML = '<div class="spinner"></div> Analyzing...';
+  }
+  try {
+    const prompt =
+      'You are analyzing content performance for Grounded, a faith and wellness app for Christian women 22-45. Based on the performance data below, identify: 1) Which content types perform best (emotional vulnerability, Bible study, app features, declarations, reset/wellness), 2) Which themes resonate most, 3) What the top posts have in common, 4) A specific content strategy recommendation for next week — what to post MORE of and LESS of with percentages. Be specific and actionable. Data: ' +
+      data +
+      "\n\nStructure your response under these exact headings (each on its own line):\nWHAT'S WORKING\nWHAT'S NOT\nNEXT WEEK'S STRATEGY";
+    const result = await callClaude(prompt, GROUNDED_SYSTEM);
+    lastPatternAnalysisRaw = result;
+    out.innerHTML = renderPatternAnalysisHtml(result);
+    if (applyBtn) applyBtn.style.display = 'block';
+  } catch (e) {
+    out.innerHTML = '<span style="color:#E07070;">Error: ' + escapeHtml(e.message) + '</span>';
+  }
+  if (findBtn) {
+    findBtn.disabled = false;
+    findBtn.innerHTML = '✦ Find Patterns';
+  }
+}
+
+function applyContentLearnings() {
+  if (!lastPatternAnalysisRaw || !lastPatternAnalysisRaw.trim()) {
+    showToast('Run pattern analysis first');
+    return;
+  }
+  localStorage.setItem(CONTENT_LEARNINGS_KEY, lastPatternAnalysisRaw);
+  updateLearningsIndicator();
+  showToast('Saved for Content Studio');
+}
+
+function updateLearningsIndicator() {
+  const el = document.getElementById('contentLearningsIndicator');
+  if (!el) return;
+  el.style.display = localStorage.getItem(CONTENT_LEARNINGS_KEY) ? 'block' : 'none';
+}
+
+function parseVisualPromptsFromResponse(text) {
+  const out = ['', '', ''];
+  const raw = String(text || '');
+  for (let n = 1; n <= 3; n++) {
+    const re = new RegExp(
+      'PROMPT\\s*' + n + '\\s*:\\s*([\\s\\S]*?)(?=PROMPT\\s*' + (n + 1) + '\\s*:|$)',
+      'i'
+    );
+    const m = raw.match(re);
+    if (m) out[n - 1] = m[1].trim();
+  }
+  const filtered = out.filter(function (s) {
+    return s && s.length;
+  });
+  return filtered.length ? filtered : [raw.trim()];
+}
+
+function renderVisualPromptsHtml(prompts) {
+  let html = '<div class="cs-render">';
+  for (let i = 0; i < prompts.length; i++) {
+    const p = prompts[i];
+    const enc = encodeURIComponent(p);
+    html +=
+      '<div class="visual-prompt-block"><div class="visual-prompt-head"><span class="visual-prompt-label">Prompt ' +
+      String(i + 1) +
+      '</span><button type="button" class="cs-section-copy btn btn-secondary btn-sm" data-copy-enc="' +
+      escapeHtml(enc) +
+      '">Paste into ChatGPT / Midjourney / Canva AI</button></div><div class="visual-prompt-text">' +
+      escapeHtml(p) +
+      '</div></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+async function generateVisualPrompts() {
+  const theme = document.getElementById('weeklyTheme').value.trim();
+  if (!theme) {
+    showToast('Please enter the current weekly theme first');
+    return;
+  }
+  const verseLine = CURRENT_DAY
+    ? 'Theme verse context: "' +
+      CURRENT_DAY.verse.text +
+      '" — ' +
+      CURRENT_DAY.verse.reference +
+      '. Focus: ' +
+      CURRENT_DAY.focus +
+      '.'
+    : '';
+  const instruction =
+    "Generate 3 AI image prompts for this week's theme. Each prompt should produce a branded Grounded-style image: soft cream and rose tones, warm natural light, feminine editorial aesthetic, faith and wellness. Make them specific enough to paste directly into ChatGPT image generation, Midjourney, or Canva AI. Format as PROMPT 1: [prompt] / PROMPT 2: [prompt] / PROMPT 3: [prompt]. Each prompt should be 1-2 sentences, highly specific about lighting, objects, colors, mood, composition. Include the week's theme and verse naturally in at least one prompt.";
+
+  const prompt = instruction + '\n\nContext:\nWeekly theme: ' + theme + '\n' + verseLine;
+
+  const output = document.getElementById('contentOutput');
+  output.classList.remove('cs-rich-output');
+  output.innerHTML = '<span class="output-placeholder">Generating visual prompts...</span>';
+  document.getElementById('copyContentBtn').style.display = 'none';
+  window.contentStudioLastRaw = '';
+
+  try {
+    const result = await callClaude(prompt, GROUNDED_SYSTEM);
+    const prompts = parseVisualPromptsFromResponse(result);
+    window.contentStudioLastRaw = prompts.join('\n\n---\n\n');
+    output.classList.add('cs-rich-output');
+    output.innerHTML = renderVisualPromptsHtml(prompts.length ? prompts : [result]);
+    document.getElementById('copyContentBtn').style.display = 'block';
+  } catch (e) {
+    output.innerHTML = '<span style="color:#E07070;">Error: ' + escapeHtml(e.message) + '</span>';
+  }
+}
+
+// ── Mobile nav (drawer) ──
+function closeMobileNav() {
+  document.body.classList.remove('mc-nav-open');
+  const btn = document.getElementById('mobileMenuBtn');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+function openMobileNav() {
+  document.body.classList.add('mc-nav-open');
+  const btn = document.getElementById('mobileMenuBtn');
+  if (btn) btn.setAttribute('aria-expanded', 'true');
+}
+
+function toggleMobileNav() {
+  if (document.body.classList.contains('mc-nav-open')) closeMobileNav();
+  else openMobileNav();
+}
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && document.body.classList.contains('mc-nav-open')) {
+    closeMobileNav();
+  }
 });
 
 // ── Navigation ──
-function showTab(tab) {
+function showTab(tab, el) {
+  closeMobileNav();
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  event.currentTarget.classList.add('active');
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.classList.add('active');
+  let navEl =
+    el && el.classList && el.classList.contains('nav-item')
+      ? el
+      : document.querySelector('.nav-item[data-nav-tab="' + tab + '"]');
+  if (navEl) navEl.classList.add('active');
+  if (tab === 'calendar') renderCalendarGrid();
 }
 
 // ── Theme banner ──
@@ -1312,7 +2748,7 @@ function togglePlatform(el) {
 }
 
 function getSelectedPlatforms() {
-  return [...document.querySelectorAll('.platform-tag.selected')].map(el => el.dataset.platform);
+  return [...document.querySelectorAll('.platform-tag.selected[data-platform]')].map(el => el.dataset.platform);
 }
 
 // ── Claude API call ──
@@ -1404,6 +2840,679 @@ Grounded is a faith and wellness iOS app for Christian women 22–45 who want mo
 DO NOT HOLD BACK
 Generate complete polished outputs ready to immediately post, record, schedule, turn into an ad, send to a creator, or upload into Canva/CapCut. No drafts. No "you could." Just the finished thing.`;
 
+// ── Content Studio: raw storage + rich render ──
+window.contentStudioLastRaw = '';
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderInlineMarkdown(line) {
+  let t = escapeHtml(line);
+  t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
+  t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  t = t.replace(/__(.+?)__/g, '<strong>$1</strong>');
+  t = t.replace(/_(.+?)_/g, '<em>$1</em>');
+  return t;
+}
+
+function renderMarkdownToHtml(text) {
+  if (!text || !String(text).trim()) return '';
+  const lines = String(text).replace(/\r\n/g, '\n').split('\n');
+  let html = '';
+  let inUl = false;
+  let inOl = false;
+  function closeLists() {
+    if (inUl) {
+      html += '</ul>';
+      inUl = false;
+    }
+    if (inOl) {
+      html += '</ol>';
+      inOl = false;
+    }
+  }
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    if (!trimmed) {
+      closeLists();
+      continue;
+    }
+    const h3 = trimmed.match(/^###\s+(.+)$/);
+    const h2 = trimmed.match(/^##\s+(.+)$/);
+    const ul = trimmed.match(/^[-*]\s+(.+)$/);
+    const ol = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (h2) {
+      closeLists();
+      html += '<h3>' + renderInlineMarkdown(h2[1]) + '</h3>';
+      continue;
+    }
+    if (h3) {
+      closeLists();
+      html += '<h4>' + renderInlineMarkdown(h3[1]) + '</h4>';
+      continue;
+    }
+    if (ul) {
+      if (!inUl) {
+        closeLists();
+        html += '<ul>';
+        inUl = true;
+      }
+      html += '<li>' + renderInlineMarkdown(ul[1]) + '</li>';
+      continue;
+    }
+    if (ol) {
+      if (!inOl) {
+        closeLists();
+        html += '<ol>';
+        inOl = true;
+      }
+      html += '<li>' + renderInlineMarkdown(ol[1]) + '</li>';
+      continue;
+    }
+    closeLists();
+    html += '<p>' + renderInlineMarkdown(trimmed) + '</p>';
+  }
+  closeLists();
+  return html || '<p class="cs-muted">(empty)</p>';
+}
+
+function splitMarkdownSections(md) {
+  const lines = String(md || '').replace(/\r\n/g, '\n').split('\n');
+  const sections = [];
+  let curTitle = '';
+  let curBody = [];
+  const flush = () => {
+    const body = curBody.join('\n').trim();
+    if (curTitle || body) sections.push({ title: (curTitle || '').trim(), body });
+    curBody = [];
+    curTitle = '';
+  };
+  for (const line of lines) {
+    const m = line.match(/^#{1,6}\s*(.+)$/);
+    if (m) {
+      flush();
+      curTitle = m[1].trim();
+    } else curBody.push(line);
+  }
+  flush();
+  return sections;
+}
+
+function normalizeKey(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[#*_]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function sectionMapFromBody(body) {
+  const subs = splitMarkdownSections(body);
+  const map = {};
+  for (const s of subs) {
+    const k = normalizeKey(s.title);
+    if (!k) continue;
+    map[k] = (map[k] ? map[k] + '\n\n' : '') + s.body;
+  }
+  return map;
+}
+
+function findInSectionMap(map, aliases) {
+  const keys = Object.keys(map);
+  for (const want of aliases) {
+    const nw = normalizeKey(want);
+    if (map[nw]) return map[nw];
+    for (const k of keys) {
+      if (k.includes(nw) || nw.includes(k)) return map[k];
+      const tokens = nw.split(/\s+/).filter(Boolean);
+      if (tokens.length && tokens.every(t => k.includes(t))) return map[k];
+    }
+  }
+  return '';
+}
+
+function matchPlatformFromTitle(title) {
+  const t = String(title || '').toLowerCase();
+  if (!t) return null;
+  if (/\btiktok\b/.test(t)) return 'tiktok';
+  if (/\bad\b|\bmeta ads\b|\bad copy\b|\bfacebook ads\b/.test(t)) return 'ads';
+  if (/\bpinterest\b/.test(t)) return 'pinterest';
+  if (/\bfacebook\b|\bmeta\b(?!\s*ads)/.test(t)) return 'facebook';
+  if (/\binstagram\b|\big\b/.test(t)) return 'instagram';
+  if (/\breels?\b/.test(t) || /\byoutube\s+shorts\b/.test(t)) return 'reels';
+  return null;
+}
+
+function splitIntoPlatformChunks(raw, selectedPlatforms) {
+  const sections = splitMarkdownSections(raw);
+  const chunks = [];
+  let cur = null;
+  for (const sec of sections) {
+    const plat = matchPlatformFromTitle(sec.title);
+    if (plat) {
+      if (cur) chunks.push(cur);
+      cur = { platform: plat, heading: sec.title, body: sec.body };
+    } else if (cur) {
+      cur.body += (cur.body ? '\n\n' : '') + '## ' + sec.title + '\n' + sec.body;
+    } else {
+      chunks.push({ platform: null, heading: sec.title, body: sec.body });
+    }
+  }
+  if (cur) chunks.push(cur);
+  if (
+    chunks.length === 0 ||
+    (chunks.length === 1 && !chunks[0].platform && !matchPlatformFromTitle(chunks[0].heading))
+  ) {
+    const plat = selectedPlatforms && selectedPlatforms.length === 1 ? selectedPlatforms[0] : null;
+    return [{ platform: plat, heading: plat || 'Content', body: raw }];
+  }
+  return chunks;
+}
+
+function chunkUsesStoryboard(platform, title, body, contentType) {
+  if (platform === 'instagram' && (contentType === 'carousel' || /\bslide\s*\d+/i.test(body)))
+    return false;
+  const head = (title + '\n' + body.slice(0, 900)).toLowerCase();
+  if (platform === 'tiktok' || platform === 'reels') return true;
+  if (platform === 'instagram' && contentType !== 'carousel') {
+    if (/\b(reels?|short-form|vertical video|hook|shot list)\b/.test(head)) return true;
+    if (/\d+\s*[-–]\s*\d+s/.test(body) && /\b(hook|on-screen|overlay|voiceover|narration)\b/i.test(body))
+      return true;
+  }
+  return false;
+}
+
+function parseMarkdownTable(text) {
+  const lines = String(text || '')
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean);
+  const rows = [];
+  for (const line of lines) {
+    if (!line.includes('|')) continue;
+    if (/^[\|\s\-:]+$/.test(line)) continue;
+    const cells = line
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
+      .split('|')
+      .map(c => c.trim());
+    if (cells.length >= 2) rows.push(cells);
+  }
+  return rows.length >= 2 ? rows : null;
+}
+
+function parsePipeBulletRows(body) {
+  const rows = [];
+  const lines = String(body || '').split('\n');
+  const re = /^[-*]\s*(.+)$/;
+  for (const line of lines) {
+    const m = line.trim().match(re);
+    if (!m) continue;
+    const parts = m[1].split('|').map(p => p.trim());
+    if (parts.length >= 4) {
+      rows.push({ time: parts[0], shot: parts[1], overlay: parts[2], narration: parts[3] });
+    } else if (parts.length === 3) {
+      rows.push({ time: parts[0], shot: parts[1], overlay: parts[2], narration: '' });
+    }
+  }
+  return rows.length ? rows : null;
+}
+
+function parseLooseTimedRows(body) {
+  const rows = [];
+  const re = /^[-*]?\s*(?:\*\*)?(\d+\s*[-–]\s*\d+s?)(?:\*\*)?\s*[—\-:\.]?\s*(.*)$/i;
+  for (const line of String(body || '').split('\n')) {
+    const t = line.trim();
+    const m = t.match(re);
+    if (m) rows.push({ time: m[1].trim(), shot: m[2].trim(), overlay: '', narration: '' });
+  }
+  return rows.length ? rows : null;
+}
+
+function extractStoryboardAndMeta(platformBody) {
+  const map = sectionMapFromBody(platformBody);
+  const caption =
+    findInSectionMap(map, ['caption', 'post caption']) ||
+    findInSectionMap(map, ['instagram caption']);
+  const hashtags =
+    findInSectionMap(map, ['hashtags', 'tags', 'hashtag set']) ||
+    '';
+  const cta = findInSectionMap(map, ['cta', 'call to action']);
+  const audioVibe =
+    findInSectionMap(map, [
+      'suggested audio vibe',
+      'audio vibe',
+      'music',
+      'sound',
+      'trending audio'
+    ]) || '';
+  const editingNotes =
+    findInSectionMap(map, ['editing notes', 'edit notes', 'capcut', 'post production']) ||
+    findInSectionMap(map, ['optional b-roll ideas', 'b-roll ideas', 'b-roll']) ||
+    '';
+
+  let shotSrc =
+    findInSectionMap(map, [
+      'shot list',
+      'shot list visual direction',
+      'visual direction',
+      'storyboard',
+      'beats',
+      'timeline'
+    ]) ||
+    findInSectionMap(map, ['full script']) ||
+    platformBody;
+
+  let overlaySrc =
+    findInSectionMap(map, ['on-screen text', 'on screen text', 'text overlay', 'overlay']) || '';
+  let narrSrc =
+    findInSectionMap(map, [
+      'full script',
+      'narration',
+      'voiceover',
+      'voice over',
+      'script',
+      'spoken'
+    ]) || '';
+
+  let rows = null;
+  const tbl = parseMarkdownTable(shotSrc);
+  if (tbl && tbl[0]) {
+    const header = tbl[0].map(c => normalizeKey(c));
+    const ti = header.findIndex(h => /time|beat|sec/.test(h));
+    const si = header.findIndex(h => /shot|visual|frame|scene|broll|b-roll/.test(h));
+    const oi = header.findIndex(h => /on.screen|overlay|text|graphic/.test(h));
+    const ni = header.findIndex(h => /narrat|script|voice|audio|spoken/.test(h));
+    if (ti >= 0 || si >= 0 || oi >= 0 || ni >= 0) {
+      rows = [];
+      for (let r = 1; r < tbl.length; r++) {
+        const row = tbl[r];
+        rows.push({
+          time: ti >= 0 ? row[ti] || '' : row[0] || '',
+          shot: si >= 0 ? row[si] || '' : row[1] || '',
+          overlay: oi >= 0 ? row[oi] || '' : row[2] || '',
+          narration: ni >= 0 ? row[ni] || '' : row[3] || ''
+        });
+      }
+    }
+  }
+  if (!rows) rows = parsePipeBulletRows(shotSrc);
+  if (!rows) rows = parseLooseTimedRows(shotSrc + '\n' + overlaySrc + '\n' + narrSrc);
+
+  if ((!rows || rows.length === 0) && platformBody.length < 8000) {
+    rows = parseLooseTimedRows(platformBody);
+  }
+
+  const hook =
+    findInSectionMap(map, ['hook']) ||
+    findInSectionMap(map, ['opening', 'cold open']);
+  if (hook && rows && rows.length && !rows[0].overlay && !rows[0].narration) {
+    rows[0].overlay = rows[0].overlay || hook.split('\n')[0].trim();
+  }
+
+  return { rows: rows || [], caption, hashtags, cta, audioVibe, editingNotes, map };
+}
+
+function renderStoryboardBlock(platformBody, platformLabel) {
+  const meta = extractStoryboardAndMeta(platformBody);
+  let tableHtml = '';
+  if (meta.rows && meta.rows.length) {
+    tableHtml =
+      '<div class="cs-storyboard-wrap"><table class="cs-storyboard"><thead><tr>' +
+      '<th>Time</th><th>Shot / visual</th><th>On-screen text</th><th>Narration / script</th>' +
+      '</tr></thead><tbody>';
+    for (const r of meta.rows) {
+      tableHtml +=
+        '<tr><td>' +
+        escapeHtml(r.time) +
+        '</td><td>' +
+        renderInlineMarkdown(r.shot || '—') +
+        '</td><td>' +
+        renderInlineMarkdown(r.overlay || '—') +
+        '</td><td>' +
+        renderInlineMarkdown(r.narration || '—') +
+        '</td></tr>';
+    }
+    tableHtml += '</tbody></table></div>';
+  } else {
+    tableHtml =
+      '<div class="cs-md">' +
+      renderMarkdownToHtml(platformBody) +
+      '</div>';
+  }
+
+  const parts = [];
+  parts.push(tableHtml);
+  parts.push('<div class="cs-meta-grid">');
+  const blocks = [
+    ['Caption', meta.caption],
+    ['Hashtags', meta.hashtags],
+    ['CTA', meta.cta],
+    ['Audio vibe', meta.audioVibe],
+    ['Editing notes', meta.editingNotes]
+  ];
+  for (const [label, val] of blocks) {
+    if (!val || !String(val).trim()) continue;
+    const enc = encodeURIComponent(String(val).trim());
+    parts.push(
+      '<div class="cs-copy-card"><div class="cs-copy-card-head"><span class="cs-copy-label">' +
+        escapeHtml(label) +
+        '</span><button type="button" class="cs-section-copy btn btn-secondary btn-sm" data-copy-enc="' +
+        escapeHtml(enc) +
+        '">Copy</button></div><div class="cs-copy-body">' +
+        renderInlineMarkdown(String(val).trim()).replace(/\n/g, '<br/>') +
+        '</div></div>'
+    );
+  }
+  parts.push('</div>');
+  return (
+    '<div class="cs-platform-block"><h3 class="cs-platform-title">' +
+    escapeHtml(platformLabel) +
+    '</h3>' +
+    parts.join('') +
+    '</div>'
+  );
+}
+
+function parseCarouselSlides(body) {
+  const text = String(body || '').trim();
+  if (!text) return [];
+  let parts = text.split(/\n(?=#{1,3}\s*slide\s*\d+)/i).filter(Boolean);
+  if (parts.length <= 1) {
+    parts = text.split(/\n(?=\*\*slide\s*\d+)/i).filter(Boolean);
+  }
+  if (parts.length <= 1) return [];
+
+  const slides = [];
+  const reHeader = /^#{1,3}\s*slide\s*(\d+)\s*:?\s*(.*)$/i;
+  const reBold = /^\*\*slide\s*(\d+)\*\*\s*:?\s*(.*)$/i;
+  for (const part of parts) {
+    const lines = part.replace(/^\r?\n/, '').split('\n');
+    let num = slides.length + 1;
+    let restLines = lines;
+    const first = lines[0] ? lines[0].trim() : '';
+    let mh = first.match(reHeader);
+    if (!mh) mh = first.match(reBold);
+    if (!mh) continue;
+    num = parseInt(mh[1], 10) || num;
+    const extra = mh[2] ? [mh[2]] : [];
+    restLines = extra.concat(lines.slice(1));
+    const chunk = restLines.join('\n').trim();
+    const designParts = chunk.split(/\n(?=#{1,3}\s*(design|visual|layout))/i);
+    let main = designParts[0].trim();
+    let design = designParts[1] ? designParts.slice(1).join('\n').trim() : '';
+    if (!design) {
+      const dm = chunk.match(/\n(?:design direction|visual direction)\s*[:\-]?\s*\n([\s\S]+)/i);
+      if (dm) {
+        main = chunk.slice(0, dm.index).trim();
+        design = dm[1].trim();
+      }
+    }
+    slides.push({
+      num,
+      main: main || chunk,
+      design: design.replace(/^#{1,3}\s*/, '').trim()
+    });
+  }
+  return slides;
+}
+
+function renderCarouselBlock(body, platformLabel) {
+  const map = sectionMapFromBody(body);
+  let slides = parseCarouselSlides(body);
+  if (slides.length === 0 && /\bslide\s*\d+/i.test(body)) {
+    slides = parseCarouselSlides(
+      body.replace(/(^|\n)\s*(slide\s*\d+)\s*[:\-–]?\s*/gi, '\n## $2\n')
+    );
+  }
+
+  const caption =
+    findInSectionMap(map, ['caption']) || findInSectionMap(map, ['post caption']);
+  const hashtags = findInSectionMap(map, ['hashtags', 'tags']);
+  const cta = findInSectionMap(map, ['cta', 'call to action']);
+
+  let html =
+    '<div class="cs-platform-block"><h3 class="cs-platform-title">' +
+    escapeHtml(platformLabel) +
+    '</h3>';
+  if (slides.length) {
+    for (const s of slides) {
+      html +=
+        '<div class="cs-slide-card"><div class="cs-slide-num">Slide ' +
+        String(s.num).padStart(2, '0') +
+        '</div><div class="cs-slide-main">' +
+        renderMarkdownToHtml(s.main) +
+        '</div>';
+      if (s.design)
+        html += '<div class="cs-muted">' + renderMarkdownToHtml(s.design) + '</div>';
+      html += '</div>';
+    }
+  } else {
+    html += '<div class="cs-md">' + renderMarkdownToHtml(body) + '</div>';
+  }
+
+  html += '<div class="cs-meta-grid">';
+  for (const [label, val] of [
+    ['Caption', caption],
+    ['Hashtags', hashtags],
+    ['CTA', cta]
+  ]) {
+    if (!val || !String(val).trim()) continue;
+    const enc = encodeURIComponent(String(val).trim());
+    html +=
+      '<div class="cs-copy-card"><div class="cs-copy-card-head"><span class="cs-copy-label">' +
+      escapeHtml(label) +
+      '</span><button type="button" class="cs-section-copy btn btn-secondary btn-sm" data-copy-enc="' +
+      escapeHtml(enc) +
+      '">Copy</button></div><div class="cs-copy-body">' +
+      renderInlineMarkdown(String(val).trim()).replace(/\n/g, '<br/>') +
+      '</div></div>';
+  }
+  html += '</div></div>';
+  return html;
+}
+
+function renderPinterestBlock(body, platformLabel) {
+  const map = sectionMapFromBody(body);
+  const imageDir =
+    findInSectionMap(map, [
+      'image direction',
+      'pin visual',
+      'visual direction',
+      'what the pin should look like'
+    ]) || '';
+  const mainText =
+    findInSectionMap(map, ['main text', 'overlay text', 'text overlay', 'pin text']) || '';
+  const caption = findInSectionMap(map, ['caption', 'description']) || '';
+  const hashtags = findInSectionMap(map, ['hashtags', 'keywords', 'tags']) || '';
+
+  let html =
+    '<div class="cs-platform-block"><h3 class="cs-platform-title">' +
+    escapeHtml(platformLabel) +
+    '</h3><div class="cs-meta-grid">';
+  const brief = [
+    ['Image direction', imageDir],
+    ['Main text', mainText],
+    ['Caption', caption],
+    ['Hashtags', hashtags]
+  ];
+  for (const [label, val] of brief) {
+    if (!val || !String(val).trim()) continue;
+    const enc = encodeURIComponent(String(val).trim());
+    html +=
+      '<div class="cs-copy-card"><div class="cs-copy-card-head"><span class="cs-copy-label">' +
+      escapeHtml(label) +
+      '</span><button type="button" class="cs-section-copy btn btn-secondary btn-sm" data-copy-enc="' +
+      escapeHtml(enc) +
+      '">Copy</button></div><div class="cs-copy-body">' +
+      renderInlineMarkdown(String(val).trim()).replace(/\n/g, '<br/>') +
+      '</div></div>';
+  }
+  html += '</div>';
+  if (!imageDir && !mainText && !caption)
+    html += '<div class="cs-md" style="margin-top:14px;">' + renderMarkdownToHtml(body) + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderFacebookAdsBlock(body, platformLabel, mode) {
+  const map = sectionMapFromBody(body);
+  const defs =
+    mode === 'ads'
+      ? [
+          ['Hook', ['hook', 'scroll stopper', 'attention']],
+          ['Primary text', ['primary text', 'body', 'main copy', 'ad text']],
+          ['Headline', ['headline', 'title']],
+          ['CTA', ['cta', 'call to action', 'button']],
+          ['Visual direction', ['visual', 'creative', 'suggested visual', 'visual sequence']]
+        ]
+      : [
+          ['Hook', ['hook', 'opening']],
+          ['Primary text', ['primary text', 'main caption', 'post copy', 'caption body']],
+          ['Headline', ['headline', 'title']],
+          ['CTA', ['cta', 'call to action']],
+          ['Visual direction', ['visual direction', 'creative', 'image', 'photo direction']]
+        ];
+
+  let html =
+    '<div class="cs-platform-block"><h3 class="cs-platform-title">' +
+    escapeHtml(platformLabel) +
+    '</h3><div class="cs-fb-grid">';
+  let any = false;
+  for (const [label, aliases] of defs) {
+    const val = findInSectionMap(map, aliases);
+    if (!val || !String(val).trim()) continue;
+    any = true;
+    const enc = encodeURIComponent(String(val).trim());
+    html +=
+      '<div class="cs-copy-card"><div class="cs-copy-card-head"><span class="cs-copy-label">' +
+      escapeHtml(label) +
+      '</span><button type="button" class="cs-section-copy btn btn-secondary btn-sm" data-copy-enc="' +
+      escapeHtml(enc) +
+      '">Copy</button></div><div class="cs-copy-body">' +
+      renderInlineMarkdown(String(val).trim()).replace(/\n/g, '<br/>') +
+      '</div></div>';
+  }
+  html += '</div>';
+  if (!any) html += '<div class="cs-md">' + renderMarkdownToHtml(body) + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderGenericChunk(heading, body) {
+  const h = heading ? escapeHtml(heading) : 'Content';
+  return (
+    '<div class="cs-platform-block"><h3 class="cs-platform-title">' +
+    h +
+    '</h3><div class="cs-md">' +
+    renderMarkdownToHtml(body) +
+    '</div></div>'
+  );
+}
+
+function renderContentStudioRich(rawMarkdown, selectedPlatforms, contentType) {
+  window.contentStudioLastRaw = rawMarkdown;
+  const chunks = splitIntoPlatformChunks(rawMarkdown, selectedPlatforms);
+  const parts = [];
+  for (const ch of chunks) {
+    const plat = ch.platform || (selectedPlatforms.length === 1 ? selectedPlatforms[0] : null);
+    const label =
+      ch.heading ||
+      (plat === 'tiktok'
+        ? 'TikTok'
+        : plat === 'reels'
+          ? 'Reels'
+          : plat === 'instagram'
+            ? 'Instagram'
+            : plat === 'facebook'
+              ? 'Facebook'
+              : plat === 'pinterest'
+                ? 'Pinterest'
+                : plat === 'ads'
+                  ? 'Ad copy'
+                  : 'Content');
+    const body = ch.body;
+
+    if (plat === 'instagram' && (contentType === 'carousel' || /\bslide\s*\d+/i.test(body))) {
+      parts.push(renderCarouselBlock(body, label));
+      continue;
+    }
+    if (chunkUsesStoryboard(plat, ch.heading, body, contentType)) {
+      parts.push(renderStoryboardBlock(body, label));
+      continue;
+    }
+    if (plat === 'pinterest') {
+      parts.push(renderPinterestBlock(body, label));
+      continue;
+    }
+    if (plat === 'facebook') {
+      parts.push(renderFacebookAdsBlock(body, label, 'facebook'));
+      continue;
+    }
+    if (plat === 'ads') {
+      parts.push(renderFacebookAdsBlock(body, label, 'ads'));
+      continue;
+    }
+    if (!plat && selectedPlatforms.length === 1) {
+      const only = selectedPlatforms[0];
+      if (only === 'tiktok') {
+        parts.push(renderStoryboardBlock(body, 'TikTok'));
+        continue;
+      }
+      if (only === 'reels') {
+        parts.push(renderStoryboardBlock(body, 'Reels'));
+        continue;
+      }
+      if (only === 'pinterest') {
+        parts.push(renderPinterestBlock(body, 'Pinterest'));
+        continue;
+      }
+      if (only === 'facebook') {
+        parts.push(renderFacebookAdsBlock(body, 'Facebook', 'facebook'));
+        continue;
+      }
+      if (only === 'ads') {
+        parts.push(renderFacebookAdsBlock(body, 'Ad copy', 'ads'));
+        continue;
+      }
+      if (only === 'instagram' && (contentType === 'carousel' || /\bslide\s*\d+/i.test(body))) {
+        parts.push(renderCarouselBlock(body, 'Instagram'));
+        continue;
+      }
+      if (only === 'instagram' && chunkUsesStoryboard('instagram', '', body, contentType)) {
+        parts.push(renderStoryboardBlock(body, 'Instagram'));
+        continue;
+      }
+    }
+    parts.push(renderGenericChunk(ch.heading || label, body));
+  }
+  return '<div class="cs-render">' + parts.join('') + '</div>';
+}
+
+function initContentStudioOutputUi() {
+  const el = document.getElementById('contentOutput');
+  if (!el || el.dataset.csBound === '1') return;
+  el.dataset.csBound = '1';
+  el.addEventListener('click', function (e) {
+    const btn = e.target.closest('.cs-section-copy');
+    if (!btn || !btn.getAttribute('data-copy-enc')) return;
+    e.preventDefault();
+    try {
+      const t = decodeURIComponent(btn.getAttribute('data-copy-enc'));
+      navigator.clipboard.writeText(t).then(() => showToast('Copied'));
+    } catch (err) {
+      showToast('Copy failed');
+    }
+  });
+}
+
 // ── Generate Content ──
 async function generateContent() {
   const theme = document.getElementById('weeklyTheme').value;
@@ -1420,12 +3529,14 @@ async function generateContent() {
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner"></div> Generating...';
 
+  window.contentStudioLastRaw = '';
   const output = document.getElementById('contentOutput');
+  output.classList.remove('cs-rich-output');
   output.innerHTML = '<span class="output-placeholder">Generating content for ' + platforms.join(', ') + '...</span>';
 
   try {
     const verseLine = CURRENT_DAY ? `Today's verse: "${CURRENT_DAY.verse.text}" — ${CURRENT_DAY.verse.reference}\nFocus word: ${CURRENT_DAY.focus}\nReflection tone: ${CURRENT_DAY.reflection}` : '';
-    const prompt = `Generate ${contentType === 'week' ? 'a full week of' : ''} social media content for Grounded app.
+    let prompt = `Generate ${contentType === 'week' ? 'a full week of' : ''} social media content for Grounded app.
 
 Weekly Theme: ${theme}
 ${verseLine}
@@ -1446,10 +3557,21 @@ ${contentType === 'week' ? 'Generate content for Monday through Sunday, each wit
 
 Format clearly with platform headers. Make every piece feel authentic, not like marketing copy.`;
 
+    const storedLearnings = localStorage.getItem(CONTENT_LEARNINGS_KEY);
+    if (storedLearnings && storedLearnings.trim()) {
+      prompt +=
+        '\n\nPERFORMANCE LEARNINGS FROM LAST 3 WEEKS: ' +
+        storedLearnings +
+        '\nWeight recommendations toward what has been proven to work.';
+    }
+
     const result = await callClaude(prompt, GROUNDED_SYSTEM);
-    output.textContent = result;
+    output.classList.add('cs-rich-output');
+    output.innerHTML = renderContentStudioRich(result, platforms, contentType);
     document.getElementById('copyContentBtn').style.display = 'block';
   } catch (err) {
+    output.classList.remove('cs-rich-output');
+    window.contentStudioLastRaw = '';
     output.innerHTML = '<span style="color:#E07070;">Error: ' + err.message + '. Check your API key.</span>';
   }
 
@@ -1563,6 +3685,54 @@ function renderTracker() {
 }
 
 // ── Analytics ──
+async function syncFromAppStore() {
+  const btn = document.getElementById('syncAppStoreBtn');
+  if (!btn) return;
+  const prev = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Syncing…';
+  try {
+    const res = await fetch('/api/appstore', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}'
+    });
+    let data = {};
+    try {
+      data = await res.json();
+    } catch (_) {
+      data = {};
+    }
+    if (!res.ok) {
+      throw new Error(data.error || 'Request failed (' + res.status + ')');
+    }
+    if (data.totalDownloads != null && data.totalDownloads !== '') {
+      document.getElementById('inputDownloads').value = String(data.totalDownloads);
+      document.getElementById('statDownloads').textContent = Number(data.totalDownloads).toLocaleString();
+    }
+    if (data.newDownloadsThisWeek != null && data.newDownloadsThisWeek !== '') {
+      document.getElementById('inputNewDownloads').value = String(data.newDownloadsThisWeek);
+    }
+    if (data.totalRatingsCount != null && data.totalRatingsCount !== '') {
+      document.getElementById('inputReviews').value = String(data.totalRatingsCount);
+      document.getElementById('statReviews').textContent = String(data.totalRatingsCount);
+    }
+    if (data.averageRating != null && data.averageRating !== '') {
+      document.getElementById('inputRating').value = String(Number(data.averageRating).toFixed(1));
+    }
+    if (Array.isArray(data.warnings) && data.warnings.length) {
+      showToast(data.warnings.join(' '));
+    } else {
+      showToast('Synced from App Store');
+    }
+  } catch (err) {
+    showToast(err.message || 'App Store sync failed');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = prev;
+  }
+}
+
 async function analyzeMetrics() {
   const downloads = document.getElementById('inputDownloads').value;
   const newDownloads = document.getElementById('inputNewDownloads').value;
@@ -1677,7 +3847,16 @@ Make it actionable, specific, and tailored to the ${theme} theme.`;
 
 // ── Utilities ──
 function copyOutput(id) {
-  const text = document.getElementById(id).textContent;
+  let text;
+  if (
+    id === 'contentOutput' &&
+    typeof window.contentStudioLastRaw === 'string' &&
+    window.contentStudioLastRaw.length
+  ) {
+    text = window.contentStudioLastRaw;
+  } else {
+    text = document.getElementById(id).textContent;
+  }
   navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
 }
 

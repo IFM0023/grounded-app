@@ -1,0 +1,2460 @@
+/* First open of the day — calm arrival ritual (below onboarding z-index) */
+/*
+ * Palette: ivory #f7f4f1, blush taupe #bda79d, editorial neutrals.
+ * Elevation: muted blush shadow rgba(189,167,157,0.10).
+ */
+
+html.daily-arrival-active,
+body.daily-arrival-active {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+html.daily-arrival-active {
+  height: 100%;
+}
+
+body.daily-arrival-active .bottom-nav .nav-item:not([data-tab="feed"]) {
+  pointer-events: none;
+  opacity: 0.28;
+  cursor: default;
+}
+
+/* Soft dissolve into Today after “Enter Grounded” */
+body.daily-arrival-handoff main.main-container.main-content {
+  filter: blur(5px);
+  opacity: 0.94;
+  transition:
+    filter 0.68s cubic-bezier(0.22, 0.08, 0.12, 1),
+    opacity 0.68s cubic-bezier(0.22, 0.08, 0.12, 1);
+}
+
+body.daily-arrival-handoff .bottom-nav {
+  opacity: 0.88;
+  filter: blur(4px);
+  transition:
+    opacity 0.68s cubic-bezier(0.22, 0.08, 0.12, 1),
+    filter 0.68s cubic-bezier(0.22, 0.08, 0.12, 1);
+}
+
+.daily-arrival-root.daily-arrival-root--handoff {
+  opacity: 0 !important;
+  transition: opacity 0.64s cubic-bezier(0.22, 0.08, 0.12, 1) !important;
+  pointer-events: none !important;
+}
+
+.daily-arrival-root,
+.daily-arrival-popover {
+  --da-ivory: #f4efe8;
+  --da-ivory-deep: #ebe4db;
+  --da-blush: #bda79d;
+  --da-blush-mid: #c9bab4;
+  --da-taupe: #a68b7b;
+  --da-taupe-warm: #bf9a75;
+  --da-taupe-deep: #8f7265;
+  --da-blush-shadow: rgba(139, 112, 98, 0.14);
+  --da-glow: rgba(191, 154, 117, 0.35);
+  --da-heading: #3a312c;
+  --da-body: #6d5f56;
+  --da-border: rgba(189, 167, 157, 0.22);
+  --da-card: rgba(255, 253, 250, 0.88);
+  --da-cream-dot: #faf6f0;
+  --da-icon-muted: rgba(96, 82, 74, 0.55);
+}
+
+.daily-arrival-root {
+  /* Bottom layer swaps per step — editorial photography (see assets/images/daily-arrival-*.png) */
+  --da-bg-photo: url("../assets/images/daily-arrival-cozy-morning.png");
+  position: fixed;
+  inset: 0;
+  z-index: 10040;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 0;
+  max-height: 100vh;
+  max-height: 100dvh;
+  /* iOS: safe area + editorial breathing room (desktop overrides in min-width:768px) */
+  padding-top: calc(env(safe-area-inset-top, 0px) + 24px);
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  background-color: #ebe2d8;
+  background-image:
+    radial-gradient(ellipse 120% 80% at 50% -10%, rgba(255, 248, 240, 0.94) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 55% at 100% 40%, rgba(235, 220, 208, 0.42) 0%, transparent 50%),
+    radial-gradient(ellipse 55% 50% at 0% 70%, rgba(228, 212, 198, 0.32) 0%, transparent 48%),
+    linear-gradient(168deg, rgba(240, 232, 223, 0.82) 0%, rgba(247, 241, 234, 0.78) 38%, rgba(235, 226, 216, 0.88) 100%),
+    var(--da-bg-photo);
+  background-repeat: no-repeat;
+  background-size: auto, auto, auto, auto, cover;
+  background-position: center, center, center, center, center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.62s cubic-bezier(0.22, 0.08, 0.12, 1);
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.daily-arrival-root[data-da-step="0"] {
+  --da-bg-photo: url("../assets/images/daily-arrival-soft-bokeh.png");
+}
+
+.daily-arrival-root[data-da-step="1"],
+.daily-arrival-root[data-da-step="2"],
+.daily-arrival-root[data-da-step="3"] {
+  --da-bg-photo: url("../assets/images/daily-arrival-cozy-morning.png");
+}
+
+.daily-arrival-root[data-da-step="4"] {
+  --da-bg-photo: url("../assets/images/daily-arrival-warm-glow.png");
+}
+
+.daily-arrival-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 85% 65% at 50% 100%, rgba(0, 0, 0, 0.06) 0%, transparent 62%);
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+
+.daily-arrival-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+.daily-arrival-root > * {
+  position: relative;
+  z-index: 1;
+}
+
+.daily-arrival-root.daily-arrival-root--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.daily-arrival-root.daily-arrival-root--leaving {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.58s cubic-bezier(0.22, 0.08, 0.12, 1);
+}
+
+.daily-arrival-root[hidden] {
+  display: none !important;
+}
+
+/* ─── Chrome: title + progress (premium editorial rail) ─── */
+.daily-arrival-chrome {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding-bottom: 6px;
+  padding-top: 0;
+  opacity: 0.94;
+}
+
+.daily-arrival-chrome-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.daily-arrival-chrome-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.daily-arrival-flow-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(21px, 4.6vw, 27px);
+  font-weight: 500;
+  color: var(--da-heading);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+  padding-top: 2px;
+  text-wrap: balance;
+}
+
+.daily-arrival-flow-heart {
+  color: var(--da-blush);
+  font-weight: 400;
+}
+
+.daily-arrival-skip-all {
+  flex-shrink: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(100, 92, 86, 0.48);
+  background: transparent;
+  border: none;
+  padding: 6px 2px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-skip-all:hover {
+  color: var(--da-body);
+}
+
+.daily-arrival-skip-all:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.daily-arrival-progress {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.daily-arrival-progress::-webkit-scrollbar {
+  display: none;
+}
+
+.daily-arrival-progress-track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0;
+  min-width: min(100%, 340px);
+  margin: 0 auto;
+  padding: 8px 4px 4px;
+}
+
+.daily-arrival-progress-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  position: relative;
+}
+
+.daily-arrival-progress-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: calc(50% + 20px);
+  width: calc(100% - 40px);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(189, 167, 157, 0.35) 0%,
+    rgba(222, 208, 198, 0.55) 50%,
+    rgba(189, 167, 157, 0.28) 100%
+  );
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.daily-arrival-pi-dot {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(165deg, #fffdf9 0%, var(--da-cream-dot) 100%);
+  border: 1px solid rgba(189, 167, 157, 0.28);
+  color: var(--da-icon-muted);
+  box-shadow:
+    0 4px 14px rgba(139, 112, 98, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition:
+    background 0.45s cubic-bezier(0.22, 0.85, 0.32, 1),
+    border-color 0.45s ease,
+    color 0.45s ease,
+    box-shadow 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 0.85, 0.32, 1);
+}
+
+.daily-arrival-pi-dot svg {
+  width: 17px;
+  height: 17px;
+}
+
+.daily-arrival-pi-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: none;
+  color: rgba(79, 66, 58, 0.4);
+  line-height: 1.2;
+  max-width: 72px;
+  margin-top: 8px;
+  transition:
+    color 0.45s ease,
+    opacity 0.45s ease;
+}
+
+/* Full flow: all labels visible — editorial caps */
+.daily-arrival-root[data-da-flow="full"] .daily-arrival-progress--full .daily-arrival-pi-label {
+  opacity: 0.92;
+  max-height: 3rem;
+  overflow: visible;
+  pointer-events: none;
+  text-transform: uppercase;
+  font-size: 7.8px;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  color: rgba(79, 66, 58, 0.44);
+}
+
+.daily-arrival-root[data-da-flow="full"]
+  .daily-arrival-progress-item.daily-arrival-progress-item--current
+  .daily-arrival-pi-label {
+  color: rgba(58, 49, 44, 0.72);
+  opacity: 1;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-pi-label {
+  display: block;
+  font-size: 6.5px;
+  letter-spacing: 0.12em;
+  margin-top: 7px;
+  opacity: 0.72;
+  text-transform: none;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-progress-track {
+  gap: 0;
+  padding-top: 6px;
+}
+
+.daily-arrival-progress-item.daily-arrival-progress-item--done .daily-arrival-pi-dot {
+  background: linear-gradient(165deg, #f2e6dc 0%, #e8d8ce 100%);
+  border-color: rgba(166, 139, 123, 0.35);
+  color: rgba(96, 82, 74, 0.52);
+  box-shadow:
+    0 3px 12px rgba(139, 112, 98, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.daily-arrival-progress-item.daily-arrival-progress-item--current .daily-arrival-pi-dot {
+  background: linear-gradient(155deg, var(--da-taupe-warm) 0%, var(--da-taupe) 52%, var(--da-taupe-deep) 100%);
+  border-color: rgba(143, 114, 101, 0.45);
+  color: #fffefb;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 10px 28px rgba(139, 112, 98, 0.28),
+    0 0 32px var(--da-glow);
+  transform: scale(1.04);
+}
+
+.daily-arrival-progress-item.daily-arrival-progress-item--current .daily-arrival-pi-label {
+  color: rgba(58, 49, 44, 0.68);
+}
+
+/* ─── Viewport & steps ─── */
+@keyframes dailyArrivalStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.daily-arrival-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  min-height: 0;
+  width: 100%;
+  max-width: min(430px, 100%);
+  margin: 0 auto;
+  position: relative;
+  overscroll-behavior: none;
+  overflow: hidden;
+  padding-top: 8px;
+}
+
+.daily-arrival-root[data-da-step="0"] .daily-arrival-viewport,
+.daily-arrival-root[data-da-step="4"] .daily-arrival-viewport {
+  max-width: 100%;
+}
+
+.daily-arrival-step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  position: relative;
+  animation: dailyArrivalStepIn 0.56s cubic-bezier(0.22, 0.88, 0.32, 1) both;
+}
+
+.daily-arrival-step--active {
+  display: flex;
+}
+
+.daily-arrival-step--cream {
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 8px 0 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daily-arrival-step {
+    animation: none;
+  }
+  .daily-arrival-root {
+    transition: opacity 0.2s ease;
+  }
+  .daily-arrival-root.daily-arrival-root--leaving {
+    transition: opacity 0.2s ease;
+  }
+  body.daily-arrival-handoff main.main-container.main-content,
+  body.daily-arrival-handoff .bottom-nav {
+    filter: none !important;
+    opacity: 1 !important;
+    transition: opacity 0.15s ease;
+  }
+  .daily-arrival-root.daily-arrival-root--handoff {
+    transition: opacity 0.15s ease !important;
+  }
+  .daily-arrival-btn-cta--hero:hover {
+    transform: none;
+  }
+}
+
+.visually-hidden-da {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Hero layers (greeting + done) ─── */
+.daily-arrival-step--hero {
+  justify-content: center;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: min(52vh, 380px);
+  max-height: min(560px, calc(100vh - 168px));
+  max-height: min(560px, calc(100dvh - 168px));
+}
+
+/* Greeting only: ambient canvas + floating paper card (matches reference art direction) */
+.daily-arrival-step--hero[data-daily-step="0"] {
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-scrim {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Left-edge botanical — soft silhouette, no layout impact */
+.daily-arrival-arrival-botanical {
+  position: absolute;
+  left: max(-12px, env(safe-area-inset-left, 0px));
+  top: 14%;
+  bottom: 18%;
+  width: clamp(52px, 15vw, 88px);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.38;
+  background: no-repeat 0 50% / auto 92%
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 200' fill='none'%3E%3Cpath stroke='%23a68b7b' stroke-opacity='0.45' stroke-width='1.35' stroke-linecap='round' d='M36 198V72'/%3E%3Cpath stroke='%23a68b7b' stroke-opacity='0.35' stroke-width='1.1' stroke-linecap='round' d='M36 160c-14-18-12-44 8-58M36 120c16-22 14-48-6-62M36 88c-10-12-8-28 6-38M36 56c12-10 10-26-4-34'/%3E%3Cellipse cx='28' cy='42' rx='10' ry='6' fill='%23bf9a75' fill-opacity='0.12' transform='rotate(-28 28 42)'/%3E%3Cellipse cx='48' cy='78' rx='9' ry='5' fill='%23bf9a75' fill-opacity='0.1' transform='rotate(22 48 78)'/%3E%3C/svg%3E");
+  filter: blur(0.3px);
+}
+
+.daily-arrival-hero-bg {
+  position: absolute;
+  inset: -8%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.62;
+  filter: blur(22px);
+  transform: scale(1.06);
+}
+
+.daily-arrival-hero-bg--sunrise {
+  transform: scale(1.06);
+  background-image:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 42%,
+      rgba(255, 252, 248, 0.42) 50%,
+      rgba(255, 246, 240, 0.16) 58%,
+      transparent 68%
+    ),
+    radial-gradient(ellipse 58% 72% at -6% 34%, rgba(212, 196, 188, 0.045), transparent 58%),
+    radial-gradient(ellipse 48% 52% at 10% 62%, rgba(206, 192, 184, 0.035), transparent 52%),
+    linear-gradient(165deg, rgba(252, 249, 246, 0.72) 0%, rgba(245, 241, 236, 0.55) 52%, rgba(238, 234, 229, 0.62) 100%),
+    url("../assets/images/daily-arrival-soft-bokeh.png");
+  background-size: auto, auto, auto, auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.daily-arrival-hero-bg--mist {
+  background-image:
+    radial-gradient(ellipse 120% 85% at 50% -6%, rgba(255, 252, 250, 0.42), transparent 56%),
+    radial-gradient(ellipse 85% 68% at 92% 68%, rgba(250, 240, 234, 0.12), transparent 58%),
+    radial-gradient(ellipse 62% 52% at 6% 48%, rgba(255, 252, 250, 0.28), transparent 54%),
+    linear-gradient(180deg, #fcf9f6 0%, #f6f2ed 50%, #f0ebe6 100%);
+}
+
+.daily-arrival-hero-bg--leaves {
+  background-image:
+    linear-gradient(165deg, rgba(140, 128, 118, 0.022) 0%, rgba(252, 250, 248, 0.5) 100%),
+    radial-gradient(ellipse 80% 50% at 70% 18%, rgba(238, 230, 224, 0.12), transparent),
+    radial-gradient(ellipse 72% 58% at 18% 82%, rgba(234, 226, 220, 0.1), transparent),
+    linear-gradient(145deg, #f6f1ec 0%, #efe8e2 50%, #e8e2dc 100%);
+}
+
+.daily-arrival-hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    185deg,
+    rgba(189, 167, 157, 0.02) 0%,
+    rgba(189, 167, 157, 0.04) 50%,
+    rgba(180, 168, 160, 0.06) 100%
+  );
+  pointer-events: none;
+}
+
+.daily-arrival-hero-scrim--light {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 254, 252, 0.02) 0%,
+    rgba(252, 248, 244, 0.28) 52%,
+    rgba(248, 244, 240, 0.55) 100%
+  );
+}
+
+.daily-arrival-hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 32px 22px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Ritual cards — greeting + completion share one visual language */
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-inner,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-hero-inner.daily-arrival-hero-inner--done {
+  max-width: 22.5rem;
+  margin: 0 auto;
+  padding: 40px 28px 36px;
+  background: rgba(255, 253, 250, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 20px 56px rgba(139, 112, 98, 0.12),
+    0 4px 20px rgba(139, 112, 98, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.daily-arrival-hero-inner--done {
+  padding-bottom: 36px;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-icon {
+  margin-bottom: 18px;
+  color: var(--da-blush);
+  filter: none;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-headline--hero,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-headline--hero {
+  color: var(--da-heading);
+  text-shadow: none;
+  margin-bottom: 14px;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-sub--hero {
+  color: var(--da-body);
+  text-shadow: none;
+  margin-bottom: 30px;
+  max-width: 17rem;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-btn-cta--hero,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-btn-cta--hero {
+  min-height: 52px;
+  padding: 16px 32px;
+  max-width: 22rem;
+  width: 100%;
+  background: linear-gradient(105deg, #bf9a75 0%, #a68b7b 52%, #9a7f70 100%);
+  box-shadow:
+    0 14px 44px rgba(139, 112, 98, 0.28),
+    0 0 28px rgba(191, 154, 117, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 0.88, 0.32, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 0.88, 0.32, 1),
+    opacity 0.45s ease;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-btn-cta--hero:hover,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-btn-cta--hero:hover {
+  box-shadow:
+    0 18px 52px rgba(139, 112, 98, 0.34),
+    0 0 40px rgba(191, 154, 117, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  transform: translateY(-1px);
+}
+
+/* Done — same shell as greeting; calmer check + copy */
+.daily-arrival-step--hero[data-daily-step="4"] {
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-hero-scrim {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-complete-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 22px;
+  background: linear-gradient(155deg, var(--da-taupe-warm) 0%, var(--da-taupe) 55%, var(--da-taupe-deep) 100%);
+  color: #fffefb;
+  box-shadow:
+    0 12px 36px rgba(139, 112, 98, 0.32),
+    0 0 36px rgba(191, 154, 117, 0.38);
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-done-heart {
+  color: var(--da-blush);
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-complete-body--hero {
+  color: var(--da-body);
+  text-shadow: none;
+  margin-bottom: 14px;
+  max-width: 17rem;
+}
+
+/* Gentle transition line — invitational, low contrast */
+.daily-arrival-complete-nudge {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 7px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: rgba(116, 103, 96, 0.55);
+  margin: 0 0 22px;
+  max-width: 18rem;
+  text-align: center;
+  text-wrap: pretty;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(189, 167, 157, 0.07);
+  border: 1px solid rgba(189, 167, 157, 0.11);
+  box-sizing: border-box;
+}
+
+.daily-arrival-complete-nudge-ornament {
+  flex-shrink: 0;
+  opacity: 0.68;
+  font-size: 0.82em;
+  transform: translateY(0.06em);
+}
+
+.daily-arrival-complete-nudge-text {
+  min-width: 0;
+  text-align: center;
+}
+
+.daily-arrival-complete-nudge[hidden] {
+  display: none !important;
+}
+
+.daily-arrival-hero-icon {
+  margin-bottom: 16px;
+  color: rgba(255, 254, 252, 0.96);
+  filter: drop-shadow(0 4px 18px var(--da-blush-shadow));
+}
+
+.daily-arrival-step--hero .daily-arrival-sun {
+  margin: 0;
+  color: inherit;
+}
+
+/* Fallback for hero text on dark scrims (unused when card-on-ivory) */
+.daily-arrival-headline--hero {
+  font-size: clamp(28px, 6.4vw, 36px);
+  font-weight: 500;
+  color: var(--da-heading);
+  text-shadow: none;
+  margin-bottom: 12px;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.daily-arrival-sub--hero {
+  color: var(--da-body);
+  font-size: 15.5px;
+  margin-bottom: 28px;
+  text-shadow: none;
+  line-height: 1.62;
+  font-weight: 400;
+}
+
+.daily-arrival-btn-cta--hero {
+  border-radius: 999px;
+  max-width: 280px;
+  min-height: 52px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  background: linear-gradient(105deg, #bf9a75 0%, #a68b7b 52%, #9a7f70 100%);
+  box-shadow:
+    0 14px 44px rgba(139, 112, 98, 0.26),
+    0 0 24px rgba(191, 154, 117, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 0.88, 0.32, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 0.88, 0.32, 1),
+    opacity 0.45s ease;
+}
+
+.daily-arrival-btn-cta--hero:hover {
+  box-shadow:
+    0 18px 52px rgba(139, 112, 98, 0.32),
+    0 0 40px rgba(191, 154, 117, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  transform: translateY(-1px);
+}
+
+.daily-arrival-done-heart {
+  color: var(--da-blush);
+}
+
+/* Desktop / tablet: centered “phone card” — avoids full-width gradient + content pinned to bottom */
+@media (min-width: 768px) {
+  .daily-arrival-root {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-top: max(14px, env(safe-area-inset-top));
+  }
+
+  .daily-arrival-chrome {
+    max-width: min(430px, 92vw);
+    padding-bottom: 2px;
+  }
+
+  .daily-arrival-chrome-top {
+    margin-bottom: 22px;
+  }
+
+  .daily-arrival-root[data-da-step="0"] .daily-arrival-viewport,
+  .daily-arrival-root[data-da-step="1"] .daily-arrival-viewport,
+  .daily-arrival-root[data-da-step="4"] .daily-arrival-viewport {
+    max-width: min(430px, 94vw);
+  }
+
+  .daily-arrival-viewport {
+    justify-content: center;
+    align-self: center;
+    max-width: min(430px, 94vw);
+    padding-top: clamp(8px, 2vh, 20px);
+  }
+
+  .daily-arrival-root[data-da-step="3"] .daily-arrival-viewport {
+    max-width: min(24rem, 94vw);
+  }
+
+  .daily-arrival-step--cream {
+    padding: clamp(32px, 7vh, 64px) 0 22px;
+  }
+
+  .daily-arrival-step-panel--scroll {
+    max-width: min(18.75rem, 88vw);
+  }
+
+  .daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-panel--scroll {
+    max-width: min(26rem, 92vw);
+    min-width: min(100%, 17.5rem);
+  }
+
+  .daily-arrival-step--cream[data-daily-step="3"] .daily-arrival-step-panel--scroll {
+    max-width: min(22rem, 92vw);
+  }
+
+  .daily-arrival-step--hero {
+    flex: 0 1 auto;
+    min-height: clamp(320px, 42vh, 400px);
+    max-height: min(488px, calc(100vh - 220px));
+    width: 100%;
+  }
+
+  .daily-arrival-step--hero[data-daily-step="0"] {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-inner,
+  .daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-hero-inner.daily-arrival-hero-inner--done {
+    max-width: min(24rem, 100%);
+    padding: 44px 32px 40px;
+  }
+
+  .daily-arrival-step--verse {
+    flex: 0 1 auto;
+    min-height: clamp(300px, 38vh, 380px);
+    max-height: min(520px, calc(100vh - 220px));
+    width: 100%;
+    justify-content: center;
+  }
+
+  .daily-arrival-flow-title {
+    font-size: clamp(21px, 2.4vw, 26px);
+    letter-spacing: -0.03em;
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero {
+    min-height: 272px;
+    max-height: min(400px, calc(100vh - 200px));
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="0"] {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="4"] {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--verse {
+    max-height: min(420px, calc(100vh - 200px));
+  }
+}
+
+/* Verse step layout */
+.daily-arrival-step--verse {
+  border-radius: 24px;
+  overflow: hidden;
+  overflow-x: hidden;
+  min-height: min(48vh, 400px);
+  justify-content: center;
+}
+
+.daily-arrival-step-panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 22px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.daily-arrival-step-panel--scroll {
+  align-items: stretch;
+  text-align: left;
+  max-width: 22rem;
+  width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.daily-arrival-step-icon {
+  color: rgba(110, 96, 88, 0.55);
+  margin: 0 auto 12px;
+}
+
+.daily-arrival-step--cream .daily-arrival-step-icon {
+  color: rgba(189, 167, 157, 0.72);
+}
+
+.daily-arrival-step--cream .daily-arrival-step-title {
+  text-align: center;
+  margin: 0 auto 10px;
+  max-width: 18rem;
+}
+
+.daily-arrival-step--cream .daily-arrival-step-hint {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.daily-arrival-step--verse .daily-arrival-step-icon {
+  color: rgba(189, 167, 157, 0.55);
+}
+
+.daily-arrival-headline {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(26px, 5.2vw, 32px);
+  font-weight: 500;
+  color: var(--da-heading);
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+  margin: 0 0 12px;
+}
+
+.daily-arrival-sub {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.68;
+  color: rgba(109, 95, 86, 0.92);
+  margin: 0 0 24px;
+  max-width: 18rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: pretty;
+}
+
+/* Buttons */
+.daily-arrival-btn-primary {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--da-heading);
+  min-height: 48px;
+  box-sizing: border-box;
+  background: var(--da-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--da-border);
+  border-radius: 999px;
+  padding: 13px 28px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 32px var(--da-blush-shadow);
+  transition:
+    background 0.32s cubic-bezier(0.22, 0.82, 0.24, 1),
+    border-color 0.32s cubic-bezier(0.22, 0.82, 0.24, 1),
+    box-shadow 0.32s cubic-bezier(0.22, 0.82, 0.24, 1),
+    opacity 0.32s cubic-bezier(0.22, 0.82, 0.24, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-btn-primary--solid {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 244, 241, 0.85) 100%);
+  border-color: var(--da-border);
+  box-shadow: 0 12px 36px var(--da-blush-shadow);
+}
+
+.daily-arrival-btn-primary:hover {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(189, 167, 157, 0.35);
+}
+
+.daily-arrival-btn-primary--solid:hover {
+  background: linear-gradient(180deg, #fffefb 0%, #faf6f3 55%, #f4f0ec 100%);
+  border-color: rgba(189, 167, 157, 0.38);
+  box-shadow: 0 14px 40px var(--da-blush-shadow);
+}
+
+.daily-arrival-btn-primary:active {
+  opacity: 0.9;
+}
+
+.daily-arrival-btn-primary:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 3px;
+}
+
+.daily-arrival-btn-cta {
+  width: 100%;
+  max-width: 20rem;
+  margin: 0 auto;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fffefb;
+  background: linear-gradient(180deg, var(--da-blush-mid) 0%, var(--da-blush) 52%, #ae9a92 100%);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  box-shadow:
+    0 12px 40px var(--da-blush-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  transition:
+    opacity 0.34s cubic-bezier(0.22, 0.82, 0.24, 1),
+    box-shadow 0.34s cubic-bezier(0.22, 0.82, 0.24, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-btn-cta:hover {
+  opacity: 0.96;
+}
+
+.daily-arrival-btn-cta:active {
+  opacity: 0.92;
+}
+
+.daily-arrival-btn-cta:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.55);
+  outline-offset: 3px;
+}
+
+/* Verse step */
+.daily-arrival-kicker {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.55);
+  margin: 0 0 12px;
+}
+
+.daily-arrival-verse-text {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(18px, 4.5vw, 22px);
+  font-weight: 400;
+  line-height: 1.66;
+  color: var(--da-heading);
+  margin: 0 0 12px;
+  text-wrap: pretty;
+}
+
+.daily-arrival-verse-ref {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(116, 103, 96, 0.72);
+  margin: 0 0 20px;
+}
+
+.daily-arrival-focus-card {
+  width: 100%;
+  text-align: left;
+  margin-top: 6px;
+  padding: 18px 0 0;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--da-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.daily-arrival-focus-card-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.62);
+  margin: 0 0 8px;
+}
+
+.daily-arrival-focus-card-word {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--da-heading);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.daily-arrival-focus-card-sub {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.58;
+  color: var(--da-body);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.daily-arrival-step--verse .daily-arrival-step-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.daily-arrival-step--verse .daily-arrival-btn-primary {
+  width: 100%;
+  max-width: 17.5rem;
+}
+
+/* Legacy info row (unused in new markup; kept for safety) */
+.daily-arrival-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.daily-arrival-step-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(24px, 5.2vw, 30px);
+  font-weight: 500;
+  color: var(--da-heading);
+  margin: 0;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  max-width: 19rem;
+  text-wrap: pretty;
+}
+
+.daily-arrival-info-wrap {
+  position: relative;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.daily-arrival-info-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.45);
+  color: rgba(110, 96, 88, 0.55);
+  font-family: Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-popover {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 10060;
+  width: min(18rem, calc(100vw - 36px));
+  max-height: min(46vh, 320px);
+  padding: 38px 18px 16px;
+  border-radius: 18px;
+  background: var(--da-card);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--da-border);
+  box-shadow: 0 20px 52px var(--da-blush-shadow);
+  text-align: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, calc(-50% + 6px));
+  transition:
+    opacity 0.34s cubic-bezier(0.22, 0.82, 0.24, 1),
+    transform 0.34s cubic-bezier(0.22, 0.82, 0.24, 1),
+    visibility 0.34s;
+}
+
+.daily-arrival-popover.daily-arrival-popover--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%);
+}
+
+.daily-arrival-popover p {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--da-body);
+  margin: 0;
+  padding-right: 8px;
+  text-wrap: pretty;
+}
+
+.daily-arrival-popover-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(110, 96, 88, 0.45);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+}
+
+/* What this does */
+.daily-arrival-what-box {
+  margin-top: 8px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: rgba(255, 251, 246, 0.52);
+  border: 1px solid rgba(186, 160, 148, 0.17);
+  text-align: left;
+}
+
+.daily-arrival-what-title {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(90, 78, 70, 0.42);
+  margin: 0 0 5px;
+}
+
+.daily-arrival-what-body {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.42;
+  color: rgba(88, 76, 68, 0.82);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.daily-arrival-link-skip {
+  display: block;
+  margin: 18px auto 0;
+  padding: 8px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(110, 96, 88, 0.45);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-link-skip:hover {
+  color: var(--da-body);
+}
+
+/* Check-in / focus explainer strips removed from ritual layout */
+.daily-arrival-for-today-card,
+.daily-arrival-what-box {
+  display: none !important;
+}
+
+/* Mood slider */
+.daily-arrival-step-hint {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  color: rgba(109, 95, 86, 0.88);
+  line-height: 1.62;
+  font-weight: 400;
+  margin: 0 0 22px;
+  max-width: 20rem;
+  text-wrap: pretty;
+}
+
+.daily-arrival-slider-wrap {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 12px 0 8px;
+  touch-action: pan-x;
+}
+
+.daily-arrival-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.daily-arrival-slider-side {
+  flex: 1;
+  min-width: 0;
+}
+
+.daily-arrival-slider-side--end {
+  text-align: right;
+}
+
+.daily-arrival-slider-side strong {
+  display: block;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--da-heading);
+  margin-bottom: 4px;
+}
+
+.daily-arrival-slider-side span {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(116, 103, 96, 0.78);
+}
+
+.daily-arrival-slider {
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  border-radius: 999px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+  touch-action: pan-x;
+  cursor: pointer;
+}
+
+.daily-arrival-slider::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.38) 0%,
+    rgba(228, 218, 210, 0.28) 100%
+  );
+}
+
+.daily-arrival-slider::-moz-range-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.38) 0%,
+    rgba(228, 218, 210, 0.28) 100%
+  );
+}
+
+.daily-arrival-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow: 0 2px 12px var(--da-blush-shadow);
+  cursor: pointer;
+}
+
+.daily-arrival-slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow: 0 2px 12px var(--da-blush-shadow);
+  cursor: pointer;
+}
+
+/* Check-in (slider): ambient canvas + editorial card + tactile slider — matches reference */
+.daily-arrival-step--cream[data-daily-step="2"] {
+  position: relative;
+  isolation: isolate;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 44%,
+      rgba(255, 253, 248, 0.34) 52%,
+      rgba(252, 248, 242, 0.12) 62%,
+      transparent 72%
+    ),
+    radial-gradient(ellipse 58% 72% at -6% 34%, rgba(212, 196, 188, 0.038), transparent 58%),
+    radial-gradient(ellipse 48% 52% at 10% 62%, rgba(206, 192, 184, 0.028), transparent 52%),
+    linear-gradient(165deg, #faf7f4 0%, #f4f1ec 52%, #edeae5 100%);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-panel {
+  position: relative;
+  z-index: 2;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-icon--heart {
+  color: rgba(189, 167, 157, 0.85);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-title {
+  letter-spacing: -0.03em;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-hint {
+  color: rgba(116, 103, 96, 0.88);
+  font-weight: 400;
+  line-height: 1.62;
+  max-width: 22rem;
+  margin-bottom: 20px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-wrap {
+  padding: 14px 0 10px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-actions {
+  margin-top: 14px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-labels {
+  margin-bottom: 14px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-side strong {
+  color: #403930;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-side span {
+  color: rgba(116, 103, 96, 0.74);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider {
+  height: 28px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.35) 0%,
+    rgba(236, 226, 218, 0.28) 52%,
+    rgba(252, 250, 246, 0.95) 100%
+  );
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.75);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.35) 0%,
+    rgba(236, 226, 218, 0.28) 52%,
+    rgba(252, 250, 246, 0.95) 100%
+  );
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-webkit-slider-thumb {
+  width: 26px;
+  height: 26px;
+  margin-top: -10px;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow:
+    0 2px 10px var(--da-blush-shadow),
+    0 0 0 5px rgba(189, 167, 157, 0.08);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow:
+    0 2px 10px var(--da-blush-shadow),
+    0 0 0 5px rgba(189, 167, 157, 0.08);
+}
+
+/* Editorial note below slider (check-in only in markup) */
+.daily-arrival-for-today-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  text-align: left;
+  background: rgba(255, 254, 252, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(60, 40, 20, 0.055);
+}
+
+.daily-arrival-for-today-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #b8a090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-arrival-for-today-copy {
+  min-width: 0;
+}
+
+.daily-arrival-for-today-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(90, 78, 70, 0.48);
+  margin: 0 0 6px;
+}
+
+.daily-arrival-for-today-body {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.52;
+  color: #4d4742;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.daily-arrival-step--cream[data-daily-step="3"] .daily-arrival-focus-grid {
+  margin-bottom: 4px;
+}
+
+.daily-arrival-step--cream[data-daily-step="3"] .daily-arrival-step-actions {
+  margin-top: 10px;
+}
+
+/* Focus grid */
+.daily-arrival-focus-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.daily-arrival-focus-grid--icons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: min(22rem, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.daily-arrival-focus-grid--icons > * {
+  min-width: 0;
+}
+
+@media (max-width: 340px) {
+  .daily-arrival-focus-grid--icons {
+    grid-template-columns: 1fr;
+  }
+}
+
+.daily-arrival-focus-opt {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+  min-height: 48px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--da-border);
+  background: var(--da-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--da-heading);
+  cursor: pointer;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+.daily-arrival-focus-opt-icon {
+  flex-shrink: 0;
+  color: var(--da-blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-arrival-focus-opt-label {
+  line-height: 1.35;
+}
+
+.daily-arrival-focus-opt:hover {
+  border-color: rgba(189, 167, 157, 0.42);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px rgba(189, 167, 157, 0.28);
+}
+
+.daily-arrival-focus-opt.is-selected {
+  border-color: rgba(189, 167, 157, 0.55);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 2px rgba(189, 167, 157, 0.32);
+}
+
+.daily-arrival-focus-opt:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 2px;
+}
+
+/* Lightweight emotional choice (maps to arrival slider bands) */
+.daily-arrival-emotion-block {
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 auto 14px;
+}
+
+.daily-arrival-emotion-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.daily-arrival-emotion-pair > * {
+  min-width: 0;
+}
+
+@media (max-width: 380px) {
+  .daily-arrival-emotion-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+.daily-arrival-emotion-opt {
+  font-family: Inter, system-ui, sans-serif;
+  text-align: left;
+  padding: 16px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--da-border);
+  background: var(--da-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--da-heading);
+  cursor: pointer;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-emotion-opt:hover {
+  border-color: rgba(189, 167, 157, 0.38);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px rgba(189, 167, 157, 0.22);
+}
+
+.daily-arrival-emotion-opt.is-selected {
+  border-color: rgba(189, 167, 157, 0.48);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 2px rgba(189, 167, 157, 0.28);
+}
+
+.daily-arrival-emotion-opt:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 2px;
+}
+
+.daily-arrival-emotion-opt-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.daily-arrival-emotion-opt-sub {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(116, 103, 96, 0.72);
+}
+
+.daily-arrival-progress-track--light {
+  min-width: min(100%, 300px);
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero {
+  min-height: min(44vh, 320px);
+  max-height: min(460px, calc(100vh - 176px));
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="0"] {
+  min-height: auto;
+  max-height: none;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="4"] {
+  min-height: auto;
+  max-height: none;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--verse {
+  min-height: min(34vh, 300px);
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-sub--hero {
+  margin-bottom: 22px;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-sub--hero {
+  margin-bottom: 30px;
+}
+
+/* Completion on hero (fallback before step-specific overrides) */
+.daily-arrival-step--hero .daily-arrival-complete-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(155deg, var(--da-taupe-warm) 0%, var(--da-taupe) 55%, var(--da-taupe-deep) 100%);
+  color: #fffefb;
+  box-shadow:
+    0 12px 36px rgba(139, 112, 98, 0.28),
+    0 0 28px rgba(191, 154, 117, 0.28);
+}
+
+.daily-arrival-complete-body {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--da-body);
+  margin: 0 0 26px;
+  max-width: 19rem;
+  text-wrap: pretty;
+}
+
+.daily-arrival-complete-body--hero {
+  color: var(--da-body);
+  text-shadow: none;
+}
+
+.daily-arrival-step-actions {
+  margin-top: 18px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Same-day tone from Daily Arrival: ambient only (no layout). */
+body[data-arrival-band='soft'] .screen-decor .decor-glow-1 {
+  opacity: 0.42;
+  filter: blur(44px);
+}
+body[data-arrival-band='soft'] .screen-decor .decor-glow-2 {
+  opacity: 0.32;
+}
+body[data-arrival-band='steady'] .screen-decor .decor-glow-1 {
+  opacity: 0.52;
+}
+body[data-arrival-band='steady'] .screen-decor .decor-glow-2 {
+  opacity: 0.44;
+}
+html[data-theme='soft'] body[data-arrival-band='soft'] {
+  --bg-end: #fffcfa;
+}
+
+/* Softer global decor while Daily Arrival is open — glow only, not structure */
+body.daily-arrival-active .screen-decor .decor-glow-1 {
+  opacity: 0.26;
+  filter: blur(52px);
+}
+
+body.daily-arrival-active .screen-decor .decor-glow-2 {
+  opacity: 0.2;
+  filter: blur(46px);
+}
+
+/* ─── Daily arrival ritual (2025) — no-scroll steps, verse shell, emotions, moments ─── */
+.daily-arrival-slider--sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.daily-arrival-step--no-scroll {
+  overflow: hidden;
+  justify-content: center;
+  padding: 0;
+}
+
+.daily-arrival-step-panel--fit {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 10px 18px 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+  gap: 14px;
+}
+
+.daily-arrival-hero-inner--arrival {
+  gap: 14px;
+}
+
+.daily-arrival-sub--hero {
+  white-space: pre-line;
+  text-align: center;
+}
+
+.daily-arrival-verse-card {
+  width: 100%;
+  max-width: 20rem;
+  margin: 0 auto;
+  padding: 20px 22px 22px;
+  text-align: center;
+  background: rgba(255, 253, 250, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 18px 48px rgba(139, 112, 98, 0.1),
+    0 4px 16px rgba(139, 112, 98, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  box-sizing: border-box;
+}
+
+.daily-arrival-verse-card .daily-arrival-kicker {
+  margin-bottom: 8px;
+}
+
+.daily-arrival-verse-card .daily-arrival-verse-text {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(17px, 4.2vw, 20px);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--da-heading);
+  margin: 0 0 10px;
+}
+
+.daily-arrival-verse-card .daily-arrival-verse-ref {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(116, 103, 96, 0.72);
+  margin: 0;
+}
+
+/* Guided insight step: quiet scripture (no verse card — supports the headline only) */
+.daily-arrival-guided-scripture-soft {
+  width: 100%;
+  max-width: 20rem;
+  margin: 0 auto 22px;
+  padding: 0 8px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.daily-arrival-guided-scripture-soft[hidden] {
+  display: none !important;
+}
+
+.daily-arrival-guided-verse-soft {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(74, 62, 54, 0.46);
+  margin: 0 0 6px;
+}
+
+.daily-arrival-guided-verse-soft[hidden] {
+  display: none !important;
+}
+
+.daily-arrival-guided-ref-soft {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.42);
+  margin: 0;
+}
+
+.daily-arrival-guided-scripture-soft--ref-only .daily-arrival-guided-ref-soft {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(116, 103, 96, 0.48);
+}
+
+.daily-arrival-reflection-editorial {
+  width: 100%;
+  max-width: 21.5rem;
+  margin: 0 auto;
+  padding: 18px 6px 0;
+  border-top: 1px solid rgba(189, 167, 157, 0.2);
+  box-sizing: border-box;
+}
+
+.daily-arrival-reflection-kicker {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(116, 103, 96, 0.52);
+  margin: 0 0 12px;
+}
+
+.daily-arrival-reflection-editorial .daily-arrival-guided-micro {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(14.5px, 3.8vw, 17px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.52;
+  letter-spacing: -0.015em;
+  color: rgba(74, 62, 54, 0.78);
+  margin: 0;
+  text-align: center;
+}
+
+.daily-arrival-arrival-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 4px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(116, 103, 96, 0.38);
+}
+
+.daily-arrival-arrival-foot-ic {
+  opacity: 0.55;
+}
+
+.daily-arrival-emotion-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 14px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.daily-arrival-emotion-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 96px;
+  padding: 18px 12px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 253, 250, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--da-heading);
+  cursor: pointer;
+  transition:
+    transform 0.48s cubic-bezier(0.22, 0.88, 0.32, 1),
+    box-shadow 0.48s cubic-bezier(0.22, 0.88, 0.32, 1),
+    border-color 0.48s ease,
+    background 0.48s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    0 10px 32px rgba(139, 112, 98, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.daily-arrival-emotion-tile:hover {
+  border-color: rgba(191, 154, 117, 0.28);
+  box-shadow:
+    0 16px 44px rgba(139, 112, 98, 0.12),
+    0 0 20px rgba(191, 154, 117, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transform: translateY(-2px);
+}
+
+.daily-arrival-emotion-tile:active {
+  transform: scale(0.985) translateY(0);
+}
+
+.daily-arrival-emotion-tile.is-selected {
+  border-color: rgba(166, 139, 123, 0.45);
+  background: linear-gradient(165deg, rgba(255, 252, 248, 0.96) 0%, rgba(248, 238, 230, 0.9) 100%);
+  box-shadow:
+    0 18px 48px rgba(139, 112, 98, 0.14),
+    0 0 28px rgba(191, 154, 117, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.daily-arrival-emotion-tile-ic {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(165deg, #fffdf9 0%, rgba(250, 244, 236, 0.95) 100%);
+  border: 1px solid rgba(189, 167, 157, 0.2);
+  color: rgba(96, 82, 74, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.daily-arrival-emotion-tile.is-selected .daily-arrival-emotion-tile-ic {
+  background: linear-gradient(155deg, rgba(191, 154, 117, 0.2) 0%, rgba(166, 139, 123, 0.12) 100%);
+  border-color: rgba(166, 139, 123, 0.35);
+  color: rgba(74, 62, 54, 0.72);
+}
+
+.daily-arrival-emotion-tile-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(109, 95, 86, 0.95);
+}
+
+.daily-arrival-link-skip--center {
+  display: block;
+  margin: 8px auto 0;
+  text-align: center;
+}
+
+.daily-arrival-guided-badge {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(74, 62, 54, 0.72);
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(191, 154, 117, 0.28);
+  background: linear-gradient(165deg, rgba(255, 252, 248, 0.95) 0%, rgba(245, 236, 228, 0.88) 100%);
+  box-shadow:
+    0 8px 24px rgba(139, 112, 98, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  align-self: center;
+}
+
+.daily-arrival-guided-sprig {
+  align-self: center;
+  margin: 2px auto 4px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 253, 250, 0.95) 0%, rgba(245, 236, 228, 0.55) 55%, rgba(235, 224, 214, 0.4) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 14px 36px rgba(139, 112, 98, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  color: rgba(166, 139, 123, 0.88);
+}
+
+.daily-arrival-guided-lead {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(22px, 5.5vw, 28px);
+  font-weight: 400;
+  line-height: 1.42;
+  color: var(--da-heading);
+  text-align: center;
+  margin: 8px 0 20px;
+  white-space: pre-line;
+  max-width: 24.5rem;
+  align-self: center;
+  letter-spacing: -0.02em;
+}
+
+.daily-arrival-kicker--soft {
+  opacity: 0.72;
+  margin-top: 4px;
+}
+
+.daily-arrival-guided-divider {
+  height: 1px;
+  margin: 14px 0 10px;
+  background: linear-gradient(90deg, transparent, rgba(189, 167, 157, 0.22), transparent);
+}
+
+.daily-arrival-guided-micro {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--da-body);
+  margin: 0;
+  text-align: center;
+}
+
+.daily-arrival-moment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.daily-arrival-moment-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 18px 18px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 253, 250, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: left;
+  cursor: pointer;
+  color: var(--da-heading);
+  transition:
+    transform 0.48s cubic-bezier(0.22, 0.88, 0.32, 1),
+    box-shadow 0.48s cubic-bezier(0.22, 0.88, 0.32, 1),
+    border-color 0.48s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    0 10px 32px rgba(139, 112, 98, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.daily-arrival-moment-row:hover {
+  border-color: rgba(191, 154, 117, 0.28);
+  box-shadow:
+    0 16px 44px rgba(139, 112, 98, 0.12),
+    0 0 22px rgba(191, 154, 117, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transform: translateY(-2px);
+}
+
+.daily-arrival-moment-row:active {
+  transform: scale(0.99) translateY(0);
+}
+
+.daily-arrival-moment-row.is-selected {
+  border-color: rgba(166, 139, 123, 0.42);
+  box-shadow:
+    0 18px 48px rgba(139, 112, 98, 0.14),
+    0 0 26px rgba(191, 154, 117, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.daily-arrival-moment-row-ic {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(165deg, #fffdf9 0%, rgba(250, 244, 236, 0.95) 100%);
+  border: 1px solid rgba(189, 167, 157, 0.18);
+  color: rgba(96, 82, 74, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.daily-arrival-moment-row-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.daily-arrival-moment-row-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--da-heading);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.daily-arrival-moment-row-sub {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12.5px;
+  color: rgba(109, 95, 86, 0.78);
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+.daily-arrival-moment-row-chev {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: rgba(96, 82, 74, 0.22);
+  font-weight: 300;
+  align-self: center;
+  margin-left: 2px;
+}
+
+.daily-arrival-hero-bg--horizon {
+  opacity: 0.72;
+  filter: blur(30px) saturate(1.06);
+  transform: scale(1.1);
+  background-image:
+    linear-gradient(188deg, rgba(255, 252, 248, 0.38) 0%, transparent 45%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(212, 184, 168, 0.28) 0%, transparent 58%),
+    linear-gradient(178deg, rgba(72, 62, 56, 0.14) 0%, transparent 42%),
+    url("../assets/images/daily-arrival-lake-dawn.png");
+  background-size: auto, auto, auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.daily-arrival-hero-scrim--complete {
+  opacity: 0.42;
+  visibility: visible;
+  background: linear-gradient(
+    188deg,
+    rgba(58, 49, 44, 0.03) 0%,
+    rgba(74, 62, 54, 0.08) 45%,
+    rgba(48, 42, 38, 0.12) 100%
+  );
+}
+
+.daily-arrival-step--hero.daily-arrival-step--complete .daily-arrival-hero-inner--done {
+  max-width: 22.5rem;
+}
+
+.daily-arrival-streak-card {
+  width: 100%;
+  max-width: 19rem;
+  margin: 0 auto 10px;
+  padding: 18px 20px 16px;
+  border-radius: 24px;
+  background: rgba(255, 253, 250, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 16px 44px rgba(139, 112, 98, 0.14),
+    0 0 24px rgba(191, 154, 117, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  box-sizing: border-box;
+}
+
+.daily-arrival-streak-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.daily-arrival-streak-flame {
+  color: var(--da-blush);
+  display: flex;
+}
+
+.daily-arrival-streak-num {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--da-heading);
+  line-height: 1;
+}
+
+.daily-arrival-streak-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.55);
+}
+
+.daily-arrival-week-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(189, 167, 157, 0.12);
+}
+
+.daily-arrival-week-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(189, 167, 157, 0.15);
+  flex: 1;
+  max-width: 14px;
+  margin: 0 auto;
+}
+
+.daily-arrival-week-dot--on {
+  background: rgba(64, 54, 48, 0.55);
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-sub--hero {
+  margin-bottom: 12px;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-verse-card--arrival {
+  margin-bottom: 8px;
+  background: linear-gradient(165deg, rgba(255, 253, 250, 0.92) 0%, rgba(250, 244, 238, 0.88) 100%);
+  border: 1px solid rgba(191, 154, 117, 0.18);
+  box-shadow:
+    0 20px 52px rgba(139, 112, 98, 0.11),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daily-arrival-emotion-tile,
+  .daily-arrival-moment-row {
+    transition: none;
+  }
+  .daily-arrival-emotion-tile:hover,
+  .daily-arrival-emotion-tile:active,
+  .daily-arrival-moment-row:hover,
+  .daily-arrival-moment-row:active {
+    transform: none;
+  }
+}
+
+.daily-arrival-step--cream.daily-arrival-step--no-scroll {
+  overflow: hidden;
+  -webkit-overflow-scrolling: auto;
+  padding: 0;
+}
+
+/* ─── Mobile / iPhone (Safari): safe-area + scroll — desktop unchanged via min-width:768px block ─── */
+@media (max-width: 767px) {
+  .daily-arrival-root {
+    padding-bottom: max(28px, calc(env(safe-area-inset-bottom, 0px) + 20px));
+  }
+
+  .daily-arrival-viewport {
+    min-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: 4px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .daily-arrival-step {
+    min-height: 0;
+  }
+
+  .daily-arrival-step--cream,
+  .daily-arrival-step--cream.daily-arrival-step--no-scroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    justify-content: flex-start;
+  }
+
+  .daily-arrival-step--no-scroll:not(.daily-arrival-step--cream) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+
+  .daily-arrival-step-panel--fit {
+    justify-content: flex-start;
+    padding-bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+  }
+
+  .daily-arrival-step--hero {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    max-height: min(85dvh, calc(100dvh - 180px));
+  }
+
+  .daily-arrival-step--hero[data-daily-step="0"] {
+    overflow-x: hidden;
+    overflow-y: visible;
+    max-height: none;
+  }
+
+  .daily-arrival-step--hero[data-daily-step="4"] {
+    max-height: none;
+  }
+
+  .daily-arrival-step--verse {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    max-height: min(85dvh, calc(100dvh - 180px));
+  }
+}

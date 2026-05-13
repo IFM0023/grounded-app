@@ -197,7 +197,7 @@
         {
           day: 3,
           title: 'Releasing the hurry',
-          pause: 'Hurry is often fear wearing a productive mask.',
+          pause: 'Hurry is often fear wearing the mask of always needing to be busy.',
           scripture: { reference: 'Matthew 6:34', text: 'Therefore do not worry about tomorrow, for tomorrow will worry about itself.' },
           reflection: ['Each day has enough — and enough grace.', 'Tomorrow is not yours to carry today.'],
           prompt: 'What tomorrow are you trying to solve today?',
@@ -221,10 +221,10 @@
           title: 'Body and soul together',
           pause: 'You are not a machine — you are embodied and beloved.',
           scripture: { reference: 'Psalm 127:2', text: 'In vain you rise early and stay up late, toiling for food to eat — for he grants sleep to those he loves.' },
-          reflection: ['Sleep is not a reward for productivity; it is a gift.', 'God loves you when you are still.'],
+          reflection: ['Sleep is not something you earn by doing enough first; it is a gift.', 'God loves you when you are still.'],
           prompt: 'What would honoring your body look like tonight?',
           prayer:
-            'Father, thank you for loving me when I stop producing. Help me receive sleep and stillness as gifts, not guilt. Amen.',
+            'Father, thank you for loving me when I am simply still. Help me receive sleep and quiet as gifts, not guilt. Amen.',
           carry: 'Rest is not earned — it is given.'
         },
         {
@@ -236,7 +236,7 @@
           prompt: 'What work do you want to rest from emotionally today?',
           prayer:
             'Lord, I want the Sabbath-rest you promise. Help me rest from striving and trust that you complete what I cannot. Amen.',
-          carry: 'Trust looks like closing the laptop of the soul.'
+          carry: 'Trust can mean laying down the inner push to prove you have earned rest.'
         },
         {
           day: 7,
@@ -462,7 +462,7 @@
         subtitle: SUBS[w % SUBS.length],
         hook: 'This week is a gentle invitation to stay present with God in small, honest moments.',
         intro:
-          'This week is a gentle invitation to stay present with God in small, honest moments. You do not have to perform or rush; inner work here is about noticing what is true and letting God meet you in it.',
+          'This week is a gentle invitation to stay present with God in small, honest moments. You do not have to prove yourself or rush; inner work here is about noticing what is true and letting God meet you in it.',
         anchorVerse: { text: v.text, reference: v.reference },
         closingPrayer:
           'God, thank you for the quiet ways you have walked with us this week. Hold what mattered, soften what was hard, and lead us gently forward. Amen.',
@@ -502,7 +502,7 @@
       if (!theme.intro && theme.subtitle) {
         theme.intro =
           String(theme.subtitle).trim() +
-          ' This week is a gentle orientation to stay present with God—no performance, no rush.';
+          ' This week is a gentle orientation to stay present with God—without rushing or trying to prove anything.';
       }
       var days = theme.days;
       if (!days || !days.length) continue;
@@ -553,22 +553,22 @@
     var p = pr ? String(pr).trim() : '';
     var v = verseRef ? String(verseRef).trim() : '';
     var hook = p
-      ? 'Before the day ends, run one small experiment with God: ' + p + ' Keep it concrete enough that you could describe what you did in one sentence.'
-      : 'Before the day ends, choose one concrete act—words, pause, apology, boundary, or gratitude—that matches today’s focus' +
+      ? 'Before the day ends, take one small moment with God: ' + p + ' Keep it simple enough that you could describe what you did in a sentence.'
+      : 'Before the day ends, choose one concrete kindness—words, pause, apology, boundary, or gratitude—that fits today’s focus' +
         (f ? ' (“' + f + '”)' : '') +
         ' instead of only thinking about it.';
     if (v) {
-      return hook + ' Let ' + v + ' be the lens, not the lever you use to pressure yourself.';
+      return hook + ' Let ' + v + ' be the lens you read your day through—not a reason to be hard on yourself.';
     }
     return hook;
   }
 
   var WEEKLY_INSIGHT_FALLBACKS = [
-    'It is easy to treat this week as inspiration and skip the awkward part: Scripture only changes you where it interrupts a default behavior, not where it confirms what you already wanted to believe.',
-    'Most of us nod at verses like this and still live as if we must self-generate peace, worth, and outcomes. The tension between that instinct and what the text invites is where today actually begins.',
-    'We often read for a mood and miss the claim: God is addressing real fear, real relationships, and real time. The “aha” is usually less about new information and more about honesty you have been postponing.',
-    'Agreement is not the same as reception. You can say “true” and still keep your hands closed. The gift is letting the line land somewhere specific—body, calendar, or a conversation you keep avoiding.',
-    'Spiritual growth is not mainly intensity; it is repetition with mercy. The insight you need may not sound novel—it may sound like something you already know but have not practiced where it costs you.'
+    'It is easy to treat this week as inspiration and skip the harder part: Scripture only meets you where it bumps against real habits—not where it only repeats what you already believe.',
+    'Most of us nod at verses like this and still live as if peace, worth, and outcomes depend entirely on us. The tender place between that fear and what the text invites is where today actually begins.',
+    'We often read for a mood and miss the invitation: God is speaking into real fear, real relationships, and real time. The shift you need may not sound new—it may be honesty you have been postponing.',
+    'Saying “true” is not the same as letting something land. You can agree with a line and still keep your hands closed. The gift is letting it touch something specific—your body, your calendar, or a conversation you keep avoiding.',
+    'Growth is usually less about intensity and more about returning—with mercy—to what you already know but have not lived where it costs you.'
   ];
 
   function weeklyDayInsightFallback(themeTitle, foc, h) {
@@ -650,7 +650,7 @@
                 vt
               : 'Today’s invitation under “' +
                 String(theme.title || 'this week').trim() +
-                '” is to stay present with God in small, honest moments—no performance required.';
+                '” is to stay present with God in small, honest moments—you do not have to get it perfect.';
           }
           if (!day.insight || !String(day.insight).trim()) {
             day.insight = weeklyDayInsightFallback(
@@ -681,7 +681,7 @@
               '—which phrase lands as comfort, which as challenge, and what might that tension be telling you?'
             : 'Which phrase lands as comfort, which as challenge—and what might that tension be telling you?';
           var q3e =
-            'If you took this passage seriously for forty-eight hours, what is one behavior someone close to you might actually notice?';
+            'If you lived this passage gently for a day or two, what is one small shift someone who knows you might sense?';
           if (!day.reflectQs || !day.reflectQs.length) {
             day.reflectQs = [q1e, q2e, q3e];
           }
@@ -743,7 +743,7 @@
             '—which phrase lands as comfort, which as challenge, and what might that tension be telling you?'
           : 'Which phrase lands as comfort, which as challenge—and what might that tension be telling you?';
         var q3 =
-          'If you took this passage seriously for forty-eight hours, what is one behavior someone close to you might actually notice?';
+          'If you lived this passage gently for a day or two, what is one small shift someone who knows you might sense?';
         if (!day.reflectQs || !day.reflectQs.length) {
           day.reflectQs = [q1, q2, q3];
         }

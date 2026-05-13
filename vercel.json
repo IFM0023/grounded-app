@@ -2,6 +2,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "www",
   "rewrites": [
+    { "source": "/grounded_marketing_center", "destination": "/grounded_marketing_center.html" },
+    { "source": "/grounded_marketing_center/", "destination": "/grounded_marketing_center.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin/", "destination": "/admin.html" }
   ],

@@ -345,7 +345,7 @@
         close:
           'Being led is not weakness here; it is relief. Tomorrow Jesus speaks directly to the part of you that tries to live tomorrow today.',
         prayer:
-          'Lord, I admit I like my own map. Teach me what it feels like to be led in kindness—not controlled, carried. Show me one next step I do not have to white-knuckle. Amen.'
+          'Lord, I admit I like my own map. Teach me what it feels like to be led in kindness—not controlled, carried. Show me one next step I do not have to grip too tightly. Amen.'
       },
       {
         arrive: 'Jesus does not shame your mind for racing ahead. He speaks to the part of you that is tired of predicting the worst.',
@@ -382,7 +382,7 @@
         meaning:
           '“Be still” is a command to stop striving long enough to recognize God’s authority in the chaos. It is not about achieving a zen state; it is about ceasing long enough to know who is God and who is not.',
         insight:
-          'If you only pray on the move, your soul may mistake productivity for trust. Stillness exposes what you have been using noise to avoid.',
+          'If you only pray while you are rushing, your soul may confuse motion with trust. Stillness exposes what noise has been helping you avoid.',
         application:
           'Set a timer for one minute. No fixing, no planning—only breathing and one repeated phrase: “You are God.” Notice what rises when the doing pauses.',
         reflectQ:
@@ -450,7 +450,7 @@
         reflectQ:
           'Who have you treated as “too ordinary” for God to prioritize—and how does Jesus’ choice challenge that reflex?',
         close:
-          'You listened for mission, not performance. Tomorrow blessing widens on a hillside—without asking you to be perfect first.',
+          'You listened for calling—not for proving yourself. Tomorrow blessing widens on a hillside—without asking you to be perfect first.',
         prayer:
           'Jesus, you spoke good news over people others underestimated. Align my eyes with yours. Show me one person I can honor today the way you honored Nazareth. Amen.'
       },
@@ -613,7 +613,7 @@
         insight:
           'We treat doubt as contamination. Here doubt is carried into worship—God stays the chosen portion even when the path feels unfair compared to others.',
         application:
-          'When you feel distant, do not add a performance. Speak one “nevertheless” sentence you can still stand on (a truth about God you are not ready to feel yet).',
+          'When you feel distant, do not heap on another layer of proving. Speak one “nevertheless” sentence you can still stand on (a truth about God you are not ready to feel yet).',
         reflectQ:
           'What part of you wants to bolt when God feels quiet—and what would nevertheless faith look like in your real schedule today?',
         close:
@@ -1198,6 +1198,41 @@
     return s;
   }
 
+  /** SELECTED PASSAGE card: one row per verse; max 5 + “…and N more verses”. */
+  function buildStudyCtxChapterPassageHtml(verses) {
+    var arr = verses || [];
+    var total = arr.length;
+    var show = Math.min(total, 5);
+    if (!show) {
+      return '<p class="study-ctx-passage-empty">No verses loaded.</p>';
+    }
+    var rows = [];
+    var i;
+    for (i = 0; i < show; i++) {
+      rows.push(
+        '<div class="study-ctx-passage-vrow">' +
+          '<span class="study-ctx-passage-vnum">' +
+          esc(String(i + 1)) +
+          '</span>' +
+          '<span class="study-ctx-passage-vtxt">' +
+          esc(String(arr[i] || '').trim()) +
+          '</span>' +
+          '</div>'
+      );
+    }
+    var more = '';
+    if (total > 5) {
+      var rest = total - 5;
+      more =
+        '<p class="study-ctx-passage-more">\u2026 and ' +
+        esc(String(rest)) +
+        ' more verse' +
+        (rest === 1 ? '' : 's') +
+        '</p>';
+    }
+    return '<div class="study-ctx-passage-verses">' + rows.join('') + more + '</div>';
+  }
+
   function chapterMeaningBody(d) {
     var bits = [d.theme, d.message, d.purpose].filter(function (x) {
       return String(x || '').trim();
@@ -1337,7 +1372,7 @@
     root.classList.remove('study-app-root--mode-landing');
     root.classList.add('study-app-root--mode-context', 'study-app-root--study-ctx');
     var written = [d.writtenBy, d.date].filter(Boolean).join(' · ');
-    var excerpt = chapterExcerpt(verses || [], 440);
+    var passageHtml = buildStudyCtxChapterPassageHtml(verses || []);
     var saveArg = book + '|' + chapter + '|chapter';
     var title = book + ' ' + chapter;
     root.innerHTML =
@@ -1355,7 +1390,7 @@
       '<section class="study-ctx-passage-card" aria-labelledby="studyCtxChPassageLabel">' +
       '<p class="study-ctx-passage-label" id="studyCtxChPassageLabel">SELECTED PASSAGE</p>' +
       '<div class="study-ctx-passage-text study-ctx-passage-text--chapter body-font">' +
-      esc(excerpt).replace(/\n/g, '<br>') +
+      passageHtml +
       '</div>' +
       '<div class="study-ctx-passage-actions">' +
       '<button type="button" class="study-ctx-pill study-ctx-pill--rose" data-act="reflect-ch" data-arg="' +

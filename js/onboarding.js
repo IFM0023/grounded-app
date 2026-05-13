@@ -4,21 +4,26 @@
  */
 (function (global) {
   var STEP_COUNT = 5;
-  var TRANSITION_LOCK_MS = 300;
+  var TRANSITION_LOCK_MS = 420;
 
-  /** Human-readable "why" strings (aligned with WHY_THEME_MAP on the host page). */
+  /** Human-readable “why” strings (aligned with ONBOARDING_GOAL_KEYS in app-themes.js). */
   var GOAL_ID_TO_WHY_LABEL = {
-    grow_closer: 'I want to grow closer to God',
-    quiet_moment: 'I just need a quiet moment',
-    anxious_peace: 'I feel anxious and need peace',
-    overwhelmed: 'I feel overwhelmed',
-    guidance_now: 'I need guidance right now',
-    daily_habit: 'I want to build a daily habit',
-    difficult_season: 'I’m going through something difficult',
-    disconnected: 'I feel disconnected from God',
-    consistent: 'I want to be more consistent',
-    feel_better_today: 'I just want to feel better today'
+    anxious_peace: 'My mind runs fast; I want steadier ground',
+    overwhelmed: 'Too many inputs are live at once',
+    guidance_now: 'I need clarity for a decision in front of me',
+    difficult_season: 'I am in a stretch I did not choose',
+    disconnected: 'Faith feels distant—not dramatic, just distant',
+    miss_close_god: 'I miss the version of faith that felt nearer',
+    consistent: 'I want a rhythm I can keep without shame'
   };
+
+  function escapeOnboardingHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
 
   function $(id) {
     return document.getElementById(id);
@@ -180,28 +185,6 @@
     return n;
   }
 
-  /** Primary “why” goal: saved intent if still selected, else first in list (Why are you here?). */
-  function pickPrimaryGoalId(state) {
-    var goals = parseGoalsForFinalMessage(state);
-    var intent = state && state.userIntent != null ? String(state.userIntent).trim() : '';
-    if (intent && hasGoalInList(goals, intent)) return intent;
-    return goals.length ? String(goals[0] || '').trim() : '';
-  }
-
-  function pickFinalSubline(primaryGoalId) {
-    var id = String(primaryGoalId || '');
-    var lines = {
-      grow_closer: 'Every day you show up is a day you grow.',
-      anxious_peace: 'Peace is here. It starts with a few quiet minutes.',
-      overwhelmed: 'Peace is here. It starts with a few quiet minutes.',
-      quiet_moment: 'You gave yourself permission to pause. That matters.',
-      daily_habit: 'Small and consistent beats perfect and rare.',
-      consistent: 'Small and consistent beats perfect and rare.',
-      guidance_now: "You don't have to figure it out alone."
-    };
-    return lines[id] || 'This is your space. Come back to it every day.';
-  }
-
   function readSkippedFromStorage() {
     try {
       return localStorage.getItem('grounded_onboarding_skipped') === 'true';
@@ -210,20 +193,215 @@
     }
   }
 
+  function goalSetFromIds(goalIds) {
+    var g = {};
+    if (!Array.isArray(goalIds)) return g;
+    for (var i = 0; i < goalIds.length; i++) {
+      var id = String(goalIds[i] || '').trim();
+      if (id) g[id] = true;
+    }
+    return g;
+  }
+
+  /**
+   * Final recap: short, selection-aware copy — quiet observations, not slogans.
+   * Order matters: blend overlapping signals; never echo choices literally.
+   * Returns 1–4 short lines (plain sentences); rendered as separate paragraphs.
+   */
+  function buildPersonalizedRecapParts(goalIds) {
+    var g = goalSetFromIds(goalIds);
+    var overwhelmed = !!g.overwhelmed;
+    var anxious = !!g.anxious_peace;
+    var stress = overwhelmed || anxious;
+    var distant = !!(g.disconnected || g.miss_close_god);
+    var season = !!g.difficult_season;
+    var guide = !!g.guidance_now;
+    var steady = !!g.consistent;
+
+    if (stress && steady) {
+      return [
+        "Showing up consistently hasn't felt easy lately.",
+        'Grounded is designed to help you slow down and reconnect in a way that feels manageable.'
+      ];
+    }
+    if (distant && stress) {
+      return [
+        "You don't need to have everything figured out before coming back here.",
+        'Grounded stays straightforward — a little time, whenever you have it.'
+      ];
+    }
+    if (distant && steady) {
+      return [
+        'You can keep a small rhythm without having everything sorted first.',
+        'Grounded fits short windows — plain language, small steps.'
+      ];
+    }
+    if (distant && season) {
+      return [
+        "You don't need to have everything figured out before coming back here.",
+        'A difficult season rarely needs a tidy explanation — just a steady place to land.'
+      ];
+    }
+    if (distant && guide) {
+      return [
+        'Direction can feel fuzzy long before it feels clear.',
+        'Use this as a slower space to think — without needing every answer upfront.'
+      ];
+    }
+    if (distant) {
+      return ["You don't need to have everything figured out before coming back here."];
+    }
+    if (season && guide) {
+      return ['This can simply be a place to pause, reflect, and reset when you need it.'];
+    }
+    if (stress && guide) {
+      return [
+        'When everything feels urgent, perspective rarely shows up all at once.',
+        'This can be a slower place to sort through what matters — without forcing a neat ending.'
+      ];
+    }
+    if (stress && season) {
+      return [
+        'Hard stretches rarely need a grand gesture.',
+        'Small pauses still help, even when they\u2019re brief.'
+      ];
+    }
+    if (steady && guide && !stress && !distant && !season) {
+      return [
+        "You don't need the whole answer today.",
+        'Grounded fits short windows — enough room to think without rushing a conclusion.'
+      ];
+    }
+    if (anxious && !overwhelmed && steady) {
+      return [
+        'Consistency is harder when your mind keeps racing ahead.',
+        'Grounded is built for short, steady check-ins — not performance.'
+      ];
+    }
+    if (overwhelmed && !anxious && steady) {
+      return [
+        'When everything feels full, showing up is its own kind of discipline.',
+        'Grounded is designed to help you slow down and reconnect in a way that feels manageable.'
+      ];
+    }
+    if (anxious && !overwhelmed && !steady && !guide && !season) {
+      return [
+        'A few quiet minutes can change the tone of an entire day.',
+        'Grounded is built for small entries — nothing loud required.'
+      ];
+    }
+    if (overwhelmed && !anxious && !steady && !guide && !season) {
+      return [
+        'When the load runs high, tiny anchors help.',
+        'Grounded keeps things contained so you can step in without a big production.'
+      ];
+    }
+    if (stress) {
+      return [
+        'When the load runs high, tiny anchors help.',
+        'Grounded keeps things contained so you can step in without a big production.'
+      ];
+    }
+    if (guide) {
+      return [
+        "You don't need the whole answer today.",
+        'Think it through here in shorter stretches — one moment, then the next.'
+      ];
+    }
+    if (season) {
+      return [
+        'Some weeks ask for less performance, not more noise.',
+        'This can be one steady place to pause without the right words lined up first.'
+      ];
+    }
+    if (steady) {
+      return [
+        'Consistency rarely looks perfect.',
+        'Grounded fits short windows — the kind real calendars actually have.'
+      ];
+    }
+    return [
+      'Nothing here needs to be earned first.',
+      'When you have a few minutes, this will be here.'
+    ];
+  }
+
+  function normalizeRecapParts(parts) {
+    var out = [];
+    if (!Array.isArray(parts)) return out;
+    for (var i = 0; i < parts.length && out.length < 4; i++) {
+      var s = String(parts[i] == null ? '' : parts[i]).trim();
+      if (s) out.push(s);
+    }
+    return out;
+  }
+
+  function buildPersonalizedRecapHtml(parts) {
+    var lines = normalizeRecapParts(parts);
+    if (!lines.length) return '';
+    var html = '<div class="onboarding-final-recap-personalized">';
+    if (lines.length === 1) {
+      html +=
+        '<p class="onboarding-final-recap-personalized-line onboarding-final-recap-single">' +
+        escapeOnboardingHtml(lines[0]) +
+        '</p>';
+    } else {
+      for (var i = 0; i < lines.length; i++) {
+        var cls = i === 0 ? 'onboarding-final-recap-lead' : 'onboarding-final-recap-body';
+        html +=
+          '<p class="onboarding-final-recap-personalized-line ' +
+          cls +
+          '">' +
+          escapeOnboardingHtml(lines[i]) +
+          '</p>';
+      }
+    }
+    html += '</div>';
+    return html;
+  }
+
   function applyFinalStepCopy(root, state) {
-    var h = root.querySelector('#onboardH3');
-    var t = root.querySelector('#onboardH3trans');
+    var ready = root.querySelector('#onboardFinalReady');
+    var wrap = root.querySelector('#onboardRecapWrap');
+    var tag = root.querySelector('#onboardH3trans');
     if (readSkippedFromStorage()) {
-      if (h) h.textContent = 'You can always come back to this.';
-      if (t) t.textContent = 'You can update your preferences anytime in Settings.';
+      if (ready) ready.textContent = 'You can always come back to this.';
+      if (wrap) {
+        wrap.classList.remove('onboarding-final-recap-host--visible');
+        wrap.innerHTML =
+          '<p class="onboarding-final-recap-single">' +
+          escapeOnboardingHtml('You can update your preferences anytime in Settings.') +
+          '</p>';
+        void wrap.offsetWidth;
+        wrap.classList.add('onboarding-final-recap-host--visible');
+      }
+      if (tag) {
+        tag.setAttribute('hidden', '');
+        tag.hidden = true;
+      }
       return;
     }
-    if (h) {
-      var rawName = readDisplayNameForFinal(state);
-      var displayName = rawName ? rawName : 'Friend';
-      h.textContent = displayName + ', you\u2019re in the right place.';
+    if (ready) ready.textContent = 'Your space is ready 🤍';
+    if (tag) {
+      tag.removeAttribute('hidden');
+      tag.hidden = false;
+      tag.textContent = 'Small and consistent beats perfect and rare.';
     }
-    if (t) t.textContent = pickFinalSubline(pickPrimaryGoalId(state));
+    var goals = parseGoalsForFinalMessage(state);
+    var parts = buildPersonalizedRecapParts(goals);
+    if (wrap) {
+      wrap.classList.remove('onboarding-final-recap-host--visible');
+      var recapHtml = buildPersonalizedRecapHtml(parts);
+      if (!recapHtml) {
+        recapHtml = buildPersonalizedRecapHtml([
+          'Nothing here needs to be earned first.',
+          'When you have a few minutes, this will be here.'
+        ]);
+      }
+      wrap.innerHTML = recapHtml;
+      void wrap.offsetWidth;
+      wrap.classList.add('onboarding-final-recap-host--visible');
+    }
   }
 
   /** Apple / store review: clean URLs like /privacy load index.html; do not overlay onboarding. */
@@ -339,14 +517,6 @@
       var disabled = !onFinal && !can;
       btnContinue.disabled = disabled;
       btnContinue.setAttribute('aria-disabled', disabled ? 'true' : 'false');
-      var foot = $('onboardingFinalBtnHint');
-      if (foot) {
-        if (onFinal && !userSkippedPath) {
-          foot.removeAttribute('hidden');
-        } else {
-          foot.setAttribute('hidden', '');
-        }
-      }
       updateSkipLinkVisibility();
     }
 
@@ -385,15 +555,20 @@
     function focusNameInput() {
       var el = $('onboardingNameInput');
       if (!el) return;
+      var attempt = function () {
+        try {
+          el.focus({ preventScroll: true });
+        } catch (e1) {
+          try {
+            el.focus();
+          } catch (e2) {}
+        }
+      };
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
-          try {
-            el.focus({ preventScroll: true });
-          } catch (e) {
-            try {
-              el.focus();
-            } catch (e2) {}
-          }
+          attempt();
+          setTimeout(attempt, 80);
+          setTimeout(attempt, 280);
         });
       });
     }
