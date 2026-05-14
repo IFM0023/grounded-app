@@ -1073,6 +1073,20 @@
     position:relative;
     padding-bottom:clamp(92px,16vh,142px);
   }
+  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card){
+    padding-top:clamp(36px,9.2vh,74px);
+    padding-bottom:clamp(58px,10vh,102px);
+  }
+  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-main{
+    font-size:clamp(22px,5.05vw,33px);
+    line-height:1.46;
+    margin-bottom:clamp(4px,1.2vh,10px);
+  }
+  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-main .verse-fs-text.share-verse,
+  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-verse{
+    font-size:1.08em;
+    line-height:1.48;
+  }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card__glow{opacity:0}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title__dot{display:none}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title{margin-top:0}
@@ -1223,6 +1237,7 @@
     background:rgba(255,238,228,0.4);
     border:1px solid rgba(255,220,206,0.58);
     box-shadow:0 2px 14px rgba(140,88,92,0.07);
+    padding:8px 17px 7px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-reference{
     font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
@@ -1234,9 +1249,14 @@
     text-shadow:0 0 18px rgba(255,244,236,0.88);
     line-height:1.4;
   }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-sub{
+    margin-bottom:clamp(14px,2.8vh,24px);
+    gap:12px;
+  }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-footer{
     padding-top:0;
     gap:4px;
+    bottom:clamp(16px,3vh,26px);
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave{opacity:0.14}
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__svg{color:rgba(180,120,128,0.35)}
@@ -1355,6 +1375,47 @@
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.editorial-verse-card{
     padding:clamp(20px,5vh,44px) clamp(22px,5vw,36px) clamp(92px,16vh,140px);
+  }
+  /* Short non-editorial verses: gentler scale, optical lift, airier reference → branding → chrome */
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card){
+    padding-top:clamp(38px,9.8vh,80px);
+    padding-bottom:clamp(58px,10vh,104px);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-title{
+    margin-bottom:clamp(10px,2.4vw,18px);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-divider--heart{
+    margin:clamp(8px,1.8vw,15px) auto;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-main{
+    font-size:clamp(22px,5.05vw,33px);
+    font-weight:500;
+    line-height:1.46;
+    margin-bottom:clamp(4px,1.2vh,10px);
+    text-shadow:0 0 34px rgba(255,244,236,0.96),0 0 50px rgba(255,252,249,0.52),0 2px 5px rgba(32,22,20,0.12);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-main .verse-fs-text.share-verse,
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card) .share-verse{
+    font-size:1.08em;
+    font-weight:500;
+    line-height:1.48;
+    text-shadow:0 0 34px rgba(255,244,236,0.96),0 0 50px rgba(255,252,249,0.52),0 2px 5px rgba(32,22,20,0.12);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-sub{
+    margin-top:clamp(2px,0.8vh,8px);
+    margin-bottom:clamp(18px,3.4vh,32px);
+    gap:clamp(10px,1.6vh,16px);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-ref-pill{
+    padding:9px 18px 8px;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-footer{
+    bottom:clamp(18px,3.4vh,30px);
+    gap:6px;
+    padding-top:2px;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-brand{
+    margin-top:4px;
   }
   /* Signature premium editorial — photography carries the emotion; type lives in-scene (not a UI card) */
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial{
@@ -19153,8 +19214,17 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       out.push(lines.join(',<br>'));
     }
     work = out.join('<br>');
-    if (work.length > 112) {
-      work = work.replace(/\s+and\s+/i, '<br>and ');
+    /* One intentional line before "and" when it reads as two balanced breaths (avoids awkward auto-wrap). */
+    if (work.indexOf('<br>') === -1 && work.indexOf(';') === -1) {
+      var andM = work.match(/\s+and\s+/i);
+      if (andM && work.length >= 42 && work.length <= 132) {
+        var aix = andM.index;
+        var beforeAnd = work.slice(0, aix).trim();
+        var afterAnd = work.slice(aix + andM[0].length).trim();
+        if (beforeAnd.length >= 20 && afterAnd.length >= 22) {
+          work = beforeAnd + '<br>and ' + afterAnd;
+        }
+      }
     }
     return work;
   }
@@ -19922,10 +19992,8 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     try {
       lab = typeof mapHomeVerseShareLabel === 'function' ? String(mapHomeVerseShareLabel() || '').trim() : '';
     } catch (_mk) {}
+    /* Fullscreen verse: scripture only — no reflection / coaching blurb under the verse. */
     var sub = '';
-    try {
-      sub = typeof verseShareSubtextFromVerse === 'function' ? verseShareSubtextFromVerse(v) : '';
-    } catch (_sub) {}
     var sw = '';
     try {
       sw = typeof verseSharePickScriptWord === 'function' ? verseSharePickScriptWord(t) : '';
@@ -19943,6 +20011,11 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       domIds: VERSE_FS_SHARE_DOM_IDS
     });
     shareCardEnforceSingleCard(cap);
+    var cardMount = cap.querySelector('.share-card');
+    if (cardMount && !cardMount.classList.contains('editorial-verse-card')) {
+      var shortVerse = t.length > 0 && t.length <= 140;
+      cardMount.classList.toggle('share-card--verse-short', shortVerse);
+    }
     try {
       if (typeof applyShareCardAtmosphereToCapture === 'function') {
         applyShareCardAtmosphereToCapture(cap, readShareCardTemplateIndex());
