@@ -18744,6 +18744,24 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     }
   }
 
+  /**
+   * Defensive post-render guard: assert there is exactly ONE .share-card inside
+   * a capture root, and remove any extras (keeping the LAST one — that's the
+   * most recently rendered composition). Quietly fixes any duplicate-render
+   * path that might slip past the clear-before-render contract.
+   */
+  function shareCardEnforceSingleCard(root) {
+    if (!root) return;
+    var cards = root.querySelectorAll(':scope > .share-card');
+    if (cards.length <= 1) return;
+    for (var i = 0; i < cards.length - 1; i++) {
+      var stale = cards[i];
+      if (stale && stale.parentNode === root) {
+        try { root.removeChild(stale); } catch (e) {}
+      }
+    }
+  }
+
   function applyShareCardOpts(captureRoot, opts) {
     if (!captureRoot) return;
     opts = normalizeShareCardInput(opts || {});
@@ -18752,6 +18770,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
      * footers, and double .share-card compositions when switching verses/templates. */
     shareCardClearCaptureRoot(captureRoot);
     captureRoot.innerHTML = renderShareCard(opts);
+    shareCardEnforceSingleCard(captureRoot);
     var s = captureRoot.querySelector('[data-share="sub"]');
     var r = captureRoot.querySelector('[data-share="ref"]');
     var subWrap = captureRoot.querySelector('.share-sub');
@@ -18781,6 +18800,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     window.createShareCard = createShareCard;
     window.applyShareCardOpts = applyShareCardOpts;
     window.shareCardClearCaptureRoot = shareCardClearCaptureRoot;
+    window.shareCardEnforceSingleCard = shareCardEnforceSingleCard;
     window.ShareCard = ShareCard;
     window.groundedShareCaptureElementToPng = groundedShareCaptureElementToPng;
   } catch (eGlobShare) {}
@@ -19565,6 +19585,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       footerClosing: 'Be still. \u00b7 Be led. \u00b7 Be grounded.',
       domIds: VERSE_FS_SHARE_DOM_IDS
     });
+    shareCardEnforceSingleCard(cap);
     try {
       if (typeof applyShareCardAtmosphereToCapture === 'function') {
         applyShareCardAtmosphereToCapture(cap, readShareCardTemplateIndex());
@@ -19607,6 +19628,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         footerClosing: '',
         domIds: VERSE_FS_SHARE_DOM_IDS
       });
+      shareCardEnforceSingleCard(cap);
     }
     const capEl = document.getElementById('verseFsShareCapture');
     const textEl = capEl ? capEl.querySelector('[data-share="main"]') : null;
