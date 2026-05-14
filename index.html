@@ -17,7 +17,7 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&amp;family=Great+Vibes&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Caveat:wght@400;500;600&amp;family=Great+Vibes&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
   <style>
   /* ─── RESET ─── */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -810,32 +810,119 @@
   .verse-fs-overlay{
     position:fixed;inset:0;z-index:2500;
     background:
-      radial-gradient(ellipse 78% 52% at 50% 32%, rgba(255,232,218,0.14) 0%, transparent 55%),
-      radial-gradient(ellipse 72% 58% at 50% 44%, rgba(255,246,238,0.1) 0%, transparent 52%),
-      radial-gradient(ellipse 95% 72% at 50% 36%, rgba(88,58,48,0.22) 0%, transparent 58%),
-      linear-gradient(198deg, rgba(26,16,12,0.9) 0%, rgba(42,26,20,0.58) 34%, rgba(18,11,8,0.94) 72%, rgba(8,5,4,0.97) 100%);
-    backdrop-filter:blur(22px) saturate(1.12);
-    -webkit-backdrop-filter:blur(22px) saturate(1.12);
+      radial-gradient(ellipse 92% 62% at 50% 16%, rgba(255,224,214,0.26) 0%, transparent 52%),
+      radial-gradient(ellipse 84% 56% at 50% 48%, rgba(255,248,242,0.16) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 78% at 50% 100%, rgba(210,160,170,0.1) 0%, transparent 46%),
+      linear-gradient(168deg, rgba(58,40,50,0.52) 0%, rgba(72,48,58,0.38) 44%, rgba(46,32,42,0.58) 100%);
+    backdrop-filter:blur(28px) saturate(1.06);
+    -webkit-backdrop-filter:blur(28px) saturate(1.06);
     display:flex;flex-direction:column;opacity:0;pointer-events:none;
-    transition:opacity 0.5s cubic-bezier(.25,.46,.2,.94);
+    transition:opacity 0.55s cubic-bezier(.25,.46,.2,.94);
     touch-action:pan-y;
   }
   .verse-fs-overlay.open{opacity:1;pointer-events:all}
   .verse-fs-inner{
     position:relative;flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
     z-index:1;
-    padding:max(6px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 0 max(14px,env(safe-area-inset-left));
-    opacity:0;transform:translateY(7px) scale(0.992);
-    transition:opacity 0.62s cubic-bezier(.2,.72,.12,1),transform 0.68s cubic-bezier(.2,.72,.12,1);
+    padding:0 max(10px,env(safe-area-inset-right)) calc(104px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+    padding-top:max(4px,env(safe-area-inset-top));
+    opacity:0;transform:translateY(10px) scale(0.988);
+    transition:opacity 0.58s cubic-bezier(.2,.72,.12,1),transform 0.62s cubic-bezier(.2,.72,.12,1);
   }
   .verse-fs-overlay.open .verse-fs-inner{opacity:1;transform:translateY(0) scale(1)}
   @media (prefers-reduced-motion:reduce){
     .verse-fs-inner{transition:opacity 0.22s ease;transform:none}
     .verse-fs-overlay.open .verse-fs-inner{transform:none}
   }
-  .verse-fs-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:9px 14px;margin:2px 0 0 2px;border-radius:999px;background:rgba(255,252,249,0.1);border:1px solid rgba(255,248,244,0.14);color:rgba(255,248,244,0.78);font-size:11.5px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;box-shadow:none;transition:background 0.22s ease,transform 0.2s ease,color 0.2s ease;-webkit-tap-highlight-color:transparent}
-  .verse-fs-back svg{width:15px;height:15px;stroke-width:1.85;color:rgba(255,236,228,0.72)}
-  .verse-fs-back:active{transform:scale(0.97);background:rgba(255,252,249,0.16);color:rgba(255,252,249,0.92)}
+  .verse-fs-more-backdrop{
+    position:fixed;inset:0;z-index:2502;background:rgba(28,18,22,0.12);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .verse-fs-overlay-chrome{
+    position:relative;z-index:2504;flex-shrink:0;pointer-events:none;
+    padding:max(4px,env(safe-area-inset-top)) max(4px,env(safe-area-inset-right)) 0 max(4px,env(safe-area-inset-left));
+  }
+  .verse-fs-overlay-top{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto;
+    max-width:min(96vw,680px);margin:0 auto;
+  }
+  .verse-fs-icon-btn{
+    display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;
+    border:1px solid rgba(255,248,244,0.14);background:rgba(255,252,249,0.08);
+    color:rgba(255,244,238,0.82);cursor:pointer;-webkit-tap-highlight-color:transparent;
+    backdrop-filter:blur(14px) saturate(1.1);-webkit-backdrop-filter:blur(14px) saturate(1.1);
+    box-shadow:0 4px 20px rgba(0,0,0,0.12);
+    transition:background 0.22s ease,border-color 0.22s ease,transform 0.18s ease,color 0.2s ease;
+  }
+  .verse-fs-icon-btn:active{transform:scale(0.96);background:rgba(255,252,249,0.16)}
+  .verse-fs-experience{
+    position:relative;z-index:1;flex:1 1 0;min-height:0;display:flex;flex-direction:row;align-items:stretch;
+    justify-content:center;gap:0;max-width:min(100%,720px);margin:0 auto;width:100%;
+  }
+  #verseFullscreenOverlay .verse-fs-stage{
+    flex:1 1 0;min-width:0;min-height:0;width:auto;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:6px 4px 8px 4px;box-sizing:border-box;
+  }
+  .verse-fs-dock{
+    flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:8px 4px 8px 2px;width:44px;box-sizing:border-box;
+  }
+  #verseFullscreenOverlay .verse-fs-dock .verse-fs-template-strip--vertical{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    padding:0;margin:0;opacity:0.55;
+  }
+  #verseFullscreenOverlay .verse-fs-dock .verse-fs-tpl-pill{
+    width:26px;height:26px;border-radius:8px;opacity:0.42;
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  #verseFullscreenOverlay .verse-fs-dock .verse-fs-tpl-pill[aria-selected="true"]{
+    opacity:0.88;border-color:rgba(255,236,228,0.35);box-shadow:0 0 0 1px rgba(255,248,244,0.12);
+  }
+  .verse-fs-more-panel{
+    position:fixed;left:50%;bottom:calc(108px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+    z-index:2506;width:min(100% - 36px,280px);
+    padding:8px;border-radius:18px;
+    background:rgba(255,252,249,0.14);border:1px solid rgba(255,248,244,0.2);
+    backdrop-filter:blur(18px) saturate(1.12);-webkit-backdrop-filter:blur(18px) saturate(1.12);
+    box-shadow:0 16px 48px rgba(0,0,0,0.22);
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .verse-fs-more-panel[hidden]{display:none!important}
+  .verse-fs-more-panel__btn{
+    display:block;width:100%;text-align:left;padding:12px 14px;border-radius:12px;border:none;cursor:pointer;
+    font-family:'Inter',system-ui,sans-serif;font-size:12.5px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+    color:rgba(48,36,38,0.92);background:rgba(255,255,255,0.72);
+    transition:background 0.15s ease,transform 0.12s ease;-webkit-tap-highlight-color:transparent;
+  }
+  .verse-fs-more-panel__btn:active{transform:scale(0.99);background:rgba(255,248,244,0.95)}
+  .verse-fs-fab-dock{
+    position:fixed;left:0;right:0;bottom:0;z-index:2504;
+    display:flex;justify-content:center;align-items:flex-end;
+    padding:0 18px max(14px,env(safe-area-inset-bottom));pointer-events:none;
+  }
+  .verse-fs-fab-pill{
+    pointer-events:auto;display:flex;flex-direction:row;align-items:center;gap:0;
+    padding:6px 8px;border-radius:999px;
+    background:rgba(255,252,249,0.12);border:1px solid rgba(255,248,244,0.18);
+    backdrop-filter:blur(18px) saturate(1.12);-webkit-backdrop-filter:blur(18px) saturate(1.12);
+    box-shadow:0 12px 40px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .verse-fs-fab-sep{width:1px;align-self:stretch;min-height:36px;margin:4px 2px;background:rgba(255,248,244,0.14)}
+  .verse-fs-fab-btn{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    min-width:64px;padding:8px 10px;border:none;border-radius:999px;background:transparent;cursor:pointer;
+    color:rgba(255,244,238,0.88);-webkit-tap-highlight-color:transparent;
+    font-family:'Inter',system-ui,sans-serif;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;
+    transition:background 0.18s ease,color 0.18s ease,transform 0.15s ease;
+  }
+  .verse-fs-fab-btn:active{transform:scale(0.97);background:rgba(255,252,249,0.1)}
+  .verse-fs-fab-btn__icon{display:flex;align-items:center;justify-content:center;opacity:0.88}
+  .verse-fs-fab-btn__lbl{opacity:0.72}
+  #verseFullscreenOverlay .verse-fs-fab-pill #verseFsSave.is-saved{
+    color:rgba(255,236,228,0.98);
+  }
+  #verseFullscreenOverlay .verse-fs-fab-pill #verseFsSave.is-saved .verse-fs-fab-btn__lbl{opacity:0.95}
   /* Verse fullscreen: 9:16 share capture (IG Story / TikTok — premium blush, export-safe) */
   .verse-fs-share-capture.share-screen, .grounded-share-capture.share-screen{
     flex:1 1 auto;
@@ -857,13 +944,6 @@
     overflow:visible;
     position:relative;
     isolation:isolate;
-  }
-  /* Verse fullscreen only — larger editorial card, centerpiece composition */
-  #verseFullscreenOverlay .verse-fs-stage{
-    flex:1 1 0;min-height:0;width:100%;
-    display:flex;flex-direction:column;align-items:stretch;justify-content:center;
-    gap:4px;padding:2px max(8px,env(safe-area-inset-left)) 4px max(8px,env(safe-area-inset-right));
-    box-sizing:border-box;
   }
   #verseFsShareCapture.share-screen{
     width:min(96vw,640px);
@@ -899,7 +979,7 @@
     letter-spacing:0.026em;
   }
   #verseFsShareCapture .share-sub-lead{font-size:clamp(11px,2.9vw,13.5px);max-width:26rem;line-height:1.5;opacity:0.82}
-  #verseFsShareCapture .share-reference{font-size:9.5px;letter-spacing:0.24em;opacity:0.85}
+  #verseFsShareCapture .share-reference{font-size:10.5px;letter-spacing:0.22em;opacity:0.9}
   #verseFsShareCapture .share-footer{margin-top:clamp(6px,2vw,12px);padding-top:2px;gap:5px}
   #verseFsShareCapture .share-wave{opacity:0.52;margin:1px 0 0}
   #verseFsShareCapture .share-brand{
@@ -916,46 +996,6 @@
     margin:0 0 1px;
   }
   #verseFsShareCapture .share-closing{font-size:9.5px;opacity:0.62;margin-top:0}
-  #verseFullscreenOverlay .verse-fs-chrome{
-    flex-shrink:0;width:100%;max-width:min(96vw,640px);margin:0 auto;box-sizing:border-box;
-    padding:8px 20px max(12px,env(safe-area-inset-bottom));
-    display:flex;flex-direction:column;align-items:center;gap:8px;
-    background:linear-gradient(180deg, transparent 0%, rgba(12,8,6,0.22) 55%, rgba(6,4,3,0.42) 100%);
-  }
-  #verseFullscreenOverlay .verse-fs-actions--premium{
-    display:flex;flex-direction:row;justify-content:center;align-items:center;gap:12px;
-    padding:0;border:none;background:transparent;backdrop-filter:none;
-  }
-  #verseFullscreenOverlay .verse-fs-actions--premium button{
-    flex:0 1 auto;min-width:0;max-width:none;padding:11px 26px;border-radius:999px;
-    font-family:'Inter',system-ui,sans-serif;font-size:11.5px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
-    background:rgba(255,252,249,0.08);
-    border:1px solid rgba(255,248,244,0.14);
-    color:rgba(255,252,249,0.72);
-    box-shadow:none;
-    transition:background 0.22s ease,border-color 0.22s ease,transform 0.18s ease,color 0.2s ease;
-  }
-  #verseFullscreenOverlay .verse-fs-actions--premium button:active{transform:scale(0.98);background:rgba(255,252,249,0.18)}
-  #verseFullscreenOverlay .verse-fs-actions--premium #verseFsSave.is-saved{
-    background:rgba(212,181,173,0.14);
-    border-color:rgba(212,181,173,0.35);
-    color:rgba(255,248,244,0.95);
-  }
-  #verseFullscreenOverlay .verse-fs-quiet-nav{
-    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 8px;
-    padding:0 6px 2px;
-  }
-  #verseFullscreenOverlay .verse-fs-quiet-nav__btn{
-    border:none;background:transparent;padding:8px 8px;margin:0;
-    font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:400;
-    letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,244,238,0.38);
-    cursor:pointer;-webkit-tap-highlight-color:transparent;
-    transition:color 0.2s ease;
-  }
-  #verseFullscreenOverlay .verse-fs-quiet-nav__btn:active{color:rgba(255,244,238,0.58)}
-  #verseFullscreenOverlay .verse-fs-quiet-nav__sep{
-    font-size:9px;color:rgba(255,244,238,0.2);user-select:none;line-height:1;
-  }
   .verse-fs-share-capture.share-screen::before, .grounded-share-capture.share-screen::before{
     content:'';
     position:absolute;
@@ -993,9 +1033,13 @@
     background:linear-gradient(185deg,rgba(18,12,10,0.32) 0%,transparent 32%,transparent 48%,rgba(22,14,12,0.42) 72%,rgba(12,8,6,0.72) 100%);
     opacity:1;
   }
-  /* Verse card: lighter top so the scene reads; stronger shelf for footer type */
+  /* Verse fullscreen: airy luminous scrim — keep lake/light detail visible (no crushed lower third) */
   #verseFsShareCapture.share-screen.share-screen--atmospheric::after{
-    background:linear-gradient(185deg,rgba(16,12,10,0.2) 0%,rgba(18,12,10,0.06) 20%,transparent 36%,transparent 50%,rgba(22,14,12,0.38) 68%,rgba(8,6,5,0.84) 100%);
+    background:
+      linear-gradient(180deg,rgba(255,248,244,0.14) 0%,transparent 22%),
+      linear-gradient(185deg,transparent 0%,transparent 42%,rgba(255,232,224,0.12) 68%,rgba(255,220,210,0.22) 88%,rgba(248,228,220,0.28) 100%),
+      radial-gradient(120% 85% at 50% 108%,rgba(255,214,206,0.35) 0%,transparent 52%);
+    opacity:1;
   }
   /* Truths export: keep readable frosted inner card */
   .grounded-share-capture.share-screen.share-screen--atmospheric .share-card{
@@ -1005,27 +1049,40 @@
     -webkit-backdrop-filter:blur(12px);
     box-shadow:0 24px 56px rgba(0,0,0,0.14),inset 0 1px 0 rgba(255,255,255,0.72);
   }
-  /* Verse fullscreen: editorial plate — typography on photography (reference look) */
+  /* Verse fullscreen: editorial plate — soft champagne wash, photography stays luminous */
   #verseFsShareCapture.share-screen.share-screen--atmospheric{
     padding:3px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,0.22);
-    box-shadow:0 28px 80px rgba(0,0,0,0.35),inset 0 0 0 1px rgba(255,255,255,0.08);
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,0.38);
+    background:linear-gradient(165deg,#faf6f3 0%,#f2e4e0 55%,#ebe0dc 100%);
+    box-shadow:
+      0 28px 80px rgba(72,44,58,0.14),
+      inset 0 0 0 1px rgba(255,255,255,0.55),
+      inset 0 0 90px rgba(255,236,228,0.22);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric::before{
-    filter:saturate(0.96) contrast(0.98) brightness(1.02);
+    filter:saturate(1.06) contrast(0.96) brightness(1.05);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card{
-    background:linear-gradient(180deg,rgba(255,252,249,0.42) 0%,rgba(255,248,244,0.14) 36%,rgba(255,252,249,0.06) 52%,rgba(24,16,12,0.5) 100%);
-    border:1px solid rgba(255,255,255,0.28);
-    backdrop-filter:blur(2px);
-    -webkit-backdrop-filter:blur(2px);
-    box-shadow:inset 0 0 60px rgba(255,252,249,0.06),0 8px 32px rgba(0,0,0,0.06);
-    justify-content:space-between;
+    background:linear-gradient(
+      180deg,
+      rgba(255,252,249,0.18) 0%,
+      rgba(255,248,244,0.08) 38%,
+      rgba(255,242,236,0.06) 58%,
+      rgba(255,236,228,0.14) 82%,
+      rgba(255,228,218,0.2) 100%
+    );
+    border:1px solid rgba(255,255,255,0.42);
+    backdrop-filter:blur(1.5px);
+    -webkit-backdrop-filter:blur(1.5px);
+    box-shadow:inset 0 0 70px rgba(255,252,249,0.12),0 6px 28px rgba(90,58,68,0.04);
+    justify-content:center;
+    position:relative;
+    padding-bottom:clamp(92px,16vh,142px);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card__glow{opacity:0}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title__dot{display:none}
-  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title{margin-top:clamp(4px,1.5vh,12px)}
+  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title{margin-top:0}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title__label{
     color:rgba(48,38,34,0.88);
     text-shadow:0 1px 14px rgba(255,252,249,0.55);
@@ -1070,13 +1127,20 @@
     box-shadow:none;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-reference{
+    font-size:clamp(10px,2.4vw,11.5px);
+    letter-spacing:0.26em;
     color:rgba(48,38,34,0.82);
     text-shadow:0 0 14px rgba(255,252,249,0.45);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-footer{
-    margin-top:auto;
-    padding-top:clamp(18px,4vh,28px);
+    position:absolute;
+    left:clamp(16px,4vw,32px);
+    right:clamp(16px,4vw,32px);
+    bottom:clamp(12px,2.4vh,22px);
+    margin-top:0;
+    padding-top:0;
     gap:8px;
+    text-align:center;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave{opacity:0.45}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__svg{color:rgba(255,248,244,0.35)}
@@ -1100,6 +1164,207 @@
     font-size:11px;
     opacity:0.92;
   }
+  /* Fullscreen verse only: quieter kicker row, diamond ornament, luxe serif body (non-editorial verses) */
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-icon-wrap{display:none}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title__meta{justify-content:center;gap:0}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-divider--heart::after{
+    content:'\25c6';
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-size:8px;
+    font-weight:500;
+    color:rgba(176,124,118,0.78);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card:not(.editorial-verse-card) .share-main{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-style:normal;
+    font-weight:500;
+    letter-spacing:0.018em;
+    line-height:1.54;
+    font-size:clamp(26px,6.15vw,40px);
+    font-feature-settings:'kern' 1,'liga' 1;
+    color:rgba(56,38,42,0.94);
+    text-shadow:0 0 34px rgba(255,244,236,0.92),0 1px 2px rgba(255,248,244,0.72);
+    -webkit-font-smoothing:antialiased;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card:not(.editorial-verse-card) .share-main .verse-fs-text.share-verse,
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card:not(.editorial-verse-card) .share-verse{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-style:normal;
+    font-weight:500;
+    letter-spacing:0.018em;
+    line-height:1.58;
+    font-size:1.15em;
+    font-feature-settings:'kern' 1,'liga' 1;
+    color:rgba(56,38,42,0.94);
+    text-shadow:0 0 34px rgba(255,244,236,0.92),0 1px 2px rgba(255,248,244,0.72);
+    text-wrap:pretty;
+    -webkit-font-smoothing:antialiased;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-sub-lead{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(12.5px,3.2vw,15.5px);
+    color:rgba(124,68,78,0.92);
+    letter-spacing:0.016em;
+    line-height:1.56;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric{
+    border-radius:28px;
+    box-shadow:
+      0 32px 90px rgba(90,52,68,0.1),
+      inset 0 0 0 1px rgba(255,255,255,0.48),
+      inset 0 0 120px rgba(255,232,220,0.2);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title{margin-bottom:clamp(12px,3vw,22px)}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-divider--heart{margin:clamp(10px,2.2vw,18px) auto}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-title__label{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-size:8.5px;
+    font-weight:400;
+    letter-spacing:0.3em;
+    color:rgba(92,62,58,0.82);
+    text-shadow:0 0 20px rgba(255,244,236,0.95),0 1px 2px rgba(255,255,255,0.55);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-ref-pill{
+    background:rgba(255,238,228,0.4);
+    border:1px solid rgba(255,220,206,0.58);
+    box-shadow:0 2px 14px rgba(140,88,92,0.07);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-reference{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-weight:500;
+    font-size:clamp(10.5px,2.65vw,13px);
+    letter-spacing:0.26em;
+    font-variant:all-small-caps;
+    color:rgba(72,48,52,0.88);
+    text-shadow:0 0 18px rgba(255,244,236,0.88);
+    line-height:1.4;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-footer{
+    padding-top:0;
+    gap:4px;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave{opacity:0.14}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__svg{color:rgba(180,120,128,0.35)}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__dot{background:rgba(200,140,148,0.28)}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-size:clamp(12px,3vw,16px);
+    color:rgba(72,48,50,0.88);
+    text-shadow:0 0 26px rgba(255,238,228,0.92),0 1px 0 rgba(255,255,255,0.48);
+    letter-spacing:0.16em;
+    font-weight:500;
+    opacity:1;
+    margin-top:3px;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-tagline{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-size:6.5px;
+    font-weight:400;
+    letter-spacing:0.26em;
+    color:rgba(118,82,88,0.55);
+    text-shadow:0 0 14px rgba(255,244,236,0.78);
+    opacity:1;
+    margin-top:2px;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-closing{display:none!important}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .share-main .share-verse,
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .share-main .verse-fs-text.share-verse{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif!important;
+    font-style:normal;
+    font-weight:500;
+    letter-spacing:0.02em;
+    line-height:1.34;
+    font-feature-settings:'kern' 1,'liga' 1;
+    text-wrap:pretty;
+    -webkit-font-smoothing:antialiased;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-line + .editorial-line{margin-top:0.16em}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-small{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-weight:400;
+    font-size:0.38em;
+    letter-spacing:0.2em;
+    opacity:0.86;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-large{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-weight:500;
+    font-style:normal;
+    color:rgba(58,40,44,0.94);
+    text-shadow:0 0 36px rgba(255,238,228,0.82),0 1px 2px rgba(255,248,244,0.52);
+    line-height:1.4;
+    letter-spacing:0.02em;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-medium{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-weight:500;
+    font-style:italic;
+    color:rgba(72,48,52,0.9);
+    text-shadow:0 0 26px rgba(255,244,236,0.75);
+    letter-spacing:0.018em;
+    line-height:1.36;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-giant-rose{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:0.02em;
+    line-height:1.14;
+    font-size:1.72em;
+    color:rgba(184,98,92,0.93);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-script{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif!important;
+    font-style:italic;
+    font-weight:400;
+    font-size:1.38em;
+    line-height:1.24;
+    letter-spacing:0.05em;
+    color:rgba(168,88,96,0.93);
+    padding:0.04em 0 0.12em;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-script.editorial-scale--statement{
+    font-size:1.52em;
+    line-height:1.18;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .editorial-rose-italic{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:0.9em;
+    letter-spacing:0.024em;
+    line-height:1.42;
+    color:rgba(154,78,90,0.93);
+    text-shadow:0 0 24px rgba(255,228,218,0.62);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-verse .share-verse-em,
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-main .verse-fs-text .share-verse-em{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:0.028em;
+    color:rgba(138,72,82,0.94);
+    text-shadow:0 0 22px rgba(255,236,228,0.68);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-verse .share-verse-script,
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-main .verse-fs-text .share-verse-script{
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif!important;
+    font-style:italic;
+    font-weight:400;
+    font-size:1.12em;
+    line-height:1.38;
+    letter-spacing:0.04em;
+    color:rgba(148,78,90,0.93);
+    padding:0 0.03em 0.05em;
+    text-shadow:0 0 20px rgba(255,236,228,0.62);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.editorial-verse-card{
+    padding:clamp(20px,5vh,44px) clamp(22px,5vw,36px) clamp(92px,16vh,140px);
+  }
   /* Signature premium editorial — photography carries the emotion; type lives in-scene (not a UI card) */
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial{
     padding:0;
@@ -1111,7 +1376,9 @@
     filter:saturate(1.02) contrast(0.95) brightness(1.06);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial::after{
-    background:linear-gradient(185deg,rgba(12,9,8,0.12) 0%,rgba(14,10,9,0.04) 18%,transparent 34%,transparent 52%,rgba(20,14,12,0.22) 70%,rgba(5,4,3,0.9) 100%);
+    background:
+      linear-gradient(180deg,rgba(255,248,244,0.1) 0%,transparent 24%),
+      linear-gradient(185deg,transparent 0%,transparent 50%,rgba(255,224,214,0.14) 78%,rgba(255,214,204,0.22) 100%);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial .share-card{
     background:transparent;
@@ -1122,8 +1389,9 @@
     border-radius:0;
     max-width:100%;
     width:100%;
-    padding:clamp(8vh,11%,96px) clamp(16px,5.5vw,32px) clamp(5.5vh,7.5%,64px);
-    justify-content:space-between;
+    padding:clamp(6vh,10%,80px) clamp(16px,5.5vw,32px) clamp(92px,16vh,140px);
+    justify-content:center;
+    position:relative;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial .share-title{
     margin-top:clamp(2px,1vh,10px);
@@ -1160,9 +1428,9 @@
     box-shadow:none;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial .share-reference{
-    font-size:9.5px;
-    letter-spacing:0.34em;
-    opacity:0.88;
+    font-size:clamp(10px,2.5vw,12px);
+    letter-spacing:0.28em;
+    opacity:0.9;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric.share-screen--premium-editorial .share-footer{
     padding-top:clamp(22px,5vh,36px);
@@ -1481,7 +1749,7 @@
   .grounded-share-capture .share-card .verse-fs-ref.share-reference{
     margin:0;
     font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:10.5px;
+    font-size:11px;
     font-weight:500;
     letter-spacing:0.2em;
     text-transform:uppercase;
@@ -1609,17 +1877,12 @@
   .verse-fs-share-capture .share-closing[hidden], .grounded-share-capture .share-closing[hidden]{display:none!important}
   .verse-fs-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(22px,5.2vw,32px);line-height:1.58;color:var(--text);letter-spacing:0.02em;margin:0}
   .verse-fs-ref{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.4px;color:var(--accent-strong);margin:32px 0 0;opacity:0.92}
-  .verse-fs-toast{position:fixed;left:50%;bottom:112px;transform:translateX(-50%) translateY(8px);background:rgba(50,38,32,0.9);color:#fffaf2;font-size:11px;font-weight:500;letter-spacing:0.4px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease;z-index:2600;max-width:90vw}
+  .verse-fs-toast{position:fixed;left:50%;bottom:calc(118px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(8px);background:rgba(50,38,32,0.9);color:#fffaf2;font-size:11px;font-weight:500;letter-spacing:0.4px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease;z-index:2600;max-width:90vw}
   .verse-fs-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .verse-fs-actions:not(.verse-fs-actions--premium){display:flex;gap:10px;justify-content:center;align-items:stretch;padding:14px 18px 20px;padding-bottom:max(18px,env(safe-area-inset-bottom));border-top:1px solid rgba(234,208,204,0.35);background:rgba(255,252,249,0.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
   .verse-fs-actions:not(.verse-fs-actions--premium) button{flex:1;max-width:112px;padding:13px 8px;border-radius:16px;background:var(--primary);border:1px solid rgba(234,208,204,0.4);font-size:12px;font-weight:500;color:var(--text);transition:background 0.2s ease,transform 0.2s ease;-webkit-tap-highlight-color:transparent}
   .verse-fs-actions:not(.verse-fs-actions--premium) button:active{transform:scale(0.97);background:var(--secondary)}
   .verse-fs-actions:not(.verse-fs-actions--premium) button.is-saved{background:rgba(212,181,173,0.22);border-color:rgba(212,181,173,0.45)}
-  #verseFullscreenOverlay .verse-fs-template-strip{
-    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 6px;
-    padding:2px 8px 0;max-width:min(96vw,640px);margin:0 auto;box-sizing:border-box;
-    opacity:0.72;
-  }
   #verseFullscreenOverlay .verse-fs-template-strip__label--sr{
     position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
   }
@@ -1652,7 +1915,7 @@
   }
   .verse-fs-share-sheet{
     position:fixed;left:50%;transform:translateX(-50%);
-    bottom:calc(48px + env(safe-area-inset-bottom,0px));z-index:2520;width:min(100% - 28px,300px);
+    bottom:calc(102px + env(safe-area-inset-bottom,0px));z-index:2520;width:min(100% - 28px,300px);
     background:linear-gradient(180deg,#fffdfb 0%,#faf4ee 100%);
     border:1px solid rgba(234,208,204,0.55);border-radius:18px 18px 14px 14px;
     box-shadow:0 -8px 32px rgba(90,74,66,0.1),0 4px 20px rgba(90,74,66,0.06);
@@ -7197,33 +7460,54 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   <!-- ─── VERSE FULLSCREEN (share) ─── -->
   <div class="verse-fs-overlay" id="verseFullscreenOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="verseFsRef">
     <div class="verse-fs-inner">
-      <button class="verse-fs-back" id="verseFsBack" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>Back</span>
-      </button>
-      <div class="verse-fs-stage">
-        <div class="verse-fs-share-capture share-screen" id="verseFsShareCapture"></div>
-        <div class="verse-fs-template-strip" id="verseFsTemplateStrip" role="tablist" aria-label="Backdrop">
-          <p class="verse-fs-template-strip__label verse-fs-template-strip__label--sr" id="verseFsTemplateStripLabel">Backdrop</p>
-          <button type="button" class="verse-fs-tpl-pill" data-share-tpl="0" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-1.png)" aria-label="Backdrop 1"></button>
-          <button type="button" class="verse-fs-tpl-pill" data-share-tpl="1" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-2.png)" aria-label="Backdrop 2"></button>
-          <button type="button" class="verse-fs-tpl-pill" data-share-tpl="2" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-3.png)" aria-label="Backdrop 3"></button>
-          <button type="button" class="verse-fs-tpl-pill" data-share-tpl="3" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-4.png)" aria-label="Backdrop 4"></button>
-        </div>
+      <div class="verse-fs-more-backdrop" id="verseFsMoreBackdrop" hidden aria-hidden="true"></div>
+      <div class="verse-fs-overlay-chrome">
+        <header class="verse-fs-overlay-top">
+          <button type="button" class="verse-fs-icon-btn verse-fs-icon-btn--ghost" id="verseFsMenu" aria-label="More options" aria-expanded="false" aria-controls="verseFsMorePanel" aria-haspopup="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="17" x2="19" y2="17"/></svg>
+          </button>
+          <button type="button" class="verse-fs-icon-btn verse-fs-icon-btn--ghost" id="verseFsClose" aria-label="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>
+          </button>
+        </header>
       </div>
-      <footer class="verse-fs-chrome">
-        <div class="verse-fs-actions verse-fs-actions--premium">
-          <button type="button" id="verseFsSave">Save</button>
-          <button type="button" id="verseFsShare" aria-haspopup="dialog" aria-expanded="false" aria-controls="verseFsShareSheet">Share</button>
+      <div class="verse-fs-experience">
+        <div class="verse-fs-stage">
+          <div class="verse-fs-share-capture share-screen" id="verseFsShareCapture"></div>
         </div>
-        <nav class="verse-fs-quiet-nav" aria-label="More with this verse">
-          <button type="button" class="verse-fs-quiet-nav__btn" id="verseFsStudy">Study</button>
-          <span class="verse-fs-quiet-nav__sep" aria-hidden="true">·</span>
-          <button type="button" class="verse-fs-quiet-nav__btn" id="verseFsReflect">Reflect</button>
-          <span class="verse-fs-quiet-nav__sep" aria-hidden="true">·</span>
-          <button type="button" class="verse-fs-quiet-nav__btn" id="verseFsCopy">Copy</button>
-        </nav>
-      </footer>
+        <aside class="verse-fs-dock" aria-label="Backdrop">
+          <div class="verse-fs-template-strip verse-fs-template-strip--vertical" id="verseFsTemplateStrip" role="tablist">
+            <p class="verse-fs-template-strip__label verse-fs-template-strip__label--sr" id="verseFsTemplateStripLabel">Backdrop</p>
+            <button type="button" class="verse-fs-tpl-pill" data-share-tpl="0" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-1.png)" aria-label="Backdrop 1"></button>
+            <button type="button" class="verse-fs-tpl-pill" data-share-tpl="1" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-2.png)" aria-label="Backdrop 2"></button>
+            <button type="button" class="verse-fs-tpl-pill" data-share-tpl="2" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-3.png)" aria-label="Backdrop 3"></button>
+            <button type="button" class="verse-fs-tpl-pill" data-share-tpl="3" role="tab" aria-selected="false" style="background-image:url(assets/images/share-card-bg-4.png)" aria-label="Backdrop 4"></button>
+          </div>
+        </aside>
+      </div>
+      <div class="verse-fs-more-panel" id="verseFsMorePanel" hidden role="menu" aria-label="Verse options">
+        <button type="button" class="verse-fs-more-panel__btn" id="verseFsStudy" role="menuitem">Study</button>
+        <button type="button" class="verse-fs-more-panel__btn" id="verseFsReflect" role="menuitem">Reflect</button>
+        <button type="button" class="verse-fs-more-panel__btn" id="verseFsCopy" role="menuitem">Copy verse</button>
+      </div>
+      <nav class="verse-fs-fab-dock" id="verseFsFabDock" aria-label="Verse actions">
+        <div class="verse-fs-fab-pill">
+          <button type="button" class="verse-fs-fab-btn" id="verseFsSave">
+            <span class="verse-fs-fab-btn__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65"><path d="M6 4h12v16l-6-4-6 4V4z"/></svg></span>
+            <span class="verse-fs-fab-btn__lbl">Save</span>
+          </button>
+          <span class="verse-fs-fab-sep" aria-hidden="true"></span>
+          <button type="button" class="verse-fs-fab-btn" id="verseFsShare" aria-haspopup="dialog" aria-expanded="false" aria-controls="verseFsShareSheet">
+            <span class="verse-fs-fab-btn__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M8 8l4-4 4 4"/><rect x="5" y="14" width="14" height="7" rx="1.6"/></svg></span>
+            <span class="verse-fs-fab-btn__lbl">Share</span>
+          </button>
+          <span class="verse-fs-fab-sep" aria-hidden="true"></span>
+          <button type="button" class="verse-fs-fab-btn" id="verseFsMoreFab" aria-label="More" aria-expanded="false" aria-controls="verseFsMorePanel" aria-haspopup="true">
+            <span class="verse-fs-fab-btn__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/></svg></span>
+            <span class="verse-fs-fab-btn__lbl">More</span>
+          </button>
+        </div>
+      </nav>
     </div>
     <div class="verse-fs-share-backdrop" id="verseFsShareBackdrop" hidden aria-hidden="true"></div>
     <div class="verse-fs-share-sheet" id="verseFsShareSheet" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="verseFsShareSheetTitle">
@@ -17934,6 +18218,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   }
 
   function verseFsOpenShareSheet() {
+    verseFsCloseMorePanel();
     const sheet = document.getElementById('verseFsShareSheet');
     const bd = document.getElementById('verseFsShareBackdrop');
     if (!sheet || !bd) return;
@@ -17953,6 +18238,46 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   function verseFsToggleShareSheet() {
     if (verseFsIsShareSheetOpen()) verseFsCloseShareSheet();
     else verseFsOpenShareSheet();
+  }
+
+  function verseFsCloseMorePanel() {
+    const p = document.getElementById('verseFsMorePanel');
+    const bd = document.getElementById('verseFsMoreBackdrop');
+    const menu = document.getElementById('verseFsMenu');
+    const mf = document.getElementById('verseFsMoreFab');
+    if (p) {
+      p.setAttribute('hidden', '');
+      p.setAttribute('aria-hidden', 'true');
+    }
+    if (bd) {
+      bd.setAttribute('hidden', '');
+      bd.setAttribute('aria-hidden', 'true');
+    }
+    if (menu) menu.setAttribute('aria-expanded', 'false');
+    if (mf) mf.setAttribute('aria-expanded', 'false');
+  }
+
+  function verseFsOpenMorePanel() {
+    if (verseFsIsShareSheetOpen()) verseFsCloseShareSheet();
+    const p = document.getElementById('verseFsMorePanel');
+    const bd = document.getElementById('verseFsMoreBackdrop');
+    if (!p) return;
+    if (bd) {
+      bd.removeAttribute('hidden');
+      bd.setAttribute('aria-hidden', 'false');
+    }
+    p.removeAttribute('hidden');
+    p.setAttribute('aria-hidden', 'false');
+    const menu = document.getElementById('verseFsMenu');
+    const mf = document.getElementById('verseFsMoreFab');
+    if (menu) menu.setAttribute('aria-expanded', 'true');
+    if (mf) mf.setAttribute('aria-expanded', 'true');
+  }
+
+  function verseFsToggleMorePanel() {
+    const p = document.getElementById('verseFsMorePanel');
+    if (p && !p.hasAttribute('hidden')) verseFsCloseMorePanel();
+    else verseFsOpenMorePanel();
   }
 
   function verseFsShareTextFallback() {
@@ -18065,7 +18390,8 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
           { text: 'Peace I leave', class: 'editorial-large' },
           { text: 'with you;', class: 'editorial-large' },
           { text: 'my peace I give you.', class: 'editorial-large' },
-          { text: 'Do not let your hearts be troubled', class: 'editorial-medium' },
+          { text: 'Do not let your', class: 'editorial-rose-italic' },
+          { text: 'hearts be troubled', class: 'editorial-rose-italic' },
           { text: 'and do not be afraid.', class: 'editorial-rose-italic' }
         ]
       },
@@ -18796,6 +19122,52 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     window.groundedShareCaptureElementToPng = groundedShareCaptureElementToPng;
   } catch (eGlobShare) {}
 
+  /**
+   * Softer verse line rhythm: strong pauses at semicolons; comma breaks only when the line is long,
+   * grouping short clauses so copy reads conversational — not runway "every comma is a runway".
+   * @param {string} s normalized single-line verse (no <br> yet)
+   * @returns {string} plain text with <br> markers only (escape after splitting)
+   */
+  function shareCardVerseBreakPlain(s) {
+    if (!s) return '';
+    var work = s.replace(/;\s+/g, ';<br>');
+    var pieces = work.split('<br>');
+    var out = [];
+    for (var pi = 0; pi < pieces.length; pi++) {
+      var part = String(pieces[pi] || '').replace(/^\s+|\s+$/g, '');
+      if (!part) continue;
+      if (part.length < 96) {
+        out.push(part);
+        continue;
+      }
+      var segs = part.split(/,\s+/);
+      if (segs.length < 3) {
+        out.push(part);
+        continue;
+      }
+      var maxRun = 52;
+      var minLine = 22;
+      var lines = [];
+      var line = segs[0];
+      for (var i = 1; i < segs.length; i++) {
+        var cand = line + ', ' + segs[i];
+        if (cand.length > maxRun && line.length >= minLine) {
+          lines.push(line);
+          line = segs[i];
+        } else {
+          line = cand;
+        }
+      }
+      lines.push(line);
+      out.push(lines.join(',<br>'));
+    }
+    work = out.join('<br>');
+    if (work.length > 112) {
+      work = work.replace(/\s+and\s+/i, '<br>and ');
+    }
+    return work;
+  }
+
   /** One serif block: escapes, verse-style breaks, rose phrase highlights (no newline split). */
   function shareCardFormatMainHtmlSegment(raw, highlightWords, scriptWord) {
     var s = String(raw == null ? '' : raw)
@@ -18803,14 +19175,13 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       .replace(/^[\u201c\u201d\u2018\u2019'"']+|[\u201c\u201d\u2018\u2019'"']+$/g, '');
     s = s.replace(/\s+/g, ' ');
     if (!s) return '';
-    var html = shareCardEsc(s);
-    if (s.length > 72) {
-      html = html.replace(/;\s+/g, ';<br>');
-      html = html.replace(/,\s+/g, ',<br>');
-    }
-    if (s.length > 110) {
-      html = html.replace(/\s+and\s+/gi, '<br>and ');
-    }
+    var bridged = shareCardVerseBreakPlain(s);
+    var html = bridged
+      .split('<br>')
+      .map(function (chunk) {
+        return shareCardEsc(String(chunk || '').trim());
+      })
+      .join('<br>');
     var phrases = SHARE_CARD_DEFAULT_PHRASES.slice();
     if (highlightWords && highlightWords.length) {
       highlightWords.forEach(function (w) {
@@ -19534,11 +19905,14 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     if (!btn || !verseFsState) return;
     const t = verseBodyText(verseFsState).trim();
     const r = (verseFsState.ref || '').trim();
+    const lbl = btn.querySelector('.verse-fs-fab-btn__lbl');
     if (isVerseFavorite(r, t)) {
-      btn.textContent = 'Saved';
+      if (lbl) lbl.textContent = 'Saved';
+      else btn.textContent = 'Saved';
       btn.classList.add('is-saved');
     } else {
-      btn.textContent = 'Save';
+      if (lbl) lbl.textContent = 'Save';
+      else btn.textContent = 'Save';
       btn.classList.remove('is-saved');
     }
   }
@@ -19549,6 +19923,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const cap = document.getElementById('verseFsShareCapture');
     if (!overlay || !cap) return;
     verseFsCloseShareSheet();
+    if (typeof verseFsCloseMorePanel === 'function') verseFsCloseMorePanel();
     verseFsState = v;
     const t = verseBodyText(v).trim();
     const r = (v.ref || '').trim();
@@ -19599,6 +19974,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     const overlay = document.getElementById('verseFullscreenOverlay');
     if (!overlay) return;
     verseFsCloseShareSheet();
+    if (typeof verseFsCloseMorePanel === 'function') verseFsCloseMorePanel();
     overlay.classList.remove('open');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('verse-fs-open');
@@ -19684,7 +20060,10 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
 
   (function initVerseFullscreen(){
     const overlay = document.getElementById('verseFullscreenOverlay');
-    const backBtn = document.getElementById('verseFsBack');
+    const closeBtn = document.getElementById('verseFsClose');
+    const menuBtn = document.getElementById('verseFsMenu');
+    const moreFab = document.getElementById('verseFsMoreFab');
+    const moreBd = document.getElementById('verseFsMoreBackdrop');
     const saveBtn = document.getElementById('verseFsSave');
     const shareBtn = document.getElementById('verseFsShare');
     const copyBtn = document.getElementById('verseFsCopy');
@@ -19695,17 +20074,22 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     if (studyFs) {
       studyFs.addEventListener('click', (e) => {
         e.stopPropagation();
+        verseFsCloseMorePanel();
         openVerseStudyFromFullscreen();
       });
     }
     if (reflFs) {
       reflFs.addEventListener('click', (e) => {
         e.stopPropagation();
+        verseFsCloseMorePanel();
         openVerseReflectFromFullscreen();
       });
     }
 
-    if (backBtn) backBtn.addEventListener('click', (e) => { e.stopPropagation(); closeVerseFullscreen(); });
+    if (closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeVerseFullscreen(); });
+    if (menuBtn) menuBtn.addEventListener('click', (e) => { e.stopPropagation(); verseFsToggleMorePanel(); });
+    if (moreFab) moreFab.addEventListener('click', (e) => { e.stopPropagation(); verseFsToggleMorePanel(); });
+    if (moreBd) moreBd.addEventListener('click', (e) => { e.stopPropagation(); verseFsCloseMorePanel(); });
     if (saveBtn) saveBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!verseFsState) return;
@@ -19760,7 +20144,11 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       shareSheet.addEventListener('click', (e) => e.stopPropagation());
     }
 
-    if (copyBtn) copyBtn.addEventListener('click', (e) => { e.stopPropagation(); verseFsCopyExec(); });
+    if (copyBtn) copyBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      verseFsCopyExec();
+      verseFsCloseMorePanel();
+    });
 
     const tplStrip = document.getElementById('verseFsTemplateStrip');
     if (tplStrip) {
@@ -19788,6 +20176,11 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
         verseFsCloseShareSheet();
         return;
       }
+      const mp = document.getElementById('verseFsMorePanel');
+      if (mp && !mp.hasAttribute('hidden')) {
+        verseFsCloseMorePanel();
+        return;
+      }
       closeVerseFullscreen();
     });
 
@@ -19796,7 +20189,10 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
     overlay.addEventListener('touchstart', (e) => {
       if (!overlay.classList.contains('open')) return;
       if (
-        e.target.closest('.verse-fs-chrome') ||
+        e.target.closest('#verseFsFabDock') ||
+        e.target.closest('.verse-fs-overlay-chrome') ||
+        e.target.closest('#verseFsMorePanel') ||
+        e.target.closest('#verseFsMoreBackdrop') ||
         e.target.closest('#verseFsTemplateStrip') ||
         e.target.closest('#verseFsShareSheet') ||
         e.target.closest('#verseFsShareBackdrop')
