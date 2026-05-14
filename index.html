@@ -1147,7 +1147,7 @@
     bottom:clamp(12px,2.4vh,22px);
     margin-top:0;
     padding-top:0;
-    gap:8px;
+    gap:clamp(7px,1.2vh,12px);
     text-align:center;
     display:flex;
     flex-direction:column;
@@ -1158,25 +1158,38 @@
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__svg{color:rgba(255,248,244,0.35)}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__dot{background:rgba(255,236,228,0.35)}
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand{
-    color:#faf6f2;
-    text-shadow:0 2px 18px rgba(0,0,0,0.35);
+    color:rgba(54,36,40,0.94);
+    text-shadow:
+      0 0 22px rgba(255,244,236,0.96),
+      0 0 40px rgba(255,248,244,0.52),
+      0 1px 0 rgba(255,255,255,0.52),
+      0 1px 5px rgba(42,28,26,0.1);
     font-size:clamp(17px,4.1vw,22px);
-    letter-spacing:0.12em;
+    letter-spacing:0.13em;
     font-weight:500;
-    opacity:0.92;
+    opacity:1;
     text-align:center;
     width:100%;
     box-sizing:border-box;
+    margin-bottom:clamp(5px,1vh,10px);
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-tagline{
-    color:rgba(250,246,242,0.44);
-    text-shadow:0 1px 10px rgba(0,0,0,0.25);
-    opacity:0.88;
+    font-size:clamp(6.5px,1.55vw,8px);
+    font-weight:400;
+    letter-spacing:0.17em;
+    line-height:1.55;
+    color:rgba(82,54,60,0.84);
+    text-shadow:
+      0 0 12px rgba(255,244,236,0.9),
+      0 0 22px rgba(255,248,244,0.42),
+      0 1px 2px rgba(40,26,28,0.08);
+    opacity:0.97;
     text-align:center;
     width:100%;
     max-width:22rem;
-    margin-left:auto;
-    margin-right:auto;
+    margin:0 auto;
+    padding:0 10px;
+    box-sizing:border-box;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-closing{
     color:rgba(250,244,238,0.78);
@@ -1267,8 +1280,8 @@
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-footer{
     padding-top:0;
-    gap:4px;
-    bottom:clamp(16px,3vh,26px);
+    gap:clamp(7px,1.25vh,12px);
+    bottom:clamp(20px,3.5vh,32px);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -1276,7 +1289,7 @@
     justify-content:flex-end;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave{
-    opacity:0.2;
+    opacity:0.24;
     margin-left:auto;
     margin-right:auto;
   }
@@ -1284,35 +1297,40 @@
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__dot{background:rgba(190,128,132,0.34)}
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand{
     font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
-    font-size:clamp(14px,3.35vw,18px);
-    color:rgba(58,40,44,0.93);
+    font-size:clamp(14.5px,3.42vw,18.5px);
+    color:rgba(54,36,40,0.94);
     text-shadow:
-      0 0 22px rgba(255,244,236,0.98),
-      0 0 40px rgba(255,248,244,0.55),
-      0 1px 0 rgba(255,255,255,0.55),
-      0 1px 4px rgba(48,32,30,0.1);
-    letter-spacing:0.16em;
+      0 0 24px rgba(255,244,236,0.99),
+      0 0 44px rgba(255,248,244,0.58),
+      0 1px 0 rgba(255,255,255,0.58),
+      0 1px 5px rgba(42,28,26,0.11);
+    letter-spacing:0.13em;
     font-weight:500;
     opacity:1;
-    margin-top:3px;
+    margin-top:2px;
+    margin-bottom:clamp(5px,1vh,10px);
     text-align:center;
     width:100%;
     box-sizing:border-box;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-tagline{
     font-family:'Inter',system-ui,-apple-system,sans-serif;
-    font-size:7px;
+    font-size:clamp(6.5px,1.55vw,8px);
     font-weight:400;
-    letter-spacing:0.26em;
-    color:rgba(96,66,74,0.62);
-    text-shadow:0 0 16px rgba(255,244,236,0.88),0 1px 3px rgba(48,32,30,0.07);
-    opacity:1;
-    margin-top:2px;
+    letter-spacing:0.17em;
+    line-height:1.55;
+    color:rgba(82,54,60,0.84);
+    text-shadow:
+      0 0 12px rgba(255,244,236,0.9),
+      0 0 22px rgba(255,248,244,0.42),
+      0 1px 2px rgba(40,26,28,0.08);
+    opacity:0.97;
+    margin:0 auto;
+    padding:0 10px;
     text-align:center;
     width:100%;
     max-width:22rem;
-    margin-left:auto;
-    margin-right:auto;
+    box-sizing:border-box;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-closing{display:none!important}
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .editorial-verse-card .share-main .share-verse,
@@ -1443,8 +1461,8 @@
     padding:9px 18px 8px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-footer{
-    bottom:clamp(18px,3.4vh,30px);
-    gap:6px;
+    bottom:clamp(20px,3.6vh,32px);
+    gap:clamp(7px,1.2vh,11px);
     padding-top:2px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-brand{
@@ -20040,6 +20058,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       reference: r,
       icon: 'cross',
       scriptWord: sw,
+      footerTagline: 'Faith \u2022 Reflection \u2022 Reset',
       footerClosing: 'Be still. \u00b7 Be led. \u00b7 Be grounded.',
       domIds: VERSE_FS_SHARE_DOM_IDS
     });
