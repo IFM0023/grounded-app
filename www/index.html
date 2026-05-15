@@ -1279,14 +1279,25 @@
     text-shadow:0 0 18px rgba(255,244,236,0.88);
     line-height:1.4;
   }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card{
+    justify-content:flex-start;
+  }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-sub{
-    margin-bottom:clamp(14px,2.8vh,24px);
+    margin-bottom:clamp(10px,2vh,18px);
     gap:12px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-footer{
-    padding-top:0;
-    gap:clamp(5px,0.85vh,9px);
-    bottom:clamp(24px,3.85vh,36px);
+    position:relative;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    flex-shrink:0;
+    width:100%;
+    max-width:100%;
+    margin-top:auto;
+    margin-bottom:clamp(28px,5.5vh,52px);
+    padding-top:clamp(4px,0.8vh,10px);
+    gap:clamp(6px,1vh,10px);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -1294,42 +1305,64 @@
     justify-content:flex-end;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave{
-    opacity:0.24;
+    opacity:0.22;
     margin-left:auto;
     margin-right:auto;
-    margin-bottom:clamp(6px,1.05vh,11px);
+    margin-bottom:clamp(4px,0.75vh,9px);
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__svg{color:rgba(168,112,118,0.42)}
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-wave__dot{background:rgba(190,128,132,0.34)}
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand-flourish{
+    display:block;
+    width:min(240px,86%);
+    height:12px;
+    margin:clamp(2px,0.5vh,6px) auto clamp(6px,1vh,12px);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand-flourish::before{
+    content:'';
+    position:absolute;
+    left:5%;
+    right:5%;
+    top:50%;
+    height:1px;
+    margin-top:-0.5px;
+    background:linear-gradient(90deg,transparent,rgba(176,138,128,0.48),transparent);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand-flourish::after{
+    content:'\25c6';
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-52%);
+    font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
+    font-size:7px;
+    font-weight:500;
+    line-height:1;
+    color:rgba(120,82,76,0.72);
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.speak-card .share-brand-flourish{display:none!important}
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-brand{
     font-family:'Cormorant Garamond','Palatino Linotype',Palatino,Georgia,serif;
-    font-size:clamp(15.5px,3.55vw,19.5px);
-    color:rgba(54,36,40,0.94);
-    text-shadow:
-      0 0 24px rgba(255,244,236,0.99),
-      0 0 44px rgba(255,248,244,0.58),
-      0 1px 0 rgba(255,255,255,0.58),
-      0 1px 5px rgba(42,28,26,0.11);
-    letter-spacing:0.13em;
+    font-size:clamp(24px,6.5vw,32px);
+    color:rgba(56,38,42,0.94);
+    text-shadow:0 1px 2px rgba(255,252,249,0.22),0 0 18px rgba(255,244,236,0.22),0 1px 6px rgba(32,22,18,0.12);
+    letter-spacing:0.12em;
     font-weight:500;
     opacity:1;
     margin-top:0;
-    margin-bottom:clamp(1px,0.35vh,4px);
+    margin-bottom:clamp(2px,0.45vh,6px);
     text-align:center;
     width:100%;
     box-sizing:border-box;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-tagline{
     font-family:'Inter',system-ui,-apple-system,sans-serif;
-    font-size:clamp(7px,1.72vw,8.5px);
+    font-size:clamp(11px,2.9vw,12px);
     font-weight:400;
-    letter-spacing:0.17em;
+    letter-spacing:0.2em;
     line-height:1.45;
-    color:rgba(82,54,60,0.84);
-    text-shadow:
-      0 0 12px rgba(255,244,236,0.9),
-      0 0 22px rgba(255,248,244,0.42),
-      0 1px 2px rgba(40,26,28,0.08);
+    color:rgba(56,38,42,0.94);
+    text-shadow:0 1px 1px rgba(255,252,249,0.2),0 1px 5px rgba(32,22,18,0.1);
     opacity:1;
     margin:0 auto;
     padding:0 10px;
@@ -1467,8 +1500,9 @@
     padding:9px 18px 8px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-footer{
-    bottom:clamp(24px,3.9vh,34px);
-    gap:clamp(5px,0.85vh,9px);
+    margin-top:auto;
+    margin-bottom:clamp(26px,5.2vh,48px);
+    gap:clamp(6px,1vh,10px);
     padding-top:2px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-brand{
@@ -1926,6 +1960,17 @@
     height:14px;
     margin:4px 0 2px;
   }
+  /* Verse fullscreen branding flourish — hidden unless shown in overlay atmospheric (see below) */
+  .share-brand-flourish{
+    display:none;
+    box-sizing:border-box;
+    flex-shrink:0;
+    position:relative;
+    width:min(220px,78%);
+    height:11px;
+    margin:2px auto 0;
+  }
+  .share-card.speak-card .share-brand-flourish{display:none!important}
   .verse-fs-share-capture .share-wave__svg, .grounded-share-capture .share-wave__svg{
     display:block;
     width:100%;
@@ -19104,6 +19149,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       '<div class="share-wave" aria-hidden="true">' +
       '<svg class="share-wave__svg" viewBox="0 0 280 14" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7 C70 2, 210 12, 280 7"/></svg>' +
       '<span class="share-wave__dot"></span></div>' +
+      '<div class="share-brand-flourish" aria-hidden="true"></div>' +
       '<div class="share-brand" data-share="brand"' +
       shareDomIdAttr(d.brand) +
       '>' +
