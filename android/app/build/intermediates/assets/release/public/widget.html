@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#EADFD8">
+  <meta name="color-scheme" content="light">
+  <title>Today&rsquo;s verse &mdash; Grounded</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #fdf9f6 0%, #f7f1ec 45%, #f3ebe4 100%);
+      color: #3d342f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    }
+    .widget-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 22rem;
+      width: 100%;
+    }
+    .widget-verse {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.05rem, 3.8vw, 1.35rem);
+      font-weight: 400;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+      color: #3d342f;
+    }
+    .widget-verse:empty { display: none; }
+    .widget-ref {
+      margin-top: 1.1rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(90, 74, 66, 0.55);
+    }
+    .widget-ref:empty { display: none; }
+    .widget-empty {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: rgba(90, 74, 66, 0.62);
+      max-width: 18rem;
+    }
+    .widget-brand {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(90, 74, 66, 0.45);
+      margin-top: auto;
+      padding-top: 28px;
+    }
+  </style>
+</head>
+<body>
+  <main class="widget-main" aria-label="Today&#8217;s verse">
+    <p class="widget-verse" id="widgetVerseText"></p>
+    <p class="widget-ref" id="widgetVerseRef"></p>
+    <p class="widget-empty" id="widgetEmpty" hidden>Open Grounded on Today once while online so your verse saves here for offline.</p>
+  </main>
+  <p class="widget-brand" aria-hidden="true">Grounded</p>
+  <script>
+    (function () {
+      function verseBody(o) {
+        if (!o) return '';
+        var t = o.text != null ? String(o.text) : o.scripture != null ? String(o.scripture) : '';
+        return String(t).trim();
+      }
+      function setText(id, s) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = s || '';
+      }
+      var raw = null;
+      try {
+        raw = localStorage.getItem('grounded_current_verse');
+      } catch (e) {
+        raw = null;
+      }
+      var o = null;
+      if (raw) {
+        try {
+          o = JSON.parse(raw);
+        } catch (e2) {
+          o = null;
+        }
+      }
+      var body = verseBody(o);
+      var ref = o && o.ref != null ? String(o.ref).trim() : '';
+      var emptyEl = document.getElementById('widgetEmpty');
+      if (body || ref) {
+        if (emptyEl) emptyEl.hidden = true;
+        setText('widgetVerseText', body ? '\u201c' + body + '\u201d' : '');
+        setText('widgetVerseRef', ref);
+      } else {
+        setText('widgetVerseText', '');
+        setText('widgetVerseRef', '');
+        if (emptyEl) emptyEl.hidden = false;
+      }
+    })();
+  </script>
+</body>
+</html>

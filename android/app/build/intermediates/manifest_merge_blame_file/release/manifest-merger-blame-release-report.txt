@@ -1,0 +1,363 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.lindsaygrounded.app"
+4    android:versionCode="3"
+5    android:versionName="1.1" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="22"
+9        android:targetSdkVersion="35" />
+10
+11    <!-- Permissions -->
+12
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:40:5-67
+13-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:40:22-64
+14    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+14-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:7:5-81
+14-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:7:22-78
+15    <uses-permission android:name="android.permission.WAKE_LOCK" />
+15-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:8:5-68
+15-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:8:22-65
+16    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+16-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:9:5-77
+16-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:9:22-74
+17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+17-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:22:5-79
+17-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:22:22-76
+18    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+18-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:26:5-82
+18-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:26:22-79
+19
+20    <permission
+20-->[androidx.core:core:1.12.0] C:\Users\marky\.gradle\caches\transforms-3\4f7b0d764f8b5d0d84c4d0344e1adc27\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
+21        android:name="com.lindsaygrounded.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+21-->[androidx.core:core:1.12.0] C:\Users\marky\.gradle\caches\transforms-3\4f7b0d764f8b5d0d84c4d0344e1adc27\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
+22        android:protectionLevel="signature" />
+22-->[androidx.core:core:1.12.0] C:\Users\marky\.gradle\caches\transforms-3\4f7b0d764f8b5d0d84c4d0344e1adc27\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
+23
+24    <uses-permission android:name="com.lindsaygrounded.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+24-->[androidx.core:core:1.12.0] C:\Users\marky\.gradle\caches\transforms-3\4f7b0d764f8b5d0d84c4d0344e1adc27\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
+24-->[androidx.core:core:1.12.0] C:\Users\marky\.gradle\caches\transforms-3\4f7b0d764f8b5d0d84c4d0344e1adc27\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
+25
+26    <application
+26-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:4:5-36:19
+27        android:allowBackup="true"
+27-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:5:9-35
+28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+28-->[androidx.core:core:1.12.0] C:\Users\marky\.gradle\caches\transforms-3\4f7b0d764f8b5d0d84c4d0344e1adc27\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
+29        android:extractNativeLibs="true"
+30        android:icon="@mipmap/ic_launcher"
+30-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:6:9-43
+31        android:label="@string/app_name"
+31-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:7:9-41
+32        android:roundIcon="@mipmap/ic_launcher_round"
+32-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:8:9-54
+33        android:supportsRtl="true"
+33-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:9:9-35
+34        android:theme="@style/AppTheme" >
+34-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:10:9-40
+35        <activity
+35-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:12:9-25:20
+36            android:name="com.lindsaygrounded.app.MainActivity"
+36-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:14:13-41
+37            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+37-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:13:13-129
+38            android:exported="true"
+38-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:18:13-36
+39            android:label="@string/title_activity_main"
+39-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:15:13-56
+40            android:launchMode="singleTask"
+40-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:17:13-44
+41            android:theme="@style/AppTheme.NoActionBarLaunch" >
+41-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:16:13-62
+42            <intent-filter>
+42-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:20:13-23:29
+43                <action android:name="android.intent.action.MAIN" />
+43-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:21:17-69
+43-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:21:25-66
+44
+45                <category android:name="android.intent.category.LAUNCHER" />
+45-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:22:17-77
+45-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:22:27-74
+46            </intent-filter>
+47        </activity>
+48
+49        <provider
+50            android:name="androidx.core.content.FileProvider"
+50-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:28:13-62
+51            android:authorities="com.lindsaygrounded.app.fileprovider"
+51-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:29:13-64
+52            android:exported="false"
+52-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:30:13-37
+53            android:grantUriPermissions="true" >
+53-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:31:13-47
+54            <meta-data
+54-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:32:13-34:64
+55                android:name="android.support.FILE_PROVIDER_PATHS"
+55-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:33:17-67
+56                android:resource="@xml/file_paths" />
+56-->C:\Users\marky\Desktop\DIALERS\grounded-app\android\app\src\main\AndroidManifest.xml:34:17-51
+57        </provider>
+58
+59        <receiver android:name="com.capacitorjs.plugins.localnotifications.TimedNotificationPublisher" />
+59-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:12:9-106
+59-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:12:19-103
+60        <receiver android:name="com.capacitorjs.plugins.localnotifications.NotificationDismissReceiver" />
+60-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:13:9-107
+60-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:13:19-104
+61        <receiver
+61-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:14:9-23:20
+62            android:name="com.capacitorjs.plugins.localnotifications.LocalNotificationRestoreReceiver"
+62-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-103
+63            android:directBootAware="true"
+63-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:16:13-43
+64            android:exported="false" >
+64-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:17:13-37
+65            <intent-filter>
+65-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:18:13-22:29
+66                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+66-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:19:17-86
+66-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:19:25-83
+67                <action android:name="android.intent.action.BOOT_COMPLETED" />
+67-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:20:17-79
+67-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:20:25-76
+68                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+68-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:21:17-82
+68-->[:capacitor-local-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\local-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:21:25-79
+69            </intent-filter>
+70        </receiver>
+71
+72        <service
+72-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:8:9-14:19
+73            android:name="com.capacitorjs.plugins.pushnotifications.MessagingService"
+73-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:9:13-86
+74            android:exported="false" >
+74-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:10:13-37
+75            <intent-filter>
+75-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-13:29
+76                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+76-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:12:17-78
+76-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:12:25-75
+77            </intent-filter>
+78        </service>
+79
+80        <receiver
+80-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:29:9-40:20
+81            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+81-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:30:13-78
+82            android:exported="true"
+82-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:31:13-36
+83            android:permission="com.google.android.c2dm.permission.SEND" >
+83-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:32:13-73
+84            <intent-filter>
+84-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:33:13-35:29
+85                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+85-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:34:17-81
+85-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:34:25-78
+86            </intent-filter>
+87
+88            <meta-data
+88-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:37:13-39:40
+89                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
+89-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:38:17-92
+90                android:value="true" />
+90-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:39:17-37
+91        </receiver>
+92        <!--
+93             FirebaseMessagingService performs security checks at runtime,
+94             but set to not exported to explicitly avoid allowing another app to call it.
+95        -->
+96        <service
+96-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:46:9-53:19
+97            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+97-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:47:13-82
+98            android:directBootAware="true"
+98-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:48:13-43
+99            android:exported="false" >
+99-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:49:13-37
+100            <intent-filter android:priority="-500" >
+100-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-13:29
+101                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+101-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:12:17-78
+101-->[:capacitor-push-notifications] C:\Users\marky\Desktop\DIALERS\grounded-app\node_modules\@capacitor\push-notifications\android\build\intermediates\merged_manifest\release\AndroidManifest.xml:12:25-75
+102            </intent-filter>
+103        </service>
+104        <service
+104-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:54:9-63:19
+105            android:name="com.google.firebase.components.ComponentDiscoveryService"
+105-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:55:13-84
+106            android:directBootAware="true"
+106-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:32:13-43
+107            android:exported="false" >
+107-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:56:13-37
+108            <meta-data
+108-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:57:13-59:85
+109                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar"
+109-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:58:17-122
+110                android:value="com.google.firebase.components.ComponentRegistrar" />
+110-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:59:17-82
+111            <meta-data
+111-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:60:13-62:85
+112                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+112-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:61:17-119
+113                android:value="com.google.firebase.components.ComponentRegistrar" />
+113-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\marky\.gradle\caches\transforms-3\50f4de2a99e569a1e762036905f8278e\transformed\firebase-messaging-23.3.1\AndroidManifest.xml:62:17-82
+114            <meta-data
+114-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\marky\.gradle\caches\transforms-3\a629c9467cfc937f636708c8c51142e0\transformed\firebase-installations-17.2.0\AndroidManifest.xml:15:13-17:85
+115                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+115-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\marky\.gradle\caches\transforms-3\a629c9467cfc937f636708c8c51142e0\transformed\firebase-installations-17.2.0\AndroidManifest.xml:16:17-130
+116                android:value="com.google.firebase.components.ComponentRegistrar" />
+116-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\marky\.gradle\caches\transforms-3\a629c9467cfc937f636708c8c51142e0\transformed\firebase-installations-17.2.0\AndroidManifest.xml:17:17-82
+117            <meta-data
+117-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\marky\.gradle\caches\transforms-3\a629c9467cfc937f636708c8c51142e0\transformed\firebase-installations-17.2.0\AndroidManifest.xml:18:13-20:85
+118                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+118-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\marky\.gradle\caches\transforms-3\a629c9467cfc937f636708c8c51142e0\transformed\firebase-installations-17.2.0\AndroidManifest.xml:19:17-127
+119                android:value="com.google.firebase.components.ComponentRegistrar" />
+119-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\marky\.gradle\caches\transforms-3\a629c9467cfc937f636708c8c51142e0\transformed\firebase-installations-17.2.0\AndroidManifest.xml:20:17-82
+120            <meta-data
+120-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\c8ed3606b7c11167faa57424b4d558d0\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:12:13-14:85
+121                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
+121-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\c8ed3606b7c11167faa57424b4d558d0\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
+122                android:value="com.google.firebase.components.ComponentRegistrar" />
+122-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\c8ed3606b7c11167faa57424b4d558d0\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
+123            <meta-data
+123-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:35:13-37:85
+124                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+124-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:36:17-109
+125                android:value="com.google.firebase.components.ComponentRegistrar" />
+125-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:37:17-82
+126            <meta-data
+126-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\marky\.gradle\caches\transforms-3\b4173761a34f05fba4664627623174c7\transformed\firebase-datatransport-18.1.7\AndroidManifest.xml:27:13-29:85
+127                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+127-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\marky\.gradle\caches\transforms-3\b4173761a34f05fba4664627623174c7\transformed\firebase-datatransport-18.1.7\AndroidManifest.xml:28:17-115
+128                android:value="com.google.firebase.components.ComponentRegistrar" />
+128-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\marky\.gradle\caches\transforms-3\b4173761a34f05fba4664627623174c7\transformed\firebase-datatransport-18.1.7\AndroidManifest.xml:29:17-82
+129        </service>
+130
+131        <activity
+131-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\marky\.gradle\caches\transforms-3\ecd63083fcba173e803df3926ffdadd6\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+132            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+132-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\marky\.gradle\caches\transforms-3\ecd63083fcba173e803df3926ffdadd6\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+133            android:exported="false"
+133-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\marky\.gradle\caches\transforms-3\ecd63083fcba173e803df3926ffdadd6\transformed\play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+134            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+134-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\marky\.gradle\caches\transforms-3\ecd63083fcba173e803df3926ffdadd6\transformed\play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+135
+136        <provider
+136-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
+137            android:name="com.google.firebase.provider.FirebaseInitProvider"
+137-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:24:13-77
+138            android:authorities="com.lindsaygrounded.app.firebaseinitprovider"
+138-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:25:13-72
+139            android:directBootAware="true"
+139-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:26:13-43
+140            android:exported="false"
+140-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:27:13-37
+141            android:initOrder="100" />
+141-->[com.google.firebase:firebase-common:20.4.2] C:\Users\marky\.gradle\caches\transforms-3\4a005674517892ae90da3dc07d14a9f1\transformed\firebase-common-20.4.2\AndroidManifest.xml:28:13-36
+142        <provider
+142-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+143            android:name="androidx.startup.InitializationProvider"
+143-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+144            android:authorities="com.lindsaygrounded.app.androidx-startup"
+144-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+145            android:exported="false" >
+145-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+146            <meta-data
+146-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+147                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+147-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+148                android:value="androidx.startup" />
+148-->[androidx.emoji2:emoji2:1.2.0] C:\Users\marky\.gradle\caches\transforms-3\61f606930917a64588c199b54d3d711a\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+149            <meta-data
+149-->[androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\marky\.gradle\caches\transforms-3\7d158143758428a9a27e664e481c199e\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:29:13-31:52
+150                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+150-->[androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\marky\.gradle\caches\transforms-3\7d158143758428a9a27e664e481c199e\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:30:17-78
+151                android:value="androidx.startup" />
+151-->[androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\marky\.gradle\caches\transforms-3\7d158143758428a9a27e664e481c199e\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:31:17-49
+152            <meta-data
+152-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+153                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+153-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+154                android:value="androidx.startup" />
+154-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+155        </provider>
+156
+157        <meta-data
+157-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\marky\.gradle\caches\transforms-3\a115cd0868d6809f9252eb725a2422b0\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+158            android:name="com.google.android.gms.version"
+158-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\marky\.gradle\caches\transforms-3\a115cd0868d6809f9252eb725a2422b0\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+159            android:value="@integer/google_play_services_version" />
+159-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\marky\.gradle\caches\transforms-3\a115cd0868d6809f9252eb725a2422b0\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+160
+161        <receiver
+161-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+162            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+162-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+163            android:directBootAware="false"
+163-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+164            android:enabled="true"
+164-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+165            android:exported="true"
+165-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+166            android:permission="android.permission.DUMP" >
+166-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+167            <intent-filter>
+167-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+168                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+168-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+168-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+169            </intent-filter>
+170            <intent-filter>
+170-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+171                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+171-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+171-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+172            </intent-filter>
+173            <intent-filter>
+173-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+174                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+174-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+174-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+175            </intent-filter>
+176            <intent-filter>
+176-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+177                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+177-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+177-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\marky\.gradle\caches\transforms-3\c4b6893a58c24e59df590ee54241c077\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+178            </intent-filter>
+179        </receiver>
+180
+181        <service
+181-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\02cc269ff626f44d73793c1b1e92dc38\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:28:9-34:19
+182            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+182-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\02cc269ff626f44d73793c1b1e92dc38\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:29:13-103
+183            android:exported="false" >
+183-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\02cc269ff626f44d73793c1b1e92dc38\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:30:13-37
+184            <meta-data
+184-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\02cc269ff626f44d73793c1b1e92dc38\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:31:13-33:39
+185                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+185-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\02cc269ff626f44d73793c1b1e92dc38\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:32:17-94
+186                android:value="cct" />
+186-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\02cc269ff626f44d73793c1b1e92dc38\transformed\transport-backend-cct-3.1.8\AndroidManifest.xml:33:17-36
+187        </service>
+188        <service
+188-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:26:9-30:19
+189            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+189-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:27:13-117
+190            android:exported="false"
+190-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:28:13-37
+191            android:permission="android.permission.BIND_JOB_SERVICE" >
+191-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:29:13-69
+192        </service>
+193
+194        <receiver
+194-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:32:9-34:40
+195            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+195-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:33:13-132
+196            android:exported="false" />
+196-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\marky\.gradle\caches\transforms-3\46bd9d537371fd39decda5c19eac0203\transformed\transport-runtime-3.1.8\AndroidManifest.xml:34:13-37
+197    </application>
+198
+199</manifest>

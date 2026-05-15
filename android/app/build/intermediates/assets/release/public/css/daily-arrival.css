@@ -1,0 +1,1668 @@
+/* First open of the day — calm arrival ritual (below onboarding z-index) */
+/*
+ * Palette: ivory #f7f4f1, blush taupe #bda79d, editorial neutrals.
+ * Elevation: muted blush shadow rgba(189,167,157,0.10).
+ */
+
+body.daily-arrival-active {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.daily-arrival-active .bottom-nav .nav-item:not([data-tab="feed"]) {
+  pointer-events: none;
+  opacity: 0.28;
+  cursor: default;
+}
+
+/* Soft dissolve into Today after “Enter Grounded” */
+body.daily-arrival-handoff main.main-container.main-content {
+  filter: blur(5px);
+  opacity: 0.94;
+  transition:
+    filter 0.68s cubic-bezier(0.22, 0.08, 0.12, 1),
+    opacity 0.68s cubic-bezier(0.22, 0.08, 0.12, 1);
+}
+
+body.daily-arrival-handoff .bottom-nav {
+  opacity: 0.88;
+  filter: blur(4px);
+  transition:
+    opacity 0.68s cubic-bezier(0.22, 0.08, 0.12, 1),
+    filter 0.68s cubic-bezier(0.22, 0.08, 0.12, 1);
+}
+
+.daily-arrival-root.daily-arrival-root--handoff {
+  opacity: 0 !important;
+  transition: opacity 0.64s cubic-bezier(0.22, 0.08, 0.12, 1) !important;
+  pointer-events: none !important;
+}
+
+.daily-arrival-root,
+.daily-arrival-popover {
+  --da-ivory: #f7f4f1;
+  --da-blush: #bda79d;
+  --da-blush-mid: #c9bab4;
+  --da-blush-shadow: rgba(189, 167, 157, 0.1);
+  --da-heading: #403630;
+  --da-body: #746760;
+  --da-border: rgba(189, 167, 157, 0.14);
+  --da-card: rgba(255, 255, 255, 0.82);
+}
+
+.daily-arrival-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10040;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-right));
+  background: var(--da-ivory);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.58s cubic-bezier(0.22, 0.08, 0.12, 1);
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  overflow-x: hidden;
+}
+
+.daily-arrival-root.daily-arrival-root--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.daily-arrival-root.daily-arrival-root--leaving {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.58s cubic-bezier(0.22, 0.08, 0.12, 1);
+}
+
+.daily-arrival-root[hidden] {
+  display: none !important;
+}
+
+/* ─── Chrome: title + progress rail (quiet editorial — not onboarding) ─── */
+.daily-arrival-chrome {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  opacity: 0.58;
+}
+
+.daily-arrival-chrome-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.daily-arrival-chrome-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.daily-arrival-flow-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(19px, 4.8vw, 24px);
+  font-weight: 500;
+  color: var(--da-heading);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  margin: 0;
+  padding-top: 2px;
+  text-wrap: balance;
+}
+
+.daily-arrival-flow-heart {
+  color: var(--da-blush);
+  font-weight: 400;
+}
+
+.daily-arrival-skip-all {
+  flex-shrink: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(100, 92, 86, 0.38);
+  background: transparent;
+  border: none;
+  padding: 6px 2px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-skip-all:hover {
+  color: var(--da-body);
+}
+
+.daily-arrival-skip-all:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.daily-arrival-progress {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.daily-arrival-progress::-webkit-scrollbar {
+  display: none;
+}
+
+.daily-arrival-progress-track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2px;
+  min-width: min(100%, 320px);
+  margin: 0 auto;
+  padding: 4px 0 8px;
+}
+
+.daily-arrival-progress-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+  position: relative;
+}
+
+.daily-arrival-progress-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: calc(50% + 13px);
+  width: calc(100% - 26px);
+  height: 1px;
+  background: rgba(189, 167, 157, 0.09);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: opacity 0.32s cubic-bezier(0.25, 0.46, 0.2, 1);
+}
+
+.daily-arrival-pi-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 254, 252, 0.72);
+  border: 1px solid var(--da-border);
+  color: rgba(116, 103, 96, 0.22);
+  transition:
+    background 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    border-color 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    color 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    transform 0.32s cubic-bezier(0.25, 0.46, 0.2, 1);
+}
+
+.daily-arrival-pi-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.18);
+  line-height: 1.15;
+  max-width: 58px;
+  transition:
+    opacity 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    color 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    max-height 0.32s cubic-bezier(0.25, 0.46, 0.2, 1),
+    margin 0.32s cubic-bezier(0.25, 0.46, 0.2, 1);
+}
+
+/* Full flow: only the active step shows a label — ambient progress, not a checklist */
+.daily-arrival-root[data-da-flow="full"] .daily-arrival-progress-item .daily-arrival-pi-label {
+  opacity: 0;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.daily-arrival-root[data-da-flow="full"]
+  .daily-arrival-progress-item.daily-arrival-progress-item--current
+  .daily-arrival-pi-label {
+  opacity: 0.42;
+  max-height: 2.5rem;
+  margin-top: 2px;
+  color: rgba(64, 54, 48, 0.42);
+}
+
+/* Lightweight flow: icons only */
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-pi-label {
+  display: none;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-progress-track {
+  gap: 2px;
+  padding-top: 4px;
+}
+
+.daily-arrival-progress-item.daily-arrival-progress-item--done .daily-arrival-pi-dot {
+  background: rgba(247, 244, 241, 0.85);
+  border-color: rgba(189, 167, 157, 0.12);
+  color: rgba(116, 103, 96, 0.32);
+}
+
+.daily-arrival-progress-item.daily-arrival-progress-item--current .daily-arrival-pi-dot {
+  background: rgba(255, 254, 252, 0.98);
+  border-color: rgba(189, 167, 157, 0.35);
+  color: rgba(64, 54, 48, 0.48);
+  box-shadow: 0 10px 36px var(--da-blush-shadow);
+}
+
+.daily-arrival-progress-item.daily-arrival-progress-item--current .daily-arrival-pi-label {
+  color: rgba(64, 54, 48, 0.4);
+}
+
+/* ─── Viewport & steps ─── */
+.daily-arrival-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  min-height: 0;
+  width: 100%;
+  max-width: min(22rem, 100%);
+  margin: 0 auto;
+  position: relative;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: contain;
+  overflow-x: hidden;
+  padding-top: 8px;
+}
+
+.daily-arrival-root[data-da-step="0"] .daily-arrival-viewport,
+.daily-arrival-root[data-da-step="1"] .daily-arrival-viewport,
+.daily-arrival-root[data-da-step="4"] .daily-arrival-viewport {
+  max-width: 100%;
+}
+
+.daily-arrival-step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  position: relative;
+  animation: dailyArrivalStepIn 0.38s cubic-bezier(0.22, 0.85, 0.32, 1) both;
+}
+
+.daily-arrival-step--active {
+  display: flex;
+}
+
+.daily-arrival-step--cream {
+  justify-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 0 16px;
+}
+
+@keyframes dailyArrivalStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daily-arrival-step {
+    animation: none;
+  }
+  .daily-arrival-root {
+    transition: opacity 0.2s ease;
+  }
+  .daily-arrival-root.daily-arrival-root--leaving {
+    transition: opacity 0.2s ease;
+  }
+  body.daily-arrival-handoff main.main-container.main-content,
+  body.daily-arrival-handoff .bottom-nav {
+    filter: none !important;
+    opacity: 1 !important;
+    transition: opacity 0.15s ease;
+  }
+  .daily-arrival-root.daily-arrival-root--handoff {
+    transition: opacity 0.15s ease !important;
+  }
+}
+
+.visually-hidden-da {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Hero layers (greeting + done) ─── */
+.daily-arrival-step--hero {
+  justify-content: center;
+  border-radius: 22px;
+  overflow: hidden;
+  min-height: min(52vh, 380px);
+  max-height: min(560px, calc(100vh - 168px));
+}
+
+/* Greeting only: ambient canvas + floating paper card (matches reference art direction) */
+.daily-arrival-step--hero[data-daily-step="0"] {
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-scrim {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.daily-arrival-hero-bg {
+  position: absolute;
+  inset: -8%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.62;
+  filter: blur(22px);
+  transform: scale(1.06);
+}
+
+.daily-arrival-hero-bg--sunrise {
+  transform: scale(1.06);
+  background-image:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 42%,
+      rgba(255, 252, 248, 0.42) 50%,
+      rgba(255, 246, 240, 0.16) 58%,
+      transparent 68%
+    ),
+    radial-gradient(ellipse 58% 72% at -6% 34%, rgba(212, 196, 188, 0.045), transparent 58%),
+    radial-gradient(ellipse 48% 52% at 10% 62%, rgba(206, 192, 184, 0.035), transparent 52%),
+    linear-gradient(165deg, #faf7f4 0%, #f5f1ec 52%, #eeeae5 100%);
+}
+
+.daily-arrival-hero-bg--mist {
+  background-image:
+    radial-gradient(ellipse 120% 85% at 50% -6%, rgba(255, 252, 250, 0.42), transparent 56%),
+    radial-gradient(ellipse 85% 68% at 92% 68%, rgba(250, 240, 234, 0.12), transparent 58%),
+    radial-gradient(ellipse 62% 52% at 6% 48%, rgba(255, 252, 250, 0.28), transparent 54%),
+    linear-gradient(180deg, #fcf9f6 0%, #f6f2ed 50%, #f0ebe6 100%);
+}
+
+.daily-arrival-hero-bg--leaves {
+  background-image:
+    linear-gradient(165deg, rgba(140, 128, 118, 0.022) 0%, rgba(252, 250, 248, 0.5) 100%),
+    radial-gradient(ellipse 80% 50% at 70% 18%, rgba(238, 230, 224, 0.12), transparent),
+    radial-gradient(ellipse 72% 58% at 18% 82%, rgba(234, 226, 220, 0.1), transparent),
+    linear-gradient(145deg, #f6f1ec 0%, #efe8e2 50%, #e8e2dc 100%);
+}
+
+.daily-arrival-hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    185deg,
+    rgba(189, 167, 157, 0.02) 0%,
+    rgba(189, 167, 157, 0.04) 50%,
+    rgba(180, 168, 160, 0.06) 100%
+  );
+  pointer-events: none;
+}
+
+.daily-arrival-hero-scrim--light {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 254, 252, 0.02) 0%,
+    rgba(252, 248, 244, 0.28) 52%,
+    rgba(248, 244, 240, 0.55) 100%
+  );
+}
+
+.daily-arrival-hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 32px 22px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Ritual cards — greeting + completion share one visual language */
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-inner,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-hero-inner.daily-arrival-hero-inner--done {
+  max-width: 22.5rem;
+  margin: 0 auto;
+  padding: 40px 28px 36px;
+  background: var(--da-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 28px;
+  border: 1px solid var(--da-border);
+  box-shadow:
+    0 16px 48px var(--da-blush-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.daily-arrival-hero-inner--done {
+  padding-bottom: 36px;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-icon {
+  margin-bottom: 18px;
+  color: var(--da-blush);
+  filter: none;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-headline--hero,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-headline--hero {
+  color: var(--da-heading);
+  text-shadow: none;
+  margin-bottom: 14px;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-sub--hero {
+  color: var(--da-body);
+  text-shadow: none;
+  margin-bottom: 30px;
+  max-width: 17rem;
+}
+
+.daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-btn-cta--hero,
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-btn-cta--hero {
+  min-height: 52px;
+  padding: 16px 32px;
+  max-width: 22rem;
+  width: 100%;
+  background: linear-gradient(180deg, var(--da-blush-mid) 0%, var(--da-blush) 48%, #ae9a92 100%);
+  box-shadow:
+    0 12px 40px var(--da-blush-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+/* Done — same shell as greeting; calmer check + copy */
+.daily-arrival-step--hero[data-daily-step="4"] {
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-hero-scrim {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-complete-icon {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 18px;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  color: #fffefb;
+  box-shadow: 0 8px 28px var(--da-blush-shadow);
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-done-heart {
+  color: var(--da-blush);
+}
+
+.daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-complete-body--hero {
+  color: var(--da-body);
+  text-shadow: none;
+  margin-bottom: 14px;
+  max-width: 17rem;
+}
+
+/* Gentle transition line — invitational, low contrast */
+.daily-arrival-complete-nudge {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 7px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: rgba(116, 103, 96, 0.55);
+  margin: 0 0 22px;
+  max-width: 18rem;
+  text-align: center;
+  text-wrap: pretty;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(189, 167, 157, 0.07);
+  border: 1px solid rgba(189, 167, 157, 0.11);
+  box-sizing: border-box;
+}
+
+.daily-arrival-complete-nudge-ornament {
+  flex-shrink: 0;
+  opacity: 0.68;
+  font-size: 0.82em;
+  transform: translateY(0.06em);
+}
+
+.daily-arrival-complete-nudge-text {
+  min-width: 0;
+  text-align: center;
+}
+
+.daily-arrival-complete-nudge[hidden] {
+  display: none !important;
+}
+
+.daily-arrival-hero-icon {
+  margin-bottom: 16px;
+  color: rgba(255, 254, 252, 0.96);
+  filter: drop-shadow(0 4px 18px var(--da-blush-shadow));
+}
+
+.daily-arrival-step--hero .daily-arrival-sun {
+  margin: 0;
+  color: inherit;
+}
+
+/* Fallback for hero text on dark scrims (unused when card-on-ivory) */
+.daily-arrival-headline--hero {
+  font-size: clamp(26px, 6vw, 32px);
+  font-weight: 500;
+  color: var(--da-heading);
+  text-shadow: none;
+  margin-bottom: 12px;
+}
+
+.daily-arrival-sub--hero {
+  color: var(--da-body);
+  font-size: 15px;
+  margin-bottom: 28px;
+  text-shadow: none;
+}
+
+.daily-arrival-btn-cta--hero {
+  border-radius: 999px;
+  max-width: 280px;
+  min-height: 52px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  background: linear-gradient(180deg, var(--da-blush-mid) 0%, var(--da-blush) 48%, #ae9a92 100%);
+  box-shadow:
+    0 12px 40px var(--da-blush-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.daily-arrival-done-heart {
+  color: var(--da-blush);
+}
+
+/* Desktop / tablet: centered “phone card” — avoids full-width gradient + content pinned to bottom */
+@media (min-width: 768px) {
+  .daily-arrival-root {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-top: max(14px, env(safe-area-inset-top));
+  }
+
+  .daily-arrival-chrome {
+    max-width: min(22rem, 88vw);
+    padding-bottom: 2px;
+  }
+
+  .daily-arrival-chrome-top {
+    margin-bottom: 22px;
+  }
+
+  .daily-arrival-root[data-da-step="0"] .daily-arrival-viewport,
+  .daily-arrival-root[data-da-step="1"] .daily-arrival-viewport,
+  .daily-arrival-root[data-da-step="4"] .daily-arrival-viewport {
+    max-width: min(420px, 94vw);
+  }
+
+  .daily-arrival-viewport {
+    justify-content: center;
+    align-self: center;
+    max-width: min(18rem, 90vw);
+    padding-top: clamp(12px, 2.5vh, 28px);
+  }
+
+  .daily-arrival-root[data-da-step="3"] .daily-arrival-viewport {
+    max-width: min(24rem, 94vw);
+  }
+
+  .daily-arrival-step--cream {
+    padding: clamp(32px, 7vh, 64px) 0 22px;
+  }
+
+  .daily-arrival-step-panel--scroll {
+    max-width: min(18.75rem, 88vw);
+  }
+
+  .daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-panel--scroll {
+    max-width: min(26rem, 92vw);
+    min-width: min(100%, 17.5rem);
+  }
+
+  .daily-arrival-step--cream[data-daily-step="3"] .daily-arrival-step-panel--scroll {
+    max-width: min(22rem, 92vw);
+  }
+
+  .daily-arrival-step--hero {
+    flex: 0 1 auto;
+    min-height: clamp(320px, 42vh, 400px);
+    max-height: min(488px, calc(100vh - 220px));
+    width: 100%;
+  }
+
+  .daily-arrival-step--hero[data-daily-step="0"] {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-hero-inner,
+  .daily-arrival-step--hero[data-daily-step="4"] .daily-arrival-hero-inner.daily-arrival-hero-inner--done {
+    max-width: min(24rem, 100%);
+    padding: 44px 32px 40px;
+  }
+
+  .daily-arrival-step--verse {
+    flex: 0 1 auto;
+    min-height: clamp(300px, 38vh, 380px);
+    max-height: min(520px, calc(100vh - 220px));
+    width: 100%;
+    justify-content: center;
+  }
+
+  .daily-arrival-flow-title {
+    font-size: clamp(21px, 2.4vw, 26px);
+    letter-spacing: -0.03em;
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero {
+    min-height: 272px;
+    max-height: min(400px, calc(100vh - 200px));
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="0"] {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="4"] {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .daily-arrival-root[data-da-flow="light"] .daily-arrival-step--verse {
+    max-height: min(420px, calc(100vh - 200px));
+  }
+}
+
+/* Verse step layout */
+.daily-arrival-step--verse {
+  border-radius: 22px;
+  overflow: hidden;
+  overflow-x: hidden;
+  min-height: min(48vh, 400px);
+  justify-content: center;
+}
+
+.daily-arrival-step-panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 22px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.daily-arrival-step-panel--scroll {
+  align-items: stretch;
+  text-align: left;
+  max-width: 22rem;
+  width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.daily-arrival-step-icon {
+  color: rgba(110, 96, 88, 0.55);
+  margin: 0 auto 12px;
+}
+
+.daily-arrival-step--cream .daily-arrival-step-icon {
+  color: rgba(189, 167, 157, 0.72);
+}
+
+.daily-arrival-step--cream .daily-arrival-step-title {
+  text-align: center;
+  margin: 0 auto 10px;
+  max-width: 18rem;
+}
+
+.daily-arrival-step--cream .daily-arrival-step-hint {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.daily-arrival-step--verse .daily-arrival-step-icon {
+  color: rgba(189, 167, 157, 0.55);
+}
+
+.daily-arrival-headline {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--da-heading);
+  letter-spacing: -0.02em;
+  line-height: 1.28;
+  margin: 0 0 10px;
+}
+
+.daily-arrival-sub {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.62;
+  color: var(--da-body);
+  margin: 0 0 26px;
+  max-width: 18rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: pretty;
+}
+
+/* Buttons */
+.daily-arrival-btn-primary {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--da-heading);
+  min-height: 48px;
+  box-sizing: border-box;
+  background: var(--da-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--da-border);
+  border-radius: 999px;
+  padding: 13px 28px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 32px var(--da-blush-shadow);
+  transition:
+    background 0.32s cubic-bezier(0.22, 0.82, 0.24, 1),
+    border-color 0.32s cubic-bezier(0.22, 0.82, 0.24, 1),
+    box-shadow 0.32s cubic-bezier(0.22, 0.82, 0.24, 1),
+    opacity 0.32s cubic-bezier(0.22, 0.82, 0.24, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-btn-primary--solid {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 244, 241, 0.85) 100%);
+  border-color: var(--da-border);
+  box-shadow: 0 12px 36px var(--da-blush-shadow);
+}
+
+.daily-arrival-btn-primary:hover {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(189, 167, 157, 0.35);
+}
+
+.daily-arrival-btn-primary--solid:hover {
+  background: linear-gradient(180deg, #fffefb 0%, #faf6f3 55%, #f4f0ec 100%);
+  border-color: rgba(189, 167, 157, 0.38);
+  box-shadow: 0 14px 40px var(--da-blush-shadow);
+}
+
+.daily-arrival-btn-primary:active {
+  opacity: 0.9;
+}
+
+.daily-arrival-btn-primary:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 3px;
+}
+
+.daily-arrival-btn-cta {
+  width: 100%;
+  max-width: 20rem;
+  margin: 0 auto;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fffefb;
+  background: linear-gradient(180deg, var(--da-blush-mid) 0%, var(--da-blush) 52%, #ae9a92 100%);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  box-shadow:
+    0 12px 40px var(--da-blush-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  transition:
+    opacity 0.34s cubic-bezier(0.22, 0.82, 0.24, 1),
+    box-shadow 0.34s cubic-bezier(0.22, 0.82, 0.24, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-btn-cta:hover {
+  opacity: 0.96;
+}
+
+.daily-arrival-btn-cta:active {
+  opacity: 0.92;
+}
+
+.daily-arrival-btn-cta:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.55);
+  outline-offset: 3px;
+}
+
+/* Verse step */
+.daily-arrival-kicker {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.55);
+  margin: 0 0 12px;
+}
+
+.daily-arrival-verse-text {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(18px, 4.5vw, 22px);
+  font-weight: 400;
+  line-height: 1.66;
+  color: var(--da-heading);
+  margin: 0 0 12px;
+  text-wrap: pretty;
+}
+
+.daily-arrival-verse-ref {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(116, 103, 96, 0.72);
+  margin: 0 0 20px;
+}
+
+.daily-arrival-focus-card {
+  width: 100%;
+  text-align: left;
+  margin-top: 6px;
+  padding: 18px 0 0;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--da-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.daily-arrival-focus-card-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(116, 103, 96, 0.62);
+  margin: 0 0 8px;
+}
+
+.daily-arrival-focus-card-word {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--da-heading);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.daily-arrival-focus-card-sub {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.58;
+  color: var(--da-body);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.daily-arrival-step--verse .daily-arrival-step-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.daily-arrival-step--verse .daily-arrival-btn-primary {
+  width: 100%;
+  max-width: 17.5rem;
+}
+
+/* Legacy info row (unused in new markup; kept for safety) */
+.daily-arrival-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.daily-arrival-step-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--da-heading);
+  margin: 0;
+  line-height: 1.25;
+  max-width: 18rem;
+  text-wrap: pretty;
+}
+
+.daily-arrival-info-wrap {
+  position: relative;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.daily-arrival-info-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.45);
+  color: rgba(110, 96, 88, 0.55);
+  font-family: Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-popover {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 10060;
+  width: min(18rem, calc(100vw - 36px));
+  max-height: min(46vh, 320px);
+  padding: 38px 18px 16px;
+  border-radius: 18px;
+  background: var(--da-card);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--da-border);
+  box-shadow: 0 20px 52px var(--da-blush-shadow);
+  text-align: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, calc(-50% + 6px));
+  transition:
+    opacity 0.34s cubic-bezier(0.22, 0.82, 0.24, 1),
+    transform 0.34s cubic-bezier(0.22, 0.82, 0.24, 1),
+    visibility 0.34s;
+}
+
+.daily-arrival-popover.daily-arrival-popover--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%);
+}
+
+.daily-arrival-popover p {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--da-body);
+  margin: 0;
+  padding-right: 8px;
+  text-wrap: pretty;
+}
+
+.daily-arrival-popover-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(110, 96, 88, 0.45);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+}
+
+/* What this does */
+.daily-arrival-what-box {
+  margin-top: 8px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: rgba(255, 251, 246, 0.52);
+  border: 1px solid rgba(186, 160, 148, 0.17);
+  text-align: left;
+}
+
+.daily-arrival-what-title {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(90, 78, 70, 0.42);
+  margin: 0 0 5px;
+}
+
+.daily-arrival-what-body {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.42;
+  color: rgba(88, 76, 68, 0.82);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.daily-arrival-link-skip {
+  display: block;
+  margin: 18px auto 0;
+  padding: 8px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(110, 96, 88, 0.45);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-link-skip:hover {
+  color: var(--da-body);
+}
+
+/* Check-in / focus explainer strips removed from ritual layout */
+.daily-arrival-for-today-card,
+.daily-arrival-what-box {
+  display: none !important;
+}
+
+/* Mood slider */
+.daily-arrival-step-hint {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--da-body);
+  line-height: 1.55;
+  margin: 0 0 20px;
+  max-width: 19rem;
+  text-wrap: pretty;
+}
+
+.daily-arrival-slider-wrap {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 12px 0 8px;
+  touch-action: pan-x;
+}
+
+.daily-arrival-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.daily-arrival-slider-side {
+  flex: 1;
+  min-width: 0;
+}
+
+.daily-arrival-slider-side--end {
+  text-align: right;
+}
+
+.daily-arrival-slider-side strong {
+  display: block;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--da-heading);
+  margin-bottom: 4px;
+}
+
+.daily-arrival-slider-side span {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(116, 103, 96, 0.78);
+}
+
+.daily-arrival-slider {
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  border-radius: 999px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+  touch-action: pan-x;
+  cursor: pointer;
+}
+
+.daily-arrival-slider::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.38) 0%,
+    rgba(228, 218, 210, 0.28) 100%
+  );
+}
+
+.daily-arrival-slider::-moz-range-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.38) 0%,
+    rgba(228, 218, 210, 0.28) 100%
+  );
+}
+
+.daily-arrival-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow: 0 2px 12px var(--da-blush-shadow);
+  cursor: pointer;
+}
+
+.daily-arrival-slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow: 0 2px 12px var(--da-blush-shadow);
+  cursor: pointer;
+}
+
+/* Check-in (slider): ambient canvas + editorial card + tactile slider — matches reference */
+.daily-arrival-step--cream[data-daily-step="2"] {
+  position: relative;
+  isolation: isolate;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 44%,
+      rgba(255, 253, 248, 0.34) 52%,
+      rgba(252, 248, 242, 0.12) 62%,
+      transparent 72%
+    ),
+    radial-gradient(ellipse 58% 72% at -6% 34%, rgba(212, 196, 188, 0.038), transparent 58%),
+    radial-gradient(ellipse 48% 52% at 10% 62%, rgba(206, 192, 184, 0.028), transparent 52%),
+    linear-gradient(165deg, #faf7f4 0%, #f4f1ec 52%, #edeae5 100%);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-panel {
+  position: relative;
+  z-index: 2;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-icon--heart {
+  color: rgba(189, 167, 157, 0.85);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-title {
+  letter-spacing: -0.03em;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-hint {
+  color: rgba(116, 103, 96, 0.88);
+  font-weight: 400;
+  line-height: 1.62;
+  max-width: 22rem;
+  margin-bottom: 20px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-wrap {
+  padding: 14px 0 10px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-step-actions {
+  margin-top: 14px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-labels {
+  margin-bottom: 14px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-side strong {
+  color: #403930;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider-side span {
+  color: rgba(116, 103, 96, 0.74);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider {
+  height: 28px;
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.35) 0%,
+    rgba(236, 226, 218, 0.28) 52%,
+    rgba(252, 250, 246, 0.95) 100%
+  );
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.75);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 200, 192, 0.35) 0%,
+    rgba(236, 226, 218, 0.28) 52%,
+    rgba(252, 250, 246, 0.95) 100%
+  );
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-webkit-slider-thumb {
+  width: 26px;
+  height: 26px;
+  margin-top: -10px;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow:
+    0 2px 10px var(--da-blush-shadow),
+    0 0 0 5px rgba(189, 167, 157, 0.08);
+}
+
+.daily-arrival-step--cream[data-daily-step="2"] .daily-arrival-slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  border: 3px solid #fffefb;
+  box-shadow:
+    0 2px 10px var(--da-blush-shadow),
+    0 0 0 5px rgba(189, 167, 157, 0.08);
+}
+
+/* Editorial note below slider (check-in only in markup) */
+.daily-arrival-for-today-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  text-align: left;
+  background: rgba(255, 254, 252, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(60, 40, 20, 0.055);
+}
+
+.daily-arrival-for-today-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #b8a090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-arrival-for-today-copy {
+  min-width: 0;
+}
+
+.daily-arrival-for-today-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(90, 78, 70, 0.48);
+  margin: 0 0 6px;
+}
+
+.daily-arrival-for-today-body {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.52;
+  color: #4d4742;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.daily-arrival-step--cream[data-daily-step="3"] .daily-arrival-focus-grid {
+  margin-bottom: 4px;
+}
+
+.daily-arrival-step--cream[data-daily-step="3"] .daily-arrival-step-actions {
+  margin-top: 10px;
+}
+
+/* Focus grid */
+.daily-arrival-focus-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.daily-arrival-focus-grid--icons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: min(22rem, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.daily-arrival-focus-grid--icons > * {
+  min-width: 0;
+}
+
+@media (max-width: 340px) {
+  .daily-arrival-focus-grid--icons {
+    grid-template-columns: 1fr;
+  }
+}
+
+.daily-arrival-focus-opt {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+  min-height: 48px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--da-border);
+  background: var(--da-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--da-heading);
+  cursor: pointer;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+.daily-arrival-focus-opt-icon {
+  flex-shrink: 0;
+  color: var(--da-blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-arrival-focus-opt-label {
+  line-height: 1.35;
+}
+
+.daily-arrival-focus-opt:hover {
+  border-color: rgba(189, 167, 157, 0.42);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px rgba(189, 167, 157, 0.28);
+}
+
+.daily-arrival-focus-opt.is-selected {
+  border-color: rgba(189, 167, 157, 0.55);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 2px rgba(189, 167, 157, 0.32);
+}
+
+.daily-arrival-focus-opt:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 2px;
+}
+
+/* Lightweight emotional choice (maps to arrival slider bands) */
+.daily-arrival-emotion-block {
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 auto 14px;
+}
+
+.daily-arrival-emotion-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.daily-arrival-emotion-pair > * {
+  min-width: 0;
+}
+
+@media (max-width: 380px) {
+  .daily-arrival-emotion-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+.daily-arrival-emotion-opt {
+  font-family: Inter, system-ui, sans-serif;
+  text-align: left;
+  padding: 16px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--da-border);
+  background: var(--da-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--da-heading);
+  cursor: pointer;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.daily-arrival-emotion-opt:hover {
+  border-color: rgba(189, 167, 157, 0.38);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px rgba(189, 167, 157, 0.22);
+}
+
+.daily-arrival-emotion-opt.is-selected {
+  border-color: rgba(189, 167, 157, 0.48);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 2px rgba(189, 167, 157, 0.28);
+}
+
+.daily-arrival-emotion-opt:focus-visible {
+  outline: 2px solid rgba(189, 167, 157, 0.45);
+  outline-offset: 2px;
+}
+
+.daily-arrival-emotion-opt-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.daily-arrival-emotion-opt-sub {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(116, 103, 96, 0.72);
+}
+
+.daily-arrival-progress-track--light {
+  min-width: min(100%, 300px);
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero {
+  min-height: min(44vh, 320px);
+  max-height: min(460px, calc(100vh - 176px));
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="0"] {
+  min-height: auto;
+  max-height: none;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="4"] {
+  min-height: auto;
+  max-height: none;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--verse {
+  min-height: min(34vh, 300px);
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-sub--hero {
+  margin-bottom: 22px;
+}
+
+.daily-arrival-root[data-da-flow="light"] .daily-arrival-step--hero[data-daily-step="0"] .daily-arrival-sub--hero {
+  margin-bottom: 30px;
+}
+
+/* Completion on hero (fallback before step-specific overrides) */
+.daily-arrival-step--hero .daily-arrival-complete-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #d2c4be 0%, var(--da-blush) 100%);
+  color: #fffefb;
+  box-shadow: 0 10px 32px var(--da-blush-shadow);
+}
+
+.daily-arrival-complete-body {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--da-body);
+  margin: 0 0 26px;
+  max-width: 19rem;
+  text-wrap: pretty;
+}
+
+.daily-arrival-complete-body--hero {
+  color: var(--da-body);
+  text-shadow: none;
+}
+
+.daily-arrival-step-actions {
+  margin-top: 18px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Same-day tone from Daily Arrival: ambient only (no layout). */
+body[data-arrival-band='soft'] .screen-decor .decor-glow-1 {
+  opacity: 0.42;
+  filter: blur(44px);
+}
+body[data-arrival-band='soft'] .screen-decor .decor-glow-2 {
+  opacity: 0.32;
+}
+body[data-arrival-band='steady'] .screen-decor .decor-glow-1 {
+  opacity: 0.52;
+}
+body[data-arrival-band='steady'] .screen-decor .decor-glow-2 {
+  opacity: 0.44;
+}
+html[data-theme='soft'] body[data-arrival-band='soft'] {
+  --bg-end: #fffcfa;
+}
+
+/* Softer global decor while Daily Arrival is open — glow only, not structure */
+body.daily-arrival-active .screen-decor .decor-glow-1 {
+  opacity: 0.26;
+  filter: blur(52px);
+}
+
+body.daily-arrival-active .screen-decor .decor-glow-2 {
+  opacity: 0.2;
+  filter: blur(46px);
+}
