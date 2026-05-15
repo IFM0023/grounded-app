@@ -1,20 +1,41 @@
 import { readRequestJson } from './read-request-json.js';
 
-function setCors(res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+const ALLOWED_ORIGINS = new Set([
+  'https://www.getgroundedapp.com',
+  'http://localhost:5500',
+  'http://localhost:3000',
+]);
+
+function setCors(res, origin) {
+  if (ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Grounded-Token');
+}
+
+function isAuthorized(req) {
+  const expected = process.env.GROUNDED_MARKETING_TOKEN;
+  if (!expected) return false;
+  const supplied = req.headers['x-grounded-token'] || '';
+  return supplied === expected;
 }
 
 export default async function handler(req, res) {
-  setCors(res);
+  const origin = req.headers.origin || '';
+  setCors(res, origin);
 
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return res.status(204).end();
   }
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  if (!ALLOWED_ORIGINS.has(origin) || !isAuthorized(req)) {
+    return res.status(403).json({ error: 'Forbidden' });
   }
 
   try {
@@ -38,7 +59,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
+        model: 'claude-sonnet-4-6',
         max_tokens: 2000,
         system,
         messages: [{ role: 'user', content: prompt }]

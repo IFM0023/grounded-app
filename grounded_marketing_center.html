@@ -1434,10 +1434,82 @@ body::after {
     display: none !important;
   }
 }
+
+/* ── Auth gate overlay ── */
+#mkt-auth-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #16100E;
+  display: flex; align-items: center; justify-content: center;
+}
+#mkt-auth-gate.is-hidden { display: none; }
+.mkt-auth-box {
+  width: min(340px, 90vw);
+  padding: 40px 36px;
+  background: rgba(255,248,246,0.04);
+  border: 1px solid rgba(234,208,204,0.15);
+  border-radius: 16px;
+  text-align: center;
+}
+.mkt-auth-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: #FFF8F6;
+  margin: 0 0 6px;
+}
+.mkt-auth-box p {
+  font-size: 13px;
+  color: #B89A94;
+  margin: 0 0 28px;
+}
+.mkt-auth-box input[type=password] {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  background: rgba(255,248,246,0.07);
+  border: 1px solid rgba(234,208,204,0.2);
+  border-radius: 10px;
+  color: #FFF8F6;
+  outline: none;
+  margin-bottom: 12px;
+}
+.mkt-auth-box input[type=password]:focus {
+  border-color: rgba(168,107,98,0.6);
+}
+.mkt-auth-box button {
+  width: 100%;
+  padding: 11px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  background: #A86B62;
+  color: #FFF8F6;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.mkt-auth-box button:hover { background: #C4937A; }
+.mkt-auth-error {
+  font-size: 12px;
+  color: #C4937A;
+  margin-top: 10px;
+  min-height: 18px;
+}
 </style>
 <script src="js/grounded-home-weekly-themes-data.js"></script>
 </head>
 <body>
+
+<!-- Auth gate — rendered immediately; hidden by JS if token already in sessionStorage -->
+<div id="mkt-auth-gate">
+  <div class="mkt-auth-box">
+    <h2>Grounded</h2>
+    <p>Marketing Command Center</p>
+    <input type="password" id="mktPasswordInput" placeholder="Password" autocomplete="current-password">
+    <button type="button" id="mktPasswordSubmit">Enter</button>
+    <div class="mkt-auth-error" id="mktAuthError"></div>
+  </div>
+</div>
 
 <!-- Toast -->
 <div id="toast"></div>
@@ -1994,6 +2066,49 @@ body::after {
 </div>
 
 <script>
+// ── Auth gate ──
+(function () {
+  const gate = document.getElementById('mkt-auth-gate');
+  if (sessionStorage.getItem('grounded_mkt_token')) {
+    gate.classList.add('is-hidden');
+    return;
+  }
+  const input = document.getElementById('mktPasswordInput');
+  const btn   = document.getElementById('mktPasswordSubmit');
+  const err   = document.getElementById('mktAuthError');
+
+  async function attemptLogin() {
+    const pw = input.value;
+    if (!pw) return;
+    btn.disabled = true;
+    err.textContent = '';
+    try {
+      const res  = await fetch('/api/marketing-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        sessionStorage.setItem('grounded_mkt_token', data.token);
+        gate.classList.add('is-hidden');
+        input.value = '';
+      } else {
+        err.textContent = 'Incorrect password.';
+        input.value = '';
+        input.focus();
+      }
+    } catch {
+      err.textContent = 'Connection error. Try again.';
+    }
+    btn.disabled = false;
+  }
+
+  btn.addEventListener('click', attemptLogin);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') attemptLogin(); });
+  input.focus();
+})();
+
 let CURRENT_WEEK = null;
 let CURRENT_DAY = null;
 let pickerWeekIndex = null;
@@ -2753,9 +2868,10 @@ function getSelectedPlatforms() {
 
 // ── Claude API call ──
 async function callClaude(prompt, systemPrompt) {
+  const token = sessionStorage.getItem('grounded_mkt_token') || '';
   const response = await fetch('/api/claude', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Grounded-Token': token },
     body: JSON.stringify({ system: systemPrompt, prompt })
   });
   let data;
