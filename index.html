@@ -1073,6 +1073,11 @@
     position:relative;
     padding-bottom:clamp(92px,16vh,142px);
   }
+  #verseFsShareCapture.share-screen.share-screen--atmospheric .share-verse-panel{
+    flex:1 1 auto;
+    min-height:0;
+    justify-content:center;
+  }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short:not(.editorial-verse-card){
     padding-top:clamp(36px,9.2vh,74px);
     padding-bottom:clamp(58px,10vh,102px);
@@ -1149,7 +1154,7 @@
     width:100%;
     max-width:100%;
     margin-top:auto;
-    margin-bottom:clamp(22px,4.2vh,40px);
+    margin-bottom:clamp(24px,4.4vh,40px);
     padding-top:clamp(4px,0.8vh,10px);
     gap:clamp(5px,0.85vh,9px);
     text-align:center;
@@ -1282,6 +1287,10 @@
     color:rgba(72,48,52,0.88);
     text-shadow:0 0 18px rgba(255,244,236,0.88);
     line-height:1.4;
+  }
+  #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-verse-panel{
+    padding-top:clamp(6px,1.4vh,20px);
+    padding-bottom:clamp(4px,1vh,14px);
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-sub{
     margin-bottom:clamp(10px,2vh,18px);
@@ -1488,7 +1497,7 @@
     padding:9px 18px 8px;
   }
   #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-footer{
-    margin-bottom:clamp(20px,3.8vh,38px);
+    margin-bottom:clamp(24px,3.9vh,40px);
     padding-top:2px;
   }
   #verseFullscreenOverlay #verseFsShareCapture.share-screen.share-screen--atmospheric .share-card.share-card--verse-short .share-brand{
@@ -1596,6 +1605,16 @@
     z-index:0;
   }
   .verse-fs-share-capture .share-card > *:not(.share-card__glow), .grounded-share-capture .share-card > *:not(.share-card__glow){position:relative;z-index:1}
+  .verse-fs-share-capture .share-verse-panel, .grounded-share-capture .share-verse-panel{
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:0 1 auto;
+    min-width:0;
+  }
   /* Unified sections: label → main → sub → footer */
   .verse-fs-share-capture .share-title, .grounded-share-capture .share-title{
     display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -19018,7 +19037,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   }
 
   /**
-   * Premium share layout — unified sections: .share-title, .share-main, .share-sub, .share-footer.
+   * Premium share layout — unified sections: .share-verse-panel (kicker + verse + sub), .share-footer.
    * @param {{ type?: string, title?: string, label?: string, content?: string, contentPlain?: string, body?: string, subtext?: string, reference?: string, ref?: string, highlightWords?: string[], footer?: string, footerBrand?: string, footerTagline?: string, domIds?: { kicker?: string, main?: string, ref?: string, sub?: string, brand?: string, tagline?: string } }} opts
    * @returns {string} inner HTML starting with .share-card
    */
@@ -19102,6 +19121,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       cardCls +
       '">' +
       '<div class="share-card__glow" aria-hidden="true"></div>' +
+      '<div class="share-verse-panel">' +
       '<div class="share-title">' +
       '<div class="share-title__meta">' +
       '<span class="' +
@@ -19131,6 +19151,7 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
       subLeadBlock +
       pillHtml +
       '</div>' +
+      '</div>' +
       '<div class="share-footer">' +
       '<div class="share-wave" aria-hidden="true">' +
       '<svg class="share-wave__svg" viewBox="0 0 280 14" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7 C70 2, 210 12, 280 7"/></svg>' +
@@ -19152,9 +19173,10 @@ posthog.init('phc_ckhVJ2qdrxHiADhT66eg4kvxc6vBeHpJfTWRx7yU4hmB',{
   }
 
   /**
-   * Reusable premium share card (unified .share-title / .share-main / .share-sub / .share-footer).
+   * Reusable premium share card (unified .share-verse-panel + .share-footer).
    * @param {{ title?: string, label?: string, content?: string, contentPlain?: string, body?: string, reference?: string, type?: string, icon?: 'star'|'cross', highlightWords?: string[], footer?: string, footerBrand?: string, footerTagline?: string, domIds?: object }} opts
    * @returns {HTMLDivElement} Outer shell with class verse-fs-share-capture share-screen (ready to mount or export).
+   * Inner card: .share-verse-panel wraps .share-title, dividers, .share-main, .share-sub; .share-footer follows.
    */
   function createShareCard(opts) {
     opts = normalizeShareCardInput(opts || {});
